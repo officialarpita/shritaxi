@@ -1,0 +1,70 @@
+---
+import { faqs } from '../data/faqs';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<section id="faq" class="section faq-section">
+  <div class="container narrow">
+    <div class="section-title">
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="list">
+      {faqs.map((f) => (
+        <details class="item">
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />
+
+<style>
+  .faq-section { background: var(--card-grey); }
+  .narrow { max-width: 760px; }
+  .list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .item {
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow-sm);
+  }
+  summary {
+    font-weight: 600;
+    color: var(--forest-green);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+';
+    color: var(--gold);
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 150ms;
+  }
+  details[open] summary::after {
+    content: '−';
+  }
+  .item p {
+    margin: 0.75rem 0 0;
+    color: var(--asphalt);
+    font-size: 0.95rem;
+  }
+</style>

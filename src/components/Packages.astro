@@ -1,0 +1,71 @@
+---
+import { packages } from '../data/packages';
+---
+
+<section id="packages" class="section pkg-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Tourist Packages</h2>
+      <p>Ready-made itineraries with a driver who knows the route.</p>
+    </div>
+
+    <div class="grid">
+      {packages.map((p) => (
+        <article class="card pkg">
+          <div class="head">
+            <h3>{p.title}</h3>
+            <span class="nights">{p.nights === 0 ? 'Day trip' : `${p.nights}N`}</span>
+          </div>
+          <ul>
+            {p.highlights.map((h) => <li>{h}</li>)}
+          </ul>
+          <a href="#book" class="cta-link">Enquire →</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pkg-section { background: var(--snow); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .pkg { display: flex; flex-direction: column; }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .head h3 { margin: 0; }
+  .nights {
+    background: var(--forest-green);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+    color: var(--mtn-grey);
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  ul li::before { content: '· '; color: var(--gold); }
+  .cta-link {
+    color: var(--deep-green);
+    font-weight: 600;
+    margin-top: auto;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+</style>

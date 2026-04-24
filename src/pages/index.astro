@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import PopularRoutes from '../components/PopularRoutes.astro';
+import Fleet from '../components/Fleet.astro';
+import Packages from '../components/Packages.astro';
+import Reviews from '../components/Reviews.astro';
+import FAQ from '../components/FAQ.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+
+const title = 'Shri Taxi — Reliable Taxi Service in Dehradun & Uttarakhand';
+const description =
+  'Book taxis in Dehradun for airport transfer, Char Dham yatra, Mussoorie, Haridwar, Rishikesh, Nainital, and outstation trips. Experienced hill drivers, transparent pricing, 24/7 booking support.';
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TaxiService',
+  name: 'Shri Taxi',
+  areaServed: [
+    { '@type': 'State', name: 'Uttarakhand' },
+    { '@type': 'City', name: 'Dehradun' },
+  ],
+  serviceType: ['Airport Transfer', 'Char Dham Yatra', 'Hill Station Taxi', 'Outstation Cab', 'Corporate Travel'],
+  priceRange: '₹₹',
+  url: 'https://shritaxi.in',
+};
+---
+
+<Base title={title} description={description}>
+  <TopBar />
+  <Header />
+  <main>
+    <Hero />
+    <TrustBar />
+    <ServicesGrid />
+    <PopularRoutes />
+    <Fleet />
+    <Packages />
+    <Reviews />
+    <FAQ />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(orgSchema)} />
+</Base>

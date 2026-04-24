@@ -1,0 +1,74 @@
+---
+import { routes } from '../data/routes';
+---
+
+<section id="routes" class="section routes-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Popular Routes</h2>
+      <p>Fixed-price cabs on the routes our travellers book most.</p>
+    </div>
+
+    <div class="grid">
+      {routes.map((r) => (
+        <a href="#book" class="card route">
+          <div class="pair">
+            <span class="from">{r.from}</span>
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="to">{r.to}</span>
+          </div>
+          <div class="meta">
+            <span>{r.distanceKm} km</span>
+            <span>· approx. {r.approxDuration}</span>
+          </div>
+          <div class="cta-link">Get quote →</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .routes-section { background: var(--snow); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .route {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--asphalt);
+    transition: transform 120ms, box-shadow 120ms;
+  }
+  .route:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+  }
+  .pair {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--forest-green);
+    flex-wrap: wrap;
+  }
+  .arrow { color: var(--gold); }
+  .meta {
+    color: var(--mtn-grey);
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.35rem;
+  }
+  .cta-link {
+    color: var(--deep-green);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+</style>

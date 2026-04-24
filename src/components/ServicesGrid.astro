@@ -1,0 +1,45 @@
+---
+import { services } from '../data/services';
+---
+
+<section id="services" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Our Main Services</h2>
+      <p>From airport drops to multi-day Char Dham tours — one number for everything.</p>
+    </div>
+
+    <div class="grid">
+      {services.map((s) => (
+        <article class="card item">
+          <div class="icon" aria-hidden="true">{s.icon}</div>
+          <h3>{s.title}</h3>
+          <p>{s.blurb}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .item h3 { color: var(--forest-green); font-size: 1.05rem; margin-bottom: 0.25rem; }
+  .item p { color: var(--mtn-grey); font-size: 0.9rem; margin: 0; }
+  .icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-sm);
+    background: var(--snow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+</style>

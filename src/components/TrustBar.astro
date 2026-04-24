@@ -1,0 +1,46 @@
+---
+const stats = [
+  { value: '10,000+', label: 'Trips Completed' },
+  { value: 'Verified', label: 'Local Drivers' },
+  { value: '24/7', label: 'Booking Support' },
+  { value: '100%', label: 'Transparent Pricing' },
+];
+---
+
+<section class="trust">
+  <div class="container row">
+    {stats.map((s) => (
+      <div class="item">
+        <div class="value">{s.value}</div>
+        <div class="label">{s.label}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--card-grey);
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    padding: 1.5rem 0;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+  .value {
+    font-weight: 800;
+    color: var(--forest-green);
+    font-size: 1.5rem;
+  }
+  .label {
+    font-size: 0.85rem;
+    color: var(--mtn-grey);
+  }
+  @media (max-width: 640px) {
+    .row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

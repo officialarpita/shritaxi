@@ -1,0 +1,60 @@
+---
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+919999999999';
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '+919999999999';
+const waNumber = whatsapp.replace(/[^0-9]/g, '');
+---
+
+<div class="topbar">
+  <div class="container inner">
+    <span class="badge">24/7 Support</span>
+    <div class="links">
+      <a href={`tel:${phone}`}>📞 {phone}</a>
+      <a
+        href={`https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would like to book a taxi.')}`}
+        target="_blank"
+        rel="noopener"
+      >
+        💬 WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--forest-green);
+    color: var(--white);
+    font-size: 0.875rem;
+  }
+
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+  }
+
+  .badge {
+    opacity: 0.85;
+  }
+
+  .links {
+    display: flex;
+    gap: 1.25rem;
+  }
+
+  .links a {
+    color: var(--white);
+    opacity: 0.9;
+  }
+
+  .links a:hover {
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  @media (max-width: 480px) {
+    .badge { display: none; }
+    .inner { justify-content: center; }
+  }
+</style>

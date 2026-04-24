@@ -1,0 +1,82 @@
+---
+import BookingForm from './BookingForm.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+919999999999';
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '+919999999999';
+const waNumber = whatsapp.replace(/[^0-9]/g, '');
+const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would like to book a taxi.')}`;
+---
+
+<section class="hero" id="book">
+  <div class="container grid">
+    <div class="copy">
+      <p class="eyebrow">DEHRADUN · UTTARAKHAND</p>
+      <h1>Reliable Taxi Service in Dehradun &amp; Across Uttarakhand</h1>
+      <p class="sub">
+        Airport pickup, hill station travel, Char Dham routes, local rides, outstation cabs.
+        Experienced drivers, transparent pricing, 24/7 support.
+      </p>
+      <div class="ctas">
+        <a href="#book" class="btn btn-gold">Book Taxi Now</a>
+        <a href={waLink} class="btn btn-ghost" target="_blank" rel="noopener">💬 WhatsApp Booking</a>
+        <a href={`tel:${phone}`} class="btn btn-ghost">📞 Call Now</a>
+      </div>
+    </div>
+
+    <div class="form-slot">
+      <BookingForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    color: var(--white);
+    background:
+      linear-gradient(135deg, rgba(18, 53, 31, 0.85), rgba(31, 107, 44, 0.75)),
+      url('/images/hero-mountains.jpg') center/cover no-repeat,
+      var(--cta-gradient);
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5rem);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .eyebrow {
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .copy h1 {
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .sub {
+    font-size: 1.075rem;
+    opacity: 0.92;
+    max-width: 48ch;
+    margin-bottom: 1.5rem;
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

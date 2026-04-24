@@ -1,0 +1,258 @@
+---
+import { locations } from '../data/locations';
+import { fleet } from '../data/fleet';
+
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'; // Turnstile test key
+---
+
+<form id="booking-form" class="booking-form" novalidate>
+  <h3>Quick Booking</h3>
+  <p class="subtitle">Tell us your trip — we'll confirm with a call in minutes.</p>
+
+  <div class="grid">
+    <label class="field">
+      <span>Name</span>
+      <input type="text" name="name" required autocomplete="name" />
+    </label>
+
+    <label class="field">
+      <span>Phone</span>
+      <input
+        type="tel"
+        name="phone"
+        required
+        autocomplete="tel"
+        pattern="[+0-9 \-]{7,15}"
+        placeholder="+91 9XXXXXXXXX"
+      />
+    </label>
+
+    <label class="field">
+      <span>Pickup</span>
+      <input type="text" name="pickup" required list="loc-list" placeholder="e.g. Jolly Grant Airport" />
+    </label>
+
+    <label class="field">
+      <span>Drop</span>
+      <input type="text" name="drop" required list="loc-list" placeholder="e.g. Mussoorie" />
+    </label>
+
+    <label class="field">
+      <span>Date</span>
+      <input type="date" name="date" required />
+    </label>
+
+    <label class="field">
+      <span>Vehicle</span>
+      <select name="vehicle" required>
+        <option value="">Select a vehicle</option>
+        {fleet.map((v) => <option value={v.id}>{v.name} ({v.segment})</option>)}
+      </select>
+    </label>
+
+    <fieldset class="field full trip-type">
+      <legend>Trip Type</legend>
+      <label><input type="radio" name="trip_type" value="one_way" required /> One-way</label>
+      <label><input type="radio" name="trip_type" value="round_trip" /> Round-trip</label>
+    </fieldset>
+
+    <label class="field full">
+      <span>Notes (optional)</span>
+      <textarea name="notes" rows="2" maxlength="400" placeholder="Flight number, passengers, special requests…"></textarea>
+    </label>
+
+    {/* honeypot — hidden from humans, bots fill it */}
+    <label class="field honeypot" aria-hidden="true" tabindex="-1">
+      <span>Company</span>
+      <input type="text" name="company" autocomplete="off" tabindex="-1" />
+    </label>
+  </div>
+
+  <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible"></div>
+
+  <button type="submit" class="btn btn-primary submit">Book Ride</button>
+
+  <p class="status" role="status" aria-live="polite"></p>
+</form>
+
+<datalist id="loc-list">
+  {locations.map((loc) => <option value={loc}></option>)}
+</datalist>
+
+<style>
+  .booking-form {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    color: var(--asphalt);
+  }
+
+  .booking-form h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    color: var(--mtn-grey);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+  }
+
+  .field > span,
+  .field > legend {
+    font-weight: 500;
+    color: var(--forest-green);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid #D8DEE2;
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    transition: border-color 120ms, box-shadow 120ms;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--deep-green);
+    box-shadow: 0 0 0 3px rgba(31, 107, 44, 0.15);
+  }
+
+  .full {
+    grid-column: 1 / -1;
+  }
+
+  .trip-type {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .trip-type label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-right: 1rem;
+    font-weight: 400;
+    color: var(--asphalt);
+  }
+
+  .honeypot {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+  }
+
+  .cf-turnstile {
+    margin-top: 0.75rem;
+  }
+
+  .submit {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+
+  .submit[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .status {
+    margin: 0.75rem 0 0;
+    font-size: 0.875rem;
+    min-height: 1.2em;
+  }
+
+  .status.ok { color: var(--deep-green); }
+  .status.err { color: #b42318; }
+
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('booking-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector('.status') as HTMLElement;
+    const submit = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const dateInput = form.querySelector('input[name="date"]') as HTMLInputElement;
+    if (dateInput) {
+      const today = new Date();
+      dateInput.min = today.toISOString().slice(0, 10);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.className = 'status';
+      status.textContent = '';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const fd = new FormData(form);
+      const token = (fd.get('cf-turnstile-response') || '').toString();
+      if (!token) {
+        status.className = 'status err';
+        status.textContent = 'Please complete the security check and try again.';
+        return;
+      }
+
+      const payload: Record<string, string> = {};
+      fd.forEach((v, k) => {
+        payload[k] = v.toString();
+      });
+      payload.turnstile_token = token;
+
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+        if (!res.ok || !data.ok) {
+          throw new Error(data.error || 'Something went wrong. Please try again or call us.');
+        }
+        status.className = 'status ok';
+        status.textContent = 'Booking received! We\'ll call you shortly to confirm.';
+        form.reset();
+        // @ts-ignore
+        if (window.turnstile) window.turnstile.reset();
+      } catch (err) {
+        status.className = 'status err';
+        status.textContent = (err as Error).message;
+      } finally {
+        submit.disabled = false;
+        submit.textContent = 'Book Ride';
+      }
+    });
+  }
+</script>
