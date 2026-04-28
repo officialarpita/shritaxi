@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { packages } from '../data/packages';
 ---
 
@@ -12,6 +13,11 @@ import { packages } from '../data/packages';
     <div class="grid">
       {packages.map((p) => (
         <article class="card pkg">
+          {p.image && (
+            <div class="hero">
+              <Image src={p.image} alt={p.title} widths={[400, 800, 1200]} sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw" />
+            </div>
+          )}
           <div class="head">
             <h3>{p.title}</h3>
             <span class="nights">{p.nights === 0 ? 'Day trip' : `${p.nights}N`}</span>
@@ -33,7 +39,19 @@ import { packages } from '../data/packages';
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
-  .pkg { display: flex; flex-direction: column; }
+  .pkg { display: flex; flex-direction: column; overflow: hidden; }
+  .hero {
+    aspect-ratio: 8 / 5;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+  .hero :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .head {
     display: flex;
     align-items: center;

@@ -7,7 +7,7 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description, ogImage = '/images/og.jpg' } = Astro.props;
+const { title, description, ogImage = '/images/hero-mountains.jpg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
@@ -19,6 +19,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
+
+    <link rel="preload" as="image" href="/images/hero-mountains.jpg" fetchpriority="high" />
 
     <title>{title}</title>
     <meta name="description" content={description} />

@@ -1,3 +1,9 @@
+import type { ImageMetadata } from 'astro';
+import dzireImg from '../assets/images/Dzire.png';
+import crystaImg from '../assets/images/Crysta.png';
+import balenoImg from '../assets/images/Baleno.png';
+import travellerImg from '../assets/images/Traveller.png';
+
 export interface Vehicle {
   id: string;
   name: string;
@@ -5,6 +11,7 @@ export interface Vehicle {
   seats: number;
   luggage: string;
   bestFor: string;
+  image: ImageMetadata;
 }
 
 export const fleet: Vehicle[] = [
@@ -15,6 +22,7 @@ export const fleet: Vehicle[] = [
     seats: 4,
     luggage: '2 large bags',
     bestFor: 'City rides and short airport transfers',
+    image: dzireImg,
   },
   {
     id: 'innova',
@@ -23,14 +31,16 @@ export const fleet: Vehicle[] = [
     seats: 6,
     luggage: '4 large bags',
     bestFor: 'Family trips, Char Dham, long tours',
+    image: crystaImg,
   },
   {
-    id: 'bolero',
-    name: 'Mahindra Bolero Neo',
-    segment: 'Compact SUV',
-    seats: 6,
-    luggage: '3 large bags',
-    bestFor: 'Mountain roads, higher-altitude routes',
+    id: 'baleno',
+    name: 'Maruti Baleno',
+    segment: 'Hatchback',
+    seats: 4,
+    luggage: '2 large bags',
+    bestFor: 'City + airport runs, light luggage',
+    image: balenoImg,
   },
   {
     id: 'traveller',
@@ -39,6 +49,7 @@ export const fleet: Vehicle[] = [
     seats: 12,
     luggage: '10+ bags',
     bestFor: 'Group tours, weddings, office outings',
+    image: travellerImg,
   },
 ];
 

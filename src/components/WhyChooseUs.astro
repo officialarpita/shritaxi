@@ -1,0 +1,156 @@
+---
+import { Image } from 'astro:assets';
+import primaryImg from '../assets/images/why_choose_us_car.jpg';
+import insetImg from '../assets/images/Corporate2.jpeg';
+
+const reasons = [
+  {
+    title: 'Hill-experienced drivers',
+    body: 'Every driver has years of mountain-road experience — Mussoorie, Char Dham, Auli, Chopta.',
+  },
+  {
+    title: 'Transparent pricing',
+    body: 'Fixed quotes shared upfront. No hidden tolls, no surge, no surprises at drop-off.',
+  },
+  {
+    title: '24/7 booking support',
+    body: 'Call or WhatsApp any hour — flight delays, plan changes, last-minute pickups all handled.',
+  },
+  {
+    title: 'Well-maintained fleet',
+    body: 'Sedans, SUVs and tempo travellers serviced regularly. Clean interiors, working AC, sanitised after each trip.',
+  },
+  {
+    title: 'GPS-tracked vehicles',
+    body: 'Live tracking on every trip. Share the link with family — they can follow your ride end to end.',
+  },
+  {
+    title: 'Online + WhatsApp booking',
+    body: 'Book in 30 seconds from the form on this page, or send a quick message on WhatsApp.',
+  },
+];
+---
+
+<section id="why-us" class="section why-section">
+  <div class="container grid">
+    <div class="visual">
+      <div class="primary">
+        <Image src={primaryImg} alt="Shri Taxi cab on a mountain highway" widths={[600, 900, 1200]} sizes="(max-width: 900px) 100vw, 50vw" />
+      </div>
+      <div class="inset" aria-hidden="true">
+        <Image src={insetImg} alt="" widths={[200, 400]} sizes="200px" />
+      </div>
+    </div>
+
+    <div class="copy">
+      <p class="eyebrow">WHY SHRI TAXI</p>
+      <h2>Locally run. Mountain-tested. On call around the clock.</h2>
+      <p class="lead">We have been moving travellers across Uttarakhand for years — the team, the cars and the routes are all built for hill driving.</p>
+
+      <ul class="reasons">
+        {reasons.map((r) => (
+          <li>
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why-section {
+    background: var(--white);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .visual {
+    position: relative;
+  }
+  .primary {
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    aspect-ratio: 4 / 3;
+  }
+  .primary :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .inset {
+    position: absolute;
+    bottom: -1.25rem;
+    right: -1.25rem;
+    width: 38%;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 4px solid var(--white);
+  }
+  .inset :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .eyebrow {
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+  .copy h2 {
+    margin-bottom: 0.75rem;
+  }
+  .lead {
+    color: var(--mtn-grey);
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+  }
+  .reasons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 1.5rem;
+  }
+  .reasons h3 {
+    color: var(--forest-green);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .reasons p {
+    color: var(--mtn-grey);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .inset {
+      width: 32%;
+      bottom: -1rem;
+      right: -0.75rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .reasons {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

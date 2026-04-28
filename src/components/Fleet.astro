@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { fleet } from '../data/fleet';
 ---
 
@@ -12,6 +13,9 @@ import { fleet } from '../data/fleet';
     <div class="grid">
       {fleet.map((v) => (
         <article class="card vehicle">
+          <div class="photo">
+            <Image src={v.image} alt={v.name} widths={[240, 480]} sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 25vw" />
+          </div>
           <h3>{v.name}</h3>
           <p class="segment">{v.segment}</p>
           <ul class="specs">
@@ -35,6 +39,21 @@ import { fleet } from '../data/fleet';
   .vehicle {
     display: flex;
     flex-direction: column;
+  }
+  .photo {
+    aspect-ratio: 3 / 2;
+    background: var(--snow);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .vehicle h3 { margin-bottom: 0.1rem; }
   .segment {
