@@ -22,6 +22,6 @@ export const faqs: FAQ[] = [
   },
   {
     q: 'What are your Char Dham package rates?',
-    a: 'Char Dham rates depend on vehicle type (Innova/Bolero/Tempo Traveller), number of passengers, and the dates (peak yatra season costs more). Share your travel dates and group size and we\'ll send a detailed quote within an hour.',
+    a: 'Char Dham rates depend on vehicle type (Innova/Dzire/Baleno/Tempo Traveller), number of passengers, and the dates (peak yatra season costs more). Share your travel dates and group size and we\'ll send a detailed quote within an hour.',
   },
 ];
