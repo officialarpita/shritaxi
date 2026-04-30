@@ -14,7 +14,7 @@ export const faqs: FAQ[] = [
   },
   {
     q: 'Is the driver\'s night stay charged separately?',
-    a: 'Yes — for outstation and multi-day trips, a fixed driver allowance (₹300–500/night) covers their food and lodging. This is mentioned in every quote.',
+    a: 'No — for outstation and multi-day trips, driver allowance covers in the package for their food and lodging. This is applicable in every quote.',
   },
   {
     q: 'Do you offer one-way drops?',
