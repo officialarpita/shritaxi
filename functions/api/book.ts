@@ -1,3 +1,5 @@
+import { findReferral } from './_referrals';
+
 interface Env {
   TELEGRAM_BOT_TOKEN: string;
   TELEGRAM_CHAT_ID: string;
@@ -14,9 +16,13 @@ interface BookingPayload {
   trip_type?: string;
   vehicle?: string;
   notes?: string;
+  referral_code?: string;
   company?: string;
   turnstile_token?: string;
 }
+
+const sanitizeReferralCode = (raw: string): string =>
+  raw.replace(/\p{C}/gu, '').slice(0, 32).toUpperCase();
 
 const json = (data: unknown, status = 200) =>
   new Response(JSON.stringify(data), {
@@ -76,7 +82,16 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   }
 
   const tripLabel = payload.trip_type === 'round_trip' ? 'Round-trip' : 'One-way';
-  const text = [
+
+  const safeCode = sanitizeReferralCode((payload.referral_code || '').toString().trim());
+  const referral = safeCode ? findReferral(safeCode) : null;
+  const referralLine = !safeCode
+    ? null
+    : referral
+      ? `<b>Referral:</b> ${escapeHtml(safeCode)} → ${escapeHtml(referral.referrer)} ✅`
+      : `<b>Referral:</b> ${escapeHtml(safeCode)} — unknown ⚠️`;
+
+  const lines = [
     '🚕 <b>New booking request</b>',
     `<b>Name:</b> ${escapeHtml(payload.name!)}`,
     `<b>Phone:</b> ${escapeHtml(payload.phone!)}`,
@@ -86,7 +101,9 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     `<b>Trip:</b> ${tripLabel}`,
     `<b>Vehicle:</b> ${escapeHtml(payload.vehicle!)}`,
     `<b>Notes:</b> ${escapeHtml(payload.notes?.trim() || '-')}`,
-  ].join('\n');
+  ];
+  if (referralLine) lines.push(referralLine);
+  const text = lines.join('\n');
 
   const tgRes = await fetch(
     `https://api.telegram.org/bot${ctx.env.TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -125,6 +142,8 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           vehicle: payload.vehicle,
           notes: payload.notes || '',
           ip: ip || '',
+          referral_code: safeCode,
+          referrer: referral ? referral.referrer : '',
         }),
       }).catch((err) => {
         console.error('Sheets log failed:', err);

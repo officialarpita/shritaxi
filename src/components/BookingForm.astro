@@ -61,6 +61,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       <textarea name="notes" rows="2" maxlength="400" placeholder="Flight number, passengers, special requests…"></textarea>
     </label>
 
+    <label class="field full">
+      <span>Referral code <small>(optional)</small></span>
+      <input
+        type="text"
+        name="referral_code"
+        maxlength="16"
+        pattern="[A-Za-z0-9 \-]{0,16}"
+        placeholder="Got a referral code? (optional)"
+        autocomplete="off"
+        class="referral-code"
+      />
+    </label>
+
     {/* honeypot — hidden from humans, bots fill it */}
     <label class="field honeypot" aria-hidden="true" tabindex="-1">
       <span>Company</span>
@@ -159,6 +172,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     left: -9999px !important;
     width: 1px;
     height: 1px;
+  }
+
+  .referral-code {
+    text-transform: uppercase;
+  }
+  .referral-code::placeholder {
+    text-transform: none;
   }
 
   .cf-turnstile {

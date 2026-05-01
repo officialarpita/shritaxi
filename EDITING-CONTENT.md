@@ -17,12 +17,13 @@ This guide is for the business owner. It walks through how to change the content
 9. [Editing FAQs](#9-editing-faqs)
 10. [Editing pickup/drop locations (booking form suggestions)](#10-editing-pickupdrop-locations-booking-form-suggestions)
 11. [Editing testimonials](#11-editing-testimonials)
-12. [Adding or replacing an image](#12-adding-or-replacing-an-image)
-13. [Changing phone number / WhatsApp number](#13-changing-phone-number--whatsapp-number)
-14. [Undoing a mistake](#14-undoing-a-mistake)
-15. [Rules of thumb (avoid these mistakes)](#15-rules-of-thumb-avoid-these-mistakes)
-16. [What NOT to touch](#16-what-not-to-touch)
-17. [When to call the developer](#17-when-to-call-the-developer)
+12. [Managing referral codes](#12-managing-referral-codes)
+13. [Adding or replacing an image](#13-adding-or-replacing-an-image)
+14. [Changing phone number / WhatsApp number](#14-changing-phone-number--whatsapp-number)
+15. [Undoing a mistake](#15-undoing-a-mistake)
+16. [Rules of thumb (avoid these mistakes)](#16-rules-of-thumb-avoid-these-mistakes)
+17. [What NOT to touch](#17-what-not-to-touch)
+18. [When to call the developer](#18-when-to-call-the-developer)
 
 ---
 
@@ -76,9 +77,11 @@ All editable content sits in **`src/data/`**. Each file controls one section of 
 | `src/data/locations.ts` | Pickup/drop suggestions | The booking form's location autocomplete |
 | `src/data/testimonials.ts` | Customer reviews | "What Customers Say" |
 
-Images live in **`src/assets/images/`** (covered in [section 12](#12-adding-or-replacing-an-image)).
+> **One exception:** **referral codes** are the only piece of editable data that does *not* live in `src/data/`. They sit at `functions/api/_referrals.ts` because the booking server needs to read them. The editing pattern is identical — see [section 12](#12-managing-referral-codes).
 
-Phone number, WhatsApp number, and similar contact info are *not* in these files — they're set in Cloudflare (covered in [section 13](#13-changing-phone-number--whatsapp-number)).
+Images live in **`src/assets/images/`** (covered in [section 13](#13-adding-or-replacing-an-image)).
+
+Phone number, WhatsApp number, and similar contact info are *not* in these files — they're set in Cloudflare (covered in [section 14](#14-changing-phone-number--whatsapp-number)).
 
 ---
 
@@ -118,7 +121,7 @@ Just edit the text inside the quotes. Example: change `'Maruti Dzire'` to `'Maru
 
 ### To add a new vehicle
 
-1. First, add the image (see [section 12](#12-adding-or-replacing-an-image)). Note the image's filename.
+1. First, add the image (see [section 13](#13-adding-or-replacing-an-image)). Note the image's filename.
 2. At the **top** of `fleet.ts`, add an import line for your new image:
    ```ts
    import ertigaImg from '../assets/images/Ertiga.png';
@@ -160,7 +163,7 @@ Each package looks like:
 
 ### To add a new package
 
-1. Add the image (section 12) and add an `import` line at the top, same pattern as for vehicles.
+1. Add the image (section 13) and add an `import` line at the top, same pattern as for vehicles.
 2. Copy an existing block, paste it above the closing `]`, edit the values.
 
 ---
@@ -292,7 +295,68 @@ Customers can still type any free-text location even if it's not in this list �
 
 ---
 
-## 12. Adding or replacing an image
+## 12. Managing referral codes
+
+**File:** `functions/api/_referrals.ts`
+
+> ⚠️ This is the **one** data file that lives outside `src/data/`. The booking server needs to read it directly, so it lives in the `functions/` folder. The editing pattern is the same as every other data file.
+>
+> While editing, **do not touch any other file inside `functions/`** — only `_referrals.ts` (the one starting with an underscore). The other files run the booking system itself.
+
+### How referral codes work on the site
+
+The booking form has an optional **"Referral code"** field at the bottom. When a customer enters a code:
+
+- **If the code is in this file** → the Telegram alert and Google Sheet show `Referral: <CODE> → <Name> ✅`. You know exactly who to credit.
+- **If the code is *not* in this file** (typo, fake, or never added) → the booking still goes through, but Telegram shows `Referral: <CODE> — unknown ⚠️`. **Do not credit anyone for an unknown code** — confirm with the customer first.
+- **If the field is left blank** → no Referral line appears at all.
+
+The booking is **never rejected** for a bad code, so you'll never lose a customer because of a typo. The trade-off is that you have to glance at the ✅ vs ⚠️ before crediting a referrer.
+
+### What each entry looks like
+
+```ts
+  { code: 'RAJ-001', referrer: 'Rajesh Kumar', notes: 'Driver' },
+```
+
+| Field | What to put |
+|---|---|
+| `code` | The referral code, in single quotes. Use `UPPERCASE` letters, numbers, and hyphens only. **Must be unique** — no two referrers can share a code. |
+| `referrer` | The referrer's name as you want to see it in Telegram/Sheets. Keep it short and recognisable. |
+| `notes` | Optional. Internal note for yourself — "Driver", "Hotel partner", "Friend", etc. Not shown anywhere customer-facing. |
+
+### To add a new referral code
+
+1. Open `functions/api/_referrals.ts` on github.com.
+2. Click the pencil ✏️ to edit.
+3. Find the `referrals` list. Inside the `[ ... ]`, add a new line:
+   ```ts
+     { code: 'NEW-CODE', referrer: 'Their Name', notes: 'How you know them' },
+   ```
+4. Make sure each line ends with a **comma**.
+5. Commit. Within 1–2 minutes, the new code is live on the form.
+
+### To change the name attached to a code
+
+Open the file, edit the `referrer:` value, commit. Done.
+
+### To remove a code (the referrer is no longer active)
+
+Delete the entire `{ ... },` line for that code. Commit. From then on, any bookings using that code will show `unknown ⚠️` in Telegram.
+
+### Privacy note
+
+Before you add someone's name to this list, **tell them** that their name will appear in your internal Telegram alerts and Google Sheet whenever someone uses their code. Most referrers will be fine with it — but it's polite (and in some cases required) to ask first. If they prefer anonymity, use a pseudonym in the `referrer` field.
+
+### Code naming tips
+
+- Keep codes short and memorable: `RAJ-001`, `HOTEL-MUSS`, `DIWALI24`.
+- Avoid look-alikes: `0` vs `O`, `1` vs `I`, `5` vs `S` — customers will mix them up over a phone call.
+- Don't reuse retired codes for new referrers — if `RAJ-001` was removed, give the next referrer `RAJ-002`, not the old one back. (Otherwise, future bookings using the old code will show the wrong name.)
+
+---
+
+## 13. Adding or replacing an image
 
 Images live in **`src/assets/images/`**. Filenames can have capitals, but they're case-sensitive — `Dzire.png` and `dzire.png` are different files.
 
@@ -331,7 +395,7 @@ If you just want to swap the photo of, say, the Innova:
 
 ---
 
-## 13. Changing phone number / WhatsApp number
+## 14. Changing phone number / WhatsApp number
 
 These are **not** in the GitHub files. They're set in **Cloudflare Pages** so we can change them without rebuilding the site's content.
 
@@ -353,7 +417,7 @@ These are **not** in the GitHub files. They're set in **Cloudflare Pages** so we
 
 ---
 
-## 14. Undoing a mistake
+## 15. Undoing a mistake
 
 If a change broke something on the site, you don't need a developer to roll back.
 
@@ -368,7 +432,7 @@ If the site is fully broken (loads with errors), revert immediately and *then* c
 
 ---
 
-## 15. Rules of thumb (avoid these mistakes)
+## 16. Rules of thumb (avoid these mistakes)
 
 These are the small things that quietly break the build. None are dangerous — Cloudflare will simply refuse to publish a broken file, so the **old version stays live** while you fix the new one. But it's faster to avoid them in the first place.
 
@@ -384,14 +448,15 @@ If you're unsure whether your edit is valid before committing, use the **"Create
 
 ---
 
-## 16. What NOT to touch
+## 17. What NOT to touch
 
 These files run the site's machinery. Editing them can take the site down.
 
-- Anything outside `src/data/` and `src/assets/images/`
+- Anything outside `src/data/`, `src/assets/images/`, and `functions/api/_referrals.ts`
 - `src/components/*.astro` — the page layout & styling
 - `src/pages/index.astro` — the homepage structure
 - `functions/api/book.ts` — the booking form's server code
+- Any other file inside `functions/` (only `_referrals.ts` is editable; everything else is server code)
 - `astro.config.mjs`, `package.json`, `package-lock.json`, `tsconfig.json` — the build config
 - `.env` files (if you ever see them) — secrets
 
@@ -399,7 +464,7 @@ If you need a layout or wording change on the homepage itself (the headline, the
 
 ---
 
-## 17. When to call the developer
+## 18. When to call the developer
 
 You can handle on your own:
 - ✅ Adding/removing/editing vehicles, packages, routes, services, FAQs, locations, testimonials
@@ -430,6 +495,7 @@ Call the developer for:
 | Add an FAQ | `src/data/faqs.ts` |
 | Add a pickup location to autocomplete | `src/data/locations.ts` |
 | Add a customer review | `src/data/testimonials.ts` |
+| Add/remove a referral code | `functions/api/_referrals.ts` |
 | Replace a photo | Upload to `src/assets/images/` |
 | Change phone / WhatsApp | Cloudflare → Pages → shritaxi → Settings → Environment variables |
 | Undo a change | GitHub → Commits → ⋯ → Revert |
