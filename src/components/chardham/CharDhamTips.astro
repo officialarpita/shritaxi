@@ -1,0 +1,137 @@
+---
+const tips = [
+  {
+    title: 'Biometric registration is mandatory',
+    body: 'All pilgrims must register online before starting the yatra. We help you complete this process as part of your booking — no extra charge.',
+    icon: '📋',
+  },
+  {
+    title: 'Best time to visit',
+    body: 'May–June and September–October are ideal. Monsoon (July–Aug) brings landslide risk on mountain roads — we advise caution during this period.',
+    icon: '🗓️',
+  },
+  {
+    title: 'Acclimatize at each stop',
+    body: 'Our itinerary builds in rest days at Uttarkashi and Rudraprayag to help your body adjust to the altitude gradually and safely.',
+    icon: '⛰️',
+  },
+  {
+    title: 'Pack light — trek stretches are real',
+    body: 'Kedarnath has a 16 km trek. Pack only essentials — warm layers, waterproofs, comfortable walking shoes, and personal medicines.',
+    icon: '🎒',
+  },
+  {
+    title: 'Senior-friendly options available',
+    body: 'Pony, doli, and helicopter options are available for the Kedarnath trek. We arrange bookings in advance to avoid last-minute unavailability.',
+    icon: '🛕',
+  },
+  {
+    title: 'Carry valid photo ID',
+    body: 'Aadhaar, Voter ID, or Passport is required at registration checkpoints and hotel check-ins throughout the route. Keep photocopies handy.',
+    icon: '🪪',
+  },
+];
+---
+
+<section class="cd-tips">
+  <div class="container">
+    <p class="section-label">Before you go</p>
+    <h2>Essential tips for pilgrims</h2>
+    <p class="section-sub">
+      Char Dham involves high altitudes, long drives, and varying mountain
+      weather. A little preparation goes a long way toward a peaceful yatra.
+    </p>
+
+    <div class="grid">
+      {tips.map((tip) => (
+        <div class="tip-card">
+          <div class="tip-icon">{tip.icon}</div>
+          <h3>{tip.title}</h3>
+          <p>{tip.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cd-tips {
+    padding: 56px 0;
+    background: #fff;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1b6b3a;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .tip-card {
+    background: #f8faf9;
+    border: 0.5px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+  }
+
+  .tip-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  p {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 700px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

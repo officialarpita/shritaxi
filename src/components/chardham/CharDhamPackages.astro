@@ -1,0 +1,278 @@
+---
+interface Props {
+  phone: string;
+  waLink: string;
+}
+const { phone, waLink } = Astro.props;
+
+const packages = [
+  {
+    badge: 'Do Dham',
+    badgeClass: 'basic',
+    name: 'Kedarnath + Badrinath',
+    price: '₹8,999',
+    duration: '8–10 days · From Dehradun',
+    featured: false,
+    features: [
+      'AC cab (Sedan or Innova Crysta)',
+      'Verified & experienced driver',
+      'Hotel bookings assistance',
+      '24/7 phone support',
+      'GPS tracked vehicle',
+    ],
+    cta: 'Enquire now',
+    ctaClass: 'outline',
+    waMsg: 'Hello! I am interested in the Do Dham package (Kedarnath + Badrinath). Please share details.',
+  },
+  {
+    badge: 'Most Popular · Char Dham',
+    badgeClass: 'popular',
+    name: 'All Four Dhams',
+    price: '₹18,999',
+    duration: '12–14 days · From Dehradun',
+    featured: true,
+    features: [
+      'Toyota Innova Crysta (AC)',
+      'Char Dham specialist driver',
+      'Hotel bookings at all 4 dhams',
+      'Registration assistance included',
+      'Pony / doli booking support',
+      '24/7 on-trip support',
+    ],
+    cta: 'Book now',
+    ctaClass: 'primary',
+    waMsg: 'Hello! I want to book the Char Dham Yatra package for all four dhams. Please share details.',
+  },
+  {
+    badge: 'Group Package',
+    badgeClass: 'group',
+    name: 'Tempo Traveller Group',
+    price: '₹28,999',
+    duration: '12–16 days · Up to 12 pilgrims',
+    featured: false,
+    features: [
+      'Tempo Traveller 12+1 (AC)',
+      'Ideal for families & groups',
+      'All four dhams covered',
+      'Dedicated trip coordinator',
+      'Medical kit on board',
+    ],
+    cta: 'Enquire now',
+    ctaClass: 'outline',
+    waMsg: 'Hello! I am interested in the Group Tempo Traveller Char Dham package. Please share details.',
+  },
+];
+---
+
+<section class="cd-packages">
+  <div class="container">
+    <p class="section-label">Our packages</p>
+    <h2>Choose your pilgrimage plan</h2>
+    <p class="section-sub">
+      All packages include AC vehicle, verified driver, and 24/7 support. Toll
+      &amp; parking charged at actuals and disclosed upfront.
+    </p>
+
+    <div class="grid">
+      {packages.map((pkg) => (
+        <div class={`card ${pkg.featured ? 'featured' : ''}`}>
+          <div class={`pkg-badge badge-${pkg.badgeClass}`}>{pkg.badge}</div>
+          <h3 class="pkg-name">{pkg.name}</h3>
+          <div class="pkg-price">{pkg.price} <span>/ vehicle</span></div>
+          <p class="pkg-duration">{pkg.duration}</p>
+          <ul class="features">
+            {pkg.features.map((f) => (
+              <li>
+                <span class="check">✓</span>
+                {f}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={`https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(pkg.waMsg)}`}
+            class={`btn btn-${pkg.ctaClass}`}
+            target="_blank"
+            rel="noopener"
+          >
+            💬 {pkg.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <p class="disclaimer">
+      Prices are indicative and may vary based on travel dates, vehicle
+      availability, and group size. Contact us for a custom quote.
+    </p>
+  </div>
+</section>
+
+<style>
+  .cd-packages {
+    padding: 56px 0;
+    background: #f8faf9;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1b6b3a;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: #fff;
+    border: 0.5px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card.featured {
+    border: 2px solid #1b6b3a;
+  }
+
+  .pkg-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .badge-basic { color: #6b7280; }
+  .badge-popular { color: #1b6b3a; }
+  .badge-group { color: #e8a020; }
+
+  .pkg-name {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 6px;
+  }
+
+  .pkg-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1b6b3a;
+    margin-bottom: 4px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .pkg-price span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #6b7280;
+  }
+
+  .pkg-duration {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 0.5px solid #e5e7eb;
+  }
+
+  .features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    flex: 1;
+  }
+
+  .features li {
+    font-size: 13px;
+    color: #4b5563;
+    padding: 7px 0;
+    border-bottom: 0.5px solid #f0f0f0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .features li:last-child {
+    border-bottom: none;
+  }
+
+  .check {
+    color: #1b6b3a;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    margin-top: auto;
+  }
+
+  .btn:hover {
+    opacity: 0.85;
+  }
+
+  .btn-primary {
+    background: #1b6b3a;
+    color: #fff;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #1b6b3a;
+    border: 1px solid #1b6b3a;
+  }
+
+  .disclaimer {
+    font-size: 12px;
+    color: #9ca3af;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

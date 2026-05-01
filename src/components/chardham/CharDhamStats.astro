@@ -1,0 +1,73 @@
+---
+const stats = [
+  { value: '500+', label: 'Char Dham trips completed' },
+  { value: '4.9★', label: 'Pilgrim satisfaction rating' },
+  { value: '12–16', label: 'Days typical duration' },
+  { value: '₹8,999', label: 'Starting price per vehicle' },
+];
+---
+
+<section class="cd-stats">
+  <div class="container">
+    {stats.map((s) => (
+      <div class="stat">
+        <strong>{s.value}</strong>
+        <span>{s.label}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .cd-stats {
+    border-bottom: 0.5px solid #e5e7eb;
+    background: #fff;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat {
+    padding: 20px 16px;
+    text-align: center;
+    border-right: 0.5px solid #e5e7eb;
+  }
+
+  .stat:last-child {
+    border-right: none;
+  }
+
+  strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1b6b3a;
+    margin-bottom: 4px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  span {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  @media (max-width: 600px) {
+    .container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat:nth-child(2) {
+      border-right: none;
+    }
+
+    .stat:nth-child(1),
+    .stat:nth-child(2) {
+      border-bottom: 0.5px solid #e5e7eb;
+    }
+  }
+</style>

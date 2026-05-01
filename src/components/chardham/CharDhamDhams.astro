@@ -1,0 +1,235 @@
+---
+const dhams = [
+  {
+    num: '01',
+    name: 'Yamunotri',
+    deity: 'Goddess Yamuna · Source of river Yamuna',
+    altitude: '3,291 m',
+    base: 'Janki Chatti',
+    trek: '6 km one way',
+    season: 'Apr – Nov',
+    desc: 'The westernmost dham, Yamunotri is reached via a scenic trek from Janki Chatti. The holy kund here has water so hot it can cook rice — pilgrims offer prasad cooked in the sacred spring.',
+    badge: 'Registration required',
+    badgeStyle: 'green',
+  },
+  {
+    num: '02',
+    name: 'Gangotri',
+    deity: 'Goddess Ganga · Origin of river Ganga',
+    altitude: '3,048 m',
+    base: 'Uttarkashi',
+    trek: 'Drive-in access',
+    season: 'May – Nov',
+    desc: 'Gangotri marks the spot where the Ganga descended to earth. The temple sits on the banks of the Bhagirathi river — fully accessible by road, making it ideal for senior pilgrims.',
+    badge: 'Opened Apr 30, 2025',
+    badgeStyle: 'green',
+  },
+  {
+    num: '03',
+    name: 'Kedarnath',
+    deity: 'Lord Shiva · One of 12 Jyotirlingas',
+    altitude: '3,584 m',
+    base: 'Gaurikund',
+    trek: '16 km / helicopter',
+    season: 'May – Nov',
+    desc: 'One of the most revered Shiva temples in India, Kedarnath stands against dramatic glacier peaks. The 16 km trek from Gaurikund can be done by pony or helicopter for ease of travel.',
+    badge: 'Opened May 2, 2025 — Peak season now',
+    badgeStyle: 'amber',
+  },
+  {
+    num: '04',
+    name: 'Badrinath',
+    deity: 'Lord Vishnu · Among the 108 Divya Desams',
+    altitude: '3,133 m',
+    base: 'Joshimath',
+    trek: 'Drive-in access',
+    season: 'May – Nov',
+    desc: 'The final and most sacred of the four dhams, Badrinath is dedicated to Lord Vishnu. Flanked by the Nar and Narayan mountain ranges with the Alaknanda river below — the spiritual crown of the circuit.',
+    badge: 'Opened May 4, 2025 — Book now',
+    badgeStyle: 'amber',
+  },
+];
+---
+
+<section class="cd-dhams">
+  <div class="container">
+    <p class="section-label">The four dhams</p>
+    <h2>Sacred abodes of Uttarakhand</h2>
+    <p class="section-sub">
+      Each dham holds deep spiritual significance. The traditional order of
+      pilgrimage follows sunrise — from Yamunotri in the west to Badrinath in
+      the north.
+    </p>
+
+    <div class="grid">
+      {dhams.map((d) => (
+        <div class="card">
+          <div class="card-header">
+            <p class="dham-num">Dham {d.num} · {d.name}</p>
+            <h3 class="dham-name">{d.name}</h3>
+            <p class="dham-deity">{d.deity}</p>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Altitude</label>
+                <span>{d.altitude}</span>
+              </div>
+              <div class="info-item">
+                <label>Base point</label>
+                <span>{d.base}</span>
+              </div>
+              <div class="info-item">
+                <label>Trek / Access</label>
+                <span>{d.trek}</span>
+              </div>
+              <div class="info-item">
+                <label>Open season</label>
+                <span>{d.season}</span>
+              </div>
+            </div>
+            <p class="desc">{d.desc}</p>
+            <span class={`badge badge-${d.badgeStyle}`}>✓ {d.badge}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cd-dhams {
+    padding: 56px 0;
+    background: #f8faf9;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1b6b3a;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .card {
+    background: #fff;
+    border: 0.5px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 18px 20px 14px;
+    border-bottom: 0.5px solid #e5e7eb;
+  }
+
+  .dham-num {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: #e8a020;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .dham-name {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 3px;
+  }
+
+  .dham-deity {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  .card-body {
+    padding: 16px 20px;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .info-item label {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #9ca3af;
+    margin-bottom: 2px;
+  }
+
+  .info-item span {
+    font-size: 13px;
+    color: #111;
+    font-weight: 500;
+  }
+
+  .desc {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .badge-green {
+    background: #eaf3de;
+    color: #27500a;
+  }
+
+  .badge-amber {
+    background: #faeeda;
+    color: #633806;
+  }
+
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
