@@ -1,0 +1,163 @@
+---
+interface Props {
+  phone: string;
+  waLink: string;
+}
+const { phone, waLink } = Astro.props;
+---
+
+<section class="cd-hero">
+  <div class="container">
+    <p class="eyebrow">
+      <span class="dot"></span>
+      Uttarakhand · Char Dham Yatra 2025 · All Four Temples Now Open
+    </p>
+    <h1>Journey to the<br /><em>Four Sacred Abodes</em></h1>
+    <p class="sub">
+      Yamunotri · Gangotri · Kedarnath · Badrinath — travel the holiest
+      circuit in the Himalayas with verified drivers, comfortable AC vehicles,
+      and zero hassle from Dehradun.
+    </p>
+
+    <div class="badges">
+      <span class="badge gold">Kedarnath open from May 2</span>
+      <span class="badge gold">Badrinath open from May 4</span>
+      <span class="badge">AC vehicles included</span>
+      <span class="badge">No hidden charges</span>
+      <span class="badge">24/7 support</span>
+    </div>
+
+    <div class="ctas">
+      <a href={waLink} class="btn btn-primary" target="_blank" rel="noopener">
+        💬 WhatsApp Booking
+      </a>
+      <a href={`tel:${phone}`} class="btn btn-ghost">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cd-hero {
+    background: #1b2b1e;
+    padding: 64px 0 52px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cd-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon fill='%23ffffff08' points='0,120 200,40 400,90 600,20 800,70 1000,30 1200,80 1200,120'/%3E%3C/svg%3E");
+    background-size: cover;
+    pointer-events: none;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 20px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #e8a020;
+    flex-shrink: 0;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.12;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+
+  h1 em {
+    color: #e8a020;
+    font-style: italic;
+  }
+
+  .sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.75;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 12px;
+  }
+
+  .badge.gold {
+    background: rgba(232, 160, 32, 0.15);
+    border-color: rgba(232, 160, 32, 0.4);
+    color: #e8a020;
+  }
+
+  .ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .btn:hover {
+    opacity: 0.88;
+  }
+
+  .btn-primary {
+    background: #e8a020;
+    color: #1b2b1e;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+</style>
