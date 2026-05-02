@@ -35,6 +35,7 @@ export const packages: TourPackage[] = [
     nights: 10,
     highlights: ['Yamunotri', 'Gangotri', 'Kedarnath', 'Badrinath'],
     image: charDhamImg,
+    href: '/char-dham-yatra',
   },
   {
     title: 'Auli Snow Trip',
