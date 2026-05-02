@@ -25,7 +25,14 @@ import { packages } from '../data/packages';
           <ul>
             {p.highlights.map((h) => <li>{h}</li>)}
           </ul>
-          <a href="#book" class="cta-link">Enquire →</a>
+          <!-- <a href="#book" class="cta-link">Enquire →</a> -->
+          <a
+            href={p.href ?? '#book'}
+            class={`cta-link ${p.href ? 'cta-link--page' : ''}`}
+            {...(p.href ? {} : {})}
+          >
+            {p.href ? 'View Package →' : 'Enquire →'}
+          </a>
         </article>
       ))}
     </div>
@@ -51,6 +58,10 @@ import { packages } from '../data/packages';
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.3s ease;
+  }
+  .pkg:hover .hero :global(img) {
+    transform: scale(1.03);
   }
   .head {
     display: flex;
@@ -83,6 +94,19 @@ import { packages } from '../data/packages';
     color: var(--deep-green);
     font-weight: 600;
     margin-top: auto;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+   .cta-link:hover {
+    opacity: 0.75;
+  }
+  /* Char Dham and any future dedicated-page packages get a slightly bolder CTA */
+  .cta-link--page {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--forest-green);
+    font-weight: 700;
   }
   @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
