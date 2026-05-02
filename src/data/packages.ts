@@ -9,6 +9,7 @@ export interface TourPackage {
   nights: number;
   highlights: string[];
   image?: ImageMetadata;
+  href?: string; // optional — if set, CTA links to this page instead of #book
 }
 
 export const packages: TourPackage[] = [
