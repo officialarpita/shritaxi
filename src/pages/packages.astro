@@ -1,0 +1,364 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import PackagesHero from '../components/packages/PackagesHero.astro';
+import PackagesNav from '../components/packages/PackagesNav.astro';
+import PackageSection from '../components/packages/PackageSection.astro';
+
+const title = 'Tour Packages from Dehradun 2025 — Shri Taxi | Mussoorie, Rishikesh, Nainital, Auli, Char Dham';
+const description =
+  'Book taxi tour packages from Dehradun — Mussoorie day trip, Rishikesh & Haridwar, Nainital weekend, Auli snow trip, and Char Dham Yatra. AC vehicles, verified drivers, transparent pricing.';
+
+const phone = '+919876543210';
+const waBase = `https://wa.me/${phone.replace('+', '')}?text=`;
+
+const packages = [
+  {
+    id: 'mussoorie',
+    nights: 'Day trip' as const,
+    title: 'Mussoorie Day Trip',
+    subtitle: 'The Queen of Hills — just 35 km from Dehradun',
+    description:
+      'Mussoorie is the closest and most popular hill escape from Dehradun. At just 35 km away, it makes for a perfect day trip — stunning Himalayan views, colonial-era charm, waterfalls, and a lively Mall Road. Our drivers know every shortcut and viewpoint on the Mussoorie road.',
+    highlights: [
+      'Kempty Falls — the iconic multi-tiered waterfall',
+      'Mall Road — shopping, food & panoramic views',
+      'Gun Hill — highest point, reached by ropeway',
+      "Camel's Back Road — sunrise & sunset walk",
+      'Lal Tibba — highest peak in Mussoorie',
+      'Company Garden — beautifully maintained park',
+    ],
+    itinerary: [
+      {
+        day: 'Morning',
+        items: [
+          'Pickup from Dehradun (7:00 AM)',
+          'Drive to Mussoorie via Kempty Falls road',
+          'Visit Kempty Falls — swim or relax',
+        ],
+      },
+      {
+        day: 'Afternoon',
+        items: [
+          'Lunch at Mall Road restaurant',
+          'Gun Hill ropeway ride & views',
+          "Camel's Back Road walk",
+        ],
+      },
+      {
+        day: 'Evening',
+        items: [
+          'Company Garden or Lal Tibba visit',
+          'Shopping on Mall Road',
+          'Return to Dehradun by 7:00 PM',
+        ],
+      },
+    ],
+    pricing: [
+      { cab: 'Hatchback', price: '₹1,800' },
+      { cab: 'Sedan', price: '₹2,200' },
+      { cab: 'Innova Crysta', price: '₹3,200' },
+    ],
+    bestTime:
+      'March to June for pleasant weather and clear Himalayan views. October to December for misty winter charm. Avoid monsoon (July–Aug) as roads can be foggy and slippery.',
+    tips: [
+      'Start early (7 AM) to avoid traffic on the Mussoorie road',
+      'Carry a light jacket even in summer — it gets cool at the top',
+      'Ropeway to Gun Hill can have queues on weekends — go early',
+      'Kempty Falls gets crowded after 11 AM — visit first',
+    ],
+    waMsg: 'Hello! I am interested in the Mussoorie Day Trip package. Please share details and available dates.',
+    alt: false,
+  },
+  {
+    id: 'rishikesh',
+    nights: 1,
+    title: 'Rishikesh + Haridwar',
+    subtitle: 'The Yoga Capital & the Gateway to God',
+    description:
+      'Rishikesh and Haridwar together form the spiritual heart of Uttarakhand. From the iconic Ganga Aarti at Har Ki Pauri to adventure sports on the rapids of Rishikesh — this 1-night package covers both in one seamless journey. Just 45 km apart, the two cities complement each other perfectly.',
+    highlights: [
+      'Ganga Aarti at Har Ki Pauri — Haridwar',
+      'Laxman Jhula & Ram Jhula suspension bridges',
+      'Beatles Ashram (Maharishi Mahesh Yogi Ashram)',
+      'Triveni Ghat evening aarti — Rishikesh',
+      'Rafting on the Ganga rapids (optional, seasonal)',
+      'Parmarth Niketan & riverside cafés',
+    ],
+    itinerary: [
+      {
+        day: 'Day 1 AM',
+        items: [
+          'Pickup from Dehradun (8:00 AM)',
+          'Drive to Haridwar (~55 km, 1.5 hrs)',
+          'Har Ki Pauri darshan & ghats',
+          'Mansa Devi Temple via ropeway',
+        ],
+      },
+      {
+        day: 'Day 1 PM',
+        items: [
+          'Lunch in Haridwar',
+          'Drive to Rishikesh (~24 km)',
+          'Laxman Jhula & Ram Jhula walk',
+          'Beatles Ashram visit',
+          'Evening Ganga Aarti at Triveni Ghat',
+        ],
+      },
+      {
+        day: 'Day 2',
+        items: [
+          'Sunrise yoga or rafting (optional)',
+          'Parmarth Niketan morning program',
+          'Return to Dehradun by noon',
+        ],
+      },
+    ],
+    pricing: [
+      { cab: 'Hatchback', price: '₹2,500' },
+      { cab: 'Sedan', price: '₹3,000' },
+      { cab: 'Innova Crysta', price: '₹4,500' },
+    ],
+    bestTime:
+      'October to March for the best Ganga Aarti experience and comfortable weather. February–March for the Mahashivratri celebrations in Haridwar. Avoid July–August monsoon.',
+    tips: [
+      'Book hotel in Rishikesh for the night — we can suggest options',
+      'Ganga Aarti at Har Ki Pauri is best at sunset (6–7 PM)',
+      'Wear modest clothing at temple ghats',
+      'Rafting is available Oct–May — book in advance on weekends',
+    ],
+    waMsg: 'Hello! I am interested in the Rishikesh + Haridwar tour package. Please share details.',
+    alt: true,
+  },
+  {
+    id: 'nainital',
+    nights: 2,
+    title: 'Nainital Weekend',
+    subtitle: 'The Lake District of Uttarakhand',
+    description:
+      'Nainital is one of the most loved hill stations in India — built around a stunning pear-shaped lake surrounded by forested hills. A 2-night weekend trip gives you time to explore the lake, visit nearby attractions, and enjoy the cool mountain air. Our drivers are experienced on the Nainital road year-round.',
+    highlights: [
+      'Naini Lake — boating on the iconic pear-shaped lake',
+      'Naina Devi Temple — sacred temple on the lake shore',
+      'Tiffin Top (Dorothy\'s Seat) — panoramic Himalayan views',
+      'Sat Tal — seven interconnected lakes nearby',
+      'Snow View Point — views of Nanda Devi peak',
+      'Mall Road & Tibetan Market — shopping & food',
+    ],
+    itinerary: [
+      {
+        day: 'Day 1',
+        items: [
+          'Pickup from Dehradun (7:00 AM)',
+          'Drive to Nainital (~310 km, 6–7 hrs)',
+          'Check in & rest',
+          'Evening Mall Road walk & Naini Lake boating',
+        ],
+      },
+      {
+        day: 'Day 2',
+        items: [
+          'Morning Naina Devi Temple visit',
+          'Snow View Point by ropeway',
+          'Tiffin Top trek or horse ride',
+          'Sat Tal lakes visit in the afternoon',
+          'Evening Tibetan Market shopping',
+        ],
+      },
+      {
+        day: 'Day 3',
+        items: [
+          'Eco Cave Garden morning visit',
+          'Breakfast & check out',
+          'Return drive to Dehradun',
+        ],
+      },
+    ],
+    pricing: [
+      { cab: 'Hatchback', price: '₹6,500' },
+      { cab: 'Sedan', price: '₹7,500' },
+      { cab: 'Innova Crysta', price: '₹10,500' },
+    ],
+    bestTime:
+      'March to June for clear skies and pleasant weather. October to November post-monsoon for lush green views. December to February for snow and winter charm — but road conditions can be icy.',
+    tips: [
+      'Book your hotel in advance — Nainital gets very busy on weekends',
+      'Carry warm clothes even in summer — nights are cold',
+      'The drive from Dehradun is long (6–7 hrs) — start by 7 AM',
+      'Avoid peak season (May–June) weekends if possible — very crowded',
+    ],
+    waMsg: 'Hello! I am interested in the Nainital Weekend package (2 nights). Please share details.',
+    alt: false,
+  },
+  {
+    id: 'auli',
+    nights: 2,
+    title: 'Auli Snow Trip',
+    subtitle: "India's premier ski destination in the Himalayas",
+    description:
+      'Auli is a high-altitude meadow at 2,519 m, famous for its skiing slopes and spectacular views of Nanda Devi — India\'s second highest peak. In winter it transforms into a snow wonderland, and in summer the meadows burst with wildflowers. The Asia\'s longest gondola (cable car) ride from Joshimath to Auli is an experience in itself.',
+    highlights: [
+      'Cable car ride — Asia\'s longest gondola from Joshimath',
+      'Skiing slopes — beginner to advanced runs',
+      'Gurson Bugyal meadow trek — stunning Himalayan panorama',
+      'Nanda Devi, Trishul & Dronagiri peak views',
+      'Auli Artificial Lake — highest artificial lake in India',
+      'Joshimath town & Narsingh Temple visit',
+    ],
+    itinerary: [
+      {
+        day: 'Day 1',
+        items: [
+          'Pickup from Dehradun (6:00 AM)',
+          'Drive to Joshimath (~270 km, 8–9 hrs)',
+          'Check in & rest',
+          'Evening Joshimath town walk',
+        ],
+      },
+      {
+        day: 'Day 2',
+        items: [
+          'Morning cable car ride to Auli',
+          'Skiing lesson or free skiing (seasonal)',
+          'Gurson Bugyal meadow trek',
+          'Nanda Devi viewpoint',
+          'Overnight at Auli or Joshimath',
+        ],
+      },
+      {
+        day: 'Day 3',
+        items: [
+          'Auli Artificial Lake visit',
+          'Breakfast & check out',
+          'Return drive to Dehradun',
+        ],
+      },
+    ],
+    pricing: [
+      { cab: 'Hatchback', price: '₹8,000' },
+      { cab: 'Sedan', price: '₹9,500' },
+      { cab: 'Innova Crysta', price: '₹13,500' },
+    ],
+    bestTime:
+      'January to March for skiing on natural snow. April to June for Gurson Bugyal trek with wildflowers. September to November for clear Himalayan views. Avoid monsoon (July–Aug) — landslide risk on mountain roads.',
+    tips: [
+      'Book skiing equipment rental in advance during peak winter season',
+      'Carry heavy winter gear — Auli temperatures drop to -10°C in January',
+      'The drive is long — stay overnight in Joshimath before reaching Auli',
+      'Cable car timings are weather-dependent — have a backup plan',
+    ],
+    waMsg: 'Hello! I am interested in the Auli Snow Trip package (2 nights). Please share details.',
+    alt: true,
+  },
+  {
+    id: 'char-dham',
+    nights: 10,
+    title: 'Char Dham Yatra',
+    subtitle: 'Yamunotri · Gangotri · Kedarnath · Badrinath',
+    description:
+      'The Char Dham Yatra is the most sacred pilgrimage circuit in Hinduism — covering four holy abodes nestled deep in the Garhwal Himalayas. Our packages cover the complete route from Dehradun with specialist drivers experienced on all Char Dham roads, registration assistance, and 24/7 on-trip support.',
+    highlights: [
+      'Yamunotri — source of river Yamuna, Goddess Yamuna temple',
+      'Gangotri — origin of river Ganga, at 3,048 m altitude',
+      'Kedarnath — one of 12 Jyotirlingas, 16 km trek from Gaurikund',
+      'Badrinath — Lord Vishnu temple, the spiritual crown of the circuit',
+      'Specialist Char Dham driver with route experience',
+      'Registration & biometric assistance included',
+    ],
+    itinerary: [
+      {
+        day: 'Days 1–3',
+        items: [
+          'Dehradun → Yamunotri via Barkot',
+          'Yamunotri darshan & return to Barkot',
+          'Drive to Uttarkashi',
+        ],
+      },
+      {
+        day: 'Days 4–5',
+        items: [
+          'Uttarkashi → Gangotri darshan',
+          'Return to Uttarkashi / Guptkashi drive',
+        ],
+      },
+      {
+        day: 'Days 6–8',
+        items: [
+          'Guptkashi → Gaurikund → Kedarnath trek',
+          'Kedarnath darshan & overnight',
+          'Return trek & drive to Badrinath',
+        ],
+      },
+      {
+        day: 'Days 9–10',
+        items: [
+          'Badrinath darshan',
+          'Mana village — last Indian village visit',
+          'Return to Dehradun',
+        ],
+      },
+    ],
+    pricing: [
+      { cab: 'Hatchback', price: '₹6,100' },
+      { cab: 'Sedan', price: '₹6,500' },
+      { cab: 'Innova Crysta', price: '₹11,000' },
+    ],
+    bestTime:
+      'May to June and September to October. All four temples are open May to November. Kedarnath opened May 2, 2025 — Badrinath opened May 4, 2025. Peak season is now.',
+    tips: [
+      'Biometric registration is mandatory — we help you complete it',
+      'Carry warm layers, waterproofs and walking shoes for Kedarnath trek',
+      'Pony, doli and helicopter options available for Kedarnath',
+      'Book at least 2–3 weeks in advance during peak May–June season',
+    ],
+    waMsg: 'Hello! I am interested in the Char Dham Yatra package (10 nights). Please share details.',
+    externalHref: '/char-dham-yatra',
+    alt: false,
+  },
+];
+
+const packagesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Tour Packages from Dehradun — Shri Taxi',
+  itemListElement: packages.map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: p.title,
+    url: `https://shritaxi.in/packages#${p.id}`,
+  })),
+};
+---
+
+<Base title={title} description={description}>
+  <TopBar />
+  <Header />
+  <main>
+    <PackagesHero phone={phone} waLink={`${waBase}${encodeURIComponent('Hello! I want to enquire about tour packages from Dehradun. Please share details.')}`} />
+    <PackagesNav />
+    {packages.map((pkg) => (
+      <PackageSection
+        id={pkg.id}
+        nights={pkg.nights}
+        title={pkg.title}
+        subtitle={pkg.subtitle}
+        description={pkg.description}
+        highlights={pkg.highlights}
+        itinerary={pkg.itinerary}
+        pricing={pkg.pricing}
+        bestTime={pkg.bestTime}
+        tips={pkg.tips}
+        phone={phone}
+        waMsg={pkg.waMsg}
+        externalHref={pkg.externalHref}
+        alt={pkg.alt}
+      />
+    ))}
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(packagesSchema)} />
+</Base>
