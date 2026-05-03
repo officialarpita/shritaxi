@@ -18,8 +18,8 @@ interface Props {
   tips: string[];
   phone: string;
   waMsg: string;
-  externalHref?: string; // if set, show "View Full Package" link
-  alt?: boolean;         // alternate background
+  externalHref?: string;
+  alt?: boolean;
 }
 
 const {
@@ -29,6 +29,7 @@ const {
 } = Astro.props;
 
 const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(waMsg)}`;
+const isCharDham = !!externalHref;
 ---
 
 <section class={`pkg-section ${alt ? 'alt' : ''}`} id={id}>
@@ -84,42 +85,46 @@ const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponen
       </div>
 
       <!-- Right: Pricing + Tips -->
-      <!-- Right: Pricing + Tips -->
-<div class="right">
-  <div class="block">
-    <h3 class="block-title">💰 Cab Pricing (from Dehradun)</h3>
+      <div class="right">
+        <div class="block">
+          <h3 class="block-title">💰 Cab Pricing (from Dehradun)</h3>
 
-    {externalHref ? (
-      <!-- Char Dham — no pricing table, just a CTA card -->
-      <div class="full-details-card">
-        <p>Char Dham pricing varies by package type — Ek Dham, Do Dham, full Char Dham circuit, and group packages.</p>
-        <a href={externalHref} class="btn btn-primary full-details-btn">
-          View Full Pricing & Packages →
-        </a>
-      </div>
-    ) : (
-      <!-- All other packages — show pricing table -->
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Cab Type</th>
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pricing.map((row, i) => (
-              <tr class={i % 2 === 0 ? 'even' : ''}>
-                <td class="cab">{row.cab}</td>
-                <td class="price">{row.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p class="table-note">Per vehicle. Toll & parking extra. AC included.</p>
-    )}
-  </div>
+          {isCharDham ? (
+            <div class="full-details-card">
+              <p>
+                Char Dham pricing varies by package type — Ek Dham, Do Dham,
+                full Char Dham circuit, and group Tempo Traveller. View the
+                dedicated page for complete pricing, itinerary, and cab-wise
+                per day rates from both Dehradun and Delhi NCR.
+              </p>
+              <a href={externalHref} class="full-details-btn">
+                View Full Pricing &amp; Packages →
+              </a>
+            </div>
+          ) : (
+            <>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Cab Type</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pricing.map((row, i) => (
+                      <tr class={i % 2 === 0 ? 'even' : ''}>
+                        <td class="cab">{row.cab}</td>
+                        <td class="price">{row.price}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p class="table-note">Per vehicle. Toll &amp; parking extra. AC included.</p>
+            </>
+          )}
+        </div>
 
         <div class="block">
           <h3 class="block-title">🌤️ Best Time to Visit</h3>
@@ -363,6 +368,43 @@ const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponen
     margin-top: 8px;
   }
 
+  /* ── Char Dham full details card ── */
+  .full-details-card {
+    background: #eaf3de;
+    border: 1px solid #c3ddb0;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .full-details-card p {
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .full-details-btn {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    background: #1b6b3a;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .full-details-btn:hover {
+    opacity: 0.85;
+    text-decoration: none;
+  }
+
   /* ── Best time ── */
   .best-time {
     font-size: 13px;
@@ -417,36 +459,3 @@ const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponen
     }
   }
 </style>
-.full-details-card {
-  background: #eaf3de;
-  border: 1px solid #c3ddb0;
-  border-radius: 10px;
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.full-details-card p {
-  font-size: 13px;
-  color: #4b5563;
-  line-height: 1.65;
-  margin: 0;
-}
-
-.full-details-btn {
-  align-self: flex-start;
-  background: #1b6b3a;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.full-details-btn:hover {
-  opacity: 0.85;
-  text-decoration: none;
-}
