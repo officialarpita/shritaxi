@@ -71,6 +71,7 @@ const packages = [
       'Kempty Falls gets crowded after 11 AM — visit first',
     ],
     waMsg: 'Hello! I am interested in the Mussoorie Day Trip package. Please share details and available dates.',
+    externalHref: undefined,
     alt: false,
   },
   {
@@ -131,6 +132,7 @@ const packages = [
       'Rafting is available Oct–May — book in advance on weekends',
     ],
     waMsg: 'Hello! I am interested in the Rishikesh + Haridwar tour package. Please share details.',
+    externalHref: undefined,
     alt: true,
   },
   {
@@ -143,7 +145,7 @@ const packages = [
     highlights: [
       'Naini Lake — boating on the iconic pear-shaped lake',
       'Naina Devi Temple — sacred temple on the lake shore',
-      'Tiffin Top (Dorothy\'s Seat) — panoramic Himalayan views',
+      "Tiffin Top (Dorothy's Seat) — panoramic Himalayan views",
       'Sat Tal — seven interconnected lakes nearby',
       'Snow View Point — views of Nanda Devi peak',
       'Mall Road & Tibetan Market — shopping & food',
@@ -191,6 +193,7 @@ const packages = [
       'Avoid peak season (May–June) weekends if possible — very crowded',
     ],
     waMsg: 'Hello! I am interested in the Nainital Weekend package (2 nights). Please share details.',
+    externalHref: undefined,
     alt: false,
   },
   {
@@ -199,9 +202,9 @@ const packages = [
     title: 'Auli Snow Trip',
     subtitle: "India's premier ski destination in the Himalayas",
     description:
-      'Auli is a high-altitude meadow at 2,519 m, famous for its skiing slopes and spectacular views of Nanda Devi — India\'s second highest peak. In winter it transforms into a snow wonderland, and in summer the meadows burst with wildflowers. The Asia\'s longest gondola (cable car) ride from Joshimath to Auli is an experience in itself.',
+      "Auli is a high-altitude meadow at 2,519 m, famous for its skiing slopes and spectacular views of Nanda Devi — India's second highest peak. In winter it transforms into a snow wonderland, and in summer the meadows burst with wildflowers. Asia's longest gondola (cable car) ride from Joshimath to Auli is an experience in itself.",
     highlights: [
-      'Cable car ride — Asia\'s longest gondola from Joshimath',
+      "Cable car ride — Asia's longest gondola from Joshimath",
       'Skiing slopes — beginner to advanced runs',
       'Gurson Bugyal meadow trek — stunning Himalayan panorama',
       'Nanda Devi, Trishul & Dronagiri peak views',
@@ -251,6 +254,7 @@ const packages = [
       'Cable car timings are weather-dependent — have a backup plan',
     ],
     waMsg: 'Hello! I am interested in the Auli Snow Trip package (2 nights). Please share details.',
+    externalHref: undefined,
     alt: true,
   },
   {
@@ -259,7 +263,7 @@ const packages = [
     title: 'Char Dham Yatra',
     subtitle: 'Yamunotri · Gangotri · Kedarnath · Badrinath',
     description:
-      'The Char Dham Yatra is the most sacred pilgrimage circuit in Hinduism — covering four holy abodes nestled deep in the Garhwal Himalayas. Our packages cover the complete route from Dehradun with specialist drivers experienced on all Char Dham roads, registration assistance, and 24/7 on-trip support.',
+      'The Char Dham Yatra is the most sacred pilgrimage circuit in Hinduism — covering four holy abodes nestled deep in the Garhwal Himalayas. Our packages cover the complete route from Dehradun with specialist drivers, registration assistance, and 24/7 on-trip support. Multiple package tiers available — Ek Dham, Do Dham, full Char Dham, and group packages.',
     highlights: [
       'Yamunotri — source of river Yamuna, Goddess Yamuna temple',
       'Gangotri — origin of river Ganga, at 3,048 m altitude',
@@ -301,21 +305,17 @@ const packages = [
         ],
       },
     ],
-    pricing: [
-      { cab: 'Hatchback', price: '₹6,100' },
-      { cab: 'Sedan', price: '₹6,500' },
-      { cab: 'Innova Crysta', price: '₹11,000' },
-    ],
+    pricing: [],  // not shown — replaced by full details card
     bestTime:
-      'May to June and September to October. All four temples are open May to November. Kedarnath opened May 2, 2025 — Badrinath opened May 4, 2025. Peak season is now.',
+      'May to June and September to October. Kedarnath opened May 2, 2025 — Badrinath opened May 4, 2025. Peak season is now.',
     tips: [
       'Biometric registration is mandatory — we help you complete it',
       'Carry warm layers, waterproofs and walking shoes for Kedarnath trek',
       'Pony, doli and helicopter options available for Kedarnath',
       'Book at least 2–3 weeks in advance during peak May–June season',
     ],
-    waMsg: 'Hello! I am interested in the Char Dham Yatra package (10 nights). Please share details.',
-    externalHref: '/char-dham-yatra',
+    waMsg: 'Hello! I am interested in the Char Dham Yatra package. Please share details.',
+    externalHref: '/char-dham-yatra',  // ← triggers full details card instead of pricing table
     alt: false,
   },
 ];
@@ -337,7 +337,10 @@ const packagesSchema = {
   <TopBar />
   <Header />
   <main>
-    <PackagesHero phone={phone} waLink={`${waBase}${encodeURIComponent('Hello! I want to enquire about tour packages from Dehradun. Please share details.')}`} />
+    <PackagesHero
+      phone={phone}
+      waLink={`${waBase}${encodeURIComponent('Hello! I want to enquire about tour packages from Dehradun. Please share details.')}`}
+    />
     <PackagesNav />
     {packages.map((pkg) => (
       <PackageSection
