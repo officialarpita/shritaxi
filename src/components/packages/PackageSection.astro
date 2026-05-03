@@ -1,0 +1,406 @@
+---
+interface PricingRow {
+  cab: string;
+  price: string;
+  note?: string;
+}
+
+interface Props {
+  id: string;
+  nights: number | 'Day trip';
+  title: string;
+  subtitle: string;
+  description: string;
+  highlights: string[];
+  itinerary: { day: string; items: string[] }[];
+  pricing: PricingRow[];
+  bestTime: string;
+  tips: string[];
+  phone: string;
+  waMsg: string;
+  externalHref?: string; // if set, show "View Full Package" link
+  alt?: boolean;         // alternate background
+}
+
+const {
+  id, nights, title, subtitle, description,
+  highlights, itinerary, pricing, bestTime, tips,
+  phone, waMsg, externalHref, alt = false,
+} = Astro.props;
+
+const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(waMsg)}`;
+---
+
+<section class={`pkg-section ${alt ? 'alt' : ''}`} id={id}>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="sec-header">
+      <div class="sec-title">
+        <span class="nights-badge">
+          {nights === 'Day trip' ? 'Day trip' : `${nights} Nights`}
+        </span>
+        <h2>{title}</h2>
+        <p class="subtitle">{subtitle}</p>
+      </div>
+      <div class="sec-ctas">
+        <a href={waLink} class="btn btn-primary" target="_blank" rel="noopener">
+          💬 Enquire on WhatsApp
+        </a>
+        {externalHref && (
+          <a href={externalHref} class="btn btn-outline">View Full Details →</a>
+        )}
+      </div>
+    </div>
+
+    <p class="description">{description}</p>
+
+    <div class="content-grid">
+
+      <!-- Left: Highlights + Itinerary -->
+      <div class="left">
+        <div class="block">
+          <h3 class="block-title">✨ Highlights</h3>
+          <ul class="highlights">
+            {highlights.map((h) => (
+              <li><span class="dot">·</span>{h}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3 class="block-title">🗓️ Itinerary</h3>
+          <div class="itinerary">
+            {itinerary.map((day) => (
+              <div class="day">
+                <div class="day-label">{day.day}</div>
+                <ul class="day-items">
+                  {day.items.map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Pricing + Tips -->
+      <div class="right">
+        <div class="block">
+          <h3 class="block-title">💰 Cab Pricing (from Dehradun)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cab Type</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pricing.map((row, i) => (
+                  <tr class={i % 2 === 0 ? 'even' : ''}>
+                    <td class="cab">{row.cab}</td>
+                    <td class="price">{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">Per vehicle. Toll & parking extra. AC included.</p>
+        </div>
+
+        <div class="block">
+          <h3 class="block-title">🌤️ Best Time to Visit</h3>
+          <p class="best-time">{bestTime}</p>
+        </div>
+
+        <div class="block">
+          <h3 class="block-title">💡 Tips</h3>
+          <ul class="tips">
+            {tips.map((t) => (
+              <li><span class="check">✓</span>{t}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .pkg-section {
+    padding: 60px 0;
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+    scroll-margin-top: 110px;
+  }
+
+  .pkg-section.alt {
+    background: #f8faf9;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Section header ── */
+  .sec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .nights-badge {
+    display: inline-block;
+    background: #1b6b3a;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', 'Georgia', serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #9ca3af;
+  }
+
+  .sec-ctas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn:hover { opacity: 0.85; text-decoration: none; }
+  .btn-primary { background: #1b6b3a; color: #fff; }
+  .btn-outline { background: transparent; color: #1b6b3a; border: 1.5px solid #1b6b3a; }
+
+  .description {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 28px;
+    max-width: 760px;
+  }
+
+  /* ── Two column layout ── */
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  /* ── Blocks ── */
+  .block {
+    margin-bottom: 24px;
+  }
+
+  .block:last-child { margin-bottom: 0; }
+
+  .block-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  /* ── Highlights ── */
+  .highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #374151;
+    line-height: 1.5;
+  }
+
+  .dot {
+    color: #e8a020;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+
+  /* ── Itinerary ── */
+  .itinerary {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .day {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+  }
+
+  .day-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1b6b3a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-top: 2px;
+  }
+
+  .day-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .day-items li {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+    padding-left: 12px;
+    position: relative;
+  }
+
+  .day-items li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #d1d5db;
+    font-size: 11px;
+  }
+
+  /* ── Pricing table ── */
+  .table-wrap {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  thead tr { background: #1b6b3a; }
+
+  thead th {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 16px;
+    text-align: left;
+  }
+
+  thead th:last-child { text-align: right; }
+
+  tbody tr { border-bottom: 1px solid #f0f0f0; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr.even { background: #f8faf9; }
+  tbody tr:hover { background: #eaf3de; }
+
+  td { padding: 11px 16px; color: #374151; }
+
+  .cab { font-weight: 500; color: #111; }
+  .price { text-align: right; font-weight: 600; color: #1b6b3a; font-size: 14px; }
+
+  .table-note {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 8px;
+  }
+
+  /* ── Best time ── */
+  .best-time {
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.7;
+    background: #eaf3de;
+    border-left: 3px solid #1b6b3a;
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ── Tips ── */
+  .tips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tips li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #4b5563;
+    line-height: 1.5;
+  }
+
+  .check {
+    color: #1b6b3a;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .sec-header {
+      flex-direction: column;
+    }
+
+    .day {
+      grid-template-columns: 80px 1fr;
+    }
+  }
+</style>
