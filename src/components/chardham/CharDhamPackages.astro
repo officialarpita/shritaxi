@@ -7,34 +7,36 @@ const { phone, waLink } = Astro.props;
 
 const packages = [
   {
-    badge: 'Eek Dham/One Dham',
+    badge: 'Ek Dham',
     badgeClass: 'basic',
-    name: 'Kedarnath/Badrinath/Gangotri/Yamunotri',
+    name: 'One Dham of Your Choice',
+    subtitle: 'Kedarnath · Badrinath · Gangotri · Yamunotri',
     price: '₹8,999',
-    duration: '3-4 days · From Dehradun',
+    duration: '3–4 days · From Dehradun',
     featured: false,
     features: [
-      'AC cab (Sedan or Innova Crysta)',
-      'Verified & experienced driver',
-      'Hotel bookings assistance',
+      'AC cab (Sedan or Innova)',
+      'Verified driver',
+      'Hotel booking assistance',
       '24/7 phone support',
       'GPS tracked vehicle',
     ],
     cta: 'Enquire now',
     ctaClass: 'outline',
-    waMsg: 'Hello! I am interested in the Eek Dham package (Kedarnath/Badrinath/Gangotri/Yamunotri). Please share details.',
+    waMsg: 'Hello! I am interested in the Ek Dham package. Please share details and available dates.',
   },
   {
     badge: 'Do Dham',
     badgeClass: 'basic',
     name: 'Kedarnath + Badrinath',
-    price: '₹8,999',
+    subtitle: 'The two most visited dhams',
+    price: '₹14,999',
     duration: '8–10 days · From Dehradun',
     featured: false,
     features: [
-      'AC cab (Sedan or Innova Crysta)',
-      'Verified & experienced driver',
-      'Hotel bookings assistance',
+      'AC cab (Sedan or Innova)',
+      'Verified driver',
+      'Hotel booking assistance',
       '24/7 phone support',
       'GPS tracked vehicle',
     ],
@@ -43,9 +45,10 @@ const packages = [
     waMsg: 'Hello! I am interested in the Do Dham package (Kedarnath + Badrinath). Please share details.',
   },
   {
-    badge: 'Most Popular · Char Dham',
+    badge: 'Most Popular',
     badgeClass: 'popular',
-    name: 'All Four Dhams',
+    name: 'Char Dham Yatra',
+    subtitle: 'All four sacred abodes',
     price: '₹18,999',
     duration: '12–14 days · From Dehradun',
     featured: true,
@@ -53,7 +56,7 @@ const packages = [
       'Toyota Innova Crysta (AC)',
       'Char Dham specialist driver',
       'Hotel bookings at all 4 dhams',
-      'Registration assistance included',
+      'Registration assistance',
       'Pony / doli booking support',
       '24/7 on-trip support',
     ],
@@ -62,17 +65,18 @@ const packages = [
     waMsg: 'Hello! I want to book the Char Dham Yatra package for all four dhams. Please share details.',
   },
   {
-    badge: 'Group Package',
+    badge: 'Group',
     badgeClass: 'group',
-    name: 'Tempo Traveller Group',
+    name: 'Tempo Traveller',
+    subtitle: 'Best for families & groups',
     price: '₹28,999',
-    duration: '12–16 days · Up to 12 pilgrims',
+    duration: '12–16 days · Up to 12',
     featured: false,
     features: [
       'Tempo Traveller 12+1 (AC)',
-      'Ideal for families & groups',
       'All four dhams covered',
       'Dedicated trip coordinator',
+      'Hotel booking assistance',
       'Medical kit on board',
     ],
     cta: 'Enquire now',
@@ -87,25 +91,35 @@ const packages = [
     <p class="section-label">Our packages</p>
     <h2>Choose your pilgrimage plan</h2>
     <p class="section-sub">
-      All packages include AC vehicle, verified driver, and 24/7 support. Toll
-      &amp; parking charged at actuals and disclosed upfront.
+      All packages include AC vehicle, verified driver, and 24/7 support.
+      Toll &amp; parking charged at actuals and disclosed upfront.
     </p>
 
     <div class="grid">
       {packages.map((pkg) => (
         <div class={`card ${pkg.featured ? 'featured' : ''}`}>
-          <div class={`pkg-badge badge-${pkg.badgeClass}`}>{pkg.badge}</div>
-          <h3 class="pkg-name">{pkg.name}</h3>
-          <div class="pkg-price">{pkg.price} <span>/ vehicle</span></div>
-          <p class="pkg-duration">{pkg.duration}</p>
+          <div class="card-top">
+            <span class={`pkg-badge badge-${pkg.badgeClass}`}>{pkg.badge}</span>
+            <h3 class="pkg-name">{pkg.name}</h3>
+            <p class="pkg-subtitle">{pkg.subtitle}</p>
+            <div class="pkg-price">
+              {pkg.price}
+              <span class="per">/ vehicle</span>
+            </div>
+            <p class="pkg-duration">{pkg.duration}</p>
+          </div>
+
+          <div class="divider" />
+
           <ul class="features">
             {pkg.features.map((f) => (
               <li>
                 <span class="check">✓</span>
-                {f}
+                <span>{f}</span>
               </li>
             ))}
           </ul>
+
           <a
             href={`https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(pkg.waMsg)}`}
             class={`btn btn-${pkg.ctaClass}`}
@@ -119,8 +133,8 @@ const packages = [
     </div>
 
     <p class="disclaimer">
-      Prices are indicative and may vary based on travel dates, vehicle
-      availability, and group size. Contact us for a custom quote.
+      Prices are indicative and may vary based on travel dates and vehicle
+      availability. Contact us for a custom quote.
     </p>
   </div>
 </section>
@@ -158,22 +172,24 @@ const packages = [
     font-size: 14px;
     color: #6b7280;
     line-height: 1.7;
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
 
+  /* ── 4 equal columns on desktop ── */
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-   align-items: stretch;
+    align-items: stretch;
     margin-bottom: 16px;
   }
 
+  /* ── Card ── */
   .card {
     background: #fff;
-    border: 0.5px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 22px 18px 18px;
     display: flex;
     flex-direction: column;
   }
@@ -182,100 +198,111 @@ const packages = [
     border: 2px solid #1b6b3a;
   }
 
+  /* ── Badge ── */
   .pkg-badge {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1px;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     margin-bottom: 10px;
   }
 
-  .badge-basic { color: #6b7280; }
+  .badge-basic   { color: #9ca3af; }
   .badge-popular { color: #1b6b3a; }
-  .badge-group { color: #e8a020; }
+  .badge-group   { color: #e8a020; }
 
+  /* ── Name & subtitle ── */
   .pkg-name {
-    font-family: 'Playfair Display', 'Georgia', serif;
     font-size: 15px;
     font-weight: 700;
     color: #111;
     margin-bottom: 4px;
     line-height: 1.3;
   }
+
   .pkg-subtitle {
     font-size: 11px;
     color: #9ca3af;
     margin-bottom: 14px;
     line-height: 1.5;
   }
+
+  /* ── Price ── */
   .pkg-price {
     font-size: 24px;
     font-weight: 700;
     color: #1b6b3a;
+    line-height: 1;
     margin-bottom: 5px;
-    font-family: 'Outfit', sans-serif;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex-wrap: wrap;
   }
 
-  .pkg-price span {
-    font-size: 13px;
+  .per {
+    font-size: 12px;
     font-weight: 400;
-    color: #6b7280;
+    color: #9ca3af;
   }
 
   .pkg-duration {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 16px;
-    padding-bottom: 14px;
-    border-bottom: 0.5px solid #e5e7eb;
+    font-size: 11px;
+    color: #9ca3af;
   }
 
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 16px 0;
+  }
+
+  /* ── Features ── */
   .features {
     list-style: none;
     padding: 0;
     margin: 0 0 20px;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
   }
 
   .features li {
-    font-size: 13px;
-    color: #4b5563;
-    padding: 7px 0;
-    border-bottom: 0.5px solid #f0f0f0;
     display: flex;
     align-items: flex-start;
     gap: 8px;
+    font-size: 12px;
+    color: #4b5563;
     line-height: 1.5;
-  }
-
-  .features li:last-child {
-    border-bottom: none;
   }
 
   .check {
     color: #1b6b3a;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 11px;
     flex-shrink: 0;
     margin-top: 1px;
   }
 
+  /* ── Button ── */
   .btn {
     display: block;
     width: 100%;
     text-align: center;
-    padding: 11px 16px;
+    padding: 11px 12px;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
     text-decoration: none;
     transition: opacity 0.2s;
     margin-top: auto;
+    white-space: nowrap;
   }
 
-  .btn:hover {
-    opacity: 0.85;
-  }
+  .btn:hover { opacity: 0.85; }
 
   .btn-primary {
     background: #1b6b3a;
@@ -285,17 +312,26 @@ const packages = [
   .btn-outline {
     background: transparent;
     color: #1b6b3a;
-    border: 1px solid #1b6b3a;
+    border: 1.5px solid #1b6b3a;
   }
 
+  /* ── Disclaimer ── */
   .disclaimer {
     font-size: 12px;
     color: #9ca3af;
     text-align: center;
     line-height: 1.6;
+    margin-top: 8px;
   }
 
-  @media (max-width: 700px) {
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 500px) {
     .grid {
       grid-template-columns: 1fr;
     }
