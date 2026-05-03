@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import CharDhamHero from '../components/chardham/CharDhamHero.astro';
+import CharDhamStats from '../components/chardham/CharDhamStats.astro';
+import CharDhamDhams from '../components/chardham/CharDhamDhams.astro';
+import CharDhamRoute from '../components/chardham/CharDhamRoute.astro';
+import CharDhamPackages from '../components/chardham/CharDhamPackages.astro';
+import CharDhamPricing from '../components/chardham/CharDhamPricing.astro';
+import CharDhamTips from '../components/chardham/CharDhamTips.astro';
+import CharDhamCTA from '../components/chardham/CharDhamCTA.astro';
+
+const title = 'Char Dham Yatra Taxi Package 2025 — Dehradun | Shri Taxi';
+const description =
+  'Book Char Dham Yatra taxi from Dehradun. Yamunotri, Gangotri, Kedarnath & Badrinath covered. AC vehicles, verified drivers, hotel assistance, 24/7 support. Packages starting ₹8,999.';
+
+const phone = '+919876543210';
+const waMessage = encodeURIComponent('Hello! I want to book a Char Dham Yatra package. Please share details.');
+const waLink = `https://wa.me/${phone.replace('+', '')}?text=${waMessage}`;
+
+const charDhamSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TouristTrip',
+  name: 'Char Dham Yatra Package from Dehradun',
+  description: 'Taxi package covering all four Char Dhams — Yamunotri, Gangotri, Kedarnath, Badrinath',
+  touristType: 'Pilgrims',
+  itinerary: {
+    '@type': 'ItemList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Yamunotri' },
+      { '@type': 'ListItem', position: 2, name: 'Gangotri' },
+      { '@type': 'ListItem', position: 3, name: 'Kedarnath' },
+      { '@type': 'ListItem', position: 4, name: 'Badrinath' },
+    ],
+  },
+  provider: {
+    '@type': 'TaxiService',
+    name: 'Shri Taxi',
+    url: 'https://shritaxi.in',
+  },
+};
+---
+
+<Base title={title} description={description}>
+  <TopBar />
+  <Header />
+  <main>
+    <CharDhamHero phone={phone} waLink={waLink} />
+    <CharDhamStats />
+    <CharDhamDhams />
+    <CharDhamRoute />
+    <CharDhamPackages phone={phone} waLink={waLink} />
+    <CharDhamPricing />
+    <CharDhamTips />
+    <CharDhamCTA phone={phone} waLink={waLink} />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(charDhamSchema)} />
+</Base>
