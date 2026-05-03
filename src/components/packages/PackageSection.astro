@@ -14,6 +14,7 @@ interface Props {
   highlights: string[];
   itinerary: { day: string; items: string[] }[];
   pricing: PricingRow[];
+  pricingLabel?: string;
   bestTime: string;
   tips: string[];
   phone: string;
@@ -24,9 +25,11 @@ interface Props {
 
 const {
   id, nights, title, subtitle, description,
-  highlights, itinerary, pricing, bestTime, tips,
+  highlights, itinerary, pricing, pricingLabel, bestTime, tips,
   phone, waMsg, externalHref, alt = false,
 } = Astro.props;
+
+const resolvedPricingLabel = pricingLabel ?? '💰 Starting Price (from Dehradun)';
 
 const waLink = `https://wa.me/${phone.replace('+', '')}?text=${encodeURIComponent(waMsg)}`;
 const isCharDham = !!externalHref;
@@ -87,7 +90,7 @@ const isCharDham = !!externalHref;
       <!-- Right: Pricing + Tips -->
       <div class="right">
         <div class="block">
-          <h3 class="block-title">💰 Starting Price (from Dehradun)</h3>
+          <h3 class="block-title">{resolvedPricingLabel}</h3>
 
           {isCharDham ? (
             <div class="full-details-card">
