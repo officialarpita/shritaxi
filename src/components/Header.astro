@@ -1,9 +1,17 @@
 ---
+const currentPath = Astro.url.pathname;
+
 const navLinks = [
-  { href: '/#packages', label: 'Packages' },
+  { href: '/packages', label: 'Packages' },
   { href: '/char-dham-yatra', label: 'Char Dham Yatra' },
   { href: '/#faq', label: 'FAQ' },
 ];
+
+function isActive(href: string): boolean {
+  const path = href.split('#')[0];
+  if (path === '/') return currentPath === '/';
+  return currentPath.startsWith(path);
+}
 ---
 
 <header class="header">
@@ -12,16 +20,22 @@ const navLinks = [
       <span class="logo-mark">🚕</span>
       <span class="logo-text">Shri Taxi</span>
     </a>
-
     <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle menu" />
     <label for="nav-toggle" class="burger" aria-hidden="true">
       <span></span><span></span><span></span>
     </label>
-
     <nav class="nav" aria-label="Primary">
       <ul>
-        {navLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-        <li><a href="/#book" class="btn btn-gold cta">Book Now</a></li>
+        {navLinks.map((l) => (
+          <li>
+            <a href={l.href} class={isActive(l.href) ? 'active' : ''}>
+              {l.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/#book" class="btn btn-gold cta">Book Now</a>
+        </li>
       </ul>
     </nav>
   </div>
@@ -51,6 +65,7 @@ const navLinks = [
     font-weight: 800;
     color: var(--forest-green);
     font-size: 1.25rem;
+    text-decoration: none;
   }
 
   .logo-mark {
@@ -76,21 +91,27 @@ const navLinks = [
   .nav a {
     color: var(--asphalt);
     font-weight: 500;
+    text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
   }
 
-  .nav a:hover {
-    color: var(--deep-green);
-    text-decoration: none;
+  .nav a:hover { color: var(--forest-green); }
+
+  .nav a.active {
+    color: var(--forest-green);
+    border-bottom: 2px solid var(--forest-green);
+    font-weight: 600;
   }
 
   .cta {
     padding: 0.5rem 1rem;
+    border-bottom: none !important;
   }
 
   .nav-toggle,
-  .burger {
-    display: none;
-  }
+  .burger { display: none; }
 
   @media (max-width: 820px) {
     .burger {
@@ -100,12 +121,14 @@ const navLinks = [
       cursor: pointer;
       padding: 0.5rem;
     }
+
     .burger span {
       width: 24px;
       height: 2px;
       background: var(--forest-green);
       border-radius: 2px;
     }
+
     .nav {
       position: absolute;
       top: 100%;
@@ -116,14 +139,21 @@ const navLinks = [
       box-shadow: var(--shadow-md);
       display: none;
     }
+
     .nav ul {
       flex-direction: column;
       align-items: stretch;
       gap: 0.5rem;
     }
+
     .nav ul li { text-align: left; }
-    .nav-toggle:checked ~ .nav {
-      display: block;
+
+    .nav a.active {
+      border-bottom: none;
+      border-left: 3px solid var(--forest-green);
+      padding-left: 8px;
     }
+
+    .nav-toggle:checked ~ .nav { display: block; }
   }
 </style>
