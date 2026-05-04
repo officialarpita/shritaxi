@@ -7,52 +7,87 @@ import { packages } from '../data/packages';
   <div class="container">
     <div class="section-title">
       <h2>Tourist Packages</h2>
-      <p>Ready-made itineraries with a driver who knows the route.</p>
+      <p>Ready-made itineraries with a driver who knows every route.</p>
     </div>
 
     <div class="grid">
       {packages.map((p) => (
-        <article class="card pkg">
-          {p.image && (
-            <div class="hero">
-              <Image src={p.image} alt={p.title} widths={[400, 800, 1200]} sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw" />
-            </div>
-          )}
-          <div class="head">
-            <h3>{p.title}</h3>
-            <span class="nights">{p.nights === 0 ? 'Day trip' : `${p.nights}N`}</span>
+        <a href={p.href} class="card pkg">
+          <div class="hero">
+            {p.image ? (
+              <Image
+                src={p.image}
+                alt={p.title}
+                widths={[400, 800, 1200]}
+                sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw"
+              />
+            ) : (
+              <div class="img-placeholder">
+                <span>⛷️</span>
+                <p>Auli, Uttarakhand</p>
+              </div>
+            )}
+            <span class="nights-badge">
+              {p.nights === 0 ? 'Day trip' : `${p.nights}N`}
+            </span>
           </div>
-          <ul>
-            {p.highlights.map((h) => <li>{h}</li>)}
-          </ul>
-          <!-- <a href="#book" class="cta-link">Enquire →</a> -->
-          <a
-            href={p.href ?? '#book'}
-            class={`cta-link ${p.href ? 'cta-link--page' : ''}`}
-            {...(p.href ? {} : {})}
-          >
-            {p.href ? 'View Package →' : 'Enquire →'}
-          </a>
-        </article>
+          <div class="body">
+            <h3>{p.title}</h3>
+            <ul>
+              {p.highlights.map((h) => <li>{h}</li>)}
+            </ul>
+            <span class="cta-link">{p.ctaLabel}</span>
+          </div>
+        </a>
       ))}
+    </div>
+
+    <div class="view-all">
+      <a href="/packages" class="btn-view-all">View all packages →</a>
     </div>
   </div>
 </section>
 
 <style>
-  .pkg-section { background: var(--snow); }
+  .pkg-section {
+    background: var(--snow);
+  }
+
+  /* ── Grid — 3 cols, always filled ── */
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+    margin-bottom: 1.5rem;
   }
-  .pkg { display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── Card — entire card is a link ── */
+  .pkg {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 0.5px solid #e5e7eb;
+    background: var(--white);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .pkg:hover {
+    box-shadow: 0 8px 24px rgba(27, 43, 30, 0.1);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+
+  /* ── Hero image area ── */
   .hero {
     aspect-ratio: 8 / 5;
-    border-radius: var(--radius-sm);
     overflow: hidden;
-    margin-bottom: 0.75rem;
+    position: relative;
+    background: #e5e7eb;
   }
+
   .hero :global(img) {
     width: 100%;
     height: 100%;
@@ -60,54 +95,125 @@ import { packages } from '../data/packages';
     display: block;
     transition: transform 0.3s ease;
   }
+
   .pkg:hover .hero :global(img) {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
-  .head {
+
+  /* ── Auli placeholder (no image yet) ── */
+  .img-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1b2b1e, #2d5a3d);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    justify-content: center;
+    gap: 8px;
   }
-  .head h3 { margin: 0; }
-  .nights {
+
+  .img-placeholder span {
+    font-size: 36px;
+  }
+
+  .img-placeholder p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  /* ── Nights badge overlaid on image ── */
+  .nights-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: var(--forest-green);
     color: var(--white);
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    padding: 0.15rem 0.5rem;
+    padding: 0.2rem 0.6rem;
     border-radius: 999px;
+    letter-spacing: 0.3px;
   }
+
+  /* ── Card body ── */
+  .body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--deep-green);
+    margin: 0 0 8px;
+  }
+
   ul {
     list-style: none;
     padding: 0;
-    margin: 0 0 1rem;
+    margin: 0 0 14px;
     color: var(--mtn-grey);
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.2rem;
+    flex: 1;
   }
-  ul li::before { content: '· '; color: var(--gold); }
+
+  ul li::before {
+    content: '· ';
+    color: var(--gold);
+  }
+
+  /* ── CTA ── */
   .cta-link {
-    color: var(--deep-green);
+    color: var(--forest-green);
     font-weight: 600;
+    font-size: 13px;
     margin-top: auto;
-    text-decoration: none;
-    transition: opacity 0.2s;
-  }
-   .cta-link:hover {
-    opacity: 0.75;
-  }
-  /* Char Dham and any future dedicated-page packages get a slightly bolder CTA */
-  .cta-link--page {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: var(--forest-green);
-    font-weight: 700;
+    transition: gap 0.2s;
   }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+
+  .pkg:hover .cta-link {
+    gap: 8px;
+  }
+
+  /* ── View all link ── */
+  .view-all {
+    text-align: center;
+  }
+
+  .btn-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--forest-green);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1.5px solid var(--forest-green);
+    padding: 10px 24px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-view-all:hover {
+    background: var(--forest-green);
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; }
+  }
 </style>
