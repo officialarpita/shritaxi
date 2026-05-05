@@ -1,5 +1,47 @@
 ---
-import { testimonials } from '../data/testimonials';
+import { testimonials, aggregateRating } from '../data/testimonials';
+
+// Separate featured review from regular reviews
+const featuredReview = testimonials.find((t) => t.featured);
+const regularReviews = testimonials.filter((t) => !t.featured);
+
+// Generate star rating HTML
+function renderStars(rating: number) {
+  return '⭐'.repeat(rating);
+}
+
+// Generate initials avatar background color based on name
+function getAvatarColor(initials: string) {
+  const colors = ['#1b6b3a', '#e8a020', '#2d5a3d', '#d97706', '#059669'];
+  const index = initials.charCodeAt(0) % colors.length;
+  return colors[index];
+}
+
+// Schema markup for SEO
+const reviewsSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Shri Taxi - Dehradun Cab Service',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: aggregateRating.ratingValue.toString(),
+    reviewCount: aggregateRating.reviewCount.toString(),
+    bestRating: aggregateRating.bestRating.toString(),
+    worstRating: aggregateRating.worstRating.toString(),
+  },
+  review: testimonials.map((t) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: t.author },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: t.rating.toString(),
+      bestRating: '5',
+      worstRating: '1',
+    },
+    reviewBody: t.quote,
+    datePublished: t.date,
+  })),
+};
 ---
 
 <section class="section reviews-section">
@@ -9,21 +51,72 @@ import { testimonials } from '../data/testimonials';
       <p>Tourists and corporate clients who've trusted us with their trips.</p>
     </div>
 
+    <!-- Featured Review (Hero Treatment) -->
+    {featuredReview && (
+      <div class="featured-review">
+        <div class="avatar" style={`background: ${getAvatarColor(featuredReview.initials)}`}>
+          {featuredReview.initials}
+        </div>
+        <div class="featured-content">
+          <div class="featured-header">
+            <div class="author-info">
+              <strong class="author-name">{featuredReview.author}</strong>
+              <span class="stars">{renderStars(featuredReview.rating)}</span>
+              {featuredReview.verified && <span class="verified">✓ Verified</span>}
+            </div>
+            <span class="date">{featuredReview.date}</span>
+          </div>
+          <p class="quote">"{featuredReview.quote}"</p>
+          <span class="context">{featuredReview.context}</span>
+        </div>
+      </div>
+    )}
+
+    <!-- Regular Reviews Grid -->
     <div class="grid">
-      {testimonials.map((t) => (
-        <blockquote class="card quote">
-          <p>"{t.quote}"</p>
-          <footer>
-            <strong>{t.author}</strong>
-            <span>{t.context}</span>
-          </footer>
-        </blockquote>
+      {regularReviews.map((t) => (
+        <div class="review-card">
+          <div class="card-header">
+            <div class="avatar-small" style={`background: ${getAvatarColor(t.initials)}`}>
+              {t.initials}
+            </div>
+            <div class="header-text">
+              <strong class="author-name">{t.author}</strong>
+              <div class="meta">
+                <span class="stars">{renderStars(t.rating)}</span>
+                {t.verified && <span class="verified-badge">✓</span>}
+              </div>
+            </div>
+            <span class="date-small">{t.date}</span>
+          </div>
+          <p class="quote-text">"{t.quote}"</p>
+          <span class="context-text">{t.context}</span>
+        </div>
       ))}
     </div>
 
+    <!-- Aggregate Rating & CTA -->
+    <div class="reviews-footer">
+      <div class="aggregate">
+        <span class="rating-badge">{aggregateRating.ratingValue}/5</span>
+        <span class="review-count">from {aggregateRating.reviewCount}+ verified reviews</span>
+      </div>
+      <div class="ctas">
+        <a
+          href="https://www.google.com/maps/search/shri+taxi+dehradun"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline"
+        >
+          View all Google Reviews →
+        </a>
+        <a href="/#book" class="btn btn-primary">Book Your Ride →</a>
+      </div>
+    </div>
+
+    <!-- Google Maps Embed -->
     <div class="maps-embed" aria-label="Our Google Maps listing">
       <p class="note">See live reviews on Google Maps:</p>
-      {/* Replace the q param below with the client's actual Google Business listing URL */}
       <iframe
         title="Shri Taxi on Google Maps"
         src="https://www.google.com/maps?q=taxi+service+dehradun&output=embed"
@@ -34,45 +127,311 @@ import { testimonials } from '../data/testimonials';
   </div>
 </section>
 
+<!-- Schema Markup for SEO -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(reviewsSchema)} />
+
 <style>
+  .reviews-section {
+    background: var(--snow);
+  }
+
+  /* ── Featured Review ── */
+  .featured-review {
+    background: linear-gradient(135deg, #1b2b1e 0%, #2d5a3d 100%);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    box-shadow: 0 4px 16px rgba(27, 43, 30, 0.15);
+  }
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: #fff;
+    flex-shrink: 0;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .featured-content {
+    flex: 1;
+  }
+
+  .featured-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .author-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .stars {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .verified {
+    background: rgba(232, 160, 32, 0.2);
+    color: #e8a020;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.3px;
+  }
+
+  .date {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .featured-review .quote {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 12px;
+    font-style: italic;
+  }
+
+  .featured-review .context {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+  }
+
+  /* ── Regular Reviews Grid ── */
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
   }
-  .quote {
+
+  .review-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow 0.2s;
+  }
+
+  .review-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .avatar-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .header-text .author-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 2px;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .meta .stars {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .verified-badge {
+    color: #1b6b3a;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .date-small {
+    font-size: 11px;
+    color: #9ca3af;
+    flex-shrink: 0;
+  }
+
+  .quote-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #374151;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    font-style: italic;
   }
-  .quote p { color: var(--asphalt); font-size: 0.975rem; margin: 0; line-height: 1.55; }
-  .quote footer {
-    border-top: 1px solid rgba(0,0,0,0.06);
-    padding-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
+
+  .context-text {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
   }
-  .quote footer strong { color: var(--forest-green); }
-  .quote footer span { color: var(--mtn-grey); font-size: 0.85rem; }
+
+  /* ── Reviews Footer ── */
+  .reviews-footer {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+
+  .aggregate {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .rating-badge {
+    background: #1b6b3a;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .review-count {
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  .ctas {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .btn:hover {
+    opacity: 0.85;
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: #1b6b3a;
+    color: #fff;
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: #1b6b3a;
+    border: 1.5px solid #1b6b3a;
+  }
+
+  /* ── Maps Embed ── */
   .maps-embed {
-    border-radius: var(--radius);
+    border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
+    margin-top: 32px;
   }
+
   .maps-embed .note {
-    background: var(--card-grey);
-    padding: 0.625rem 1rem;
+    background: #f3f4f6;
+    padding: 10px 16px;
     margin: 0;
-    font-size: 0.875rem;
-    color: var(--mtn-grey);
+    font-size: 13px;
+    color: #6b7280;
   }
+
   .maps-embed iframe {
     width: 100%;
     height: 300px;
     border: 0;
     display: block;
   }
-  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .featured-review {
+      flex-direction: column;
+      padding: 24px;
+    }
+
+    .reviews-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+    }
+  }
 </style>
