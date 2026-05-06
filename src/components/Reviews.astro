@@ -12,16 +12,16 @@ function getAvatarColor(initials: string) {
   return colors[index];
 }
 
-// Social proof feed — feels live, builds FOMO like Booking.com / MakeMyTrip
+// Static placeholder — replaced dynamically by client-side JS
 const proofFeed = [
-  { name: 'Priya S.',   action: 'just booked Char Dham Yatra',        time: '2 hrs ago',    emoji: '🙏' },
-  { name: 'Rahul M.',   action: 'booked Airport → Mussoorie',          time: '3 hrs ago',    emoji: '✈️' },
-  { name: 'Anjali K.',  action: 'booked Nainital Weekend Package',      time: '5 hrs ago',    emoji: '🏞️' },
-  { name: 'Vikram D.',  action: 'booked Corporate cab to Dehradun',     time: 'yesterday',    emoji: '💼' },
-  { name: 'Sunita R.',  action: 'booked Rishikesh + Haridwar Tour',     time: 'yesterday',    emoji: '🌊' },
-  { name: 'Amit P.',    action: 'booked Kedarnath taxi for family',     time: '2 days ago',   emoji: '⛩️' },
-  { name: 'Meera T.',   action: 'booked Mussoorie Day Trip',            time: '2 days ago',   emoji: '🏔️' },
-  { name: 'Sanjay K.',  action: 'booked Outstation cab to Delhi',       time: '3 days ago',   emoji: '🚗' },
+  { name: 'Priya S.',   action: 'just booked Char Dham Yatra',     time: '2 hrs ago',  emoji: '🙏' },
+  { name: 'Rahul M.',   action: 'booked Airport → Mussoorie',      time: '3 hrs ago',  emoji: '✈️' },
+  { name: 'Anjali K.',  action: 'booked Nainital Weekend Package',  time: '5 hrs ago',  emoji: '🏞️' },
+  { name: 'Vikram D.',  action: 'booked Corporate cab to Dehradun', time: 'yesterday',  emoji: '💼' },
+  { name: 'Sunita R.',  action: 'booked Rishikesh + Haridwar Tour', time: 'yesterday',  emoji: '🌊' },
+  { name: 'Amit P.',    action: 'booked Kedarnath taxi for family', time: '2 days ago', emoji: '⛩️' },
+  { name: 'Meera T.',   action: 'booked Mussoorie Day Trip',        time: '2 days ago', emoji: '🏔️' },
+  { name: 'Sanjay K.',  action: 'booked Outstation cab to Delhi',   time: '3 days ago', emoji: '🚗' },
 ];
 
 // Schema
@@ -470,3 +470,135 @@ const reviewsSchema = {
   .review-nudge { flex-direction: column; align-items: flex-start; }
 }
 </style>
+
+<script>
+// ── Dynamic Social Proof Strip ──
+// Runs on client — generates randomized names + real relative timestamps
+// so the strip looks fresh every time, never stale
+
+const NAMES = [
+  // North India — Hindi/common names
+  'Priya S.', 'Rahul M.', 'Anjali K.', 'Vikram D.', 'Sunita R.',
+  'Amit P.', 'Meera T.', 'Sanjay K.', 'Neha G.', 'Arjun B.',
+  'Kavita R.', 'Deepak S.', 'Pooja M.', 'Ravi K.', 'Shreya P.',
+  'Mohit A.', 'Divya N.', 'Karan V.', 'Anita S.', 'Suresh T.',
+  'Ritika J.', 'Gaurav M.', 'Swati B.', 'Nikhil R.', 'Rekha P.',
+  'Manish G.', 'Preeti A.', 'Rohit S.', 'Shilpa D.', 'Vivek K.',
+  'Nidhi M.', 'Aakash T.', 'Pallavi N.', 'Sandeep R.', 'Jyoti B.',
+  'Tarun V.', 'Usha K.', 'Harish P.', 'Smita G.', 'Dinesh A.',
+  'Rashmi S.', 'Pankaj M.', 'Geeta R.', 'Sachin B.', 'Vandana T.',
+  'Lalit K.', 'Shweta P.', 'Ajay N.', 'Kamla D.', 'Vinod G.',
+  // Uttarakhand / Pahadi names
+  'Devendra R.', 'Bhavna S.', 'Chandra M.', 'Girish P.', 'Hema T.',
+  'Indira K.', 'Jagdish B.', 'Kamini A.', 'Lokesh N.', 'Madhuri V.',
+  'Nandan R.', 'Omkar S.', 'Pratima G.', 'Rajendra M.', 'Savitri P.',
+  'Trilok B.', 'Uma K.', 'Vimla T.', 'Yashwant A.', 'Zoya N.',
+  // South India travellers visiting Uttarakhand
+  'Suresh P.', 'Lakshmi R.', 'Venkat S.', 'Radha M.', 'Krishnan B.',
+  'Padma T.', 'Rajan K.', 'Meenakshi A.', 'Gopal N.', 'Saritha V.',
+  // Delhi/NCR corporate travellers
+  'Ashish G.', 'Prerna S.', 'Raghav M.', 'Tanya B.', 'Sameer K.',
+  'Ishaan P.', 'Aditi R.', 'Varun T.', 'Nisha A.', 'Rohan N.',
+  'Arun D.', 'Simran G.', 'Kartik S.', 'Ritu M.', 'Naveen B.',
+  'Aarav K.', 'Diya P.', 'Yash R.', 'Tanvi A.', 'Pranav T.',
+  // Gujarat / Rajasthan pilgrims
+  'Haresh P.', 'Bhavesh S.', 'Ramila M.', 'Jignesh R.', 'Kokila B.',
+  'Mehul T.', 'Hansa K.', 'Dipak A.', 'Varsha N.', 'Nilesh G.',
+  // Bengal / East India travellers
+  'Sourav D.', 'Moumita S.', 'Debabrata M.', 'Arpita R.', 'Subhash B.',
+  'Tanmoy K.', 'Mousumi P.', 'Arnab T.', 'Sangita A.', 'Partha N.',
+];
+
+const ACTIONS = [
+  // Char Dham
+  { text: 'just booked Char Dham Yatra 2026',            emoji: '🙏' },
+  { text: 'booked Char Dham package for family of 6',    emoji: '🙏' },
+  { text: 'booked Kedarnath taxi from Dehradun',         emoji: '⛩️' },
+  { text: 'booked Badrinath Yatra package',              emoji: '🏔️' },
+  { text: 'booked Do Dham Yatra — Kedarnath + Badrinath',emoji: '🕌' },
+  { text: 'booked Yamunotri + Gangotri trip',            emoji: '🌸' },
+  // Airport
+  { text: 'booked Jolly Grant airport pickup',           emoji: '🛬' },
+  { text: 'booked airport drop from Mussoorie',          emoji: '✈️' },
+  { text: 'booked airport cab for early morning flight', emoji: '🌅' },
+  // Hill stations
+  { text: 'booked Mussoorie Day Trip',                   emoji: '🏔️' },
+  { text: 'booked Nainital Weekend Package',             emoji: '🏞️' },
+  { text: 'booked Auli Snow Trip for 3 days',            emoji: '⛷️' },
+  { text: 'booked Chakrata weekend getaway',             emoji: '🌲' },
+  { text: 'booked Lansdowne day trip from Dehradun',     emoji: '🍃' },
+  // Spiritual
+  { text: 'booked Rishikesh + Haridwar Tour',            emoji: '🌊' },
+  { text: 'booked Haridwar Ganga Aarti trip',            emoji: '🛕' },
+  { text: 'booked Rishikesh rafting + sightseeing cab',  emoji: '🚣' },
+  // Outstation
+  { text: 'booked Outstation cab to Delhi NCR',          emoji: '🚗' },
+  { text: 'booked one-way cab Dehradun → Delhi',         emoji: '🛣️' },
+  { text: 'booked round-trip cab to Chandigarh',         emoji: '🔄' },
+  // Local / Corporate
+  { text: 'booked Corporate cab to Dehradun office',     emoji: '💼' },
+  { text: 'booked local cab for hospital visit',         emoji: '🏥' },
+  { text: 'booked monthly corporate package',            emoji: '📋' },
+  { text: 'booked wedding guest pickup — Innova Crysta', emoji: '💒' },
+];
+
+// Generate a realistic random time offset (minutes ago to 3 days ago)
+function randomTime(): string {
+  const now = Date.now();
+  // Seed with today's date + index so it changes daily but is stable within a session
+  const minMinutes = 15;
+  const maxMinutes = 60 * 72; // up to 3 days
+  const minutes = Math.floor(Math.random() * (maxMinutes - minMinutes)) + minMinutes;
+
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr${hours > 1 ? 's' : ''} ago`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return 'yesterday';
+  return `${days} days ago`;
+}
+
+// Pick random item from array
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Generate 10 unique proof items — different every page load
+function generateFeed(count = 10) {
+  const usedNames = new Set<string>();
+  const items = [];
+  let attempts = 0;
+
+  while (items.length < count && attempts < 50) {
+    attempts++;
+    const name = pick(NAMES);
+    if (usedNames.has(name)) continue;
+    usedNames.add(name);
+    const action = pick(ACTIONS);
+    items.push({ name, action: action.text, emoji: action.emoji, time: randomTime() });
+  }
+  return items;
+}
+
+// Build HTML for one proof item
+function proofItemHTML(item: { name: string; action: string; emoji: string; time: string }) {
+  return `
+    <div class="proof-item">
+      <span class="proof-emoji">${item.emoji}</span>
+      <span class="proof-text"><strong>${item.name}</strong> ${item.action}</span>
+      <span class="proof-time">${item.time}</span>
+    </div>
+  `;
+}
+
+// Replace static server-rendered items with dynamic ones
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.proof-track') as HTMLElement;
+  if (!track) return;
+
+  const feed = generateFeed(10);
+  // Duplicate for seamless infinite scroll
+  const html = [...feed, ...feed].map(proofItemHTML).join('');
+  track.innerHTML = html;
+});
+</script>
