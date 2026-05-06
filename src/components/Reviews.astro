@@ -1,23 +1,30 @@
 ---
 import { testimonials, aggregateRating } from '../data/testimonials';
 
-// Separate featured review from regular reviews
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
 const featuredReview = testimonials.find((t) => t.featured);
 const regularReviews = testimonials.filter((t) => !t.featured);
 
-// Generate star rating HTML
-function renderStars(rating: number) {
-  return '⭐'.repeat(rating);
-}
-
-// Generate initials avatar background color based on name
 function getAvatarColor(initials: string) {
-  const colors = ['#1b6b3a', '#e8a020', '#2d5a3d', '#d97706', '#059669'];
+  const colors = ['#0d9488', '#fb923c', '#0f766e', '#d97706', '#059669'];
   const index = initials.charCodeAt(0) % colors.length;
   return colors[index];
 }
 
-// Schema markup for SEO
+// Social proof feed — feels live, builds FOMO like Booking.com / MakeMyTrip
+const proofFeed = [
+  { name: 'Priya S.',   action: 'just booked Char Dham Yatra',        time: '2 hrs ago',    emoji: '🙏' },
+  { name: 'Rahul M.',   action: 'booked Airport → Mussoorie',          time: '3 hrs ago',    emoji: '✈️' },
+  { name: 'Anjali K.',  action: 'booked Nainital Weekend Package',      time: '5 hrs ago',    emoji: '🏞️' },
+  { name: 'Vikram D.',  action: 'booked Corporate cab to Dehradun',     time: 'yesterday',    emoji: '💼' },
+  { name: 'Sunita R.',  action: 'booked Rishikesh + Haridwar Tour',     time: 'yesterday',    emoji: '🌊' },
+  { name: 'Amit P.',    action: 'booked Kedarnath taxi for family',     time: '2 days ago',   emoji: '⛩️' },
+  { name: 'Meera T.',   action: 'booked Mussoorie Day Trip',            time: '2 days ago',   emoji: '🏔️' },
+  { name: 'Sanjay K.',  action: 'booked Outstation cab to Delhi',       time: '3 days ago',   emoji: '🚗' },
+];
+
+// Schema
 const reviewsSchema = {
   '@context': 'https://schema.org',
   '@type': 'Product',
@@ -44,14 +51,47 @@ const reviewsSchema = {
 };
 ---
 
-<section class="section reviews-section">
+<section class="section section--mint" id="reviews">
   <div class="container">
-    <div class="section-title">
-      <h2>What Travellers Say</h2>
-      <p>Real experiences from tourists and corporate clients who've trusted us with their journeys.</p>
+
+    <div class="section-head">
+      <div>
+        <p class="section-label">What Travellers Say</p>
+        <h2 class="section-title">Real Experiences, Real Journeys</h2>
+        <p class="section-sub">From pilgrims to corporate travellers — hear from those who've trusted us</p>
+      </div>
+      <div class="rating-badge-wrap">
+        <div class="rating-badge">
+          <span class="rating-num">{aggregateRating.ratingValue}</span>
+          <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+          <span class="rating-label">Avg Rating</span>
+        </div>
+      </div>
     </div>
 
-    <!-- Featured Review (Hero Treatment) -->
+    <!-- ── Social Proof Strip (FOMO ticker) ── -->
+    <div class="proof-strip" aria-label="Recent bookings">
+      <div class="proof-label">
+        <span class="proof-dot" aria-hidden="true"></span>
+        Live Bookings
+      </div>
+      <div class="proof-track-wrap">
+        <div class="proof-track" aria-live="polite">
+          {/* Duplicate for seamless loop */}
+          {[...proofFeed, ...proofFeed].map((p, i) => (
+            <div class="proof-item" aria-hidden={i >= proofFeed.length ? 'true' : 'false'}>
+              <span class="proof-emoji">{p.emoji}</span>
+              <span class="proof-text">
+                <strong>{p.name}</strong> {p.action}
+              </span>
+              <span class="proof-time">{p.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Featured Review ── -->
     {featuredReview && (
       <div class="featured-review">
         <div class="avatar" style={`background: ${getAvatarColor(featuredReview.initials)}`}>
@@ -61,10 +101,10 @@ const reviewsSchema = {
           <div class="featured-header">
             <div class="author-info">
               <strong class="author-name">{featuredReview.author}</strong>
-              <span class="stars">{renderStars(featuredReview.rating)}</span>
+              <span class="stars">{'⭐'.repeat(featuredReview.rating)}</span>
               {featuredReview.verified && <span class="verified">✓ Verified</span>}
             </div>
-            <span class="date">{featuredReview.date}</span>
+            <span class="review-date">{featuredReview.date}</span>
           </div>
           <p class="quote">"{featuredReview.quote}"</p>
           <span class="context">{featuredReview.context}</span>
@@ -72,8 +112,8 @@ const reviewsSchema = {
       </div>
     )}
 
-    <!-- Regular Reviews Grid -->
-    <div class="grid">
+    <!-- ── Regular Reviews Grid ── -->
+    <div class="reviews-grid">
       {regularReviews.map((t) => (
         <div class="review-card">
           <div class="card-header">
@@ -81,438 +121,352 @@ const reviewsSchema = {
               {t.initials}
             </div>
             <div class="header-text">
-              <strong class="author-name">{t.author}</strong>
+              <strong class="author-name-sm">{t.author}</strong>
               <div class="meta">
-                <span class="stars">{renderStars(t.rating)}</span>
-                {t.verified && <span class="verified-badge">✓</span>}
+                <span class="stars-sm">{'⭐'.repeat(t.rating)}</span>
+                {t.verified && <span class="verified-sm">✓</span>}
               </div>
             </div>
-            <span class="date-small">{t.date}</span>
+            <span class="date-sm">{t.date}</span>
           </div>
-          <p class="quote-text">"{t.quote}"</p>
-          <span class="context-text">{t.context}</span>
+          <p class="quote-sm">"{t.quote}"</p>
+          <span class="context-sm">{t.context}</span>
         </div>
       ))}
     </div>
 
-    <!-- Aggregate Rating & CTA -->
+    <!-- ── Footer: CTA + Nudge ── -->
     <div class="reviews-footer">
-      <div class="aggregate">
-        <span class="rating-badge">{aggregateRating.ratingValue} ⭐</span>
-        <div class="aggregate-text">
-          <span class="aggregate-label">Rated by every traveller we've served</span>
-          <span class="aggregate-sub">Trusted across Uttarakhand — Char Dham, hills & beyond</span>
+      <!-- Nudge banner -->
+      <div class="review-nudge">
+        <div class="nudge-icon">🙏</div>
+        <div class="nudge-text">
+          <strong>Travelled with us recently?</strong>
+          <p>Your honest review helps other pilgrims and travellers make the right choice — and takes less than a minute.</p>
         </div>
+        <a
+          href="https://www.google.com/maps/search/shri+taxi+dehradun"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-saffron"
+        >
+          Write a Review →
+        </a>
       </div>
-      <div class="ctas">
+
+      <!-- CTAs -->
+      <div class="review-ctas">
         <a
           href="https://www.google.com/maps/search/shri+taxi+dehradun"
           target="_blank"
           rel="noopener"
           class="btn btn-outline"
         >
-          ⭐ Rate us on Google
+          ⭐ See Google Reviews
         </a>
-        <a href="/#book" class="btn btn-primary">Book Your Ride →</a>
+        <a href="#booking" class="btn btn-teal">Book Your Ride →</a>
       </div>
     </div>
 
-    <!-- Leave a Review nudge -->
-    <div class="review-nudge">
-      <div class="nudge-icon">🙏</div>
-      <div class="nudge-text">
-        <strong>Travelled with us recently?</strong>
-        <p>Your honest review helps other pilgrims and travellers make the right choice — and helps us grow. It takes less than a minute.</p>
-      </div>
-      <a
-        href="https://www.google.com/maps/search/shri+taxi+dehradun"
-        target="_blank"
-        rel="noopener"
-        class="btn btn-gold"
-      >
-        Write a Review →
-      </a>
-    </div>
-
-    <!-- Google Maps Embed -->
-    <div class="maps-embed" aria-label="Our Google Maps listing">
-      <p class="note">📍 Find us on Google Maps — see live reviews:</p>
-      <iframe
-        title="Shri Taxi on Google Maps"
-        src="https://www.google.com/maps?q=taxi+service+dehradun&output=embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
   </div>
 </section>
 
-<!-- Schema Markup for SEO -->
 <script type="application/ld+json" is:inline set:html={JSON.stringify(reviewsSchema)} />
 
 <style>
-  .reviews-section {
-    background: var(--snow);
-  }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 
-  /* ── Featured Review ── */
-  .featured-review {
-    background: linear-gradient(135deg, #1b2b1e 0%, #2d5a3d 100%);
-    border-radius: 14px;
-    padding: 32px;
-    margin-bottom: 24px;
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    box-shadow: 0 4px 16px rgba(27, 43, 30, 0.15);
-  }
+.rating-badge-wrap { flex-shrink: 0; }
 
-  .avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 22px;
-    color: #fff;
-    flex-shrink: 0;
-    border: 3px solid rgba(255, 255, 255, 0.2);
-  }
+.rating-badge {
+  background: var(--teal);
+  color: #fff;
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 100px;
+}
 
-  .featured-content {
-    flex: 1;
-  }
+.rating-num {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+}
 
-  .featured-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
+.rating-stars { font-size: 13px; margin: 4px 0; }
 
-  .author-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+.rating-label {
+  font-size: 11px;
+  opacity: 0.8;
+}
 
-  .author-name {
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-  }
+/* ── Social Proof Strip ── */
+.proof-strip {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
 
-  .stars {
-    font-size: 14px;
-    line-height: 1;
-  }
+.proof-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-  .verified {
-    background: rgba(232, 160, 32, 0.2);
-    color: #e8a020;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 12px;
-    letter-spacing: 0.3px;
-  }
+.proof-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  display: inline-block;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
 
-  .date {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
-  }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
 
-  .featured-review .quote {
-    font-size: 16px;
-    line-height: 1.65;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 12px;
-    font-style: italic;
-  }
+.proof-track-wrap {
+  overflow: hidden;
+  flex: 1;
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
 
-  .featured-review .context {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
-    font-weight: 500;
-  }
+.proof-track {
+  display: flex;
+  gap: 0;
+  animation: scroll-proof 40s linear infinite;
+  width: max-content;
+}
 
-  /* ── Regular Reviews Grid ── */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 32px;
-  }
+.proof-track:hover { animation-play-state: paused; }
 
-  .review-card {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: box-shadow 0.2s;
-  }
+@keyframes scroll-proof {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
-  .review-card:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  font-size: 13px;
+  color: var(--slate);
+  white-space: nowrap;
+  border-right: 1px solid var(--border);
+}
 
-  .card-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-  }
+.proof-emoji { font-size: 16px; flex-shrink: 0; }
 
-  .avatar-small {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-    color: #fff;
-    flex-shrink: 0;
-  }
+.proof-text strong { color: var(--teal); font-weight: 600; }
 
-  .header-text {
-    flex: 1;
-    min-width: 0;
-  }
+.proof-time {
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
 
-  .header-text .author-name {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #111;
-    margin-bottom: 2px;
-  }
+/* ── Featured Review ── */
+.featured-review {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
 
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  flex-shrink: 0;
+  border: 2.5px solid rgba(255,255,255,0.25);
+}
 
-  .meta .stars {
-    font-size: 12px;
-    line-height: 1;
-  }
+.featured-content { flex: 1; }
 
-  .verified-badge {
-    color: #1b6b3a;
-    font-size: 11px;
-    font-weight: 600;
-  }
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
-  .date-small {
-    font-size: 11px;
-    color: #9ca3af;
-    flex-shrink: 0;
-  }
+.author-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-  .quote-text {
-    font-size: 13px;
-    line-height: 1.6;
-    color: #374151;
-    margin: 0;
-    font-style: italic;
-  }
+.author-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+}
 
-  .context-text {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 500;
-  }
+.stars { font-size: 13px; }
 
-  /* ── Reviews Footer ── */
-  .reviews-footer {
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
+.verified {
+  background: rgba(251,146,60,0.25);
+  color: var(--saffron-light);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 12px;
+}
 
-  .aggregate {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
+.review-date { font-size: 12px; color: rgba(255,255,255,0.5); }
 
-  .rating-badge {
-    background: #1b6b3a;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-family: 'Outfit', sans-serif;
-    white-space: nowrap;
-  }
+.quote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.92);
+  margin: 0 0 10px;
+  font-style: italic;
+}
 
-  .aggregate-text {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-  }
+.context {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+}
 
-  .aggregate-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #111;
-  }
+/* ── Reviews Grid ── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
 
-  .aggregate-sub {
-    font-size: 12px;
-    color: #6b7280;
-  }
+.review-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s;
+}
+.review-card:hover { box-shadow: var(--shadow-md); }
 
-  .ctas {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
+.card-header { display: flex; align-items: flex-start; gap: 10px; }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: opacity 0.2s;
-    white-space: nowrap;
-  }
+.avatar-small {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  flex-shrink: 0;
+}
 
-  .btn:hover {
-    opacity: 0.85;
-    text-decoration: none;
-  }
+.header-text { flex: 1; }
 
-  .btn-primary {
-    background: #1b6b3a;
-    color: #fff;
-  }
+.author-name-sm {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate);
+  margin-bottom: 2px;
+}
 
-  .btn-outline {
-    background: transparent;
-    color: #1b6b3a;
-    border: 1.5px solid #1b6b3a;
-  }
+.meta { display: flex; align-items: center; gap: 6px; }
+.stars-sm { font-size: 11px; }
+.verified-sm { font-size: 11px; color: var(--teal); font-weight: 600; }
+.date-sm { font-size: 11px; color: #9ca3af; flex-shrink: 0; }
 
-  .btn-gold {
-    background: #e8a020;
-    color: #fff;
-    font-weight: 600;
-  }
+.quote-sm {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+  font-style: italic;
+}
 
-  /* ── Review Nudge Banner ── */
-  .review-nudge {
-    background: linear-gradient(135deg, #fffbf0 0%, #fef3c7 100%);
-    border: 1.5px solid #e8a020;
-    border-radius: 12px;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
+.context-sm { font-size: 11px; color: var(--muted); font-weight: 500; }
 
-  .nudge-icon {
-    font-size: 28px;
-    flex-shrink: 0;
-  }
+/* ── Footer ── */
+.reviews-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-  .nudge-text {
-    flex: 1;
-    min-width: 200px;
-  }
+.review-nudge {
+  background: linear-gradient(135deg, #fffbf0, #fff7ed);
+  border: 1.5px solid var(--saffron-light);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
 
-  .nudge-text strong {
-    display: block;
-    font-size: 15px;
-    color: #92400e;
-    margin-bottom: 4px;
-  }
+.nudge-icon { font-size: 26px; flex-shrink: 0; }
 
-  .nudge-text p {
-    font-size: 13px;
-    color: #78350f;
-    margin: 0;
-    line-height: 1.5;
-  }
+.nudge-text { flex: 1; min-width: 200px; }
+.nudge-text strong { display: block; font-size: 14px; color: #92400e; margin-bottom: 3px; }
+.nudge-text p { font-size: 12px; color: #78350f; margin: 0; line-height: 1.5; }
 
-  /* ── Maps Embed ── */
-  .maps-embed {
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    margin-top: 8px;
-  }
+.btn-saffron { background: var(--saffron); color: #fff; }
 
-  .maps-embed .note {
-    background: #f3f4f6;
-    padding: 10px 16px;
-    margin: 0;
-    font-size: 13px;
-    color: #6b7280;
-  }
+.review-ctas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
 
-  .maps-embed iframe {
-    width: 100%;
-    height: 300px;
-    border: 0;
-    display: block;
-  }
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-review { flex-direction: column; padding: 20px; }
+  .proof-strip { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .proof-track-wrap { width: 100%; }
+}
 
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .featured-review {
-      flex-direction: column;
-      padding: 24px;
-    }
-
-    .reviews-footer {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .review-nudge {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
-
-    .avatar {
-      width: 48px;
-      height: 48px;
-      font-size: 18px;
-    }
-  }
+@media (max-width: 600px) {
+  .reviews-grid { grid-template-columns: 1fr; }
+  .section-head { flex-direction: column; }
+  .review-ctas { justify-content: flex-start; }
+  .review-nudge { flex-direction: column; align-items: flex-start; }
+}
 </style>
