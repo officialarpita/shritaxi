@@ -19,16 +19,21 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': ['TaxiService', 'LocalBusiness'],
   name: 'Shri Taxi',
-  description: 'Trusted taxi service in Dehradun, Uttarakhand. Airport transfers, Char Dham Yatra, hill station tours and outstation cabs across North India.',
+  description: 'Reliable taxi service in Dehradun for airport transfers, Char Dham Yatra, Mussoorie, Rishikesh, Haridwar, Nainital and all Uttarakhand destinations. Experienced local drivers, transparent pricing, 24/7 available.',
   url: 'https://shritaxi.com',
   telephone: phone,
   priceRange: '₹₹',
   image: 'https://shritaxi.com/images/og.jpg',
   logo: 'https://shritaxi.com/images/logo.png',
+  hasMap: 'https://www.google.com/maps/search/shri+taxi+dehradun',
+  paymentAccepted: 'Cash, UPI, GPay, PhonePe, Paytm, Bank Transfer',
+  currenciesAccepted: 'INR',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Dehradun',
     addressLocality: 'Dehradun',
     addressRegion: 'Uttarakhand',
+    postalCode: '248001',
     addressCountry: 'IN',
   },
   geo: {
@@ -47,6 +52,7 @@ const localBusinessSchema = {
     telephone: phone,
     contactType: 'customer service',
     availableLanguage: ['Hindi', 'English'],
+    areaServed: 'Uttarakhand',
   },
   areaServed: [
     { '@type': 'City', name: 'Dehradun' },
@@ -54,18 +60,23 @@ const localBusinessSchema = {
     { '@type': 'City', name: 'Haridwar' },
     { '@type': 'City', name: 'Rishikesh' },
     { '@type': 'City', name: 'Nainital' },
+    { '@type': 'City', name: 'Kedarnath' },
+    { '@type': 'City', name: 'Badrinath' },
+    { '@type': 'City', name: 'Auli' },
     { '@type': 'State', name: 'Uttarakhand' },
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Cab Services',
+    name: 'Cab Services in Dehradun',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Transfer – Jolly Grant Airport' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Transfer – Jolly Grant Airport Dehradun' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Char Dham Yatra Taxi Package 2026' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Mussoorie Day Trip from Dehradun' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Outstation Cab – One Way & Round Trip' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Mussoorie' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Rishikesh' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Haridwar' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Outstation Cab Dehradun – One Way & Round Trip' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Travel Dehradun' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Hill Station Tours Uttarakhand' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tempo Traveller Dehradun' } },
     ],
   },
   sameAs: [`https://wa.me/${wa}`],
@@ -85,8 +96,8 @@ const websiteSchema = {
 ---
 
 <Base
-  title="Shri Taxi — Trusted Taxi Service in Uttarakhand | Dehradun Cab"
-  description="Book reliable taxi service in Dehradun, Uttarakhand. Airport transfers, Char Dham Yatra 2026, hill station tours & outstation cabs. Transparent pricing, verified drivers, 24/7 support."
+  title="Taxi Service in Dehradun | Cab Booking Uttarakhand | Shri Taxi"
+  description="Book taxi service in Dehradun for airport transfers, Char Dham Yatra 2026, Mussoorie, Rishikesh, Haridwar & all Uttarakhand destinations. Verified drivers, transparent pricing, 24/7 support."
   canonicalUrl="https://shritaxi.com/"
   ogImage="https://shritaxi.com/images/og.jpg"
 >
