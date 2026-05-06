@@ -1,219 +1,290 @@
 ---
-import { Image } from 'astro:assets';
-import { packages } from '../data/packages';
+const packages = [
+  {
+    id: 'char-dham',
+    name: 'Char Dham Yatra',
+    emoji: '🙏',
+    nights: '10 Nights',
+    highlight: 'Yamunotri · Gangotri · Kedarnath · Badrinath',
+    price: '₹18,000',
+    priceNote: 'onwards per cab',
+    badge: 'Most Popular',
+    badgeColor: '#fb923c',
+    href: '/char-dham-yatra',
+    img: '/images/packages/char-dham.jpg',
+  },
+  {
+    id: 'mussoorie',
+    name: 'Mussoorie Day Trip',
+    emoji: '🏔️',
+    nights: '1 Day',
+    highlight: 'Mall Road · Kempty Falls · Gun Hill',
+    price: '₹1,800',
+    priceNote: 'onwards per cab',
+    badge: 'Quick Getaway',
+    badgeColor: '#0d9488',
+    href: '/packages#mussoorie',
+    img: '/images/packages/mussoorie.jpg',
+  },
+  {
+    id: 'rishikesh',
+    name: 'Rishikesh + Haridwar',
+    emoji: '🌊',
+    nights: '1 Night',
+    highlight: 'Laxman Jhula · Ganga Aarti · Har ki Pauri',
+    price: '₹2,500',
+    priceNote: 'onwards per cab',
+    badge: 'Spiritual',
+    badgeColor: '#8b5cf6',
+    href: '/packages#rishikesh',
+    img: '/images/packages/rishikesh.jpg',
+  },
+  {
+    id: 'nainital',
+    name: 'Nainital Weekend',
+    emoji: '🏞️',
+    nights: '2 Nights',
+    highlight: 'Naini Lake · Mall Road · Snow View Point',
+    price: '₹6,500',
+    priceNote: 'onwards per cab',
+    badge: 'Family Favourite',
+    badgeColor: '#0d9488',
+    href: '/packages#nainital',
+    img: '/images/packages/nainital.jpg',
+  },
+  {
+    id: 'auli',
+    name: 'Auli Snow Trip',
+    emoji: '⛷️',
+    nights: '2 Nights',
+    highlight: 'Skiing · Ropeway · Gorson Bugyal',
+    price: '₹8,000',
+    priceNote: 'onwards per cab',
+    badge: 'Adventure',
+    badgeColor: '#3b82f6',
+    href: '/packages#auli',
+    img: '/images/packages/auli.jpg',
+  },
+];
+
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 ---
 
-<section id="packages" class="section pkg-section">
+<section class="section" id="packages">
   <div class="container">
-    <div class="section-title">
-      <h2>Tourist Packages</h2>
-      <p>Ready-made itineraries with a driver who knows every route.</p>
+    <div class="section-head">
+      <div>
+        <p class="section-label">Tourist Packages</p>
+        <h2 class="section-title">Explore Uttarakhand Your Way</h2>
+        <p class="section-sub">Curated tours with experienced hill drivers — all-inclusive cab packages</p>
+      </div>
+      <a href="/packages" class="btn btn-outline view-all">View All Packages →</a>
     </div>
 
-    <div class="grid">
-      {packages.map((p) => (
-        <a href={p.href} class="card pkg">
-          <div class="hero">
-            {p.image ? (
-              <Image
-                src={p.image}
-                alt={p.title}
-                widths={[400, 800, 1200]}
-                sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw"
+    <div class="pkg-scroll">
+      <div class="pkg-grid">
+        {packages.map(p => (
+          <div class="pkg-card">
+            <!-- Image / colour top -->
+            <div class="pkg-img-wrap">
+              <div class="pkg-emoji">{p.emoji}</div>
+              <img
+                src={p.img}
+                alt={p.name}
+                class="pkg-img"
+                loading="lazy"
+                onerror="this.style.display='none'"
               />
-            ) : (
-              <div class="img-placeholder">
-                <span>⛷️</span>
-                <p>Auli, Uttarakhand</p>
-              </div>
-            )}
-            <span class="nights-badge">
-              {p.nights === 0 ? 'Day trip' : `${p.nights}N`}
-            </span>
-          </div>
-          <div class="body">
-            <h3>{p.title}</h3>
-            <ul>
-              {p.highlights.map((h) => <li>{h}</li>)}
-            </ul>
-            <span class="cta-link">{p.ctaLabel}</span>
-          </div>
-        </a>
-      ))}
-    </div>
+              <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.badge}</span>
+              <span class="pkg-nights">{p.nights}</span>
+            </div>
 
-    <div class="view-all">
-      <a href="/packages" class="btn-view-all">View all packages →</a>
+            <!-- Body -->
+            <div class="pkg-body">
+              <h3 class="pkg-name">{p.name}</h3>
+              <p class="pkg-highlight">{p.highlight}</p>
+              <div class="pkg-price-row">
+                <div>
+                  <span class="pkg-price">{p.price}</span>
+                  <span class="pkg-price-note">{p.priceNote}</span>
+                </div>
+              </div>
+              <div class="pkg-actions">
+                <a href={p.href} class="btn btn-outline pkg-btn">View Details</a>
+                <a
+                  href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(p.name)}%20package`}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-whatsapp pkg-btn"
+                >
+                  Enquire
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .pkg-section {
-    background: var(--snow);
-  }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
 
-  /* ── Grid — 3 cols, always filled ── */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
+/* Scroll */
+.pkg-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 -20px;
+  padding: 0 20px 8px;
+}
+.pkg-scroll::-webkit-scrollbar { display: none; }
 
-  /* ── Card — entire card is a link ── */
-  .pkg {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: var(--radius-md);
-    border: 0.5px solid #e5e7eb;
-    background: var(--white);
-    text-decoration: none;
-    color: inherit;
-    transition: box-shadow 0.2s, transform 0.2s;
-  }
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  min-width: 900px;
+}
 
-  .pkg:hover {
-    box-shadow: 0 8px 24px rgba(27, 43, 30, 0.1);
-    transform: translateY(-2px);
-    text-decoration: none;
-  }
+/* Card */
+.pkg-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.pkg-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
 
-  /* ── Hero image area ── */
-  .hero {
-    aspect-ratio: 8 / 5;
-    overflow: hidden;
-    position: relative;
-    background: #e5e7eb;
-  }
+/* Top image */
+.pkg-img-wrap {
+  position: relative;
+  height: 140px;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .hero :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.3s ease;
-  }
+.pkg-emoji {
+  font-size: 48px;
+  position: absolute;
+  opacity: 0.9;
+  z-index: 1;
+}
 
-  .pkg:hover .hero :global(img) {
-    transform: scale(1.04);
-  }
+.pkg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
 
-  /* ── Auli placeholder (no image yet) ── */
-  .img-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #1b2b1e, #2d5a3d);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
+.pkg-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+}
 
-  .img-placeholder span {
-    font-size: 36px;
-  }
+.pkg-nights {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 3;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
 
-  .img-placeholder p {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
-  }
+/* Body */
+.pkg-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
 
-  /* ── Nights badge overlaid on image ── */
-  .nights-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: var(--forest-green);
-    color: var(--white);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    letter-spacing: 0.3px;
-  }
+.pkg-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.2;
+}
 
-  /* ── Card body ── */
-  .body {
-    padding: 14px 16px 16px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
+.pkg-highlight {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
 
-  h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--deep-green);
-    margin: 0 0 8px;
-  }
+.pkg-price-row {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
 
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 14px;
-    color: var(--mtn-grey);
-    font-size: 0.875rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-    flex: 1;
-  }
+.pkg-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
 
-  ul li::before {
-    content: '· ';
-    color: var(--gold);
-  }
+.pkg-price-note {
+  font-size: 11px;
+  color: var(--muted);
+  display: block;
+  margin-top: 1px;
+}
 
-  /* ── CTA ── */
-  .cta-link {
-    color: var(--forest-green);
-    font-weight: 600;
-    font-size: 13px;
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    transition: gap 0.2s;
-  }
+.pkg-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
 
-  .pkg:hover .cta-link {
-    gap: 8px;
-  }
+.pkg-btn {
+  justify-content: center;
+  padding: 9px 8px;
+  font-size: 12px;
+}
 
-  /* ── View all link ── */
-  .view-all {
-    text-align: center;
-  }
-
-  .btn-view-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--forest-green);
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    border: 1.5px solid var(--forest-green);
-    padding: 10px 24px;
-    border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .btn-view-all:hover {
-    background: var(--forest-green);
-    color: var(--white);
-    text-decoration: none;
-  }
-
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 480px) {
-    .grid { grid-template-columns: 1fr; }
-  }
+/* Responsive */
+@media (max-width: 1100px) {
+  .pkg-grid { grid-template-columns: repeat(3, 240px); }
+}
+@media (max-width: 768px) {
+  .pkg-grid { grid-template-columns: repeat(2, 220px); gap: 12px; }
+  .view-all { width: 100%; justify-content: center; }
+}
 </style>
