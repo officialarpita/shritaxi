@@ -232,10 +232,10 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    135deg,
-    rgba(13,148,136,0.88) 0%,
-    rgba(15,118,110,0.82) 60%,
-    rgba(12,102,96,0.75) 100%
+    to right,
+    rgba(0,0,0,0.55) 0%,
+    rgba(0,0,0,0.30) 55%,
+    rgba(0,0,0,0.05) 100%
   );
   z-index: 1;
 }
@@ -326,6 +326,13 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 .booking-card-header {
   background: var(--teal);
   padding: 18px 24px;
+}
+
+/* Text shadow for readability on raw photo */
+.hero-region,
+.hero-title,
+.hero-sub {
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
 }
 
 .booking-title {
