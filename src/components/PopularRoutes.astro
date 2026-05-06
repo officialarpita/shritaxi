@@ -1,91 +1,208 @@
 ---
-import { Image } from 'astro:assets';
-import { routes } from '../data/routes';
+const routes = [
+  { from: 'Dehradun', to: 'Mussoorie',  price: '₹1,499', duration: '1.5 hrs', img: '/images/routes/mussoorie.jpg',  emoji: '🏔️' },
+  { from: 'Dehradun', to: 'Haridwar',   price: '₹1,199', duration: '1 hr',    img: '/images/routes/haridwar.jpg',   emoji: '🛕' },
+  { from: 'Dehradun', to: 'Rishikesh',  price: '₹1,299', duration: '1.5 hrs', img: '/images/routes/rishikesh.jpg',  emoji: '🌊' },
+  { from: 'Dehradun', to: 'Nainital',   price: '₹3,199', duration: '5 hrs',   img: '/images/routes/nainital.jpg',   emoji: '🏞️' },
+  { from: 'Dehradun', to: 'Kedarnath',  price: '₹6,999', duration: '8 hrs',   img: '/images/routes/kedarnath.jpg',  emoji: '⛩️' },
+  { from: 'Dehradun', to: 'Badrinath',  price: '₹6,499', duration: '9 hrs',   img: '/images/routes/badrinath.jpg',  emoji: '🙏' },
+  { from: 'Jolly Grant', to: 'Dehradun', price: '₹799',  duration: '45 min',  img: '/images/routes/airport.jpg',    emoji: '✈️' },
+  { from: 'Dehradun', to: 'Delhi',      price: '₹2,999', duration: '6 hrs',   img: '/images/routes/delhi.jpg',      emoji: '🏙️' },
+];
+
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 ---
 
-<section id="routes" class="section routes-section">
+<section class="section section--mint" id="routes">
   <div class="container">
-    <div class="section-title">
-      <h2>Popular Routes</h2>
-      <p>Fixed-price cabs on the routes our travellers book most.</p>
+    <div class="section-head">
+      <div>
+        <p class="section-label">Popular Routes from Dehradun</p>
+        <h2 class="section-title">Where Do You Want to Go?</h2>
+        <p class="section-sub">Tap any route to get an instant quote on WhatsApp</p>
+      </div>
+      <a href="/popular-routes" class="btn btn-outline view-all">View All Routes →</a>
     </div>
 
-    <div class="grid">
-      {routes.map((r) => (
-        <a href="#book" class="card route">
-          <div class="thumb">
-            <Image src={r.image} alt={`${r.from} to ${r.to}`} widths={[320, 640]} sizes="(max-width: 480px) 100vw, (max-width: 900px) 50vw, 33vw" />
-          </div>
-          <div class="pair">
-            <span class="from">{r.from}</span>
-            <span class="arrow" aria-hidden="true">→</span>
-            <span class="to">{r.to}</span>
-          </div>
-          <div class="meta">
-            <span>{r.distanceKm} km</span>
-            <span>· approx. {r.approxDuration}</span>
-          </div>
-          <div class="cta-link">Get quote →</div>
-        </a>
-      ))}
+    <!-- Desktop grid / Mobile scroll -->
+    <div class="routes-scroll">
+      <div class="routes-grid">
+        {routes.map(r => (
+          <a
+            href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20from%20${encodeURIComponent(r.from)}%20to%20${encodeURIComponent(r.to)}`}
+            target="_blank"
+            rel="noopener"
+            class="route-card"
+            aria-label={`Book taxi from ${r.from} to ${r.to} starting ${r.price}`}
+          >
+            <div class="route-img-wrap">
+              <div class="route-emoji">{r.emoji}</div>
+              <img
+                src={r.img}
+                alt={`${r.from} to ${r.to}`}
+                class="route-img"
+                loading="lazy"
+                onerror="this.style.display='none'"
+              />
+            </div>
+            <div class="route-body">
+              <div class="route-names">
+                <span class="route-from">{r.from}</span>
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span class="route-to">{r.to}</span>
+              </div>
+              <div class="route-meta">
+                <span class="route-price">{r.price}</span>
+                <span class="route-dur">⏱ {r.duration}</span>
+              </div>
+              <div class="route-cta">
+                Book Now
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .routes-section { background: var(--snow); }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-  .route {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    text-decoration: none;
-    color: var(--asphalt);
-    transition: transform 120ms, box-shadow 120ms;
-    overflow: hidden;
-  }
-  .thumb {
-    aspect-ratio: 16 / 10;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    margin-bottom: 0.25rem;
-  }
-  .thumb :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .route:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-    text-decoration: none;
-  }
-  .pair {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--forest-green);
-    flex-wrap: wrap;
-  }
-  .arrow { color: var(--gold); }
-  .meta {
-    color: var(--mtn-grey);
-    font-size: 0.85rem;
-    display: flex;
-    gap: 0.35rem;
-  }
-  .cta-link {
-    color: var(--deep-green);
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
-  }
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.view-all { flex-shrink: 0; }
+
+/* Scroll container */
+.routes-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  margin: 0 -20px;
+  padding: 0 20px;
+}
+.routes-scroll::-webkit-scrollbar { display: none; }
+
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  min-width: 800px;
+}
+
+/* Card */
+.route-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+}
+.route-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+/* Image */
+.route-img-wrap {
+  position: relative;
+  height: 120px;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.route-emoji {
+  font-size: 40px;
+  position: absolute;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.route-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+/* Body */
+.route-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.route-names {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.route-from {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.route-to {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--slate);
+}
+
+.route-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.route-price {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
+
+.route-dur {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.route-cta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--saffron);
+  margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .routes-grid { grid-template-columns: repeat(3, 220px); }
+}
+
+@media (max-width: 768px) {
+  .routes-grid { grid-template-columns: repeat(2, 200px); gap: 12px; }
+  .view-all { width: 100%; justify-content: center; }
+}
 </style>
