@@ -1,82 +1,480 @@
 ---
-import BookingForm from './BookingForm.astro';
-
-const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+919999999999';
-const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '+919999999999';
-const waNumber = whatsapp.replace(/[^0-9]/g, '');
-const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would like to book a taxi.')}`;
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 ---
+<section class="hero" id="home" aria-label="Hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
 
-<section class="hero" id="book">
-  <div class="container grid">
-    <div class="copy">
-      <p class="eyebrow">DEHRADUN · UTTARAKHAND · DELHI</p>
-      <h1> Your Trusted Guide to the Himalayas </h1>
-      <p class="sub">
-        Airport pickup, Char Dham routes, Hill station travel,Local rides, Outstation cabs - with 
-        Experienced drivers, Transparent pricing, 24/7 support.
-      </p>
-      <div class="ctas">
-       <!--  <a href="#book" class="btn btn-gold">Book Taxi Now</a> -->
-        <a href={waLink} class="btn btn-ghost" target="_blank" rel="noopener">💬 WhatsApp Booking</a>
-        <a href={`tel:${phone}`} class="btn btn-ghost">📞 Call Now</a>
+  <div class="container hero-inner">
+    <!-- Left: Headline + CTAs -->
+    <div class="hero-content">
+      <p class="hero-region">Dehradun · Uttarakhand · Delhi NCR</p>
+      <h1 class="hero-title">
+        Trusted Taxi Service<br>
+        in <em>Uttarakhand</em>
+      </h1>
+      <p class="hero-sub">Your Journey, Our Responsibility</p>
+
+      <!-- Trust pills -->
+      <div class="hero-pills">
+        <span class="pill">✓ Safe &amp; Comfortable</span>
+        <span class="pill">✓ Verified Drivers</span>
+        <span class="pill">✓ On-Time Guarantee</span>
+        <span class="pill">✓ Transparent Pricing</span>
+      </div>
+
+      <!-- Primary CTAs -->
+      <div class="hero-ctas">
+        <a href={`tel:${phone}`} class="btn btn-call hero-btn">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          Call Now
+        </a>
+        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp hero-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.106.549 4.09 1.508 5.814L.057 23.25l5.561-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.49-5.191-1.352l-.371-.22-3.301.867.881-3.22-.241-.393A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          WhatsApp Booking
+        </a>
+        <a href="#booking" class="btn btn-outline-white hero-btn">
+          Book Online
+        </a>
       </div>
     </div>
 
-    <div class="form-slot">
-      <BookingForm />
+    <!-- Right: Booking Card -->
+    <div class="booking-card" id="booking">
+      <div class="booking-card-header">
+        <h2 class="booking-title">Book Your Taxi</h2>
+        <p class="booking-sub">Fast, Easy &amp; Secure Booking</p>
+      </div>
+
+      <!-- Trip type tabs -->
+      <div class="trip-tabs" role="tablist">
+        <button class="trip-tab active" data-trip="one-way" role="tab" aria-selected="true">One Way</button>
+        <button class="trip-tab" data-trip="round-trip" role="tab" aria-selected="false">Round Trip</button>
+        <button class="trip-tab" data-trip="local" role="tab" aria-selected="false">Local</button>
+        <button class="trip-tab" data-trip="airport" role="tab" aria-selected="false">Airport</button>
+      </div>
+
+      <form class="booking-form" id="booking-form" novalidate>
+        <input type="hidden" name="trip_type" id="trip_type_input" value="one-way" />
+
+        <!-- Pickup -->
+        <div class="form-group">
+          <label for="pickup" class="form-label">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+            Pickup Location
+          </label>
+          <input type="text" id="pickup" name="pickup" placeholder="e.g. Jolly Grant Airport" class="form-input" required autocomplete="off" />
+        </div>
+
+        <!-- Drop -->
+        <div class="form-group">
+          <label for="drop" class="form-label">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Drop Location
+          </label>
+          <input type="text" id="drop" name="drop" placeholder="e.g. Mussoorie" class="form-input" required autocomplete="off" />
+        </div>
+
+        <!-- Date + Time -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" id="date" name="date" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="time" class="form-label">Time</label>
+            <input type="time" id="time" name="time" class="form-input" required />
+          </div>
+        </div>
+
+        <!-- Vehicle picker -->
+        <div class="form-group">
+          <label class="form-label">Vehicle Type</label>
+          <div class="vehicle-grid">
+            <label class="vehicle-opt">
+              <input type="radio" name="vehicle" value="Hatchback" />
+              <span class="vehicle-card">
+                <span class="vehicle-icon">🚗</span>
+                <span class="vehicle-name">Hatchback</span>
+                <span class="vehicle-seats">4+1</span>
+              </span>
+            </label>
+            <label class="vehicle-opt">
+              <input type="radio" name="vehicle" value="Sedan" />
+              <span class="vehicle-card">
+                <span class="vehicle-icon">🚙</span>
+                <span class="vehicle-name">Sedan</span>
+                <span class="vehicle-seats">4+1</span>
+              </span>
+            </label>
+            <label class="vehicle-opt">
+              <input type="radio" name="vehicle" value="Innova Crysta" checked />
+              <span class="vehicle-card">
+                <span class="vehicle-icon">🚐</span>
+                <span class="vehicle-name">Innova</span>
+                <span class="vehicle-seats">6+1</span>
+              </span>
+            </label>
+            <label class="vehicle-opt">
+              <input type="radio" name="vehicle" value="Tempo Traveller" />
+              <span class="vehicle-card">
+                <span class="vehicle-icon">🚌</span>
+                <span class="vehicle-name">Tempo</span>
+                <span class="vehicle-seats">12+1</span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Name + Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Full name" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="tel" id="phone_no" name="phone" placeholder="+91 XXXXXXXXXX" class="form-input" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-teal booking-submit">
+          Book Now →
+        </button>
+        <p class="booking-secure">
+          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          100% Safe &amp; Secure Booking
+        </p>
+      </form>
     </div>
   </div>
 </section>
 
-<style>
-  .hero {
-    position: relative;
-    color: var(--white);
-    background:
-      linear-gradient(135deg, rgba(18, 53, 31, 0.85), rgba(31, 107, 44, 0.75)),
-      url('/images/hero-mountains.jpg') center/cover no-repeat,
-      var(--cta-gradient);
-    padding: clamp(3rem, 6vw, 5rem) 0 clamp(3rem, 6vw, 5rem);
+<script>
+  // Trip tabs
+  const tabs = document.querySelectorAll('.trip-tab');
+  const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+      if (tripInput) tripInput.value = tab.getAttribute('data-trip') || '';
+    });
+  });
+
+  // Set min date to today
+  const dateInput = document.getElementById('date') as HTMLInputElement;
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    dateInput.value = today;
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-  }
+  // Form submit → send to backend
+  const form = document.getElementById('booking-form') as HTMLFormElement;
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
 
-  .eyebrow {
-    color: var(--gold);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    font-size: 0.8rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .copy h1 {
-    color: var(--white);
-    margin-bottom: 1rem;
-  }
-
-  .sub {
-    font-size: 1.075rem;
-    opacity: 0.92;
-    max-width: 48ch;
-    margin-bottom: 1.5rem;
-  }
-
-  .ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-  }
-
-  @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+    const data = Object.fromEntries(new FormData(form));
+    try {
+      const res = await fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (res.ok) {
+        btn.textContent = '✓ Booking Sent!';
+        btn.style.background = 'var(--whatsapp)';
+        form.reset();
+        setTimeout(() => {
+          btn.textContent = 'Book Now →';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 4000);
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      btn.textContent = 'Failed — try WhatsApp';
+      btn.style.background = 'var(--saffron)';
+      setTimeout(() => {
+        btn.textContent = 'Book Now →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
     }
+  });
+</script>
+
+<style>
+/* ── Hero wrapper ── */
+.hero {
+  position: relative;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('/images/hero-mountains.jpg') center/cover no-repeat;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(13,148,136,0.88) 0%,
+    rgba(15,118,110,0.82) 60%,
+    rgba(12,102,96,0.75) 100%
+  );
+  z-index: 1;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 48px;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+/* ── Left content ── */
+.hero-region {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 12px;
+}
+
+.hero-title {
+  font-size: clamp(28px, 4vw, 46px);
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--saffron-light);
+}
+
+.hero-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 24px;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.pill {
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(4px);
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-btn { padding: 13px 22px; font-size: 14px; }
+
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.6);
+}
+.btn-outline-white:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #fff;
+}
+
+/* ── Booking Card ── */
+.booking-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.booking-card-header {
+  background: var(--teal);
+  padding: 18px 24px;
+}
+
+.booking-title {
+  font-size: 20px;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 2px;
+}
+
+.booking-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+}
+
+/* Trip tabs */
+.trip-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+
+.trip-tab {
+  background: none;
+  border: none;
+  padding: 11px 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 2.5px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.trip-tab.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+}
+
+.trip-tab:hover:not(.active) { color: var(--slate); }
+
+/* Form */
+.booking-form {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-input {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  background: #fafafa;
+  width: 100%;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
+  background: #fff;
+}
+
+/* Vehicle picker */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.vehicle-opt { cursor: pointer; }
+.vehicle-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 4px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fafafa;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+
+.vehicle-opt input:checked + .vehicle-card {
+  border-color: var(--teal);
+  background: rgba(13,148,136,0.06);
+}
+
+.vehicle-icon { font-size: 20px; }
+.vehicle-name { font-size: 11px; font-weight: 600; color: var(--slate); }
+.vehicle-seats { font-size: 10px; color: var(--muted); }
+
+/* Submit */
+.booking-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 14px;
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.booking-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: -6px;
+}
+
+/* ── Mobile ── */
+@media (max-width: 960px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
+  .booking-card { max-width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .hero { min-height: auto; }
+  .hero-inner { padding-top: 32px; padding-bottom: 32px; }
+  .hero-ctas { flex-direction: column; }
+  .hero-btn { width: 100%; justify-content: center; }
+  .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+}
 </style>
