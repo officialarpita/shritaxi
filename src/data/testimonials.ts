@@ -18,7 +18,7 @@ export const testimonials: Testimonial[] = [
     context: 'Char Dham — 10 days, family of 6',
     date: 'March 2025',
     verified: true,
-    featured: true,  // ← gets hero layout
+    featured: true,
   },
   {
     author: 'Rahul M.',
@@ -51,7 +51,7 @@ export const testimonials: Testimonial[] = [
 
 export const aggregateRating = {
   ratingValue: 4.9,
-  reviewCount: 340,
+  reviewCount: 8,        // actual Google review count — update as it grows
   bestRating: 5,
   worstRating: 1,
 };
