@@ -48,7 +48,7 @@ const reviewsSchema = {
   <div class="container">
     <div class="section-title">
       <h2>What Travellers Say</h2>
-      <p>Tourists and corporate clients who've trusted us with their trips.</p>
+      <p>Real experiences from tourists and corporate clients who've trusted us with their journeys.</p>
     </div>
 
     <!-- Featured Review (Hero Treatment) -->
@@ -98,8 +98,11 @@ const reviewsSchema = {
     <!-- Aggregate Rating & CTA -->
     <div class="reviews-footer">
       <div class="aggregate">
-        <span class="rating-badge">{aggregateRating.ratingValue}/5</span>
-        <span class="review-count">from {aggregateRating.reviewCount}+ verified reviews</span>
+        <span class="rating-badge">{aggregateRating.ratingValue} ⭐</span>
+        <div class="aggregate-text">
+          <span class="aggregate-label">Rated by every traveller we've served</span>
+          <span class="aggregate-sub">Trusted across Uttarakhand — Char Dham, hills & beyond</span>
+        </div>
       </div>
       <div class="ctas">
         <a
@@ -108,15 +111,32 @@ const reviewsSchema = {
           rel="noopener"
           class="btn btn-outline"
         >
-          View all Google Reviews →
+          ⭐ Rate us on Google
         </a>
         <a href="/#book" class="btn btn-primary">Book Your Ride →</a>
       </div>
     </div>
 
+    <!-- Leave a Review nudge -->
+    <div class="review-nudge">
+      <div class="nudge-icon">🙏</div>
+      <div class="nudge-text">
+        <strong>Travelled with us recently?</strong>
+        <p>Your honest review helps other pilgrims and travellers make the right choice — and helps us grow. It takes less than a minute.</p>
+      </div>
+      <a
+        href="https://www.google.com/maps/search/shri+taxi+dehradun"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-gold"
+      >
+        Write a Review →
+      </a>
+    </div>
+
     <!-- Google Maps Embed -->
     <div class="maps-embed" aria-label="Our Google Maps listing">
-      <p class="note">See live reviews on Google Maps:</p>
+      <p class="note">📍 Find us on Google Maps — see live reviews:</p>
       <iframe
         title="Shri Taxi on Google Maps"
         src="https://www.google.com/maps?q=taxi+service+dehradun&output=embed"
@@ -324,13 +344,13 @@ const reviewsSchema = {
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
   }
 
   .aggregate {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
   }
 
   .rating-badge {
@@ -341,10 +361,23 @@ const reviewsSchema = {
     padding: 8px 16px;
     border-radius: 8px;
     font-family: 'Outfit', sans-serif;
+    white-space: nowrap;
   }
 
-  .review-count {
+  .aggregate-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .aggregate-label {
     font-size: 14px;
+    font-weight: 600;
+    color: #111;
+  }
+
+  .aggregate-sub {
+    font-size: 12px;
     color: #6b7280;
   }
 
@@ -383,12 +416,55 @@ const reviewsSchema = {
     border: 1.5px solid #1b6b3a;
   }
 
+  .btn-gold {
+    background: #e8a020;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* ── Review Nudge Banner ── */
+  .review-nudge {
+    background: linear-gradient(135deg, #fffbf0 0%, #fef3c7 100%);
+    border: 1.5px solid #e8a020;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .nudge-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .nudge-text {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .nudge-text strong {
+    display: block;
+    font-size: 15px;
+    color: #92400e;
+    margin-bottom: 4px;
+  }
+
+  .nudge-text p {
+    font-size: 13px;
+    color: #78350f;
+    margin: 0;
+    line-height: 1.5;
+  }
+
   /* ── Maps Embed ── */
   .maps-embed {
     border-radius: var(--radius-md);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    margin-top: 32px;
+    margin-top: 8px;
   }
 
   .maps-embed .note {
@@ -418,6 +494,11 @@ const reviewsSchema = {
     }
 
     .reviews-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .review-nudge {
       flex-direction: column;
       align-items: flex-start;
     }
