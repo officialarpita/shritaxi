@@ -4,80 +4,105 @@ const reasons = [
     icon: '🏔️',
     title: 'Local Mountain Drivers',
     desc: 'Born and raised in Uttarakhand. Our drivers know every road, shortcut and safe route through the hills.',
+    stat: '7+ years',
+    statLabel: 'avg driver experience',
   },
   {
     icon: '💰',
     title: 'Fixed Transparent Pricing',
     desc: 'Price quoted is price paid. No hidden charges, no surge pricing, no surprises at the end of your trip.',
+    stat: '100%',
+    statLabel: 'price transparency',
   },
   {
     icon: '📞',
     title: '24/7 Support',
     desc: 'We are reachable before, during and after your trip. One number for everything — always on, always responsive.',
+    stat: '24/7',
+    statLabel: 'always reachable',
   },
+];
+
+const extras = [
+  '✓ Professional & Verified Drivers',
+  '✓ Neat, Clean & Sanitized Vehicles',
+  '✓ On-time Pickup & Drop Guarantee',
+  '✓ 1 Hour Free Cancellation Policy',
 ];
 ---
 
 <section class="section section--mint" id="why-us">
   <div class="container">
-    <div class="why-head">
+
+    <!-- Header — compact -->
+    <div class="why-header">
       <p class="section-label">Why Choose Us</p>
       <h2 class="section-title">We Make Your Journey Safe &amp; Comfortable</h2>
     </div>
 
-    <div class="why-grid">
+    <!-- DESKTOP: 3 cards side by side -->
+    <!-- MOBILE: horizontal scroll chips -->
+
+    <!-- Desktop cards -->
+    <div class="why-cards">
       {reasons.map((r, i) => (
         <div class="why-card">
-          <div class="why-icon">{r.icon}</div>
-          <div class="why-body">
-            <h3 class="why-title">{r.title}</h3>
-            <p class="why-desc">{r.desc}</p>
+          <div class="why-card-top">
+            <span class="why-icon">{r.icon}</span>
+            <span class="why-stat">
+              <strong>{r.stat}</strong>
+              <small>{r.statLabel}</small>
+            </span>
           </div>
-          <div class="why-num">0{i + 1}</div>
+          <h3 class="why-title">{r.title}</h3>
+          <p class="why-desc">{r.desc}</p>
+          <span class="why-num">0{i + 1}</span>
         </div>
       ))}
     </div>
 
-    <!-- Extra trust row -->
-    <div class="trust-extras">
-      <div class="trust-extra">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        Professional &amp; Verified Drivers
-      </div>
-      <div class="trust-extra">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        Neat, Clean &amp; Sanitized Vehicles
-      </div>
-      <div class="trust-extra">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        On-time Pickup &amp; Drop Guarantee
-      </div>
-      <div class="trust-extra">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-        1 Hour Free Cancellation Policy
-      </div>
+    <!-- Mobile chips — horizontal scroll, replaces cards -->
+    <div class="why-chips">
+      {reasons.map(r => (
+        <div class="why-chip">
+          <span class="chip-icon">{r.icon}</span>
+          <div class="chip-text">
+            <strong>{r.title}</strong>
+            <span>{r.stat}</span>
+          </div>
+        </div>
+      ))}
     </div>
+
+    <!-- Trust extras — single row -->
+    <div class="trust-row">
+      {extras.map(e => (
+        <span class="trust-item">{e}</span>
+      ))}
+    </div>
+
   </div>
 </section>
 
 <style>
-.why-head {
-  margin-bottom: 40px;
-  max-width: 520px;
+.why-header {
+  margin-bottom: 28px;
+  max-width: 560px;
 }
 
-.why-grid {
+/* ── Desktop Cards ── */
+.why-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 32px;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
 .why-card {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 28px 24px;
+  padding: 24px 20px;
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.2s, transform 0.2s;
@@ -87,67 +112,151 @@ const reasons = [
   transform: translateY(-3px);
 }
 
-.why-icon {
-  font-size: 40px;
-  margin-bottom: 16px;
-  display: block;
+.why-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.why-icon { font-size: 32px; }
+
+.why-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.why-stat strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1;
+}
+.why-stat small {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
 }
 
 .why-title {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--slate);
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-family: 'DM Sans', sans-serif;
 }
 
 .why-desc {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--muted);
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 .why-num {
   position: absolute;
-  bottom: -10px;
-  right: 16px;
-  font-size: 64px;
+  bottom: -8px;
+  right: 12px;
+  font-size: 56px;
   font-weight: 700;
   color: var(--teal);
-  opacity: 0.06;
+  opacity: 0.05;
   font-family: 'Playfair Display', serif;
   line-height: 1;
   pointer-events: none;
 }
 
-/* Extra trust row */
-.trust-extras {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+/* ── Mobile Chips (hidden on desktop) ── */
+.why-chips { display: none; }
+
+/* ── Trust row ── */
+.trust-row {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 20px 24px;
-}
-
-.trust-extra {
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.trust-item {
   font-size: 13px;
   font-weight: 500;
   color: var(--slate);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .why-grid { grid-template-columns: 1fr; gap: 14px; }
-  .trust-extras { grid-template-columns: repeat(2, 1fr); }
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  /* Hide desktop cards on mobile */
+  .why-cards { display: none; }
+
+  /* Show chips instead */
+  .why-chips {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -20px;
+    padding: 4px 20px 8px;
+    margin-bottom: 14px;
+  }
+  .why-chips::-webkit-scrollbar { display: none; }
+
+  .why-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    flex-shrink: 0;
+    min-width: 180px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .chip-icon { font-size: 28px; flex-shrink: 0; }
+
+  .chip-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .chip-text strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--slate);
+    line-height: 1.2;
+  }
+  .chip-text span {
+    font-size: 12px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+  /* Trust row wraps to 2 cols on mobile */
+  .trust-row {
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .trust-item {
+    font-size: 12px;
+    width: calc(50% - 4px);
+    white-space: normal;
+  }
+
+  .why-header { margin-bottom: 20px; }
 }
 
-@media (max-width: 500px) {
-  .trust-extras { grid-template-columns: 1fr; }
-  .why-card { padding: 20px 18px; }
+@media (max-width: 420px) {
+  .trust-item { width: 100%; }
 }
 </style>
