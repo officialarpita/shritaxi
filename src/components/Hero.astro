@@ -11,17 +11,22 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
     <div class="hero-content">
       <p class="hero-region">Dehradun · Uttarakhand · Delhi NCR</p>
       <h1 class="hero-title">
-        Trusted Taxi Service<br>
-        in <em>Uttarakhand</em>
+        Taxi Service in Dehradun<br>
+        <em>Airport, Char Dham &amp; Hill Station Cabs</em>
       </h1>
-      <p class="hero-sub">Your Journey, Our Responsibility</p>
+      <p class="hero-sub">24/7 cab booking from Dehradun to Jolly Grant Airport, Mussoorie, Rishikesh, Haridwar, Char Dham Yatra &amp; all Uttarakhand destinations</p>
+
+      <!-- SEO: crawlable service area — visually hidden but indexed by Google -->
+      <p class="seo-context">
+        Shri Taxi provides reliable and affordable taxi service in Dehradun for local travel, airport transfers, outstation trips and Char Dham Yatra packages. Book cab from Dehradun to Mussoorie, Haridwar, Rishikesh, Nainital, Kedarnath, Badrinath, Jolly Grant Airport and all Uttarakhand destinations. Experienced local hill drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer and hill station tours.
+      </p>
 
       <!-- Trust pills -->
       <div class="hero-pills">
-        <span class="pill">✓ Safe &amp; Comfortable</span>
-        <span class="pill">✓ Verified Drivers</span>
-        <span class="pill">✓ On-Time Guarantee</span>
-        <span class="pill">✓ Transparent Pricing</span>
+        <span class="pill">✓ Safe journeys</span>
+        <span class="pill">✓ Verified drivers</span>
+        <span class="pill">✓ Transparent pricing</span>
+        <span class="pill">✓ Local hill experts</span>
       </div>
 
       <!-- Primary CTAs -->
@@ -64,7 +69,7 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
             Pickup Location
           </label>
-          <input type="text" id="pickup" name="pickup" placeholder="e.g. Jolly Grant Airport" class="form-input" required autocomplete="off" />
+          <input type="text" id="pickup" name="pickup" placeholder="e.g. Jolly Grant Airport" class="form-input" required autocomplete="off" list="locations-list" />
         </div>
 
         <!-- Drop -->
@@ -73,8 +78,77 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Drop Location
           </label>
-          <input type="text" id="drop" name="drop" placeholder="e.g. Mussoorie" class="form-input" required autocomplete="off" />
+          <input type="text" id="drop" name="drop" placeholder="e.g. Mussoorie" class="form-input" required autocomplete="off" list="locations-list" />
         </div>
+
+        <!-- Shared datalist for both pickup and drop -->
+        <datalist id="locations-list">
+          <option value="Dehradun" />
+          <option value="Clock Tower, Dehradun" />
+          <option value="Rajpur Road, Dehradun" />
+          <option value="Sahastradhara, Dehradun" />
+          <option value="ISBT Dehradun" />
+          <option value="Dehradun Railway Station" />
+          <option value="Jolly Grant Airport (DED)" />
+          <option value="FRI (Forest Research Institute), Dehradun" />
+          <option value="Mindrolling Monastery, Dehradun" />
+          <option value="Robber's Cave, Dehradun" />
+          <option value="Mussoorie" />
+          <option value="Mall Road, Mussoorie" />
+          <option value="Kempty Falls" />
+          <option value="Dhanaulti" />
+          <option value="Landour" />
+          <option value="Haridwar" />
+          <option value="Har Ki Pauri, Haridwar" />
+          <option value="Haridwar Railway Station" />
+          <option value="Chandi Devi Temple" />
+          <option value="Mansa Devi Temple" />
+          <option value="Rishikesh" />
+          <option value="Laxman Jhula, Rishikesh" />
+          <option value="Ram Jhula, Rishikesh" />
+          <option value="Triveni Ghat, Rishikesh" />
+          <option value="Tapovan, Rishikesh" />
+          <option value="Shivpuri (rafting)" />
+          <option value="Yamunotri" />
+          <option value="Gangotri" />
+          <option value="Kedarnath" />
+          <option value="Sonprayag" />
+          <option value="Gaurikund" />
+          <option value="Badrinath" />
+          <option value="Joshimath" />
+          <option value="Chopta" />
+          <option value="Tungnath" />
+          <option value="Auli" />
+          <option value="Guptkashi" />
+          <option value="Uttarkashi" />
+          <option value="Chamba" />
+          <option value="Tehri" />
+          <option value="New Tehri" />
+          <option value="Pauri" />
+          <option value="Lansdowne" />
+          <option value="Kanatal" />
+          <option value="Nainital" />
+          <option value="Mall Road, Nainital" />
+          <option value="Bhimtal" />
+          <option value="Sattal" />
+          <option value="Naukuchiatal" />
+          <option value="Kausani" />
+          <option value="Ranikhet" />
+          <option value="Almora" />
+          <option value="Mukteshwar" />
+          <option value="Binsar" />
+          <option value="Jim Corbett National Park" />
+          <option value="Ramnagar" />
+          <option value="Delhi Airport (IGI)" />
+          <option value="New Delhi Railway Station" />
+          <option value="Chandigarh" />
+          <option value="Chandigarh Airport" />
+          <option value="Shimla" />
+          <option value="Manali" />
+          <option value="Agra" />
+          <option value="Jaipur" />
+          <option value="Lucknow" />
+        </datalist>
 
         <!-- Date + Time -->
         <div class="form-row">
@@ -326,6 +400,19 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 .booking-card-header {
   background: var(--teal);
   padding: 18px 24px;
+}
+
+/* SEO context — visible to Google, hidden from users */
+.seo-context {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Text shadow for readability on raw photo */

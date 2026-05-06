@@ -4,8 +4,8 @@ import { Image } from 'astro:assets';
 import CharDhamImg  from '../assets/images/CharDham1.jpeg';
 import MussoorieImg from '../assets/images/Mussori1.jpeg';
 import RishikeshImg from '../assets/images/Hrisikesh1.jpeg';
-import NainitalImg  from '../assets/images/Nainital.jpeg';
-import AuliImg      from '../assets/images/Auli_togo.jpg';
+import NainitalImg  from '../assets/images/HillStation.jpeg';
+import AuliImg      from '../assets/images/Auli1.jpg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
@@ -58,30 +58,18 @@ const packages = [
     href: '/packages#nainital',
     img: NainitalImg,
   },
-{
+  {
     id: 'auli',
     name: 'Auli Snow Trip',
     nights: '2N',
-     highlights: ['Skiing Slopes', 'Cable Car Ride', 'Gorson Bugyal', 'Nanda Devi Views'],
-     price: '₹8,000',
-     priceNote: 'onwards per cab',
-     badge: 'Adventure',
-     badgeColor: '#3b82f6',
-     href: '/packages#auli',
-     img: AuliImg,
- },
- // {
-   // id: 'auli',
-    // name: 'Auli Snow Trip',
-    // nights: '2N',
-   // highlights: ['Skiing Slopes', 'Cable Car Ride', 'Gorson Bugyal', 'Nanda Devi Views'],
-   // price: '₹8,000',
-   // priceNote: 'onwards per cab',
-   // badge: 'Adventure',
-   // badgeColor: '#3b82f6',
-   // href: '/packages#auli',
-   // img: AuliImg,
- // },
+    highlights: ['Skiing Slopes', 'Cable Car Ride', 'Gorson Bugyal', 'Nanda Devi Views'],
+    price: '₹8,000',
+    priceNote: 'onwards per cab',
+    badge: 'Adventure',
+    badgeColor: '#3b82f6',
+    href: '/packages#auli',
+    img: AuliImg,
+  },
 ];
 ---
 
@@ -90,8 +78,8 @@ const packages = [
     <div class="section-head">
       <div>
         <p class="section-label">Tourist Packages</p>
-        <h2 class="section-title">Explore Uttarakhand Your Way</h2>
-        <p class="section-sub">Ready-made itineraries with a driver who knows every route</p>
+        <h2 class="section-title">Popular Uttarakhand Tour Packages</h2>
+        <p class="section-sub">Explore Uttarakhand with curated travel packages for Char Dham Yatra, Mussoorie sightseeing, Rishikesh &amp; Haridwar tours, Nainital weekend trips and Auli snow adventures</p>
       </div>
       <a href="/packages" class="btn btn-outline view-all">View All Packages →</a>
     </div>
