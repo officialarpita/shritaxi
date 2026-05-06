@@ -4,49 +4,30 @@ import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
-import ServicesGrid from '../components/ServicesGrid.astro';
 import PopularRoutes from '../components/PopularRoutes.astro';
-import Fleet from '../components/Fleet.astro';
-import WhyChooseUs from '../components/WhyChooseUs.astro';
 import HomepagePackages from '../components/HomepagePackages.astro';
+import WhyUs from '../components/WhyUs.astro';
 import Reviews from '../components/Reviews.astro';
 import FAQ from '../components/FAQ.astro';
 import Footer from '../components/Footer.astro';
-import WhatsAppFloat from '../components/WhatsAppFloat.astro';
-
-const title = 'Shri Taxi — Reliable Taxi Service in Dehradun & Uttarakhand';
-const description =
-  'Book taxis in Dehradun for airport transfer, Char Dham yatra, Mussoorie, Haridwar, Rishikesh, Nainital, and outstation trips. Experienced hill drivers, transparent pricing, 24/7 booking support.';
-
-const orgSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'TaxiService',
-  name: 'Shri Taxi',
-  areaServed: [
-    { '@type': 'State', name: 'Uttarakhand' },
-    { '@type': 'City', name: 'Dehradun' },
-  ],
-  serviceType: ['Airport Transfer', 'Char Dham Yatra', 'Hill Station Taxi', 'Outstation Cab', 'Corporate Travel'],
-  priceRange: '₹₹',
-  url: 'https://shritaxi.com',
-};
+import StickyBar from '../components/StickyBar.astro';
 ---
-
-<Base title={title} description={description}>
+<Base
+  title="Shri Taxi — Trusted Taxi Service in Uttarakhand | Dehradun Cab"
+  description="Book reliable taxi service in Dehradun, Uttarakhand. Airport transfers, Char Dham Yatra, hill station tours & outstation cabs. Transparent pricing, verified drivers, 24/7 support."
+  canonicalUrl="https://shritaxi.com/"
+>
   <TopBar />
   <Header />
   <main>
     <Hero />
     <TrustBar />
-    <ServicesGrid />
     <PopularRoutes />
-    <Fleet />
-    <WhyChooseUs />
     <HomepagePackages />
+    <WhyUs />
     <Reviews />
     <FAQ />
   </main>
   <Footer />
-  <WhatsAppFloat />
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(orgSchema)} />
+  <StickyBar />
 </Base>
