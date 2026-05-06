@@ -1,4 +1,14 @@
 ---
+import { Image } from 'astro:assets';
+
+import CharDham  from '../assets/images/CharDham1.jpeg';
+import Mussoorie from '../assets/images/Mussori1.jpeg';
+import Rishikesh from '../assets/images/Hrisikesh1.jpeg';
+import Nainital  from '../assets/images/Nainital.jpeg';
+import HillStation from '../assets/images/HillStation.jpeg';
+
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
 const packages = [
   {
     id: 'char-dham',
@@ -11,7 +21,7 @@ const packages = [
     badge: 'Most Popular',
     badgeColor: '#fb923c',
     href: '/char-dham-yatra',
-    img: '/images/packages/char-dham.jpg',
+    img: CharDham,
   },
   {
     id: 'mussoorie',
@@ -24,7 +34,7 @@ const packages = [
     badge: 'Quick Getaway',
     badgeColor: '#0d9488',
     href: '/packages#mussoorie',
-    img: '/images/packages/mussoorie.jpg',
+    img: Mussoorie,
   },
   {
     id: 'rishikesh',
@@ -37,7 +47,7 @@ const packages = [
     badge: 'Spiritual',
     badgeColor: '#8b5cf6',
     href: '/packages#rishikesh',
-    img: '/images/packages/rishikesh.jpg',
+    img: Rishikesh,
   },
   {
     id: 'nainital',
@@ -50,7 +60,7 @@ const packages = [
     badge: 'Family Favourite',
     badgeColor: '#0d9488',
     href: '/packages#nainital',
-    img: '/images/packages/nainital.jpg',
+    img: Nainital,
   },
   {
     id: 'auli',
@@ -63,11 +73,9 @@ const packages = [
     badge: 'Adventure',
     badgeColor: '#3b82f6',
     href: '/packages#auli',
-    img: '/images/packages/auli.jpg',
+    img: HillStation,
   },
 ];
-
-const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 ---
 
 <section class="section" id="packages">
@@ -85,29 +93,27 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
       <div class="pkg-grid">
         {packages.map(p => (
           <div class="pkg-card">
-            <!-- Image / colour top -->
             <div class="pkg-img-wrap">
-              <div class="pkg-emoji">{p.emoji}</div>
-              <img
+              <Image
                 src={p.img}
                 alt={p.name}
+                width={300}
+                height={160}
                 class="pkg-img"
                 loading="lazy"
-                onerror="this.style.display='none'"
               />
+              <div class="pkg-img-overlay" aria-hidden="true"></div>
               <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.badge}</span>
               <span class="pkg-nights">{p.nights}</span>
+              <span class="pkg-emoji">{p.emoji}</span>
             </div>
 
-            <!-- Body -->
             <div class="pkg-body">
               <h3 class="pkg-name">{p.name}</h3>
               <p class="pkg-highlight">{p.highlight}</p>
               <div class="pkg-price-row">
-                <div>
-                  <span class="pkg-price">{p.price}</span>
-                  <span class="pkg-price-note">{p.priceNote}</span>
-                </div>
+                <span class="pkg-price">{p.price}</span>
+                <span class="pkg-price-note">{p.priceNote}</span>
               </div>
               <div class="pkg-actions">
                 <a href={p.href} class="btn btn-outline pkg-btn">View Details</a>
@@ -138,7 +144,6 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   gap: 16px;
 }
 
-/* Scroll */
 .pkg-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -155,7 +160,6 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   min-width: 900px;
 }
 
-/* Card */
 .pkg-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -170,51 +174,45 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   transform: translateY(-4px);
 }
 
-/* Top image */
 .pkg-img-wrap {
   position: relative;
-  height: 140px;
-  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  height: 150px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.pkg-emoji {
-  font-size: 48px;
-  position: absolute;
-  opacity: 0.9;
-  z-index: 1;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
 }
 
 .pkg-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.pkg-card:hover .pkg-img { transform: scale(1.05); }
+
+.pkg-img-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
 }
 
 .pkg-badge {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 3;
+  z-index: 2;
   color: #fff;
   font-size: 10px;
   font-weight: 600;
   padding: 3px 8px;
   border-radius: 20px;
-  letter-spacing: 0.3px;
 }
 
 .pkg-nights {
   position: absolute;
   bottom: 10px;
-  right: 10px;
-  z-index: 3;
+  left: 10px;
+  z-index: 2;
   background: rgba(0,0,0,0.55);
   color: #fff;
   font-size: 11px;
@@ -224,7 +222,21 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   backdrop-filter: blur(4px);
 }
 
-/* Body */
+.pkg-emoji {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+  font-size: 22px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .pkg-body {
   padding: 14px;
   display: flex;
@@ -258,13 +270,12 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   font-weight: 700;
   color: var(--teal);
   font-family: 'Playfair Display', serif;
+  display: block;
 }
 
 .pkg-price-note {
   font-size: 11px;
   color: var(--muted);
-  display: block;
-  margin-top: 1px;
 }
 
 .pkg-actions {
@@ -279,7 +290,6 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   font-size: 12px;
 }
 
-/* Responsive */
 @media (max-width: 1100px) {
   .pkg-grid { grid-template-columns: repeat(3, 240px); }
 }

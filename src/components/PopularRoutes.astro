@@ -1,16 +1,27 @@
 ---
-const routes = [
-  { from: 'Dehradun', to: 'Mussoorie',  price: '₹1,499', duration: '1.5 hrs', img: '/images/routes/mussoorie.jpg',  emoji: '🏔️' },
-  { from: 'Dehradun', to: 'Haridwar',   price: '₹1,199', duration: '1 hr',    img: '/images/routes/haridwar.jpg',   emoji: '🛕' },
-  { from: 'Dehradun', to: 'Rishikesh',  price: '₹1,299', duration: '1.5 hrs', img: '/images/routes/rishikesh.jpg',  emoji: '🌊' },
-  { from: 'Dehradun', to: 'Nainital',   price: '₹3,199', duration: '5 hrs',   img: '/images/routes/nainital.jpg',   emoji: '🏞️' },
-  { from: 'Dehradun', to: 'Kedarnath',  price: '₹6,999', duration: '8 hrs',   img: '/images/routes/kedarnath.jpg',  emoji: '⛩️' },
-  { from: 'Dehradun', to: 'Badrinath',  price: '₹6,499', duration: '9 hrs',   img: '/images/routes/badrinath.jpg',  emoji: '🙏' },
-  { from: 'Jolly Grant', to: 'Dehradun', price: '₹799',  duration: '45 min',  img: '/images/routes/airport.jpg',    emoji: '✈️' },
-  { from: 'Dehradun', to: 'Delhi',      price: '₹2,999', duration: '6 hrs',   img: '/images/routes/delhi.jpg',      emoji: '🏙️' },
-];
+import { Image } from 'astro:assets';
+
+import Mussoorie    from '../assets/images/Mussori1.jpeg';
+import Haridwar     from '../assets/images/Haridwar.jpeg';
+import Rishikesh    from '../assets/images/Hrisikesh1.jpeg';
+import Nainital     from '../assets/images/Nainital.jpeg';
+import Badrinath    from '../assets/images/Badrinath.jpeg';
+import Airport      from '../assets/images/airportTransfer1.jpeg';
+import HillStation  from '../assets/images/HillStation.jpeg';
+import Outstation   from '../assets/images/outstationCab.jpeg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const routes = [
+  { from: 'Dehradun',    to: 'Mussoorie',  price: '₹1,499', duration: '1.5 hrs', img: Mussoorie,   emoji: '🏔️' },
+  { from: 'Dehradun',    to: 'Haridwar',   price: '₹1,199', duration: '1 hr',    img: Haridwar,    emoji: '🛕' },
+  { from: 'Dehradun',    to: 'Rishikesh',  price: '₹1,299', duration: '1.5 hrs', img: Rishikesh,   emoji: '🌊' },
+  { from: 'Dehradun',    to: 'Nainital',   price: '₹3,199', duration: '5 hrs',   img: Nainital,    emoji: '🏞️' },
+  { from: 'Dehradun',    to: 'Badrinath',  price: '₹6,499', duration: '9 hrs',   img: Badrinath,   emoji: '🙏' },
+  { from: 'Jolly Grant', to: 'Dehradun',   price: '₹799',   duration: '45 min',  img: Airport,     emoji: '✈️' },
+  { from: 'Dehradun',    to: 'Hill Stations', price: '₹1,800', duration: 'Varies', img: HillStation, emoji: '🌿' },
+  { from: 'Dehradun',    to: 'Outstation', price: '₹2,999', duration: 'Varies',  img: Outstation,  emoji: '🚗' },
+];
 ---
 
 <section class="section section--mint" id="routes">
@@ -21,10 +32,9 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
         <h2 class="section-title">Where Do You Want to Go?</h2>
         <p class="section-sub">Tap any route to get an instant quote on WhatsApp</p>
       </div>
-      <a href="/popular-routes" class="btn btn-outline view-all">View All Routes →</a>
+      <a href="/packages" class="btn btn-outline view-all">View All Routes →</a>
     </div>
 
-    <!-- Desktop grid / Mobile scroll -->
     <div class="routes-scroll">
       <div class="routes-grid">
         {routes.map(r => (
@@ -36,14 +46,16 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
             aria-label={`Book taxi from ${r.from} to ${r.to} starting ${r.price}`}
           >
             <div class="route-img-wrap">
-              <div class="route-emoji">{r.emoji}</div>
-              <img
+              <Image
                 src={r.img}
                 alt={`${r.from} to ${r.to}`}
+                width={280}
+                height={160}
                 class="route-img"
                 loading="lazy"
-                onerror="this.style.display='none'"
               />
+              <div class="route-img-overlay" aria-hidden="true"></div>
+              <span class="route-emoji-badge">{r.emoji}</span>
             </div>
             <div class="route-body">
               <div class="route-names">
@@ -77,15 +89,12 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   gap: 16px;
 }
 
-.view-all { flex-shrink: 0; }
-
-/* Scroll container */
 .routes-scroll {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   margin: 0 -20px;
-  padding: 0 20px;
+  padding: 0 20px 8px;
 }
 .routes-scroll::-webkit-scrollbar { display: none; }
 
@@ -96,7 +105,6 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   min-width: 800px;
 }
 
-/* Card */
 .route-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -105,7 +113,6 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.2s, transform 0.2s;
-  cursor: pointer;
   text-decoration: none;
 }
 .route-card:hover {
@@ -113,34 +120,43 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   transform: translateY(-4px);
 }
 
-/* Image */
 .route-img-wrap {
   position: relative;
-  height: 120px;
-  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  height: 130px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.route-emoji {
-  font-size: 40px;
-  position: absolute;
-  opacity: 0.9;
-  z-index: 1;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
 }
 
 .route-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.route-card:hover .route-img { transform: scale(1.05); }
+
+.route-img-overlay {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%);
 }
 
-/* Body */
+.route-emoji-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
 .route-body {
   padding: 14px;
   display: flex;
@@ -156,17 +172,8 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   flex-wrap: wrap;
 }
 
-.route-from {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.route-to {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--slate);
-}
+.route-from { font-size: 11px; color: var(--muted); font-weight: 500; }
+.route-to   { font-size: 14px; font-weight: 700; color: var(--slate); }
 
 .route-meta {
   display: flex;
@@ -181,10 +188,7 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   font-family: 'Playfair Display', serif;
 }
 
-.route-dur {
-  font-size: 11px;
-  color: var(--muted);
-}
+.route-dur { font-size: 11px; color: var(--muted); }
 
 .route-cta {
   display: flex;
@@ -196,11 +200,9 @@ const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   margin-top: auto;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .routes-grid { grid-template-columns: repeat(3, 220px); }
 }
-
 @media (max-width: 768px) {
   .routes-grid { grid-template-columns: repeat(2, 200px); gap: 12px; }
   .view-all { width: 100%; justify-content: center; }
