@@ -235,7 +235,26 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 </section>
 
 <script>
-  // Trip tabs
+  // Force explicit Turnstile render on booking form
+  function renderTurnstile() {
+    // @ts-ignore
+    if (window.turnstile) {
+      const container = document.querySelector('.cf-turnstile');
+      if (container && !container.hasChildNodes()) {
+        // @ts-ignore
+        window.turnstile.render(container, {
+          // @ts-ignore
+          sitekey: container.getAttribute('data-sitekey'),
+          size: 'flexible',
+        });
+      }
+    } else {
+      // Turnstile not loaded yet — retry
+      setTimeout(renderTurnstile, 500);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', renderTurnstile);
   const tabs = document.querySelectorAll('.trip-tab');
   const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
   tabs.forEach(tab => {
