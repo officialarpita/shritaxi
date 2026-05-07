@@ -168,7 +168,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           <label class="form-label">Vehicle Type</label>
           <div class="vehicle-grid">
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Hatchback" />
+              <input type="radio" name="vehicle" value="baleno" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚗</span>
                 <span class="vehicle-name">Hatchback</span>
@@ -176,7 +176,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Sedan" />
+              <input type="radio" name="vehicle" value="sedan" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚙</span>
                 <span class="vehicle-name">Sedan</span>
@@ -184,7 +184,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Innova Crysta" checked />
+              <input type="radio" name="vehicle" value="innova" checked />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚐</span>
                 <span class="vehicle-name">Innova</span>
@@ -192,7 +192,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Tempo Traveller" />
+              <input type="radio" name="vehicle" value="traveller" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚌</span>
                 <span class="vehicle-name">Tempo</span>
@@ -235,6 +235,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 </section>
 
 <script>
+  // Pre-select vehicle if coming from fleet page
+  document.addEventListener('DOMContentLoaded', () => {
+    const selectedVehicle = sessionStorage.getItem('selectedVehicle');
+    if (selectedVehicle) {
+      const radio = document.querySelector(`input[name="vehicle"][value="${selectedVehicle}"]`) as HTMLInputElement;
+      if (radio) {
+        radio.checked = true;
+        // Scroll booking form into view smoothly
+        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      sessionStorage.removeItem('selectedVehicle');
+    }
+  });
+
   // Close popup
   const popup = document.getElementById('booking-popup');
   const closeBtn = document.getElementById('popup-close');
