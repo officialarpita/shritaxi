@@ -195,10 +195,10 @@ const vehicleSchema = {
                 </div>
                 <p class="fleet-best">{v.bestFor}</p>
                 <a
-                  href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20${encodeURIComponent(v.name)}`}
-                  target="_blank"
-                  rel="noopener"
+                  href={`/#booking?vehicle=${v.id}`}
                   class="fleet-book"
+                  data-vehicle={v.id}
+                  onclick={`event.preventDefault(); window.location.href='/#booking'; sessionStorage.setItem('selectedVehicle','${v.id}');`}
                 >
                   Book {v.segment} →
                 </a>
@@ -488,3 +488,15 @@ const vehicleSchema = {
   .cta-btns .btn { flex: 1; justify-content: center; }
 }
 </style>
+
+<script>
+  // Store selected vehicle and navigate to booking form
+  document.querySelectorAll('.fleet-book').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const vehicle = (link as HTMLElement).getAttribute('data-vehicle') || '';
+      sessionStorage.setItem('selectedVehicle', vehicle);
+      window.location.href = '/#booking';
+    });
+  });
+</script>
