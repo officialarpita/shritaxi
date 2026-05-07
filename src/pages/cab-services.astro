@@ -219,6 +219,12 @@ const vehicleSchema = {
 
             <form class="fleet-booking-form" id="fleet-booking-form" novalidate>
               <input type="hidden" name="vehicle" id="fleet-vehicle-input" />
+              <input type="hidden" name="trip_type" value="one_way" />
+              <input type="hidden" name="notes" value="Booked from fleet page" />
+              <!-- Honeypot -->
+              <label style="position:absolute;left:-9999px;width:1px;height:1px;" aria-hidden="true" tabindex="-1">
+                <input type="text" name="company" autocomplete="off" tabindex="-1" />
+              </label>
 
               <!-- Selected vehicle display -->
               <div class="selected-vehicle" id="selected-vehicle-display">
@@ -561,17 +567,18 @@ const vehicleSchema = {
 
 /* ── Fleet Inline Booking Form ── */
 .fleet-booking {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
-  opacity: 0;
-  margin-top: 0;
+  display: none;
+  margin-top: 32px;
 }
 
 .fleet-booking.open {
-  max-height: 800px;
-  opacity: 1;
-  margin-top: 32px;
+  display: block;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .fleet-booking-inner {
