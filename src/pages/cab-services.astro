@@ -1,0 +1,490 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import { Image } from 'astro:assets';
+import { fleet } from '../data/fleet';
+
+import LocalCabImg      from '../assets/images/LocalCab.jpeg';
+import AirportImg       from '../assets/images/airportTransfer1.jpeg';
+import OutstationImg    from '../assets/images/outstationCab.jpeg';
+import HillStationImg   from '../assets/images/HillStation.jpeg';
+import CharDhamImg      from '../assets/images/CharDham1.jpeg';
+import RishikeshImg     from '../assets/images/Hrisikesh1.jpeg';
+import CorporateImg     from '../assets/images/Corporate1.jpeg';
+import PackagesImg      from '../assets/images/Mussori1.jpeg';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const services = [
+  {
+    id: 'local',
+    name: 'Dehradun Local Taxi',
+    desc: 'Hourly and full-day rentals inside Dehradun — shopping, meetings, hospital visits.',
+    img: LocalCabImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20local%20cab%20in%20Dehradun`,
+  },
+  {
+    id: 'airport',
+    name: 'Airport Transfer',
+    desc: 'Jolly Grant Airport (DED) pickups and drops, 24/7 with flight tracking.',
+    img: AirportImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20an%20airport%20transfer`,
+  },
+  {
+    id: 'outstation',
+    name: 'Outstation Cab',
+    desc: 'One-way and round-trip outstation cabs across North India.',
+    img: OutstationImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20an%20outstation%20cab`,
+  },
+  {
+    id: 'hill-station',
+    name: 'Hill Station Taxi',
+    desc: 'Experienced hill drivers for Mussoorie, Dhanaulti, Chakrata, Chopta, Auli.',
+    img: HillStationImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20hill%20station%20taxi`,
+  },
+  {
+    id: 'char-dham',
+    name: 'Char Dham Yatra Taxi',
+    desc: 'Multi-day packages covering Kedarnath, Badrinath, Gangotri, Yamunotri.',
+    img: CharDhamImg,
+    href: '/char-dham-yatra',
+  },
+  {
+    id: 'rishikesh',
+    name: 'Haridwar & Rishikesh Cabs',
+    desc: 'Direct cabs to Har Ki Pauri, Laxman Jhula, rafting camps, Beatles Ashram.',
+    img: RishikeshImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20to%20Haridwar%20or%20Rishikesh`,
+  },
+  {
+    id: 'corporate',
+    name: 'Corporate Travel',
+    desc: 'Monthly billing for regular corporate pickups, site visits, staff transport.',
+    img: CorporateImg,
+    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20corporate%20travel%20services`,
+  },
+  {
+    id: 'packages',
+    name: 'Tourist Packages',
+    desc: 'Curated weekend and multi-day tour packages with driver-cum-guide.',
+    img: PackagesImg,
+    href: '/packages',
+  },
+];
+
+// JSON-LD schema for services page
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Cab Services in Dehradun — Shri Taxi',
+  description: 'Complete list of taxi and cab services offered by Shri Taxi in Dehradun, Uttarakhand',
+  itemListElement: services.map((s, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: s.name,
+    description: s.desc,
+    url: `https://shritaxi.com/cab-services#${s.id}`,
+  })),
+};
+
+const vehicleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Taxi Fleet — Shri Taxi Dehradun',
+  itemListElement: fleet.map((v, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `${v.name} — ${v.segment} Taxi Dehradun`,
+    description: v.bestFor,
+  })),
+};
+---
+
+<Base
+  title="Cab Services in Dehradun | Fleet & Taxi Services | Shri Taxi"
+  description="Shri Taxi offers complete cab services in Dehradun — airport transfers, Char Dham Yatra, hill station tours, outstation cabs, corporate travel and more. Choose from Sedan, SUV, Innova Crysta and Tempo Traveller."
+  canonicalUrl="https://shritaxi.com/cab-services"
+  ogImage="https://shritaxi.com/images/og.jpg"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(servicesSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(vehicleSchema)} slot="head" />
+
+  <TopBar />
+  <Header currentPath="/cab-services" />
+
+  <main id="main-content">
+
+    <!-- Hero Banner -->
+    <section class="services-hero">
+      <div class="container">
+        <p class="section-label">Cab Services in Dehradun</p>
+        <h1 class="hero-title">Cab Services in Dehradun<br><em>Fleet &amp; What We Offer</em></h1>
+        <p class="hero-sub">From airport drops to multi-day Char Dham tours — one number for everything. Experienced local drivers, transparent pricing, available 24/7.</p>
+        <div class="hero-ctas">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20know%20about%20your%20services`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
+          <a href="/#booking" class="btn btn-outline-white">Book Online →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Services -->
+    <section class="section" id="services">
+      <div class="container">
+        <p class="section-label">What We Offer</p>
+        <h2 class="section-title">Our Main Services</h2>
+        <p class="section-sub">From airport drops to multi-day Char Dham tours — one number for everything</p>
+
+        <div class="services-grid">
+          {services.map(s => (
+            <a href={s.href} class="service-card" id={s.id} target={s.href.startsWith('http') ? '_blank' : '_self'} rel={s.href.startsWith('http') ? 'noopener' : ''}>
+              <div class="service-img-wrap">
+                <Image
+                  src={s.img}
+                  alt={`${s.name} in Dehradun`}
+                  width={300}
+                  height={200}
+                  class="service-img"
+                  loading="lazy"
+                />
+                <div class="service-overlay" aria-hidden="true"></div>
+              </div>
+              <div class="service-body">
+                <h3 class="service-name">{s.name}</h3>
+                <p class="service-desc">{s.desc}</p>
+                <span class="service-cta">Enquire Now →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section class="section section--mint" id="fleet">
+      <div class="container">
+        <p class="section-label">Our Fleet</p>
+        <h2 class="section-title">Choose the Right Vehicle for Your Journey</h2>
+        <p class="section-sub">Our taxi fleet includes Hatchbacks, Sedans, SUVs, Innova Crysta and Tempo Travellers suitable for solo travellers, families and large groups</p>
+
+        <div class="fleet-grid">
+          {fleet.map(v => (
+            <div class="fleet-card">
+              <div class="fleet-img-wrap">
+                <Image
+                  src={v.image}
+                  alt={`${v.name} taxi in Dehradun`}
+                  width={400}
+                  height={260}
+                  class="fleet-img"
+                  loading="lazy"
+                />
+              </div>
+              <div class="fleet-body">
+                <h3 class="fleet-name">{v.name}</h3>
+                <span class="fleet-segment">{v.segment}</span>
+                <div class="fleet-specs">
+                  <span>👥 {v.seats} seats</span>
+                  <span>🧳 {v.luggage}</span>
+                </div>
+                <p class="fleet-best">{v.bestFor}</p>
+                <a
+                  href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20${encodeURIComponent(v.name)}`}
+                  target="_blank"
+                  rel="noopener"
+                  class="fleet-book"
+                >
+                  Book {v.segment} →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section services-cta">
+      <div class="container services-cta-inner">
+        <div>
+          <h2 class="cta-title">Book Your Taxi in Dehradun Today</h2>
+          <p class="cta-sub">Looking for a reliable taxi service in Dehradun? Contact Shri Taxi for airport transfers, local sightseeing, Char Dham Yatra and outstation cabs — instant confirmation.</p>
+        </div>
+        <div class="cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Booking</a>
+          <a href="/#booking" class="btn btn-teal">Get Instant Quote →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+/* ── Hero ── */
+.services-hero {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  padding: 64px 0;
+}
+
+.services-hero .section-label { color: rgba(255,255,255,0.7); }
+
+.hero-title {
+  font-size: clamp(28px, 4vw, 44px);
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', serif;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--saffron-light);
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.6);
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.btn-outline-white:hover { background: rgba(255,255,255,0.1); }
+
+/* ── Services Grid ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.service-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.service-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+}
+
+.service-img-wrap {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+}
+
+.service-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s;
+}
+.service-card:hover .service-img { transform: scale(1.06); }
+
+.service-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
+}
+
+.service-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.service-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.service-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.service-cta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--saffron);
+  margin-top: auto;
+}
+
+/* ── Fleet Grid ── */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.fleet-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.fleet-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.fleet-img-wrap {
+  background: #f8fafc;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+
+.fleet-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.fleet-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fleet-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.fleet-segment {
+  display: inline-block;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.fleet-specs {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.fleet-best {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.fleet-book {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal);
+  text-decoration: none;
+  margin-top: 4px;
+  transition: color 0.15s;
+}
+.fleet-book:hover { color: var(--teal-dark); }
+
+/* ── Final CTA ── */
+.services-cta {
+  background: var(--teal);
+}
+
+.services-cta-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.cta-title {
+  font-size: 26px;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 8px;
+}
+
+.cta-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.cta-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .services-hero { padding: 40px 0; }
+  .hero-ctas { flex-direction: column; }
+  .services-grid { grid-template-columns: 1fr; }
+  .fleet-grid { grid-template-columns: 1fr; }
+  .services-cta-inner { flex-direction: column; }
+  .cta-btns { width: 100%; }
+  .cta-btns .btn { flex: 1; justify-content: center; }
+}
+</style>
