@@ -91,6 +91,12 @@ const routes = [
       <a href="/packages" class="btn btn-outline view-all">View All Routes →</a>
     </div>
 
+    <!-- Swipe hint — mobile only -->
+    <div class="swipe-hint" id="routes-swipe-hint" aria-hidden="true">
+      <span>Swipe to see more routes</span>
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>
+
     <div class="routes-grid">
       {routes.map(r => (
         <a
@@ -150,6 +156,24 @@ const routes = [
   margin-bottom: 28px;
   flex-wrap: wrap;
   gap: 16px;
+}
+
+/* Swipe hint — mobile only */
+.swipe-hint {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  animation: fade-hint 3s ease forwards;
+}
+
+@keyframes fade-hint {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 /* Grid — 4 col desktop, scrollable on mobile */
@@ -270,7 +294,10 @@ const routes = [
 }
 
 @media (max-width: 768px) {
-  /* Horizontal scroll on mobile */
+  /* Show swipe hint on mobile */
+  .swipe-hint { display: flex; }
+
+  /* Horizontal scroll on mobile with peek effect */
   .routes-grid {
     display: flex;
     overflow-x: auto;
@@ -279,8 +306,16 @@ const routes = [
     gap: 12px;
     margin: 0 -20px;
     padding: 0 20px 8px;
+    /* Peek: fade right edge to signal more content */
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
   .routes-grid::-webkit-scrollbar { display: none; }
+  /* Remove mask when scrolled to end */
+  .routes-grid.scrolled-end {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
   .route-card {
     flex-shrink: 0;
     width: 200px;
@@ -289,3 +324,15 @@ const routes = [
   .view-all { width: 100%; justify-content: center; }
 }
 </style>
+
+<script>
+  const grid = document.querySelector('.routes-grid') as HTMLElement;
+  const hint = document.getElementById('routes-swipe-hint');
+  if (grid && hint) {
+    grid.addEventListener('scroll', () => {
+      hint.style.display = 'none';
+      const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 20;
+      grid.classList.toggle('scrolled-end', atEnd);
+    }, { passive: true });
+  }
+</script>

@@ -69,27 +69,21 @@ const reviewsSchema = {
       </div>
     </div>
 
-    <!-- ── Social Proof Strip (FOMO ticker) ── -->
-    <div class="proof-strip" aria-label="Recent bookings">
-      <div class="proof-label">
-        <span class="proof-dot" aria-hidden="true"></span>
-        Live Bookings
+    <!-- ── Social Proof Notification (Booking.com style) ── -->
+    <div class="proof-notification" id="proof-notification" aria-live="polite" aria-label="Recent booking">
+      <div class="proof-dot" aria-hidden="true"></div>
+      <span class="proof-emoji" id="proof-emoji">🙏</span>
+      <div class="proof-body">
+        <span class="proof-text" id="proof-text"><strong>Priya S.</strong> just booked Char Dham Yatra</span>
+        <span class="proof-time" id="proof-time">2 hrs ago</span>
       </div>
-      <div class="proof-track-wrap">
-        <div class="proof-track" aria-live="polite">
-          {/* Duplicate for seamless loop */}
-          {[...proofFeed, ...proofFeed].map((p, i) => (
-            <div class="proof-item" aria-hidden={i >= proofFeed.length ? 'true' : 'false'}>
-              <span class="proof-emoji">{p.emoji}</span>
-              <span class="proof-text">
-                <strong>{p.name}</strong> {p.action}
-              </span>
-              <span class="proof-time">{p.time}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <span class="proof-live">Live</span>
     </div>
+
+    <!-- SEO crawlable paragraph — visually subtle, keyword rich -->
+    <p class="proof-seo">
+      Trusted by thousands of travellers for Char Dham Yatra taxi bookings, Dehradun airport transfers, Mussoorie day trips, Rishikesh &amp; Haridwar tours and Uttarakhand hill station cab services.
+    </p>
 
     <!-- ── Featured Review ── -->
     {featuredReview && (
@@ -235,12 +229,30 @@ const reviewsSchema = {
   flex-shrink: 0;
 }
 
+/* ── Social Proof Notification ── */
+.proof-notification {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.5s ease;
+}
+
+.proof-notification.fade {
+  opacity: 0;
+}
+
 .proof-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #22c55e;
-  display: inline-block;
+  flex-shrink: 0;
   animation: pulse-dot 1.5s ease-in-out infinite;
 }
 
@@ -249,46 +261,46 @@ const reviewsSchema = {
   50%       { opacity: 0.5; transform: scale(0.8); }
 }
 
-.proof-track-wrap {
-  overflow: hidden;
+.proof-emoji { font-size: 20px; flex-shrink: 0; }
+
+.proof-body {
   flex: 1;
-  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-}
-
-.proof-track {
   display: flex;
-  gap: 0;
-  animation: scroll-proof 40s linear infinite;
-  width: max-content;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.proof-track:hover { animation-play-state: paused; }
-
-@keyframes scroll-proof {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.proof-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 24px;
+.proof-text {
   font-size: 13px;
   color: var(--slate);
-  white-space: nowrap;
-  border-right: 1px solid var(--border);
 }
-
-.proof-emoji { font-size: 16px; flex-shrink: 0; }
 
 .proof-text strong { color: var(--teal); font-weight: 600; }
 
 .proof-time {
   font-size: 11px;
   color: var(--muted);
+}
+
+.proof-live {
+  font-size: 10px;
+  font-weight: 700;
+  color: #22c55e;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 2px 8px;
+  border-radius: 20px;
   flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+/* SEO paragraph — visible but subtle */
+.proof-seo {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
 /* ── Featured Review ── */
@@ -542,14 +554,11 @@ const ACTIONS = [
   { text: 'booked wedding guest pickup — Innova Crysta', emoji: '💒' },
 ];
 
-// Generate a realistic random time offset (minutes ago to 3 days ago)
+// Generate a realistic random time offset
 function randomTime(): string {
-  const now = Date.now();
-  // Seed with today's date + index so it changes daily but is stable within a session
   const minMinutes = 15;
-  const maxMinutes = 60 * 72; // up to 3 days
+  const maxMinutes = 60 * 72;
   const minutes = Math.floor(Math.random() * (maxMinutes - minMinutes)) + minMinutes;
-
   if (minutes < 60) return `${minutes} min ago`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24) return `${hours} hr${hours > 1 ? 's' : ''} ago`;
@@ -558,18 +567,15 @@ function randomTime(): string {
   return `${days} days ago`;
 }
 
-// Pick random item from array
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// Generate 10 unique proof items — different every page load
-function generateFeed(count = 10) {
+function generateFeed(count = 20) {
   const usedNames = new Set<string>();
   const items = [];
   let attempts = 0;
-
-  while (items.length < count && attempts < 50) {
+  while (items.length < count && attempts < 100) {
     attempts++;
     const name = pick(NAMES);
     if (usedNames.has(name)) continue;
@@ -580,25 +586,38 @@ function generateFeed(count = 10) {
   return items;
 }
 
-// Build HTML for one proof item
-function proofItemHTML(item: { name: string; action: string; emoji: string; time: string }) {
-  return `
-    <div class="proof-item">
-      <span class="proof-emoji">${item.emoji}</span>
-      <span class="proof-text"><strong>${item.name}</strong> ${item.action}</span>
-      <span class="proof-time">${item.time}</span>
-    </div>
-  `;
-}
-
-// Replace static server-rendered items with dynamic ones
+// Notification rotation — Booking.com style
 document.addEventListener('DOMContentLoaded', () => {
-  const track = document.querySelector('.proof-track') as HTMLElement;
-  if (!track) return;
+  const notification = document.getElementById('proof-notification');
+  const emojiEl = document.getElementById('proof-emoji');
+  const textEl = document.getElementById('proof-text');
+  const timeEl = document.getElementById('proof-time');
 
-  const feed = generateFeed(10);
-  // Duplicate for seamless infinite scroll
-  const html = [...feed, ...feed].map(proofItemHTML).join('');
-  track.innerHTML = html;
+  if (!notification || !emojiEl || !textEl || !timeEl) return;
+
+  const feed = generateFeed(20);
+  let index = 0;
+
+  function showNext() {
+    const item = feed[index % feed.length];
+    index++;
+
+    // Fade out
+    notification.classList.add('fade');
+
+    setTimeout(() => {
+      // Update content
+      emojiEl.textContent = item.emoji;
+      textEl.innerHTML = `<strong>${item.name}</strong> ${item.action}`;
+      timeEl.textContent = item.time;
+
+      // Fade in
+      notification.classList.remove('fade');
+    }, 500);
+  }
+
+  // Show first item immediately then rotate every 5 seconds
+  showNext();
+  setInterval(showNext, 5000);
 });
 </script>

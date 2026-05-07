@@ -235,6 +235,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 </section>
 
 <script>
+  // Close popup
+  const popup = document.getElementById('booking-popup');
+  const closeBtn = document.getElementById('popup-close');
+
+  function closePopup() {
+    popup?.classList.remove('active');
+    popup?.setAttribute('aria-hidden', 'true');
+  }
+
+  closeBtn?.addEventListener('click', closePopup);
+  popup?.addEventListener('click', (e) => {
+    if (e.target === popup) closePopup();
+  });
+
   // Force explicit Turnstile render on booking form
   function renderTurnstile() {
     // @ts-ignore
@@ -312,6 +326,34 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
       if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+
+      // Show success popup with trip details
+      const popup = document.getElementById('booking-popup');
+      const details = document.getElementById('popup-details');
+      const waLink = document.getElementById('popup-wa') as HTMLAnchorElement;
+
+      if (popup && details) {
+        const pickup = (payload.pickup || '').toString();
+        const drop = (payload.drop || '').toString();
+        const date = (payload.date || '').toString();
+        const vehicle = (payload.vehicle || '').toString();
+        const name = (payload.name || '').toString();
+
+        details.innerHTML = `
+          <div>📍 <strong>${pickup}</strong> → <strong>${drop}</strong></div>
+          ${vehicle ? `<div>🚗 ${vehicle}</div>` : ''}
+          ${date ? `<div>📅 ${date}</div>` : ''}
+          ${name ? `<div>👤 ${name}</div>` : ''}
+        `;
+
+        if (waLink) {
+          const msg = `Hi Shri Taxi! My booking details:\nPickup: ${pickup}\nDrop: ${drop}\nDate: ${date}\nVehicle: ${vehicle}\nName: ${name}`;
+          waLink.href = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+        }
+
+        popup.setAttribute('aria-hidden', 'false');
+        popup.classList.add('active');
+      }
 
       btn.textContent = '✓ Booking Sent!';
       btn.style.background = 'var(--whatsapp)';
@@ -452,7 +494,81 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   padding: 18px 24px;
 }
 
-/* SEO context — visible to Google, hidden from users */
+/* ── Booking Success Popup ── */
+.booking-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.booking-popup.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px);
+  transition: transform 0.3s;
+}
+
+.booking-popup.active .popup-card {
+  transform: translateY(0);
+}
+
+.popup-icon { font-size: 48px; margin-bottom: 12px; }
+
+.popup-title {
+  font-size: 22px;
+  font-family: 'Playfair Display', serif;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+
+.popup-details {
+  background: var(--mint);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--slate);
+  text-align: left;
+  line-height: 1.8;
+}
+
+.popup-msg {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.popup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.popup-close {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* SEO context */
 .seo-context {
   position: absolute;
   width: 1px;
@@ -634,6 +750,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   .form-row { grid-template-columns: 1fr; }
 }
 </style>
+
+<!-- Booking Success Popup -->
+<div class="booking-popup" id="booking-popup" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="popup-card">
+    <div class="popup-icon">✅</div>
+    <h3 class="popup-title">Booking Received!</h3>
+    <div class="popup-details" id="popup-details"></div>
+    <p class="popup-msg">Our team will call you within <strong>15 minutes</strong> to confirm your booking and share the price.</p>
+    <div class="popup-actions">
+      <a id="popup-wa" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">
+        💬 WhatsApp Us
+      </a>
+      <button class="btn btn-outline popup-close" id="popup-close">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- Cloudflare Turnstile -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

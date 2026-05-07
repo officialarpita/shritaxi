@@ -84,6 +84,12 @@ const packages = [
       <a href="/packages" class="btn btn-outline view-all">View All Packages →</a>
     </div>
 
+    <!-- Swipe hint — mobile only -->
+    <div class="swipe-hint" id="pkg-swipe-hint" aria-hidden="true">
+      <span>Swipe to explore packages</span>
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </div>
+
     <div class="pkg-grid">
       {packages.map(p => (
         <div class="pkg-card">
@@ -305,13 +311,33 @@ const packages = [
   justify-content: center;
 }
 
+/* Swipe hint — mobile only */
+.swipe-hint {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  animation: fade-hint 3s ease forwards;
+}
+@keyframes fade-hint {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .pkg-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
-  /* Horizontal scroll on mobile */
+  /* Show swipe hint */
+  .swipe-hint { display: flex; }
+
+  /* Horizontal scroll with peek effect */
   .pkg-grid {
     display: flex;
     overflow-x: auto;
@@ -320,8 +346,14 @@ const packages = [
     gap: 12px;
     margin: 0 -20px;
     padding: 0 20px 8px;
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
   .pkg-grid::-webkit-scrollbar { display: none; }
+  .pkg-grid.scrolled-end {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
   .pkg-card {
     flex-shrink: 0;
     width: 260px;
@@ -329,3 +361,15 @@ const packages = [
   .view-all { width: 100%; justify-content: center; }
 }
 </style>
+
+<script>
+  const grid = document.querySelector('.pkg-grid') as HTMLElement;
+  const hint = document.getElementById('pkg-swipe-hint');
+  if (grid && hint) {
+    grid.addEventListener('scroll', () => {
+      hint.style.display = 'none';
+      const atEnd = grid.scrollLeft + grid.clientWidth >= grid.scrollWidth - 20;
+      grid.classList.toggle('scrolled-end', atEnd);
+    }, { passive: true });
+  }
+</script>
