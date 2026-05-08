@@ -133,14 +133,16 @@ const faqSchema = {
           <!-- Ek Dham -->
           <div class="cd-package-card" id="ek-dham">
             <div class="cd-pkg-header">
-              <div>
-                <span class="cd-pkg-tag" style="background:#fb923c">Ek Dham</span>
-                <h3 class="cd-pkg-name">{ekDham.name}</h3>
-                <p class="cd-pkg-duration">⏱ {ekDham.nights}N {ekDham.days}D · Choose any 1 Dham</p>
+              <div class="cd-pkg-header-left">
+                <div class="cd-pkg-icon">🙏</div>
+                <div>
+                  <span class="cd-pkg-tag" style="background:#fb923c">Ek Dham · {ekDham.nights}N {ekDham.days}D</span>
+                  <h3 class="cd-pkg-name">{ekDham.name}</h3>
+                  <p class="cd-pkg-duration">Choose any 1 Dham — Kedarnath, Badrinath, Yamunotri or Gangotri</p>
+                </div>
               </div>
               <div class="cd-pkg-discount-badge">10% OFF</div>
             </div>
-            <p class="cd-pkg-desc">Choose any one dham — Kedarnath, Badrinath, Yamunotri or Gangotri. Perfect for first-time pilgrims or those with limited time.</p>
             <div class="cd-highlights">
               {ekDham.highlights.map(h => <span class="cd-highlight">{h}</span>)}
             </div>
@@ -150,7 +152,7 @@ const faqSchema = {
                   <span class="cd-tier-name">
                     {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
                     {t.vehicleName}
-                    <span class="cd-tier-seats">({t.seats}+1 seats)</span>
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
                   </span>
                   <div class="cd-tier-prices">
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
@@ -167,14 +169,16 @@ const faqSchema = {
           <!-- Do Dham -->
           <div class="cd-package-card" id="do-dham">
             <div class="cd-pkg-header">
-              <div>
-                <span class="cd-pkg-tag" style="background:#fb923c">Do Dham</span>
-                <h3 class="cd-pkg-name">{doDham.name}</h3>
-                <p class="cd-pkg-duration">⏱ {doDham.nights}N {doDham.days}D · 2 Dhams covered</p>
+              <div class="cd-pkg-header-left">
+                <div class="cd-pkg-icon">🙏🙏</div>
+                <div>
+                  <span class="cd-pkg-tag" style="background:#fb923c">Do Dham · {doDham.nights}N {doDham.days}D</span>
+                  <h3 class="cd-pkg-name">{doDham.name}</h3>
+                  <p class="cd-pkg-duration">Kedarnath + Badrinath · OR Yamunotri + Gangotri</p>
+                </div>
               </div>
               <div class="cd-pkg-discount-badge">10% OFF</div>
             </div>
-            <p class="cd-pkg-desc">Cover 2 dhams in one trip — Kedarnath + Badrinath or Yamunotri + Gangotri. Most popular choice for pilgrims with moderate time.</p>
             <div class="cd-highlights">
               {doDham.highlights.map(h => <span class="cd-highlight">{h}</span>)}
             </div>
@@ -184,7 +188,7 @@ const faqSchema = {
                   <span class="cd-tier-name">
                     {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
                     {t.vehicleName}
-                    <span class="cd-tier-seats">({t.seats}+1 seats)</span>
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
                   </span>
                   <div class="cd-tier-prices">
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
@@ -202,14 +206,19 @@ const faqSchema = {
           <div class="cd-package-card cd-package-card--featured" id="char-dham">
             <div class="cd-featured-banner">⭐ Most Popular</div>
             <div class="cd-pkg-header">
-              <div>
-                <span class="cd-pkg-tag" style="background:#fb923c">Char Dham</span>
-                <h3 class="cd-pkg-name">{charDham.name}</h3>
-                <p class="cd-pkg-duration">⏱ {charDham.nights}N {charDham.days}D · All 4 Dhams</p>
+              <div class="cd-pkg-header-left">
+                <div class="cd-pkg-icon">🙏🙏🙏🙏</div>
+                <div>
+                  <span class="cd-pkg-tag" style="background:#fb923c">Char Dham · {charDham.nights}N {charDham.days}D</span>
+                  <h3 class="cd-pkg-name">{charDham.name}</h3>
+                  <p class="cd-pkg-duration">Yamunotri · Gangotri · Kedarnath · Badrinath — All 4 Dhams</p>
+                </div>
               </div>
               <div class="cd-pkg-discount-badge">10% OFF</div>
             </div>
-            <p class="cd-pkg-desc">The complete Char Dham Yatra circuit covering all four sacred shrines — Yamunotri, Gangotri, Kedarnath and Badrinath. The ultimate spiritual journey in the Himalayas.</p>
+            <div class="cd-highlights">
+              {charDham.highlights.map(h => <span class="cd-highlight">{h}</span>)}
+            </div>
             <div class="cd-itinerary">
               {charDham.itinerary?.map(day => <div class="cd-day">📍 {day}</div>)}
             </div>
@@ -219,7 +228,7 @@ const faqSchema = {
                   <span class="cd-tier-name">
                     {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
                     {t.vehicleName}
-                    <span class="cd-tier-seats">({t.seats}+1 seats)</span>
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
                   </span>
                   <div class="cd-tier-prices">
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
@@ -361,6 +370,8 @@ const faqSchema = {
 }
 
 .cd-pkg-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.cd-pkg-header-left { display: flex; align-items: flex-start; gap: 14px; }
+.cd-pkg-icon { font-size: 28px; line-height: 1; padding-top: 4px; flex-shrink: 0; }
 .cd-pkg-tag { font-size: 11px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
 .cd-pkg-name { font-size: 22px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; }
 .cd-pkg-duration { font-size: 13px; color: var(--muted); margin-top: 4px; }

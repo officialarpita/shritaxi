@@ -141,7 +141,7 @@ const schema = {
                     </div>
                     {p.tiers.map(t => (
                       <div class="pkg-pricing-row">
-                        <span class="pkg-tier-vehicle">{t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'} {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova' : 'Traveller'}</span>
+                        <span class="pkg-tier-vehicle">{t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'} {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}</span>
                         <span class="pkg-tier-mrp">{fmt(t.mrp)}</span>
                         <span class="pkg-tier-final">{fmt(t.discounted)}</span>
                         <span class="pkg-tier-save">-{fmt(t.saving)}</span>
@@ -223,7 +223,7 @@ const schema = {
                         <div class="chardham-tier">
                           <span class="chardham-tier-vehicle">
                             {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
-                            {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova' : 'Traveller'}
+                            {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
                             <span class="chardham-seats">({t.seats}+1)</span>
                           </span>
                           <div class="chardham-tier-price">
