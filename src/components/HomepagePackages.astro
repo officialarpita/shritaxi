@@ -3,39 +3,32 @@ import { Image } from 'astro:assets';
 import { tourPackages as packages } from '../data/pricing';
 
 import CharDhamImg   from '../assets/images/CharDham1.jpeg';
-import MussoorieImg  from '../assets/images/Mussori2.jpeg';
-import RishikeshImg  from '../assets/images/Hrisikesh1.jpeg';
 import NainitalImg   from '../assets/images/Nainital2.jpg';
 import AuliImg       from '../assets/images/Auli_togo.jpg';
-import KedarnathImg  from '../assets/images/CharDham2.jpeg';
-import BadrinathImg  from '../assets/images/Badrinath.jpeg';
 import NeemKaroliImg from '../assets/images/NeemKaroli.jpeg';
 import SurkandaImg   from '../assets/images/SurkandaDevi.jpeg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-// Map package id to image
-const imgMap: Record<string, ImageMetadata> = {
-  'char-dham':    CharDhamImg,
-  'mussoorie':    MussoorieImg,
-  'rishikesh':    RishikeshImg,
-  'nainital':     NainitalImg,
-  'auli':         AuliImg,
-  'kedarnath':    KedarnathImg,
-  'badrinath':    BadrinathImg,
-  'neem-karoli':  NeemKaroliImg,
-  'surkanda-devi': SurkandaImg,
-  'ek-dham':      CharDhamImg,
-  'do-dham':      CharDhamImg,
-};
-
 function fmt(n: number) {
   return '₹' + n.toLocaleString('en-IN');
 }
 
-// Show only selected packages on homepage
+// 4 individual packages
 const homePkgs = packages.filter(p =>
-  ['char-dham', 'ek-dham', 'do-dham', 'nainital', 'auli', 'kedarnath', 'neem-karoli', 'surkanda-devi'].includes(p.id)
+  ['surkanda-devi', 'neem-karoli', 'nainital', 'auli'].includes(p.id)
+);
+
+const imgMap: Record<string, ImageMetadata> = {
+  'surkanda-devi': SurkandaImg,
+  'neem-karoli':   NeemKaroliImg,
+  'nainital':      NainitalImg,
+  'auli':          AuliImg,
+};
+
+// Char Dham packages for tabbed card
+const charDhamPkgs = packages.filter(p =>
+  ['ek-dham', 'do-dham', 'char-dham'].includes(p.id)
 );
 ---
 
@@ -57,37 +50,23 @@ const homePkgs = packages.filter(p =>
     </div>
 
     <div class="pkg-grid">
+
+      <!-- 4 individual package cards -->
       {homePkgs.map(p => {
         const img = imgMap[p.id] || CharDhamImg;
-        const sedanTier = p.tiers[0]; // Sedan is always first and cheapest
+        const sedanTier = p.tiers[0];
         return (
           <div class="pkg-card">
-            <!-- Image -->
             <div class="pkg-img-wrap">
-              <Image
-                src={img}
-                alt={`${p.name} taxi package from Dehradun`}
-                width={320}
-                height={180}
-                class="pkg-img"
-                loading="lazy"
-              />
+              <Image src={img} alt={`${p.name} taxi package from Dehradun`} width={320} height={180} class="pkg-img" loading="lazy" />
               <div class="pkg-overlay" aria-hidden="true"></div>
               <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
-              <span class="pkg-nights">{p.nights}N {p.days}D</span>
-
-              <!-- Discount badge on image -->
-              <div class="pkg-discount-badge">
-                <span class="discount-pct">10% OFF</span>
-              </div>
+              <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
+              <div class="pkg-discount-badge"><span class="discount-pct">10% OFF</span></div>
             </div>
-
-            <!-- Body -->
             <div class="pkg-body">
               <h3 class="pkg-name">{p.name}</h3>
               <p class="pkg-highlights-text">{p.highlights.slice(0,3).join(' · ')}</p>
-
-              <!-- Attractive pricing UI -->
               <div class="pkg-pricing">
                 <div class="pkg-pricing-label">Starting from (Sedan)</div>
                 <div class="pkg-pricing-row">
@@ -95,36 +74,89 @@ const homePkgs = packages.filter(p =>
                     <span class="pkg-mrp">{fmt(sedanTier.mrp)}</span>
                     <span class="pkg-final">{fmt(sedanTier.discounted)}</span>
                   </div>
-                  <div class="pkg-saving-badge">
-                    Save {fmt(sedanTier.saving)}
-                  </div>
+                  <div class="pkg-saving-badge">Save {fmt(sedanTier.saving)}</div>
                 </div>
                 <div class="pkg-vehicles">
                   {p.tiers.map(t => (
                     <span class="pkg-vehicle-pill">
-                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : '🚙'}
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
                       {fmt(t.discounted)}
                     </span>
                   ))}
                 </div>
                 <p class="pkg-inclusive">✓ All inclusive · Toll & parking included</p>
               </div>
-
               <div class="pkg-actions">
                 <a href={p.href} class="btn btn-outline pkg-btn">View Details</a>
-                <a
-                  href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`}
-                  target="_blank"
-                  rel="noopener"
-                  class="btn btn-whatsapp pkg-btn"
-                >
-                  Book Now
-                </a>
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">Book Now</a>
               </div>
             </div>
           </div>
         );
       })}
+
+      <!-- 5th Card: Combined Char Dham Tabbed Card -->
+      <div class="pkg-card pkg-card--chardham">
+        <div class="pkg-img-wrap">
+          <Image src={CharDhamImg} alt="Char Dham Yatra taxi package 2026 from Dehradun" width={320} height={180} class="pkg-img" loading="lazy" />
+          <div class="pkg-overlay" aria-hidden="true"></div>
+          <span class="pkg-badge" style="background:#fb923c">Char Dham</span>
+          <div class="pkg-discount-badge"><span class="discount-pct">10% OFF</span></div>
+          <span class="pkg-season">🙏 2026 Season Open</span>
+        </div>
+
+        <div class="pkg-body">
+          <h3 class="pkg-name">Char Dham Yatra 2026</h3>
+
+          <!-- Tabs: Ek / Do / Char Dham -->
+          <div class="cd-tabs" role="tablist">
+            {charDhamPkgs.map((p, i) => (
+              <button
+                class={`cd-tab${i === 0 ? ' cd-tab--active' : ''}`}
+                role="tab"
+                data-tab={p.id}
+                aria-selected={i === 0 ? 'true' : 'false'}
+              >
+                {p.id === 'ek-dham' ? 'Ek Dham' : p.id === 'do-dham' ? 'Do Dham' : 'Char Dham'}
+                <span class="cd-tab-days">{p.days}D</span>
+              </button>
+            ))}
+          </div>
+
+          <!-- Tab panels -->
+          {charDhamPkgs.map((p, i) => {
+            const sedanTier = p.tiers[0];
+            return (
+              <div class={`cd-panel${i === 0 ? ' cd-panel--active' : ''}`} data-panel={p.id} role="tabpanel">
+                <div class="pkg-pricing">
+                  <div class="pkg-pricing-label">Starting from (Sedan) · {p.nights}N {p.days}D</div>
+                  <div class="pkg-pricing-row">
+                    <div class="pkg-price-main">
+                      <span class="pkg-mrp">{fmt(sedanTier.mrp)}</span>
+                      <span class="pkg-final">{fmt(sedanTier.discounted)}</span>
+                    </div>
+                    <div class="pkg-saving-badge">Save {fmt(sedanTier.saving)}</div>
+                  </div>
+                  <div class="pkg-vehicles">
+                    {p.tiers.map(t => (
+                      <span class="pkg-vehicle-pill">
+                        {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                        {fmt(t.discounted)}
+                      </span>
+                    ))}
+                  </div>
+                  <p class="pkg-inclusive">✓ All inclusive · Toll & parking included</p>
+                </div>
+                <div class="pkg-actions">
+                  <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
+                  <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">Book Now</a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
     </div>
 
     <div class="pkg-view-all">
@@ -134,6 +166,7 @@ const homePkgs = packages.filter(p =>
 </section>
 
 <script>
+  // Swipe hint
   const grid = document.querySelector('.pkg-grid') as HTMLElement;
   const hint = document.getElementById('pkg-swipe-hint');
   if (grid && hint) {
@@ -143,288 +176,88 @@ const homePkgs = packages.filter(p =>
       grid.classList.toggle('scrolled-end', atEnd);
     }, { passive: true });
   }
+
+  // Char Dham tabs
+  const tabs = document.querySelectorAll('.cd-tab');
+  const panels = document.querySelectorAll('.cd-panel');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = (tab as HTMLElement).dataset.tab;
+      tabs.forEach(t => { t.classList.remove('cd-tab--active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('cd-tab--active');
+      tab.setAttribute('aria-selected', 'true');
+      panels.forEach(p => p.classList.remove('cd-panel--active'));
+      document.querySelector(`[data-panel="${target}"]`)?.classList.add('cd-panel--active');
+    });
+  });
 </script>
 
 <style>
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
+.section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; flex-wrap: wrap; gap: 16px; }
 
-/* Swipe hint */
-.swipe-hint {
-  display: none;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--teal);
-  margin-bottom: 10px;
-  animation: fade-hint 3s ease forwards;
-}
-@keyframes fade-hint {
-  0%   { opacity: 1; }
-  70%  { opacity: 1; }
-  100% { opacity: 0; }
-}
+.swipe-hint { display: none; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 10px; animation: fade-hint 3s ease forwards; }
+@keyframes fade-hint { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
 
-/* Grid */
-.pkg-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
-}
+/* Grid — 5 columns desktop */
+.pkg-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 24px; }
 
 /* Card */
-.pkg-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-.pkg-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
-}
+.pkg-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
+.pkg-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+.pkg-card--chardham { border-color: var(--saffron); border-width: 2px; }
 
 /* Image */
-.pkg-img-wrap {
-  position: relative;
-  height: 160px;
-  overflow: hidden;
-  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
-}
-.pkg-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.35s;
-}
+.pkg-img-wrap { position: relative; height: 160px; overflow: hidden; }
+.pkg-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s; }
 .pkg-card:hover .pkg-img { transform: scale(1.06); }
-
-.pkg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%);
-}
-
-.pkg-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  z-index: 1;
-}
-
-.pkg-nights {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(0,0,0,0.6);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 20px;
-  backdrop-filter: blur(4px);
-  z-index: 1;
-}
-
-/* ── Discount badge on image ── */
-.pkg-discount-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 2;
-  background: #ef4444;
-  color: #fff;
-  border-radius: 50%;
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(239,68,68,0.4);
-  animation: pulse-badge 2s ease-in-out infinite;
-}
-
-@keyframes pulse-badge {
-  0%, 100% { transform: scale(1); }
-  50%       { transform: scale(1.08); }
-}
-
-.discount-pct {
-  font-size: 10px;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.2;
-}
+.pkg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 55%); }
+.pkg-badge { position: absolute; top: 10px; left: 10px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; z-index: 1; }
+.pkg-nights { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; z-index: 1; }
+.pkg-season { position: absolute; bottom: 10px; right: 10px; background: rgba(251,146,60,0.9); color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; z-index: 1; }
+.pkg-discount-badge { position: absolute; top: 10px; right: 10px; z-index: 2; background: #ef4444; color: #fff; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(239,68,68,0.4); animation: pulse-badge 2s ease-in-out infinite; }
+@keyframes pulse-badge { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.discount-pct { font-size: 10px; font-weight: 800; text-align: center; line-height: 1.2; }
 
 /* Body */
-.pkg-body {
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-}
+.pkg-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.pkg-name { font-size: 14px; font-weight: 700; color: var(--slate); line-height: 1.2; }
+.pkg-highlights-text { font-size: 11px; color: var(--muted); line-height: 1.4; }
 
-.pkg-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--slate);
-  font-family: 'DM Sans', sans-serif;
-  line-height: 1.2;
-}
+/* Char Dham Tabs */
+.cd-tabs { display: flex; gap: 4px; }
+.cd-tab { flex: 1; background: var(--mint); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 4px; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: all 0.15s; font-family: inherit; }
+.cd-tab:hover { border-color: var(--teal); color: var(--teal); }
+.cd-tab--active { background: var(--teal); border-color: var(--teal); color: #fff; }
+.cd-tab-days { font-size: 9px; opacity: 0.8; }
+.cd-panel { display: none; }
+.cd-panel--active { display: block; }
 
-.pkg-highlights-text {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.4;
-}
-
-/* ── Pricing UI ── */
-.pkg-pricing {
-  background: linear-gradient(135deg, #f0fdf9, #e6f7f4);
-  border: 1px solid rgba(13,148,136,0.2);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.pkg-pricing-label {
-  font-size: 10px;
-  color: var(--muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-
-.pkg-pricing-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.pkg-price-main {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.pkg-mrp {
-  font-size: 12px;
-  color: var(--muted);
-  text-decoration: line-through;
-}
-
-.pkg-final {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--teal);
-  font-family: 'Playfair Display', serif;
-}
-
-.pkg-saving-badge {
-  background: #22c55e;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.pkg-vehicles {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.pkg-vehicle-pill {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--slate);
-  padding: 2px 8px;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-}
-
-.pkg-inclusive {
-  font-size: 10px;
-  color: var(--teal);
-  font-weight: 500;
-  margin-top: -2px;
-}
+/* Pricing */
+.pkg-pricing { background: linear-gradient(135deg, #f0fdf9, #e6f7f4); border: 1px solid rgba(13,148,136,0.2); border-radius: var(--radius-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.pkg-pricing-label { font-size: 10px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+.pkg-pricing-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pkg-price-main { display: flex; align-items: baseline; gap: 8px; }
+.pkg-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.pkg-final { font-size: 18px; font-weight: 800; color: var(--teal); font-family: 'Playfair Display', serif; }
+.pkg-saving-badge { background: #22c55e; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+.pkg-vehicles { display: flex; gap: 4px; flex-wrap: wrap; }
+.pkg-vehicle-pill { background: var(--white); border: 1px solid var(--border); border-radius: 20px; font-size: 10px; font-weight: 600; color: var(--slate); padding: 2px 7px; }
+.pkg-inclusive { font-size: 10px; color: var(--teal); font-weight: 500; }
 
 /* Actions */
-.pkg-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: auto;
-}
+.pkg-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+.pkg-btn { justify-content: center; padding: 9px 6px; font-size: 11px; }
 
-.pkg-btn {
-  justify-content: center;
-  padding: 9px 8px;
-  font-size: 12px;
-}
-
-/* View all */
-.pkg-view-all {
-  display: flex;
-  justify-content: center;
-}
+.pkg-view-all { display: flex; justify-content: center; }
 
 /* Responsive */
-@media (max-width: 1200px) {
-  .pkg-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 900px) {
-  .pkg-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
+@media (max-width: 1400px) { .pkg-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .pkg-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
   .swipe-hint { display: flex; }
-  .pkg-grid {
-    display: flex;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    gap: 12px;
-    margin: 0 -20px;
-    padding: 0 20px 8px;
-    mask-image: linear-gradient(to right, black 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
-  }
+  .pkg-grid { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 12px; margin: 0 -20px; padding: 0 20px 8px; mask-image: linear-gradient(to right, black 85%, transparent 100%); -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%); }
   .pkg-grid::-webkit-scrollbar { display: none; }
-  .pkg-grid.scrolled-end {
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
+  .pkg-grid.scrolled-end { mask-image: none; -webkit-mask-image: none; }
   .pkg-card { flex-shrink: 0; width: 260px; }
   .view-all { width: 100%; justify-content: center; }
 }
