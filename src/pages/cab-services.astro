@@ -4,8 +4,10 @@ import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
 import { Image } from 'astro:assets';
 import { fleet } from '../data/fleet';
+import { transfers, haridwarRishikeshCombo, fmt } from '../data/pricing';
 
 import LocalCabImg      from '../assets/images/LocalCab.jpeg';
 import AirportImg       from '../assets/images/airportTransfer1.jpeg';
@@ -116,6 +118,7 @@ const vehicleSchema = {
   <script type="application/ld+json" is:inline set:html={JSON.stringify(vehicleSchema)} slot="head" />
 
   <TopBar />
+  <SeasonBanner />
   <Header currentPath="/cab-services" />
 
   <main id="main-content">
@@ -134,12 +137,12 @@ const vehicleSchema = {
       </div>
     </section>
 
-    <!-- Main Services -->
-    <section class="section" id="services">
+    <!-- Fleet Section — FIRST for conversion focus -->
+    <section class="section section--mint" id="fleet">
       <div class="container">
-        <p class="section-label">What We Offer</p>
-        <h2 class="section-title">Our Main Services</h2>
-        <p class="section-sub">From airport drops to multi-day Char Dham tours — one number for everything</p>
+        <p class="section-label">Our Fleet</p>
+        <h2 class="section-title">Choose the Right Vehicle for Your Journey</h2>
+        <p class="section-sub">Our taxi fleet includes Hatchbacks, Sedans, SUVs, Innova Crysta and Tempo Travellers suitable for solo travellers, families and large groups</p>
 
         <div class="services-grid">
           {services.map(s => (
@@ -162,6 +165,85 @@ const vehicleSchema = {
               </div>
             </a>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Popular Transfers Section -->
+    <section class="section" id="transfers">
+      <div class="container">
+        <p class="section-label">Popular Transfers</p>
+        <h2 class="section-title">Fixed Price Cab Transfers from Dehradun</h2>
+        <p class="section-sub">All prices fixed and all inclusive — no hidden charges, no surprises</p>
+
+        <div class="transfers-grid">
+          {transfers.map(t => (
+            <div class="transfer-card">
+              <div class="transfer-route">
+                <span class="transfer-from">{t.from}</span>
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span class="transfer-to">{t.to}</span>
+              </div>
+              <div class="transfer-prices">
+                <div class="transfer-price-item">
+                  <span class="transfer-price">{fmt(t.oneWay)}</span>
+                  <span class="transfer-label">One Way</span>
+                </div>
+                {t.roundTrip && (
+                  <div class="transfer-price-item">
+                    <span class="transfer-price transfer-price--rt">{fmt(t.roundTrip)}</span>
+                    <span class="transfer-label">Round Trip</span>
+                  </div>
+                )}
+              </div>
+              <div class="transfer-meta">
+                <span>⏱ {t.duration}</span>
+                <span>📍 {t.distance}</span>
+              </div>
+              <p class="transfer-note">✓ {t.note}</p>
+              <a
+                href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20from%20${encodeURIComponent(t.from)}%20to%20${encodeURIComponent(t.to)}`}
+                target="_blank"
+                rel="noopener"
+                class="btn btn-teal transfer-btn"
+              >
+                Book Now →
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <!-- Haridwar + Rishikesh Combo -->
+        <div class="combo-section">
+          <div class="combo-header">
+            <div>
+              <h3 class="combo-title">🔥 Special Combo — Haridwar + Rishikesh Same Day</h3>
+              <p class="combo-sub">Visit both spiritual cities in one comfortable day trip from Dehradun</p>
+            </div>
+          </div>
+          <div class="combo-prices">
+            <div class="combo-price-card">
+              <span class="combo-vehicle">🚗 Sedan (Dzire/Baleno)</span>
+              <span class="combo-price">{fmt(haridwarRishikeshCombo.sedan.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Sedan`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+            <div class="combo-price-card">
+              <span class="combo-vehicle">🚐 Maruti Ertiga</span>
+              <span class="combo-price">{fmt(haridwarRishikeshCombo.ertiga.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20in%20Ertiga`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+            <div class="combo-price-card">
+              <span class="combo-vehicle">🚙 Toyota Innova Crysta</span>
+              <span class="combo-price">{fmt(haridwarRishikeshCombo.innova.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20in%20Innova`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+            <div class="combo-price-card">
+              <span class="combo-vehicle">🚌 Tempo Traveller</span>
+              <span class="combo-price">{fmt(haridwarRishikeshCombo.traveller.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20in%20Tempo`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+          </div>
+          <p class="combo-note">✓ All inclusive · Har Ki Pauri + Laxman Jhula in one day</p>
         </div>
       </div>
     </section>
@@ -194,6 +276,17 @@ const vehicleSchema = {
                   <span>🧳 {v.luggage}</span>
                 </div>
                 <p class="fleet-best">{v.bestFor}</p>
+                <div class="fleet-pricing">
+                  <div class="fleet-rate">
+                    <span class="fleet-rate-value">{fmt(v.mrpPerDay)}</span>
+                    <span class="fleet-rate-label">MRP/day</span>
+                  </div>
+                  <div class="fleet-rate">
+                    <span class="fleet-rate-value fleet-rate-discounted">{fmt(v.perDay)}</span>
+                    <span class="fleet-rate-label">After 10% off</span>
+                  </div>
+                </div>
+                <p class="fleet-price-note">✓ All inclusive · Driver + fuel + toll</p>
                 <button
                   class="fleet-book"
                   data-vehicle={v.id}
@@ -514,6 +607,46 @@ const vehicleSchema = {
   line-height: 1.5;
 }
 
+.fleet-pricing {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin: 4px 0;
+}
+
+.fleet-rate {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fleet-rate-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
+
+.fleet-rate-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fleet-rate-discounted {
+  color: var(--teal) !important;
+  font-size: 18px !important;
+}
+
+.fleet-price-note {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: -4px;
+}
+
 .fleet-book {
   display: inline-flex;
   align-items: center;
@@ -663,10 +796,168 @@ const vehicleSchema = {
   margin-top: 10px;
 }
 
+/* ── Transfers Grid ── */
+.transfers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.transfer-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.transfer-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.transfer-route {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.transfer-from, .transfer-to {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--slate);
+}
+
+.transfer-prices {
+  display: flex;
+  gap: 16px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.transfer-price-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.transfer-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
+
+.transfer-price--rt {
+  color: var(--saffron);
+}
+
+.transfer-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.transfer-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.transfer-note {
+  font-size: 11px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.transfer-btn {
+  margin-top: auto;
+  justify-content: center;
+}
+
+/* ── Haridwar + Rishikesh Combo ── */
+.combo-section {
+  background: linear-gradient(135deg, #fff7ed, #fff3e0);
+  border: 2px solid var(--saffron);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.combo-header {
+  margin-bottom: 16px;
+}
+
+.combo-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+  margin-bottom: 4px;
+}
+
+.combo-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.combo-prices {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.combo-price-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.combo-vehicle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate);
+}
+
+.combo-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--saffron);
+  font-family: 'Playfair Display', serif;
+}
+
+.combo-note {
+  font-size: 12px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.btn-sm { padding: 8px 14px; font-size: 12px; }
+
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .services-grid { grid-template-columns: repeat(2, 1fr); }
   .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+  .transfers-grid { grid-template-columns: repeat(2, 1fr); }
+  .combo-prices { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
@@ -674,6 +965,8 @@ const vehicleSchema = {
   .hero-ctas { flex-direction: column; }
   .services-grid { grid-template-columns: 1fr; }
   .fleet-grid { grid-template-columns: 1fr; }
+  .transfers-grid { grid-template-columns: 1fr; }
+  .combo-prices { grid-template-columns: 1fr 1fr; }
   .services-cta-inner { flex-direction: column; }
   .cta-btns { width: 100%; }
   .cta-btns .btn { flex: 1; justify-content: center; }

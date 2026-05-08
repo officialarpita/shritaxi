@@ -1,0 +1,481 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import { Image } from 'astro:assets';
+import { fleet } from '../data/fleet';
+import { fmt } from '../data/pricing';
+
+import MussoorieImg from '../assets/images/Mussori1.jpeg';
+import Mussori2Img  from '../assets/images/Mussori2.jpeg';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const route = {
+  from: 'Dehradun',
+  to: 'Mussoorie',
+  distance: '35 km',
+  duration: '1 hr 30 min',
+  oneWay: 1500,
+  roundTrip: 3500,
+};
+
+const faqs = [
+  { q: 'What is the taxi fare from Dehradun to Mussoorie?', a: 'The one-way taxi fare from Dehradun to Mussoorie starts at ₹1,500 for a Sedan. Round trip is ₹3,500. All prices are fixed and inclusive of toll and parking.' },
+  { q: 'How long does it take to reach Mussoorie from Dehradun?', a: 'It takes approximately 1.5 hours to reach Mussoorie from Dehradun. The distance is 35 km via Mussoorie Road.' },
+  { q: 'Which is the best vehicle for Dehradun to Mussoorie?', a: 'For couples or small families, a Sedan is ideal. For larger families, Ertiga or Innova Crysta is recommended as they handle hill roads more comfortably.' },
+  { q: 'Is the Mussoorie road safe for travel?', a: 'Yes, Mussoorie Road is well-maintained and safe. Our drivers are experienced locals who know every turn on the hill route.' },
+  { q: 'Can I book a round trip taxi to Mussoorie?', a: 'Yes! Round trip from Dehradun to Mussoorie and back is available at ₹3,500 all inclusive.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TaxiService',
+  name: 'Shri Taxi — Dehradun to Mussoorie',
+  description: 'Fixed price taxi from Dehradun to Mussoorie starting ₹1,500. All inclusive, experienced hill drivers.',
+  url: 'https://shritaxi.com/dehradun-to-mussoorie-taxi',
+  telephone: phone,
+  areaServed: [{ '@type': 'City', name: 'Dehradun' }, { '@type': 'City', name: 'Mussoorie' }],
+  offers: {
+    '@type': 'Offer',
+    name: 'Dehradun to Mussoorie Taxi',
+    price: '1500',
+    priceCurrency: 'INR',
+    description: 'One way taxi from Dehradun to Mussoorie — fixed price, all inclusive',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base
+  title="Dehradun to Mussoorie Taxi | ₹1,500 Fixed Fare | Shri Taxi"
+  description="Book reliable taxi from Dehradun to Mussoorie at ₹1,500 one way or ₹3,500 round trip. Fixed price, all inclusive, experienced hill drivers. 24/7 available."
+  canonicalUrl="https://shritaxi.com/dehradun-to-mussoorie-taxi"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/dehradun-to-mussoorie-taxi" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="loc-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a> › <a href="/cab-services">Cab Services</a> › <span>Dehradun to Mussoorie Taxi</span>
+        </nav>
+        <h1 class="loc-title">Taxi from Dehradun to Mussoorie</h1>
+        <p class="loc-sub">Fixed price · All inclusive · Experienced hill drivers · 24/7 available</p>
+
+        <!-- Price cards -->
+        <div class="price-cards">
+          <div class="price-card price-card--primary">
+            <div class="price-card-label">One Way</div>
+            <div class="price-card-amount">₹1,500</div>
+            <div class="price-card-note">Starting price · Sedan</div>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20one%20way%20taxi%20from%20Dehradun%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-whatsapp">Book Now</a>
+          </div>
+          <div class="price-card">
+            <div class="price-card-label">Round Trip</div>
+            <div class="price-card-amount">₹3,500</div>
+            <div class="price-card-note">Starting price · Sedan</div>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20round%20trip%20taxi%20Dehradun%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-teal">Book Now</a>
+          </div>
+          <div class="price-card price-card--info">
+            <div class="price-card-label">Route Info</div>
+            <div class="route-info-grid">
+              <div><strong>35 km</strong><span>Distance</span></div>
+              <div><strong>1.5 hrs</strong><span>Duration</span></div>
+              <div><strong>24/7</strong><span>Available</span></div>
+              <div><strong>All incl.</strong><span>No extras</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fleet pricing -->
+    <section class="section">
+      <div class="container">
+        <p class="section-label">Choose Your Vehicle</p>
+        <h2 class="section-title">Dehradun to Mussoorie Taxi Fare by Vehicle</h2>
+        <p class="section-sub">All prices are fixed and inclusive of toll, parking and driver charges</p>
+
+        <div class="fleet-table">
+          <div class="fleet-table-head">
+            <span>Vehicle</span>
+            <span>Seats</span>
+            <span>One Way</span>
+            <span>Round Trip</span>
+            <span>Book</span>
+          </div>
+          {fleet.map(v => (
+            <div class="fleet-table-row">
+              <div class="fleet-vehicle-info">
+                <span class="fleet-icon">{v.icon}</span>
+                <div>
+                  <strong>{v.name}</strong>
+                  <span class="fleet-segment">{v.segment}</span>
+                </div>
+              </div>
+              <span>{v.seats}+1</span>
+              <span class="fleet-price">₹{v.id === 'sedan' ? '1,500' : v.id === 'ertiga' ? '1,800' : v.id === 'innova' ? '2,200' : '3,500'}*</span>
+              <span class="fleet-price">₹{v.id === 'sedan' ? '3,500' : v.id === 'ertiga' ? '4,200' : v.id === 'innova' ? '5,200' : '8,000'}*</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20${encodeURIComponent(v.name)}%20from%20Dehradun%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+          ))}
+          <p class="fleet-table-note">* Starting prices · All inclusive · Prices may vary by date</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About route -->
+    <section class="section section--mint">
+      <div class="container loc-content">
+        <div class="loc-text">
+          <h2>Dehradun to Mussoorie — Everything You Need to Know</h2>
+          <p>Mussoorie, known as the "Queen of Hills", is one of the most popular hill stations in Uttarakhand. Located just 35 km from Dehradun at an altitude of 2,005 metres, Mussoorie offers breathtaking views of the Himalayas, colonial architecture and pleasant weather throughout most of the year.</p>
+          <p>The journey from Dehradun to Mussoorie takes approximately 1.5 hours via the Mussoorie Road. The road winds through dense forests and offers spectacular views of the Doon Valley.</p>
+
+          <h3>Popular Places to Visit in Mussoorie</h3>
+          <ul>
+            <li><strong>Mall Road</strong> — The heart of Mussoorie with shops, restaurants and panoramic views</li>
+            <li><strong>Kempty Falls</strong> — A beautiful waterfall 15 km from Mussoorie town</li>
+            <li><strong>Gun Hill</strong> — Second highest peak in Mussoorie, accessible by ropeway</li>
+            <li><strong>Lal Tibba</strong> — Highest point in Mussoorie with Himalayan views</li>
+            <li><strong>Camel's Back Road</strong> — Scenic 3 km walk with camel-shaped rock</li>
+            <li><strong>Landour</strong> — Quiet cantonment area, former home of Ruskin Bond</li>
+          </ul>
+
+          <h3>Best Time to Visit Mussoorie</h3>
+          <p>Mussoorie is a year-round destination. March to June is peak season with pleasant weather. July to September brings monsoon rains. October to February offers snow views and fewer crowds.</p>
+
+          <h3>Why Choose Shri Taxi for Dehradun to Mussoorie?</h3>
+          <ul>
+            <li>✓ Fixed price — no surge pricing or hidden charges</li>
+            <li>✓ Experienced local drivers who know every hill road</li>
+            <li>✓ All inclusive — toll, parking, driver charges included</li>
+            <li>✓ 24/7 availability — early morning and late night pickups</li>
+            <li>✓ Multiple vehicle options — Sedan, Ertiga, Innova Crysta</li>
+          </ul>
+        </div>
+
+        <div class="loc-image">
+          <Image src={MussoorieImg} alt="Mussoorie hill station taxi from Dehradun" width={500} height={350} class="loc-img" loading="lazy" />
+          <Image src={Mussori2Img} alt="Dehradun to Mussoorie road taxi service" width={500} height={350} class="loc-img" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Common questions about Dehradun to Mussoorie taxi service</p>
+        <div class="faq-list">
+          {faqs.map(f => (
+            <details class="faq-item" name="mussoorie-faq">
+              <summary class="faq-q">
+                {f.q}
+                <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section loc-cta">
+      <div class="container loc-cta-inner">
+        <div>
+          <h2>Book Dehradun to Mussoorie Taxi Today</h2>
+          <p>Get confirmed booking in minutes. Fixed price, no surprises.</p>
+        </div>
+        <div class="loc-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20taxi%20from%20Dehradun%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Now</a>
+          <a href="/#booking" class="btn btn-teal">Book Online →</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+/* ── Location Hero ── */
+.loc-hero {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  padding: 48px 0 40px;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 16px;
+}
+.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.breadcrumb a:hover { color: #fff; }
+
+.loc-title {
+  font-size: clamp(24px, 4vw, 40px);
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 8px;
+}
+
+.loc-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 28px;
+}
+
+/* Price cards */
+.price-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 16px;
+}
+
+.price-card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.price-card--primary {
+  background: rgba(255,255,255,0.2);
+  border-color: var(--saffron);
+}
+
+.price-card-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.price-card-amount {
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+}
+
+.price-card-note {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+}
+
+.route-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.route-info-grid div {
+  display: flex;
+  flex-direction: column;
+}
+.route-info-grid strong { font-size: 16px; color: #fff; }
+.route-info-grid span { font-size: 11px; color: rgba(255,255,255,0.6); }
+
+/* Fleet table */
+.fleet-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.fleet-table-head {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  background: var(--teal);
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.fleet-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: background 0.15s;
+}
+.fleet-table-row:last-of-type { border-bottom: none; }
+.fleet-table-row:hover { background: var(--mint); }
+
+.fleet-vehicle-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fleet-icon { font-size: 24px; }
+
+.fleet-vehicle-info strong {
+  display: block;
+  font-size: 14px;
+  color: var(--slate);
+}
+
+.fleet-segment {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.fleet-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.btn-sm { padding: 8px 14px; font-size: 12px; }
+
+.fleet-table-note {
+  padding: 10px 20px;
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--mint);
+}
+
+/* Content section */
+.loc-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 48px;
+  align-items: start;
+}
+
+.loc-text h2 {
+  font-size: 24px;
+  font-family: 'Playfair Display', serif;
+  color: var(--slate);
+  margin-bottom: 16px;
+}
+
+.loc-text h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--teal);
+  margin: 20px 0 10px;
+}
+
+.loc-text p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+
+.loc-text ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.loc-text li {
+  font-size: 14px;
+  color: var(--muted);
+  padding-left: 8px;
+}
+
+.loc-image {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 80px;
+}
+
+.loc-img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+}
+
+/* FAQ */
+.faq-list { display: flex; flex-direction: column; max-width: 800px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--slate);
+  list-style: none;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-chevron { flex-shrink: 0; color: var(--muted); transition: transform 0.2s; }
+details[open] .faq-chevron { transform: rotate(180deg); color: var(--teal); }
+details[open] .faq-q { color: var(--teal); }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; padding-bottom: 16px; }
+
+/* CTA */
+.loc-cta { background: var(--teal); }
+.loc-cta-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.loc-cta h2 { font-size: 24px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.loc-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
+.loc-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .price-cards { grid-template-columns: 1fr 1fr; }
+  .price-card--info { grid-column: 1 / -1; }
+  .loc-content { grid-template-columns: 1fr; }
+  .loc-image { position: static; }
+  .fleet-table-head, .fleet-table-row { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  .fleet-table-head span:last-child, .fleet-table-row a { display: none; }
+}
+
+@media (max-width: 600px) {
+  .price-cards { grid-template-columns: 1fr; }
+  .fleet-table-head, .fleet-table-row { grid-template-columns: 2fr 1fr 1fr; }
+  .fleet-table-head span:nth-child(4), .fleet-table-row span:nth-child(4) { display: none; }
+  .loc-cta-inner { flex-direction: column; }
+  .loc-cta-btns { width: 100%; flex-direction: column; }
+  .loc-cta-btns .btn { justify-content: center; }
+}
+</style>

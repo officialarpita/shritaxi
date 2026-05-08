@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
 import PopularRoutes from '../components/PopularRoutes.astro';
@@ -105,6 +106,7 @@ const websiteSchema = {
   <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} slot="head" />
 
   <TopBar />
+  <SeasonBanner />
   <Header currentPath="/" />
   <main id="main-content">
     <Hero />

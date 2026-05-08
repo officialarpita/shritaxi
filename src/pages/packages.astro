@@ -3,367 +3,513 @@ import Base from '../layouts/Base.astro';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import WhatsAppFloat from '../components/WhatsAppFloat.astro';
-import PackagesHero from '../components/packages/PackagesHero.astro';
-import PackagesNav from '../components/packages/PackagesNav.astro';
-import PackageSection from '../components/packages/PackageSection.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import { Image } from 'astro:assets';
+import { tourPackages, fmt } from '../data/pricing';
 
-const title = 'Tour Packages from Dehradun 2026 — Shri Taxi | Mussoorie, Rishikesh, Nainital, Auli, Char Dham';
-const description =
-  'Book Taxi Tour Packages from Dehradun — Mussoorie day trip, Rishikesh & Haridwar, Nainital weekend, Auli snow trip, and Char Dham Yatra. AC vehicles, verified drivers, transparent pricing.';
+import CharDhamImg   from '../assets/images/CharDham1.jpeg';
+import MussoorieImg  from '../assets/images/Mussori2.jpeg';
+import RishikeshImg  from '../assets/images/Hrisikesh1.jpeg';
+import NainitalImg   from '../assets/images/Nainital2.jpg';
+import AuliImg       from '../assets/images/Auli_togo.jpg';
+import KedarnathImg  from '../assets/images/CharDham2.jpeg';
+import BadrinathImg  from '../assets/images/Badrinath.jpeg';
+import NeemKaroliImg from '../assets/images/NeemKaroli.jpeg';
+import SurkandaImg   from '../assets/images/SurkandaDevi.jpeg';
 
-const phone = '+916397321825';
-const waBase = `https://wa.me/${phone.replace('+', '')}?text=`;
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-const packages = [
-  {
-    id: 'mussoorie',
-    nights: 'Day trip' as const,
-    title: 'Mussoorie Day Trip',
-    subtitle: 'The Queen of Hills — just 35 km from Dehradun',
-    description:
-      'Mussoorie is the closest and most popular hill escape from Dehradun. At just 35 km away, it makes for a perfect day trip — stunning Himalayan views, colonial-era charm, waterfalls, and a lively Mall Road. Our drivers know every shortcut and viewpoint on the Mussoorie road.',
-    highlights: [
-      'Kempty Falls — the iconic multi-tiered waterfall',
-      'Mall Road — shopping, food & panoramic views',
-      'Gun Hill — highest point, reached by ropeway',
-      "Camel's Back Road — sunrise & sunset walk",
-      'Lal Tibba — highest peak in Mussoorie',
-      'Company Garden — beautifully maintained park',
-    ],
-    itinerary: [
-      {
-        day: 'Morning',
-        items: [
-          'Pickup from Dehradun (7:00 AM)',
-          'Drive to Mussoorie via Kempty Falls road',
-          'Visit Kempty Falls — swim or relax',
-        ],
-      },
-      {
-        day: 'Afternoon',
-        items: [
-          'Lunch at Mall Road restaurant',
-          'Gun Hill ropeway ride & views',
-          "Camel's Back Road walk",
-        ],
-      },
-      {
-        day: 'Evening',
-        items: [
-          'Company Garden or Lal Tibba visit',
-          'Shopping on Mall Road',
-          'Return to Dehradun by 7:00 PM',
-        ],
-      },
-    ],
-    pricing: [
-      { cab: 'Hatchback', price: '₹1,800' },
-      { cab: 'Sedan', price: '₹2,200' },
-      { cab: 'Innova Crysta', price: '₹3,200' },
-    ],
-    bestTime:
-      'March to June for pleasant weather and clear Himalayan views. October to December for misty winter charm. Avoid monsoon (July–Aug) as roads can be foggy and slippery.',
-    tips: [
-      'Start early (7 AM) to avoid traffic on the Mussoorie road',
-      'Carry a light jacket even in summer — it gets cool at the top',
-      'Ropeway to Gun Hill can have queues on weekends — go early',
-      'Kempty Falls gets crowded after 11 AM — visit first',
-    ],
-    waMsg: 'Hello! I am interested in the Mussoorie Day Trip package. Please share details and available dates.',
-    externalHref: undefined,
-    alt: false,
-  },
-  {
-    id: 'rishikesh',
-    nights: 1,
-    title: 'Rishikesh + Haridwar',
-    subtitle: 'The Yoga Capital & the Gateway to God',
-    description:
-      'Rishikesh and Haridwar together form the spiritual heart of Uttarakhand. From the iconic Ganga Aarti at Har Ki Pauri to adventure sports on the rapids of Rishikesh — this 1-night package covers both in one seamless journey. Just 45 km apart, the two cities complement each other perfectly.',
-    highlights: [
-      'Ganga Aarti at Har Ki Pauri — Haridwar',
-      'Laxman Jhula & Ram Jhula suspension bridges',
-      'Beatles Ashram (Maharishi Mahesh Yogi Ashram)',
-      'Triveni Ghat evening aarti — Rishikesh',
-      'Rafting on the Ganga rapids (optional, seasonal)',
-      'Parmarth Niketan & riverside cafés',
-    ],
-    itinerary: [
-      {
-        day: 'Day 1 AM',
-        items: [
-          'Pickup from Dehradun (8:00 AM)',
-          'Drive to Haridwar (~55 km, 1.5 hrs)',
-          'Har Ki Pauri darshan & ghats',
-          'Mansa Devi Temple via ropeway',
-        ],
-      },
-      {
-        day: 'Day 1 PM',
-        items: [
-          'Lunch in Haridwar',
-          'Drive to Rishikesh (~24 km)',
-          'Laxman Jhula & Ram Jhula walk',
-          'Beatles Ashram visit',
-          'Evening Ganga Aarti at Triveni Ghat',
-        ],
-      },
-      {
-        day: 'Day 2',
-        items: [
-          'Sunrise yoga or rafting (optional)',
-          'Parmarth Niketan morning program',
-          'Return to Dehradun by noon',
-        ],
-      },
-    ],
-    pricing: [
-      { cab: 'Hatchback', price: '₹2,500' },
-      { cab: 'Sedan', price: '₹3,000' },
-      { cab: 'Innova Crysta', price: '₹4,500' },
-    ],
-    bestTime:
-      'October to March for the best Ganga Aarti experience and comfortable weather. February–March for the Mahashivratri celebrations in Haridwar. Avoid July–August monsoon.',
-    tips: [
-      'Book hotel in Rishikesh for the night — we can suggest options',
-      'Ganga Aarti at Har Ki Pauri is best at sunset (6–7 PM)',
-      'Wear modest clothing at temple ghats',
-      'Rafting is available Oct–May — book in advance on weekends',
-    ],
-    waMsg: 'Hello! I am interested in the Rishikesh + Haridwar tour package. Please share details.',
-    externalHref: undefined,
-    alt: true,
-  },
-  {
-    id: 'nainital',
-    nights: 2,
-    title: 'Nainital Weekend',
-    subtitle: 'The Lake District of Uttarakhand',
-    description:
-      'Nainital is one of the most loved hill stations in India — built around a stunning pear-shaped lake surrounded by forested hills. A 2-night weekend trip gives you time to explore the lake, visit nearby attractions, and enjoy the cool mountain air. Our drivers are experienced on the Nainital road year-round.',
-    highlights: [
-      'Naini Lake — boating on the iconic pear-shaped lake',
-      'Naina Devi Temple — sacred temple on the lake shore',
-      "Tiffin Top (Dorothy's Seat) — panoramic Himalayan views",
-      'Sat Tal — seven interconnected lakes nearby',
-      'Snow View Point — views of Nanda Devi peak',
-      'Mall Road & Tibetan Market — shopping & food',
-    ],
-    itinerary: [
-      {
-        day: 'Day 1',
-        items: [
-          'Pickup from Dehradun (7:00 AM)',
-          'Drive to Nainital (~310 km, 6–7 hrs)',
-          'Check in & rest',
-          'Evening Mall Road walk & Naini Lake boating',
-        ],
-      },
-      {
-        day: 'Day 2',
-        items: [
-          'Morning Naina Devi Temple visit',
-          'Snow View Point by ropeway',
-          'Tiffin Top trek or horse ride',
-          'Sat Tal lakes visit in the afternoon',
-          'Evening Tibetan Market shopping',
-        ],
-      },
-      {
-        day: 'Day 3',
-        items: [
-          'Eco Cave Garden morning visit',
-          'Breakfast & check out',
-          'Return drive to Dehradun',
-        ],
-      },
-    ],
-    pricing: [
-      { cab: 'Hatchback', price: '₹6,500' },
-      { cab: 'Sedan', price: '₹7,500' },
-      { cab: 'Innova Crysta', price: '₹10,500' },
-    ],
-    bestTime:
-      'March to June for clear skies and pleasant weather. October to November post-monsoon for lush green views. December to February for snow and winter charm — but road conditions can be icy.',
-    tips: [
-      'Book your hotel in advance — Nainital gets very busy on weekends',
-      'Carry warm clothes even in summer — nights are cold',
-      'The drive from Dehradun is long (6–7 hrs) — start by 7 AM',
-      'Avoid peak season (May–June) weekends if possible — very crowded',
-    ],
-    waMsg: 'Hello! I am interested in the Nainital Weekend package (2 nights). Please share details.',
-    externalHref: undefined,
-    alt: false,
-  },
-  {
-    id: 'auli',
-    nights: 2,
-    title: 'Auli Snow Trip',
-    subtitle: "India's premier ski destination in the Himalayas",
-    description:
-      "Auli is a high-altitude meadow at 2,519 m, famous for its skiing slopes and spectacular views of Nanda Devi — India's second highest peak. In winter it transforms into a snow wonderland, and in summer the meadows burst with wildflowers. Asia's longest gondola (cable car) ride from Joshimath to Auli is an experience in itself.",
-    highlights: [
-      "Cable car ride — Asia's longest gondola from Joshimath",
-      'Skiing slopes — beginner to advanced runs',
-      'Gurson Bugyal meadow trek — stunning Himalayan panorama',
-      'Nanda Devi, Trishul & Dronagiri peak views',
-      'Auli Artificial Lake — highest artificial lake in India',
-      'Joshimath town & Narsingh Temple visit',
-    ],
-    itinerary: [
-      {
-        day: 'Day 1',
-        items: [
-          'Pickup from Dehradun (6:00 AM)',
-          'Drive to Joshimath (~270 km, 8–9 hrs)',
-          'Check in & rest',
-          'Evening Joshimath town walk',
-        ],
-      },
-      {
-        day: 'Day 2',
-        items: [
-          'Morning cable car ride to Auli',
-          'Skiing lesson or free skiing (seasonal)',
-          'Gurson Bugyal meadow trek',
-          'Nanda Devi viewpoint',
-          'Overnight at Auli or Joshimath',
-        ],
-      },
-      {
-        day: 'Day 3',
-        items: [
-          'Auli Artificial Lake visit',
-          'Breakfast & check out',
-          'Return drive to Dehradun',
-        ],
-      },
-    ],
-    pricing: [
-      { cab: 'Hatchback', price: '₹8,000' },
-      { cab: 'Sedan', price: '₹9,500' },
-      { cab: 'Innova Crysta', price: '₹13,500' },
-    ],
-    bestTime:
-      'January to March for skiing on natural snow. April to June for Gurson Bugyal trek with wildflowers. September to November for clear Himalayan views. Avoid monsoon (July–Aug) — landslide risk on mountain roads.',
-    tips: [
-      'Book skiing equipment rental in advance during peak winter season',
-      'Carry heavy winter gear — Auli temperatures drop to -10°C in January',
-      'The drive is long — stay overnight in Joshimath before reaching Auli',
-      'Cable car timings are weather-dependent — have a backup plan',
-    ],
-    waMsg: 'Hello! I am interested in the Auli Snow Trip package (2 nights). Please share details.',
-    externalHref: undefined,
-    alt: true,
-  },
-  {
-    id: 'char-dham',
-    nights: 10,
-    title: 'Char Dham Yatra',
-    subtitle: 'Yamunotri · Gangotri · Kedarnath · Badrinath',
-    description:
-      'The Char Dham Yatra is the most sacred pilgrimage circuit in Hinduism — covering four holy abodes nestled deep in the Garhwal Himalayas. Our packages cover the complete route from Dehradun with specialist drivers, registration assistance, and 24/7 on-trip support. Multiple package tiers available — Ek Dham, Do Dham, full Char Dham, and group packages.',
-    highlights: [
-      'Yamunotri — source of river Yamuna, Goddess Yamuna temple',
-      'Gangotri — origin of river Ganga, at 3,048 m altitude',
-      'Kedarnath — one of 12 Jyotirlingas, 16 km trek from Gaurikund',
-      'Badrinath — Lord Vishnu temple, the spiritual crown of the circuit',
-      'Specialist Char Dham driver with route experience',
-      'Registration & biometric assistance included',
-    ],
-    itinerary: [
-      {
-        day: 'Days 1–3',
-        items: [
-          'Dehradun → Yamunotri via Barkot',
-          'Yamunotri darshan & return to Barkot',
-          'Drive to Uttarkashi',
-        ],
-      },
-      {
-        day: 'Days 4–5',
-        items: [
-          'Uttarkashi → Gangotri darshan',
-          'Return to Uttarkashi / Guptkashi drive',
-        ],
-      },
-      {
-        day: 'Days 6–8',
-        items: [
-          'Guptkashi → Gaurikund → Kedarnath trek',
-          'Kedarnath darshan & overnight',
-          'Return trek & drive to Badrinath',
-        ],
-      },
-      {
-        day: 'Days 9–10',
-        items: [
-          'Badrinath darshan',
-          'Mana village — last Indian village visit',
-          'Return to Dehradun',
-        ],
-      },
-    ],
-    pricing: [],  // not shown — replaced by full details card
-    pricingLabel: '💰 Pricing from Dehradun & Delhi NCR',
-    bestTime:
-      'May to June and September to October. 2026 season: Yamunotri & Gangotri open April 19, Kedarnath April 22, Badrinath April 23. Book early — peak season slots fill fast.',
-    tips: [
-      'Biometric registration is mandatory — we help you complete it',
-      'Carry warm layers, waterproofs and walking shoes for Kedarnath trek',
-      'Pony, doli and helicopter options available for Kedarnath',
-      'Book at least 2–3 weeks in advance during peak May–June season',
-    ],
-    waMsg: 'Hello! I am interested in the Char Dham Yatra package. Please share details.',
-    externalHref: '/char-dham-yatra',  // ← triggers full details card instead of pricing table
-    alt: false,
-  },
-];
+const imgMap: Record<string, ImageMetadata> = {
+  'surkanda-devi': SurkandaImg,
+  'neem-karoli':   NeemKaroliImg,
+  'nainital':      NainitalImg,
+  'auli':          AuliImg,
+  'kedarnath':     KedarnathImg,
+  'badrinath':     BadrinathImg,
+  'ek-dham':       CharDhamImg,
+  'do-dham':       CharDhamImg,
+  'char-dham':     CharDhamImg,
+};
 
-const packagesSchema = {
+// Filter out char dham packages (they have their own page)
+const dayPackages = tourPackages.filter(p =>
+  ['surkanda-devi', 'neem-karoli', 'nainital', 'auli', 'kedarnath', 'badrinath'].includes(p.id)
+);
+const charDhamPackages = tourPackages.filter(p =>
+  ['ek-dham', 'do-dham', 'char-dham'].includes(p.id)
+);
+
+const schema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'Tour Packages from Dehradun — Shri Taxi',
-  itemListElement: packages.map((p, i) => ({
+  name: 'Uttarakhand Tour Packages with Cab from Dehradun',
+  description: 'Curated cab packages for Char Dham Yatra, Nainital, Auli, Kedarnath, Badrinath, Neem Karoli Baba and more from Dehradun',
+  itemListElement: tourPackages.map((p, i) => ({
     '@type': 'ListItem',
     position: i + 1,
-    name: p.title,
-    url: `https://shritaxi.in/packages#${p.id}`,
+    name: p.name,
+    url: `https://shritaxi.com${p.href}`,
+    description: p.seoDesc,
   })),
 };
 ---
 
-<Base title={title} description={description}>
+<Base
+  title="Uttarakhand Tour Packages with Cab | Char Dham, Nainital, Auli | Shri Taxi"
+  description="Book Uttarakhand tour packages with cab from Dehradun. Char Dham Yatra, Nainital, Auli, Kedarnath, Badrinath, Neem Karoli Baba. All inclusive pricing. 10% discount."
+  canonicalUrl="https://shritaxi.com/packages"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+
   <TopBar />
-  <Header />
-  <main>
-    <PackagesHero
-      phone={phone}
-      waLink={`${waBase}${encodeURIComponent('Hello! I want to enquire about tour packages from Dehradun. Please share details.')}`}
-    />
-    <PackagesNav />
-    {packages.map((pkg) => (
-      <PackageSection
-        id={pkg.id}
-        nights={pkg.nights}
-        title={pkg.title}
-        subtitle={pkg.subtitle}
-        description={pkg.description}
-        highlights={pkg.highlights}
-        itinerary={pkg.itinerary}
-        pricing={pkg.pricing}
-        pricingLabel={pkg.pricingLabel}
-        bestTime={pkg.bestTime}
-        tips={pkg.tips}
-        phone={phone}
-        waMsg={pkg.waMsg}
-        externalHref={pkg.externalHref}
-        alt={pkg.alt}
-      />
-    ))}
+  <SeasonBanner />
+  <Header currentPath="/packages" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="pkg-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a> › <span>Tour Packages</span>
+        </nav>
+        <h1 class="pkg-hero-title">Uttarakhand Tour Packages with Cab</h1>
+        <p class="pkg-hero-sub">All inclusive · Experienced hill drivers · 10% discount on all packages · Driver + fuel + toll + parking included</p>
+        <div class="pkg-hero-ctas">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20know%20about%20your%20tour%20packages`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discount announcement -->
+    <div class="discount-bar">
+      <div class="container discount-bar-inner">
+        <span class="discount-fire">🔥</span>
+        <p><strong>Limited Time — 10% OFF on all packages!</strong> Book now and save up to ₹8,991 on Char Dham Yatra</p>
+        <span class="discount-badge">10% OFF</span>
+      </div>
+    </div>
+
+    <!-- Day/Short Packages -->
+    <section class="section" id="day-packages">
+      <div class="container">
+        <p class="section-label">Day Trips & Short Packages</p>
+        <h2 class="section-title">Popular Tour Packages from Dehradun</h2>
+        <p class="section-sub">Curated cab packages for spiritual pilgrimages, adventure trips and cultural experiences</p>
+
+        <div class="pkg-grid">
+          {dayPackages.map(p => {
+            const img = imgMap[p.id] || CharDhamImg;
+            return (
+              <div class="pkg-card" id={p.id}>
+                <!-- Image -->
+                <div class="pkg-img-wrap">
+                  <Image
+                    src={img}
+                    alt={`${p.name} taxi package from Dehradun`}
+                    width={400}
+                    height={220}
+                    class="pkg-img"
+                    loading="lazy"
+                  />
+                  <div class="pkg-overlay"></div>
+                  <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
+                  <div class="pkg-discount-circle">
+                    <span>10%</span>
+                    <span>OFF</span>
+                  </div>
+                </div>
+
+                <!-- Body -->
+                <div class="pkg-body">
+                  <h3 class="pkg-name">{p.name}</h3>
+                  <div class="pkg-highlights">
+                    {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
+                  </div>
+
+                  <!-- Pricing table -->
+                  <div class="pkg-pricing-table">
+                    <div class="pkg-pricing-header">
+                      <span>Vehicle</span>
+                      <span>MRP</span>
+                      <span>You Pay</span>
+                      <span>Save</span>
+                    </div>
+                    {p.tiers.map(t => (
+                      <div class="pkg-pricing-row">
+                        <span class="pkg-tier-vehicle">{t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'} {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova' : 'Traveller'}</span>
+                        <span class="pkg-tier-mrp">{fmt(t.mrp)}</span>
+                        <span class="pkg-tier-final">{fmt(t.discounted)}</span>
+                        <span class="pkg-tier-save">-{fmt(t.saving)}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+
+                  <!-- Actions -->
+                  <div class="pkg-actions">
+                    <a
+                      href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`}
+                      target="_blank"
+                      rel="noopener"
+                      class="btn btn-whatsapp pkg-btn"
+                    >
+                      💬 Book Now
+                    </a>
+                    <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">
+                      📞 Call Us
+                    </a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Char Dham Packages -->
+    <section class="section section--mint" id="char-dham-packages">
+      <div class="container">
+        <p class="section-label">Char Dham Yatra 2026</p>
+        <h2 class="section-title">Char Dham Yatra Packages from Dehradun</h2>
+        <p class="section-sub">Complete Char Dham Yatra taxi packages — Yamunotri, Gangotri, Kedarnath, Badrinath. Season open 2026.</p>
+
+        <div class="chardham-grid">
+          {charDhamPackages.map(p => {
+            const img = imgMap[p.id] || CharDhamImg;
+            return (
+              <div class="chardham-card" id={p.id}>
+                <div class="chardham-img-wrap">
+                  <Image
+                    src={img}
+                    alt={`${p.name} from Dehradun 2026`}
+                    width={500}
+                    height={250}
+                    class="chardham-img"
+                    loading="lazy"
+                  />
+                  <div class="pkg-overlay"></div>
+                  <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <span class="pkg-nights">{p.nights}N {p.days}D</span>
+                  <div class="pkg-discount-circle"><span>10%</span><span>OFF</span></div>
+                </div>
+
+                <div class="chardham-body">
+                  <div class="chardham-info">
+                    <h3 class="chardham-name">{p.name}</h3>
+                    <div class="pkg-highlights">
+                      {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
+                    </div>
+                    {p.itinerary && (
+                      <div class="chardham-itinerary">
+                        {p.itinerary.map(day => <p class="itinerary-day">📍 {day}</p>)}
+                      </div>
+                    )}
+                    <div class="chardham-includes">
+                      {p.includes.map(inc => <span class="include-chip">✓ {inc}</span>)}
+                    </div>
+                  </div>
+
+                  <div class="chardham-pricing">
+                    <p class="chardham-pricing-label">Starting from</p>
+                    <div class="chardham-pricing-table">
+                      {p.tiers.map(t => (
+                        <div class="chardham-tier">
+                          <span class="chardham-tier-vehicle">
+                            {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                            {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova' : 'Traveller'}
+                            <span class="chardham-seats">({t.seats}+1)</span>
+                          </span>
+                          <div class="chardham-tier-price">
+                            <span class="chardham-mrp">{fmt(t.mrp)}</span>
+                            <span class="chardham-final">{fmt(t.discounted)}</span>
+                            <span class="chardham-save">Save {fmt(t.saving)}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+                    <div class="pkg-actions">
+                      <a
+                        href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`}
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-whatsapp pkg-btn"
+                      >
+                        💬 Book Now
+                      </a>
+                      <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Book -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Why Book Your Uttarakhand Tour with Shri Taxi?</h2>
+        <div class="why-grid">
+          {[
+            { icon: '💰', title: '10% Discount', desc: 'Get 10% off on all tour packages. Save up to ₹8,991 on Char Dham Yatra.' },
+            { icon: '✓', title: 'All Inclusive', desc: 'Driver, fuel, toll and parking all included. No surprise charges at the end.' },
+            { icon: '🏔️', title: 'Pahadi Drivers', desc: 'Our drivers know every mountain road. Safe, experienced and local.' },
+            { icon: '📞', title: '24/7 Support', desc: 'We are available round the clock for any assistance during your trip.' },
+            { icon: '🚗', title: 'Premium Fleet', desc: 'Choose from Sedan, Ertiga, Innova Crysta and Tempo Traveller.' },
+            { icon: '⚡', title: 'Instant Booking', desc: 'Confirm your booking via WhatsApp or call. No waiting, no forms.' },
+          ].map(w => (
+            <div class="why-card">
+              <span class="why-icon">{w.icon}</span>
+              <h3 class="why-title">{w.title}</h3>
+              <p class="why-desc">{w.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section pkg-cta">
+      <div class="container pkg-cta-inner">
+        <div>
+          <h2>Ready to Book Your Uttarakhand Tour?</h2>
+          <p>Get 10% discount on all packages. All inclusive pricing. No hidden charges.</p>
+        </div>
+        <div class="pkg-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20tour%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Now</a>
+        </div>
+      </div>
+    </section>
+
   </main>
+
   <Footer />
-  <WhatsAppFloat />
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(packagesSchema)} />
+  <StickyBar />
 </Base>
+
+<style>
+/* Hero */
+.pkg-hero {
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  padding: 52px 0 40px;
+}
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
+.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.pkg-hero-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+.pkg-hero-sub { font-size: 14px; color: rgba(255,255,255,0.8); max-width: 600px; line-height: 1.6; margin-bottom: 24px; }
+.pkg-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Discount bar */
+.discount-bar {
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  padding: 12px 0;
+}
+.discount-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+.discount-fire { font-size: 20px; }
+.discount-bar-inner p { font-size: 14px; color: #fff; margin: 0; }
+.discount-badge {
+  background: #fff;
+  color: #f97316;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+/* Package grid */
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Package card */
+.pkg-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.pkg-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+
+/* Image */
+.pkg-img-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+.pkg-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s; }
+.pkg-card:hover .pkg-img { transform: scale(1.06); }
+.pkg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%); }
+.pkg-badge { position: absolute; top: 10px; left: 10px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; z-index: 1; }
+.pkg-nights { position: absolute; bottom: 10px; left: 10px; background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; z-index: 1; }
+
+/* Discount circle */
+.pkg-discount-circle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  animation: pulse-badge 2s ease-in-out infinite;
+  line-height: 1.1;
+}
+.pkg-discount-circle span { font-size: 10px; font-weight: 800; }
+@keyframes pulse-badge { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+
+/* Body */
+.pkg-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.pkg-name { font-size: 16px; font-weight: 700; color: var(--slate); }
+
+.pkg-highlights { display: flex; flex-wrap: wrap; gap: 4px; }
+.pkg-highlight-chip {
+  background: var(--mint);
+  color: var(--teal);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(13,148,136,0.2);
+}
+
+/* Pricing table */
+.pkg-pricing-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.pkg-pricing-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  background: var(--teal);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pkg-pricing-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  transition: background 0.15s;
+}
+.pkg-pricing-row:last-child { border-bottom: none; }
+.pkg-pricing-row:hover { background: var(--mint); }
+
+.pkg-tier-vehicle { font-size: 12px; font-weight: 600; color: var(--slate); }
+.pkg-tier-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.pkg-tier-final { font-size: 13px; font-weight: 700; color: var(--teal); }
+.pkg-tier-save { font-size: 10px; font-weight: 600; color: #22c55e; }
+
+.pkg-inclusive { font-size: 11px; color: var(--teal); font-weight: 500; }
+
+.pkg-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+.pkg-btn { justify-content: center; padding: 9px 8px; font-size: 12px; }
+
+/* Char Dham section */
+.chardham-grid { display: flex; flex-direction: column; gap: 24px; }
+
+.chardham-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+}
+
+.chardham-img-wrap { position: relative; }
+.chardham-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.chardham-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.chardham-info { padding: 24px; border-right: 1px solid var(--border); }
+.chardham-pricing { padding: 24px; background: var(--mint); }
+
+.chardham-name { font-size: 20px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; margin-bottom: 12px; }
+
+.chardham-itinerary { margin: 12px 0; display: flex; flex-direction: column; gap: 4px; }
+.itinerary-day { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.chardham-includes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.include-chip { font-size: 11px; color: var(--teal); background: rgba(13,148,136,0.08); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+
+.chardham-pricing-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; font-weight: 600; }
+
+.chardham-pricing-table { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.chardham-tier { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--border); }
+.chardham-tier-vehicle { font-size: 13px; font-weight: 600; color: var(--slate); display: flex; align-items: center; gap: 6px; }
+.chardham-seats { font-size: 10px; color: var(--muted); font-weight: 400; }
+.chardham-tier-price { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+.chardham-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.chardham-final { font-size: 16px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.chardham-save { font-size: 10px; color: #22c55e; font-weight: 600; }
+
+/* Why grid */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.why-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; text-align: center; }
+.why-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.why-title { font-size: 16px; font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+.why-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* CTA */
+.pkg-cta { background: var(--teal); }
+.pkg-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.pkg-cta h2 { font-size: 24px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.pkg-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
+.pkg-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .chardham-card { grid-template-columns: 300px 1fr; }
+}
+@media (max-width: 900px) {
+  .pkg-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .chardham-card { grid-template-columns: 1fr; }
+  .chardham-img-wrap { height: 220px; }
+  .chardham-body { grid-template-columns: 1fr; }
+  .chardham-info { border-right: none; border-bottom: 1px solid var(--border); }
+}
+@media (max-width: 600px) {
+  .pkg-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .pkg-hero-ctas { flex-direction: column; }
+  .discount-bar-inner { flex-direction: column; text-align: center; }
+  .pkg-cta-inner { flex-direction: column; }
+  .pkg-cta-btns { width: 100%; flex-direction: column; }
+  .pkg-cta-btns .btn { justify-content: center; }
+}
+</style>
