@@ -351,18 +351,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 _Booked via shritaxi.com_`;
 
-    // Try API silently in background (for Telegram/Sheets logging)
-    const token = (fd.get('cf-turnstile-response') || '').toString();
-    if (token) {
-      payload.turnstile_token = token;
-      fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch(() => {}); // Silent fail — WhatsApp is primary
-    }
+    const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
 
-    // Always show success popup
+    // Show success popup
     const popup   = document.getElementById('booking-popup');
     const details = document.getElementById('popup-details');
     const waLink  = document.getElementById('popup-wa') as HTMLAnchorElement;
@@ -374,31 +365,35 @@ _Booked via shritaxi.com_`;
         ${date ? `<div>📅 ${date} ${time ? '· ' + time : ''}</div>` : ''}
         ${name ? `<div>👤 ${name}</div>` : ''}
       `;
-      if (waLink) {
-        waLink.href = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
-      }
+      if (waLink) waLink.href = waUrl;
       popup.setAttribute('aria-hidden', 'false');
       popup.classList.add('active');
     }
 
+    // Try API silently in background
+    const token = (fd.get('cf-turnstile-response') || '').toString();
+    if (token) {
+      payload.turnstile_token = token;
+      fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    }
+
     btn.textContent = '✓ Booking Confirmed!';
     btn.style.background = 'var(--whatsapp)';
+    btn.disabled = false;
 
-    // Open WhatsApp automatically
-    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank');
-
+    // Reset form and Turnstile after 4 seconds
     setTimeout(() => {
       btn.textContent = 'Book Now →';
       btn.style.background = '';
-      btn.disabled = false;
-
-      // Properly reset form and re-render Turnstile
       form.reset();
       // @ts-ignore
       if (window.turnstile) {
         // @ts-ignore
         window.turnstile.reset();
-        // Re-render Turnstile widget so it doesn't block interaction
         const container = form.querySelector('.cf-turnstile') as HTMLElement;
         if (container) {
           container.innerHTML = '';
