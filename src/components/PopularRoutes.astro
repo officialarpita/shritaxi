@@ -1,82 +1,20 @@
 ---
 import { Image } from 'astro:assets';
 
-import AirportImg   from '../assets/images/airportTransfer1.jpeg';
-import MussoorieImg from '../assets/images/Mussori2.jpeg';
-import HaridwarImg  from '../assets/images/Haridwar.jpeg';
-import RishikeshImg from '../assets/images/Hrisikesh2.jpeg';
-import NainitalImg  from '../assets/images/Nainital.jpeg';
-import KedarnathImg from '../assets/images/CharDham2.jpeg';
-import BadrinathImg from '../assets/images/Badrinath.jpeg';
+import AirportImg    from '../assets/images/airportTransfer1.jpeg';
+import MussoorieImg  from '../assets/images/Mussori2.jpeg';
+import HaridwarImg   from '../assets/images/Haridwar.jpeg';
+import RishikeshImg  from '../assets/images/Hrisikesh2.jpeg';
 import OutstationImg from '../assets/images/outstationCab.jpeg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
 const routes = [
-  {
-    from: 'Jolly Grant',
-    to: 'Dehradun',
-    distance: '27 km',
-    duration: '45 min',
-    img: AirportImg,
-    tag: 'Airport Transfer',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Mussoorie',
-    distance: '35 km',
-    duration: '1 hr 30 min',
-    img: MussoorieImg,
-    tag: 'Hill Station',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Haridwar',
-    distance: '54 km',
-    duration: '1 hr 30 min',
-    img: HaridwarImg,
-    tag: 'Spiritual',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Rishikesh',
-    distance: '46 km',
-    duration: '1 hr 15 min',
-    img: RishikeshImg,
-    tag: 'Spiritual',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Nainital',
-    distance: '285 km',
-    duration: '7 hrs',
-    img: NainitalImg,
-    tag: 'Hill Station',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Kedarnath',
-    distance: '250 km',
-    duration: '9 hrs',
-    img: KedarnathImg,
-    tag: 'Char Dham',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Badrinath',
-    distance: '320 km',
-    duration: '11 hrs',
-    img: BadrinathImg,
-    tag: 'Char Dham',
-  },
-  {
-    from: 'Dehradun',
-    to: 'Delhi NCR',
-    distance: '310 km',
-    duration: '6 hrs',
-    img: OutstationImg,
-    tag: 'Outstation',
-  },
+  { from: 'Jolly Grant', to: 'Dehradun',  distance: '27 km',  duration: '45 min',      img: AirportImg,    tag: 'Airport Transfer', oneWay: '₹1,000', roundTrip: null        },
+  { from: 'Dehradun',   to: 'Mussoorie',  distance: '35 km',  duration: '1 hr 30 min', img: MussoorieImg,  tag: 'Hill Station',     oneWay: '₹1,500', roundTrip: '₹3,500'   },
+  { from: 'Dehradun',   to: 'Haridwar',   distance: '54 km',  duration: '1 hr 30 min', img: HaridwarImg,   tag: 'Spiritual',        oneWay: '₹2,000', roundTrip: '₹3,500'   },
+  { from: 'Dehradun',   to: 'Rishikesh',  distance: '46 km',  duration: '1 hr 15 min', img: RishikeshImg,  tag: 'Spiritual',        oneWay: '₹2,000', roundTrip: '₹3,500'   },
+  { from: 'Dehradun',   to: 'Delhi NCR',  distance: '310 km', duration: '6 hrs',        img: OutstationImg, tag: 'Outstation',       oneWay: '₹3,500', roundTrip: '₹7,000'   },
 ];
 ---
 
@@ -86,7 +24,7 @@ const routes = [
       <div>
         <p class="section-label">Popular Taxi Routes</p>
         <h2 class="section-title">Popular Taxi Routes from Dehradun</h2>
-        <p class="section-sub">Book affordable cab service from Dehradun to Mussoorie, Haridwar, Rishikesh, Nainital, Badrinath, Kedarnath &amp; more — fixed price, no hidden charges</p>
+        <p class="section-sub">Fixed-price cab service from Dehradun to Mussoorie, Haridwar, Rishikesh, Delhi NCR &amp; Jolly Grant Airport — one-way &amp; round-trip available</p>
       </div>
       <a href="/packages" class="btn btn-outline view-all">View All Routes →</a>
     </div>
@@ -127,6 +65,18 @@ const routes = [
               <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               <span class="route-to">{r.to}</span>
             </div>
+            <div class="route-pricing">
+              <div class="route-price-item">
+                <span class="route-price">from {r.oneWay}</span>
+                <span class="route-note">One Way</span>
+              </div>
+              {r.roundTrip && (
+                <div class="route-price-item">
+                  <span class="route-price route-price--alt">{r.roundTrip}</span>
+                  <span class="route-note">Round Trip</span>
+                </div>
+              )}
+            </div>
             <div class="route-meta">
               <span class="route-info">
                 <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -138,7 +88,7 @@ const routes = [
               </span>
             </div>
             <div class="route-cta">
-              Get Quote on WhatsApp
+              Book Now →
               <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
           </div>
@@ -261,6 +211,38 @@ const routes = [
   font-size: 15px;
   font-weight: 700;
   color: var(--slate);
+}
+
+.route-pricing {
+  display: flex;
+  gap: 14px;
+  padding: 6px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.route-price-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.route-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
+
+.route-price--alt {
+  color: var(--saffron);
+}
+
+.route-note {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .route-meta {

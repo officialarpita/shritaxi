@@ -16,6 +16,14 @@ const navLinks = [
   { label: 'Contact Us',     href: '/#contact' },
 ];
 
+// Location pages for footer/sitemap — not in main nav to keep it clean
+export const locationPages = [
+  { label: 'Dehradun to Mussoorie Taxi', href: '/dehradun-to-mussoorie-taxi' },
+  { label: 'Jolly Grant Airport Taxi',   href: '/jolly-grant-airport-taxi' },
+  { label: 'Dehradun to Haridwar Taxi',  href: '/dehradun-to-haridwar-taxi' },
+  { label: 'Dehradun to Rishikesh Taxi', href: '/dehradun-to-rishikesh-taxi' },
+];
+
 function isActive(href: string) {
   if (href === '/') return currentPath === '/';
   return currentPath.startsWith(href.split('#')[0]) && href.split('#')[0] !== '/';

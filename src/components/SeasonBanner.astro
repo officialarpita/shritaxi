@@ -1,0 +1,102 @@
+---
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+---
+
+<div class="season-banner" id="season-banner" role="alert">
+  <div class="container season-inner">
+    <span class="season-icon">🙏</span>
+    <p class="season-text">
+      <strong>Char Dham 2026 Season is OPEN</strong> — Yamunotri, Gangotri, Kedarnath &amp; Badrinath. Limited cabs available for peak season.
+      <a
+        href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20Char%20Dham%20Yatra%202026%20cab`}
+        target="_blank"
+        rel="noopener"
+        class="season-cta"
+      >
+        Book Now →
+      </a>
+    </p>
+    <button class="season-close" id="season-close" aria-label="Close banner">✕</button>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('season-banner');
+  const closeBtn = document.getElementById('season-close');
+
+  // Hide if already dismissed this session
+  if (sessionStorage.getItem('charDhamBannerDismissed')) {
+    banner?.style.setProperty('display', 'none');
+  }
+
+  closeBtn?.addEventListener('click', () => {
+    banner?.style.setProperty('display', 'none');
+    sessionStorage.setItem('charDhamBannerDismissed', 'true');
+  });
+</script>
+
+<style>
+.season-banner {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  border-bottom: 2px solid var(--saffron);
+  padding: 10px 0;
+  position: relative;
+  z-index: 99;
+}
+
+.season-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-right: 40px;
+}
+
+.season-icon { font-size: 18px; flex-shrink: 0; }
+
+.season-text {
+  font-size: 13px;
+  color: rgba(255,255,255,0.95);
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.season-text strong { color: #fff; }
+
+.season-cta {
+  display: inline-block;
+  background: var(--saffron);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 20px;
+  margin-left: 8px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.season-cta:hover { opacity: 0.9; }
+
+.season-close {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+.season-close:hover { color: #fff; }
+
+@media (max-width: 600px) {
+  .season-text { font-size: 12px; }
+  .season-inner { padding-right: 32px; }
+}
+</style>

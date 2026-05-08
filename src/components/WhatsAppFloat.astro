@@ -1,9 +1,8 @@
 ---
-const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '+919999999999';
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 const waNumber = whatsapp.replace(/[^0-9]/g, '');
-const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would like to book a taxi.')}`;
+const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi Shri Taxi, I would like to book a cab.')}`;
 ---
-
 <a class="wa-float" href={waLink} target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="28" height="28">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2.4C6.714 2.4 2.4 6.714 2.4 12c0 1.7.448 3.295 1.232 4.684L2.4 21.6l5.04-1.224A9.54 9.54 0 0012 21.6c5.286 0 9.6-4.314 9.6-9.6 0-5.286-4.314-9.6-9.6-9.6z"/>
@@ -13,8 +12,8 @@ const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would
 <style>
   .wa-float {
     position: fixed;
-    right: 1rem;
-    bottom: 1rem;
+    right: 1.25rem;
+    bottom: 5rem;   /* above sticky bar on desktop */
     width: 3.25rem;
     height: 3.25rem;
     border-radius: 50%;
@@ -23,12 +22,17 @@ const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent('Hi, I would
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    box-shadow: 0 6px 20px rgba(37,211,102,0.45);
     z-index: 60;
     transition: transform 120ms;
   }
   .wa-float:hover {
     transform: scale(1.05);
     text-decoration: none;
+  }
+
+  /* Hide on mobile — sticky bar already handles WhatsApp */
+  @media (max-width: 768px) {
+    .wa-float { display: none; }
   }
 </style>
