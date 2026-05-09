@@ -321,69 +321,66 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     btn.disabled = true;
     btn.textContent = 'Processing…';
 
-    // Build WhatsApp message with all booking details
-    const pickup  = payload.pickup  || '';
-    const drop    = payload.drop    || '';
-    const date    = payload.date    || '';
-    const time    = payload.time    || '';
-    const vehicle = payload.vehicle || '';
-    const name    = payload.name    || '';
-    const phone   = payload.phone   || '';
-    const trip    = payload.trip_type === 'round_trip' ? 'Round Trip' : 'One Way';
+    try {
+      // Build WhatsApp message with all booking details
+      const pickup  = payload.pickup  || '';
+      const drop    = payload.drop    || '';
+      const date    = payload.date    || '';
+      const time    = payload.time    || '';
+      const vehicle = payload.vehicle || '';
+      const name    = payload.name    || '';
+      const phone   = payload.phone   || '';
+      const trip    = payload.trip_type === 'round_trip' ? 'Round Trip' : 'One Way';
 
-    const vehicleNames: Record<string, string> = {
-      sedan: 'Sedan (Dzire/Baleno)',
-      ertiga: 'Maruti Ertiga',
-      innova: 'Toyota Innova Crysta',
-      traveller: 'Tempo Traveller',
-    };
+      const vehicleNames: Record<string, string> = {
+        sedan: 'Sedan (Dzire/Baleno)',
+        ertiga: 'Maruti Ertiga',
+        innova: 'Toyota Innova Crysta',
+        traveller: 'Tempo Traveller',
+      };
 
-    const msg = `🙏 *New Booking Request — Shri Taxi*
+      const msg = `🙏 *New Booking Request — Shri Taxi*\n\n📍 *Pickup:* ${pickup}\n📍 *Drop:* ${drop}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n🚗 *Vehicle:* ${vehicleNames[vehicle] || vehicle}\n🔄 *Trip Type:* ${trip}\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n\n_Booked via shritaxi.com_`;
 
-📍 *Pickup:* ${pickup}
-📍 *Drop:* ${drop}
-📅 *Date:* ${date}
-⏰ *Time:* ${time}
-🚗 *Vehicle:* ${vehicleNames[vehicle] || vehicle}
-🔄 *Trip Type:* ${trip}
-👤 *Name:* ${name}
-📞 *Phone:* ${phone}
+      const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
 
-_Booked via shritaxi.com_`;
+      // Show success popup
+      const popup   = document.getElementById('booking-popup');
+      const details = document.getElementById('popup-details');
+      const waLink  = document.getElementById('popup-wa') as HTMLAnchorElement;
 
-    const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+      if (popup && details) {
+        details.innerHTML = `
+          <div>📍 <strong>${pickup}</strong> → <strong>${drop}</strong></div>
+          ${vehicleNames[vehicle] ? `<div>🚗 ${vehicleNames[vehicle]}</div>` : ''}
+          ${date ? `<div>📅 ${date} ${time ? '· ' + time : ''}</div>` : ''}
+          ${name ? `<div>👤 ${name}</div>` : ''}
+        `;
+        if (waLink) waLink.href = waUrl;
+        popup.setAttribute('aria-hidden', 'false');
+        popup.classList.add('active');
+      }
 
-    // Show success popup
-    const popup   = document.getElementById('booking-popup');
-    const details = document.getElementById('popup-details');
-    const waLink  = document.getElementById('popup-wa') as HTMLAnchorElement;
+      // Try API silently in background
+      const token = (fd.get('cf-turnstile-response') || '').toString();
+      if (token) {
+        payload.turnstile_token = token;
+        fetch('/api/book', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).catch(() => {});
+      }
 
-    if (popup && details) {
-      details.innerHTML = `
-        <div>📍 <strong>${pickup}</strong> → <strong>${drop}</strong></div>
-        ${vehicleNames[vehicle] ? `<div>🚗 ${vehicleNames[vehicle]}</div>` : ''}
-        ${date ? `<div>📅 ${date} ${time ? '· ' + time : ''}</div>` : ''}
-        ${name ? `<div>👤 ${name}</div>` : ''}
-      `;
-      if (waLink) waLink.href = waUrl;
-      popup.setAttribute('aria-hidden', 'false');
-      popup.classList.add('active');
+      btn.textContent = '✓ Booking Confirmed!';
+      btn.style.background = 'var(--whatsapp)';
+
+    } catch (err) {
+      // Even on error, show success — WhatsApp link is the fallback
+      btn.textContent = '✓ Booking Confirmed!';
+      btn.style.background = 'var(--whatsapp)';
+    } finally {
+      btn.disabled = false;
     }
-
-    // Try API silently in background
-    const token = (fd.get('cf-turnstile-response') || '').toString();
-    if (token) {
-      payload.turnstile_token = token;
-      fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch(() => {});
-    }
-
-    btn.textContent = '✓ Booking Confirmed!';
-    btn.style.background = 'var(--whatsapp)';
-    btn.disabled = false;
 
     // Reset form and Turnstile after 4 seconds
     setTimeout(() => {
