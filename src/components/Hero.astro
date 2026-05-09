@@ -360,16 +360,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         popup.classList.add('active');
       }
 
-      // Try API silently in background
+      // Try API silently in background for Google Sheets logging
       const token = (fd.get('cf-turnstile-response') || '').toString();
-      if (token) {
-        payload.turnstile_token = token;
-        fetch('/api/book', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        }).catch(() => {});
-      }
+      payload.turnstile_token = token;
+      payload.vehicle = vehicleNames[vehicle] || vehicle; // Send full name
+      fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
 
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
