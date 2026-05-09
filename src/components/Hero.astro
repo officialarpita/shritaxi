@@ -168,7 +168,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           <label class="form-label">Vehicle Type</label>
           <div class="vehicle-grid">
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="sedan" />
+              <input type="radio" name="vehicle" value="Sedan (Dzire/Baleno)" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚗</span>
                 <span class="vehicle-name">Sedan</span>
@@ -176,7 +176,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="ertiga" />
+              <input type="radio" name="vehicle" value="Maruti Ertiga" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚐</span>
                 <span class="vehicle-name">Ertiga</span>
@@ -184,7 +184,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="innova" checked />
+              <input type="radio" name="vehicle" value="Toyota Innova Crysta" checked />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚙</span>
                 <span class="vehicle-name">Innova Crysta</span>
@@ -192,7 +192,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="traveller" />
+              <input type="radio" name="vehicle" value="Tempo Traveller" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚌</span>
                 <span class="vehicle-name">Tempo</span>
@@ -263,26 +263,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     if (e.target === popup) closePopup();
   });
 
-  // Force explicit Turnstile render on booking form
-  function renderTurnstile() {
-    // @ts-ignore
-    if (window.turnstile) {
-      const container = document.querySelector('.cf-turnstile');
-      if (container && !container.hasChildNodes()) {
-        // @ts-ignore
-        window.turnstile.render(container, {
-          // @ts-ignore
-          sitekey: container.getAttribute('data-sitekey'),
-          size: 'flexible',
-        });
-      }
-    } else {
-      // Turnstile not loaded yet — retry
-      setTimeout(renderTurnstile, 500);
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', renderTurnstile);
+  // Trip tabs
   const tabs = document.querySelectorAll('.trip-tab');
   const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
   tabs.forEach(tab => {
@@ -363,12 +344,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       // Try API silently in background for Google Sheets logging
       const token = (fd.get('cf-turnstile-response') || '').toString();
       payload.turnstile_token = token;
-      payload.vehicle = vehicleNames[vehicle] || vehicle; // Send full name
+      console.log('Sending to API:', JSON.stringify(payload));
       fetch('/api/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      }).catch(() => {});
+      }).then(r => r.json()).then(d => console.log('API response:', d)).catch(e => console.error('API error:', e));
 
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
@@ -386,20 +367,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       btn.textContent = 'Book Now →';
       btn.style.background = '';
       form.reset();
+      // Just reset Turnstile — never re-render manually (causes postMessage error)
       // @ts-ignore
-      if (window.turnstile) {
-        // @ts-ignore
-        window.turnstile.reset();
-        const container = form.querySelector('.cf-turnstile') as HTMLElement;
-        if (container) {
-          container.innerHTML = '';
-          // @ts-ignore
-          window.turnstile.render(container, {
-            sitekey: container.getAttribute('data-sitekey'),
-            size: 'flexible',
-          });
-        }
-      }
+      if (window.turnstile) window.turnstile.reset();
     }, 4000);
   });
 </script>
