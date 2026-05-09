@@ -181,76 +181,62 @@ const schema = {
         <p class="section-sub">Complete Char Dham Yatra taxi packages — Yamunotri, Gangotri, Kedarnath, Badrinath. Season open 2026.</p>
 
         <div class="chardham-grid">
-          {charDhamPackages.map(p => {
-            const img = imgMap[p.id] || CharDhamImg;
-            return (
-              <div class="chardham-card" id={p.id}>
-                <div class="chardham-img-wrap">
-                  <Image
-                    src={img}
-                    alt={`${p.name} from Dehradun 2026`}
-                    width={500}
-                    height={250}
-                    class="chardham-img"
-                    loading="lazy"
-                  />
-                  <div class="pkg-overlay"></div>
-                  <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
-                  <span class="pkg-nights">{p.nights}N {p.days}D</span>
-                  <div class="pkg-discount-circle"><span>10%</span><span>OFF</span></div>
-                </div>
-
-                <div class="chardham-body">
-                  <div class="chardham-info">
+          {charDhamPackages.map(p => (
+            <div class="chardham-card" id={p.id}>
+              <div class="chardham-header">
+                <div class="chardham-header-left">
+                  <div class="chardham-icon">
+                    {p.id === 'ek-dham' ? '🙏' : p.id === 'do-dham' ? '🙏🙏' : '🙏🙏🙏🙏'}
+                  </div>
+                  <div>
+                    <span class="chardham-tag" style={`background:${p.badgeColor}`}>
+                      {p.id === 'ek-dham' ? 'Ek Dham' : p.id === 'do-dham' ? 'Do Dham' : 'Char Dham'} · {p.nights}N {p.days}D
+                    </span>
                     <h3 class="chardham-name">{p.name}</h3>
-                    <div class="pkg-highlights">
-                      {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
-                    </div>
-                    {p.itinerary && (
-                      <div class="chardham-itinerary">
-                        {p.itinerary.map(day => <p class="itinerary-day">📍 {day}</p>)}
-                      </div>
-                    )}
-                    <div class="chardham-includes">
-                      {p.includes.map(inc => <span class="include-chip">✓ {inc}</span>)}
-                    </div>
-                  </div>
-
-                  <div class="chardham-pricing">
-                    <p class="chardham-pricing-label">Starting from</p>
-                    <div class="chardham-pricing-table">
-                      {p.tiers.map(t => (
-                        <div class="chardham-tier">
-                          <span class="chardham-tier-vehicle">
-                            {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
-                            {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
-                            <span class="chardham-seats">({t.seats}+1)</span>
-                          </span>
-                          <div class="chardham-tier-price">
-                            <span class="chardham-mrp">{fmt(t.mrp)}</span>
-                            <span class="chardham-final">{fmt(t.discounted)}</span>
-                            <span class="chardham-save">Save {fmt(t.saving)}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
-                    <div class="pkg-actions">
-                      <a
-                        href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`}
-                        target="_blank"
-                        rel="noopener"
-                        class="btn btn-whatsapp pkg-btn"
-                      >
-                        💬 Book Now
-                      </a>
-                      <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
-                    </div>
+                    <p class="chardham-sub">
+                      {p.id === 'ek-dham' ? 'Choose any 1 Dham — Kedarnath, Badrinath, Yamunotri or Gangotri'
+                        : p.id === 'do-dham' ? 'Kedarnath + Badrinath · OR Yamunotri + Gangotri'
+                        : 'Yamunotri · Gangotri · Kedarnath · Badrinath — All 4 Dhams'}
+                    </p>
                   </div>
                 </div>
+                <div class="chardham-discount-badge">10% OFF</div>
               </div>
-            );
-          })}
+
+              <div class="pkg-highlights" style="margin-bottom:14px">
+                {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
+              </div>
+
+              {p.itinerary && (
+                <div class="chardham-itinerary">
+                  {p.itinerary.map(day => <p class="itinerary-day">📍 {day}</p>)}
+                </div>
+              )}
+
+              <div class="chardham-pricing-table">
+                {p.tiers.map(t => (
+                  <div class="chardham-tier">
+                    <span class="chardham-tier-vehicle">
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                      {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
+                      <span class="chardham-seats">({t.seats}+1)</span>
+                    </span>
+                    <div class="chardham-tier-price">
+                      <span class="chardham-mrp">{fmt(t.mrp)}</span>
+                      <span class="chardham-final">{fmt(t.discounted)}</span>
+                      <span class="chardham-save">Save {fmt(t.saving)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+              <div class="pkg-actions">
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -439,43 +425,37 @@ const schema = {
 .pkg-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
 .pkg-btn { justify-content: center; padding: 9px 8px; font-size: 12px; }
 
-/* Char Dham section */
-.chardham-grid { display: flex; flex-direction: column; gap: 24px; }
+/* Char Dham no-image cards */
+.chardham-grid { display: flex; flex-direction: column; gap: 20px; }
 
 .chardham-card {
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 380px 1fr;
+  padding: 24px 28px;
+  transition: box-shadow 0.2s;
 }
+.chardham-card:hover { box-shadow: var(--shadow-md); }
 
-.chardham-img-wrap { position: relative; }
-.chardham-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.chardham-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.chardham-header-left { display: flex; align-items: flex-start; gap: 14px; }
+.chardham-icon { font-size: 28px; line-height: 1; padding-top: 4px; flex-shrink: 0; }
+.chardham-tag { font-size: 11px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
+.chardham-name { font-size: 20px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; margin-bottom: 4px; }
+.chardham-sub { font-size: 13px; color: var(--muted); }
+.chardham-discount-badge { background: #ef4444; color: #fff; font-size: 13px; font-weight: 800; padding: 6px 14px; border-radius: 20px; flex-shrink: 0; animation: pulse-badge 2s ease-in-out infinite; }
 
-.chardham-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
-.chardham-info { padding: 24px; border-right: 1px solid var(--border); }
-.chardham-pricing { padding: 24px; background: var(--mint); }
+.chardham-itinerary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 16px; background: var(--mint); border-radius: var(--radius-md); padding: 12px; }
+.itinerary-day { font-size: 12px; color: var(--muted); }
 
-.chardham-name { font-size: 20px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; margin-bottom: 12px; }
-
-.chardham-itinerary { margin: 12px 0; display: flex; flex-direction: column; gap: 4px; }
-.itinerary-day { font-size: 12px; color: var(--muted); line-height: 1.4; }
-
-.chardham-includes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.include-chip { font-size: 11px; color: var(--teal); background: rgba(13,148,136,0.08); padding: 3px 10px; border-radius: 20px; font-weight: 500; }
-
-.chardham-pricing-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; font-weight: 600; }
-
-.chardham-pricing-table { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-.chardham-tier { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: var(--white); border-radius: var(--radius-sm); border: 1px solid var(--border); }
-.chardham-tier-vehicle { font-size: 13px; font-weight: 600; color: var(--slate); display: flex; align-items: center; gap: 6px; }
-.chardham-seats { font-size: 10px; color: var(--muted); font-weight: 400; }
-.chardham-tier-price { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
-.chardham-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
-.chardham-final { font-size: 16px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
-.chardham-save { font-size: 10px; color: #22c55e; font-weight: 600; }
+.chardham-pricing-table { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+.chardham-tier { background: var(--mint); border: 1px solid rgba(13,148,136,0.2); border-radius: var(--radius-md); padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+.chardham-tier-vehicle { font-size: 13px; font-weight: 600; color: var(--slate); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.chardham-seats { font-size: 11px; color: var(--muted); font-weight: 400; }
+.chardham-tier-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.chardham-mrp { font-size: 12px; color: var(--muted); text-decoration: line-through; }
+.chardham-final { font-size: 20px; font-weight: 800; color: var(--teal); font-family: 'Playfair Display', serif; }
+.chardham-save { font-size: 11px; color: #22c55e; font-weight: 700; background: #f0fdf4; padding: 2px 8px; border-radius: 20px; }
 
 /* Why grid */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
