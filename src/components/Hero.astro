@@ -168,7 +168,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           <label class="form-label">Vehicle Type</label>
           <div class="vehicle-grid">
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Sedan (Dzire/Baleno)" />
+              <input type="radio" name="vehicle" value="sedan" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚗</span>
                 <span class="vehicle-name">Sedan</span>
@@ -176,7 +176,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Maruti Ertiga" />
+              <input type="radio" name="vehicle" value="ertiga" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚐</span>
                 <span class="vehicle-name">Ertiga</span>
@@ -184,7 +184,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Toyota Innova Crysta" checked />
+              <input type="radio" name="vehicle" value="innova" checked />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚙</span>
                 <span class="vehicle-name">Innova Crysta</span>
@@ -192,7 +192,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="Tempo Traveller" />
+              <input type="radio" name="vehicle" value="traveller" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚌</span>
                 <span class="vehicle-name">Tempo</span>
@@ -341,7 +341,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         popup.classList.add('active');
       }
 
-      // Try API silently in background for Google Sheets logging
+      // Send to API for Telegram + Google Sheets logging
       const token = (fd.get('cf-turnstile-response') || '').toString();
       payload.turnstile_token = token;
       console.log('Sending to API:', JSON.stringify(payload));
