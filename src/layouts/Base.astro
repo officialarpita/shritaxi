@@ -5,10 +5,11 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  canonicalUrl?: string;
 }
 
-const { title, description, ogImage = '/images/hero-mountains.jpg' } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const { title, description, ogImage = '/images/hero-mountains.jpg', canonicalUrl } = Astro.props;
+const canonical = canonicalUrl ?? new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <!doctype html>
@@ -63,6 +64,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
       async
       defer
     ></script>
+
+    <slot name="head" />
   </head>
   <body>
     <slot />

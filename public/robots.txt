@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shritaxi.in/sitemap-index.xml
+Sitemap: https://shritaxi.com/sitemap-index.xml
