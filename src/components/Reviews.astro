@@ -102,6 +102,9 @@ const reviewsSchema = {
           </div>
           <p class="quote">
             "{featuredReview.shortQuote || featuredReview.quote}"
+            {featuredReview.shortQuote && (
+              <a href={featuredReview.googleUrl} target="_blank" rel="noopener" class="read-more-featured">Read more →</a>
+            )}
           </p>
           <div class="review-footer-row">
             <span class="context">{featuredReview.context}</span>
@@ -185,10 +188,6 @@ const reviewsSchema = {
         <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" class="btn btn-saffron nudge-btn">
           Write a Review →
         </a>
-      </div>
-      <div class="review-ctas">
-        <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" class="btn btn-outline">⭐ See All Google Reviews</a>
-        <a href="/#booking" class="btn btn-teal">Book Your Ride →</a>
       </div>
     </div>
 
@@ -378,6 +377,16 @@ const reviewsSchema = {
 }
 
 .stars { font-size: 13px; }
+
+.read-more-featured {
+  color: #fbbf24;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.read-more-featured:hover { text-decoration: underline; }
 
 .read-more {
   color: #d97706;
