@@ -1,0 +1,770 @@
+---
+import { testimonials, aggregateRating } from '../data/testimonials';
+
+const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const featuredReview = testimonials.find((t) => t.featured);
+const regularReviews = testimonials.filter((t) => !t.featured);
+
+function getAvatarColor(initials: string) {
+  const colors = ['#0d9488', '#fb923c', '#0f766e', '#d97706', '#059669'];
+  const index = initials.charCodeAt(0) % colors.length;
+  return colors[index];
+}
+
+// Static placeholder — replaced dynamically by client-side JS
+const proofFeed = [
+  { name: 'Priya S.',   action: 'just booked Char Dham Yatra',     time: '2 hrs ago',  emoji: '🙏' },
+  { name: 'Rahul M.',   action: 'booked Airport → Mussoorie',      time: '3 hrs ago',  emoji: '✈️' },
+  { name: 'Anjali K.',  action: 'booked Nainital Weekend Package',  time: '5 hrs ago',  emoji: '🏞️' },
+  { name: 'Vikram D.',  action: 'booked Corporate cab to Dehradun', time: 'yesterday',  emoji: '💼' },
+  { name: 'Sunita R.',  action: 'booked Rishikesh + Haridwar Tour', time: 'yesterday',  emoji: '🌊' },
+  { name: 'Amit P.',    action: 'booked Kedarnath taxi for family', time: '2 days ago', emoji: '⛩️' },
+  { name: 'Meera T.',   action: 'booked Mussoorie Day Trip',        time: '2 days ago', emoji: '🏔️' },
+  { name: 'Sanjay K.',  action: 'booked Outstation cab to Delhi',   time: '3 days ago', emoji: '🚗' },
+];
+
+// Schema with ISO dates for Google rich snippets
+const reviewsSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Shri Taxi — Taxi Service in Dehradun',
+  image: 'https://shritaxi.com/images/og.jpg',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Shastradhara Road',
+    addressLocality: 'Dehradun',
+    addressRegion: 'Uttarakhand',
+    postalCode: '248001',
+    addressCountry: 'IN',
+  },
+  telephone: '+916397321825',
+  url: 'https://shritaxi.com',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: aggregateRating.ratingValue.toString(),
+    reviewCount: aggregateRating.reviewCount.toString(),
+    bestRating: aggregateRating.bestRating.toString(),
+    worstRating: aggregateRating.worstRating.toString(),
+  },
+  review: testimonials.map((t) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: t.author },
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: t.rating.toString(),
+      bestRating: '5',
+      worstRating: '1',
+    },
+    reviewBody: t.quote,
+    datePublished: t.isoDate,
+  })),
+};
+---
+
+<section class="section section--mint" id="reviews">
+  <div class="container">
+
+    <div class="section-head">
+      <div>
+        <p class="section-label">What Travellers Say</p>
+        <h2 class="section-title">Shri Taxi Dehradun — Customer Reviews</h2>
+        <p class="section-sub">Rated {aggregateRating.ratingValue} ⭐ by {aggregateRating.reviewCount}+ travellers on Google for Char Dham Yatra, airport transfers and hill station tours</p>
+      </div>
+      <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" class="rating-badge-link">
+        <div class="rating-badge">
+          <div class="rating-google-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+          </div>
+          <span class="rating-num">{aggregateRating.ratingValue}</span>
+          <div class="rating-stars">⭐⭐⭐⭐⭐</div>
+          <span class="rating-label">{aggregateRating.reviewCount}+ reviews</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- ── Social Proof Notification (Booking.com style) ── -->
+    <div class="proof-notification" id="proof-notification" aria-live="polite" aria-label="Recent booking">
+      <div class="proof-dot" aria-hidden="true"></div>
+      <span class="proof-emoji" id="proof-emoji">🙏</span>
+      <div class="proof-body">
+        <span class="proof-text" id="proof-text"><strong>Priya S.</strong> just booked Char Dham Yatra</span>
+        <span class="proof-time" id="proof-time">2 hrs ago</span>
+      </div>
+      <span class="proof-live">Live</span>
+    </div>
+
+    <!-- SEO crawlable paragraph — visually subtle, keyword rich -->
+    <p class="proof-seo">
+      Trusted by thousands of travellers for Char Dham Yatra taxi bookings, Dehradun airport transfers, Mussoorie day trips, Rishikesh &amp; Haridwar tours and Uttarakhand hill station cab services.
+    </p>
+
+    <!-- ── Featured Review ── -->
+    {featuredReview && (
+      <div class="featured-review">
+        <div class="avatar" style={`background: ${getAvatarColor(featuredReview.initials)}`}>
+          {featuredReview.initials}
+        </div>
+        <div class="featured-content">
+          <div class="featured-header">
+            <div class="author-info">
+              <strong class="author-name">{featuredReview.author}</strong>
+              <span class="stars">{'⭐'.repeat(featuredReview.rating)}</span>
+              {featuredReview.verified && <span class="verified">✓ Google Review</span>}
+            </div>
+            <span class="review-date">{featuredReview.date}</span>
+          </div>
+          <p class="quote">
+            "{featuredReview.shortQuote || featuredReview.quote}"
+            {featuredReview.shortQuote && (
+              <a href={featuredReview.googleUrl} target="_blank" rel="noopener" class="read-more-featured">Read more →</a>
+            )}
+          </p>
+          <div class="review-footer-row">
+            <span class="context">{featuredReview.context}</span>
+            {featuredReview.source === 'Google' && (
+              <span class="google-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Google Review
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
+
+    <!-- ── Regular Reviews Grid ── -->
+    <div class="reviews-grid">
+      {regularReviews.map((t) => (
+        <div class="review-card">
+          <div class="card-header">
+            <div class="avatar-small" style={`background: ${getAvatarColor(t.initials)}`}>
+              {t.initials}
+            </div>
+            <div class="header-text">
+              <strong class="author-name-sm">{t.author}</strong>
+              <div class="meta">
+                <span class="stars-sm">{'⭐'.repeat(t.rating)}</span>
+                {t.verified && <span class="verified-sm">✓</span>}
+              </div>
+            </div>
+            <div class="date-source">
+              <span class="date-sm">{t.date}</span>
+              {t.source === 'Google' && (
+                <span class="google-badge-sm">
+                  <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  Google
+                </span>
+              )}
+            </div>
+          </div>
+          <p class="quote-sm">
+            "{t.quote.length > 120 ? t.quote.substring(0, 120) + '...' : t.quote}"
+          </p>
+          <span class="context-sm">{t.context}</span>
+        </div>
+      ))}
+    </div>
+
+    </div>
+
+    <!-- Single Read more link at end of section -->
+    <div class="reviews-readmore">
+      <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" class="read-more-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Read more reviews on Google →
+      </a>
+    </div>
+
+    <!-- ── Footer: CTA + Nudge ── -->
+    <div class="reviews-footer">
+      <div class="review-nudge">
+        <span class="nudge-icon">🙏</span>
+        <div class="nudge-text">
+          <strong>Travelled with us recently?</strong>
+          <p>Your review helps other travellers make the right choice.</p>
+        </div>
+        <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" class="btn btn-saffron nudge-btn">
+          Write a Review →
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(reviewsSchema)} />
+
+<style>
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.rating-badge-link {
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.rating-badge-link:hover { transform: scale(1.05); }
+
+.rating-badge {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  box-shadow: var(--shadow-sm);
+}
+
+.rating-google-icon { margin-bottom: 2px; }
+
+.rating-num {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+  line-height: 1;
+}
+
+.rating-stars { font-size: 13px; margin: 2px 0; }
+
+.rating-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ── Social Proof Strip ── */
+.proof-strip {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.proof-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--teal);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Social Proof Notification ── */
+.proof-notification {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.5s ease;
+}
+
+.proof-notification.fade {
+  opacity: 0;
+}
+
+.proof-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+.proof-emoji { font-size: 20px; flex-shrink: 0; }
+
+.proof-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.proof-text {
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.proof-text strong { color: var(--teal); font-weight: 600; }
+
+.proof-time {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.proof-live {
+  font-size: 10px;
+  font-weight: 700;
+  color: #22c55e;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 2px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+/* SEO paragraph — visible but subtle */
+.proof-seo {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* ── Featured Review ── */
+.featured-review {
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #fff;
+  flex-shrink: 0;
+  border: 2.5px solid rgba(255,255,255,0.25);
+}
+
+.featured-content { flex: 1; }
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.author-info { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.author-name {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stars { font-size: 13px; }
+
+.read-more-featured {
+  color: #fbbf24;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.read-more-featured:hover { text-decoration: underline; }
+
+.read-more {
+  color: #d97706;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+.read-more:hover { color: #b45309; text-decoration: underline; }
+
+.reviews-readmore {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 24px;
+}
+
+.read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d97706;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1.5px solid #d97706;
+  padding: 10px 24px;
+  border-radius: 24px;
+  transition: background 0.15s, color 0.15s;
+}
+.read-more-btn:hover {
+  background: #d97706;
+  color: #fff;
+}
+
+.review-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #4285F4;
+  font-weight: 600;
+  background: #f0f4ff;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.date-source {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.google-badge-sm {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  color: #4285F4;
+  font-weight: 600;
+}
+
+.verified {
+  background: rgba(251,146,60,0.25);
+  color: var(--saffron-light);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 12px;
+}
+
+.review-date { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+.quote {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.92);
+  margin: 0 0 10px;
+  font-style: italic;
+}
+
+.context {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 500;
+}
+
+/* ── Reviews Grid ── */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.review-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s;
+}
+.review-card:hover { box-shadow: var(--shadow-md); }
+
+.card-header { display: flex; align-items: flex-start; gap: 10px; }
+
+.avatar-small {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.header-text { flex: 1; }
+
+.author-name-sm {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate);
+  margin-bottom: 2px;
+}
+
+.meta { display: flex; align-items: center; gap: 6px; }
+.stars-sm { font-size: 11px; }
+.verified-sm { font-size: 11px; color: var(--teal); font-weight: 600; }
+.date-sm { font-size: 11px; color: #9ca3af; flex-shrink: 0; }
+
+.quote-sm {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+  font-style: italic;
+}
+
+.context-sm { font-size: 11px; color: var(--muted); font-weight: 500; }
+
+/* ── Footer ── */
+.reviews-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.review-nudge {
+  background: linear-gradient(135deg, #fffbf0, #fff7ed);
+  border: 1.5px solid #fcd34d;
+  border-radius: var(--radius-md);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: 600px;
+}
+
+.nudge-icon { font-size: 20px; flex-shrink: 0; }
+
+.nudge-text { flex: 1; }
+.nudge-text strong { display: block; font-size: 13px; color: #92400e; margin-bottom: 2px; font-weight: 600; }
+.nudge-text p { font-size: 12px; color: #78350f; margin: 0; line-height: 1.4; }
+
+.nudge-btn { white-space: nowrap; flex-shrink: 0; font-size: 13px; padding: 8px 16px; }
+
+.btn-saffron { background: var(--saffron); color: #fff; }
+
+.review-ctas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-review { flex-direction: column; padding: 20px; }
+  .proof-strip { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .proof-track-wrap { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .reviews-grid { grid-template-columns: 1fr; }
+  .section-head { flex-direction: column; }
+  .review-ctas { justify-content: flex-start; }
+  .review-nudge { flex-direction: column; align-items: flex-start; }
+}
+</style>
+
+<script>
+// ── Dynamic Social Proof Strip ──
+// Runs on client — generates randomized names + real relative timestamps
+// so the strip looks fresh every time, never stale
+
+const NAMES = [
+  // North India — Hindi/common names
+  'Priya S.', 'Rahul M.', 'Anjali K.', 'Vikram D.', 'Sunita R.',
+  'Amit P.', 'Meera T.', 'Sanjay K.', 'Neha G.', 'Arjun B.',
+  'Kavita R.', 'Deepak S.', 'Pooja M.', 'Ravi K.', 'Shreya P.',
+  'Mohit A.', 'Divya N.', 'Karan V.', 'Anita S.', 'Suresh T.',
+  'Ritika J.', 'Gaurav M.', 'Swati B.', 'Nikhil R.', 'Rekha P.',
+  'Manish G.', 'Preeti A.', 'Rohit S.', 'Shilpa D.', 'Vivek K.',
+  'Nidhi M.', 'Aakash T.', 'Pallavi N.', 'Sandeep R.', 'Jyoti B.',
+  'Tarun V.', 'Usha K.', 'Harish P.', 'Smita G.', 'Dinesh A.',
+  'Rashmi S.', 'Pankaj M.', 'Geeta R.', 'Sachin B.', 'Vandana T.',
+  'Lalit K.', 'Shweta P.', 'Ajay N.', 'Kamla D.', 'Vinod G.',
+  // Uttarakhand / Pahadi names
+  'Devendra R.', 'Bhavna S.', 'Chandra M.', 'Girish P.', 'Hema T.',
+  'Indira K.', 'Jagdish B.', 'Kamini A.', 'Lokesh N.', 'Madhuri V.',
+  'Nandan R.', 'Omkar S.', 'Pratima G.', 'Rajendra M.', 'Savitri P.',
+  'Trilok B.', 'Uma K.', 'Vimla T.', 'Yashwant A.', 'Zoya N.',
+  // South India travellers visiting Uttarakhand
+  'Suresh P.', 'Lakshmi R.', 'Venkat S.', 'Radha M.', 'Krishnan B.',
+  'Padma T.', 'Rajan K.', 'Meenakshi A.', 'Gopal N.', 'Saritha V.',
+  // Delhi/NCR corporate travellers
+  'Ashish G.', 'Prerna S.', 'Raghav M.', 'Tanya B.', 'Sameer K.',
+  'Ishaan P.', 'Aditi R.', 'Varun T.', 'Nisha A.', 'Rohan N.',
+  'Arun D.', 'Simran G.', 'Kartik S.', 'Ritu M.', 'Naveen B.',
+  'Aarav K.', 'Diya P.', 'Yash R.', 'Tanvi A.', 'Pranav T.',
+  // Gujarat / Rajasthan pilgrims
+  'Haresh P.', 'Bhavesh S.', 'Ramila M.', 'Jignesh R.', 'Kokila B.',
+  'Mehul T.', 'Hansa K.', 'Dipak A.', 'Varsha N.', 'Nilesh G.',
+  // Bengal / East India travellers
+  'Sourav D.', 'Moumita S.', 'Debabrata M.', 'Arpita R.', 'Subhash B.',
+  'Tanmoy K.', 'Mousumi P.', 'Arnab T.', 'Sangita A.', 'Partha N.',
+];
+
+const ACTIONS = [
+  // Char Dham
+  { text: 'just booked Char Dham Yatra 2026',            emoji: '🙏' },
+  { text: 'booked Char Dham package for family of 6',    emoji: '🙏' },
+  { text: 'booked Kedarnath taxi from Dehradun',         emoji: '⛩️' },
+  { text: 'booked Badrinath Yatra package',              emoji: '🏔️' },
+  { text: 'booked Do Dham Yatra — Kedarnath + Badrinath',emoji: '🕌' },
+  { text: 'booked Yamunotri + Gangotri trip',            emoji: '🌸' },
+  // Airport
+  { text: 'booked Jolly Grant airport pickup',           emoji: '🛬' },
+  { text: 'booked airport drop from Mussoorie',          emoji: '✈️' },
+  { text: 'booked airport cab for early morning flight', emoji: '🌅' },
+  // Hill stations
+  { text: 'booked Mussoorie Day Trip',                   emoji: '🏔️' },
+  { text: 'booked Nainital Weekend Package',             emoji: '🏞️' },
+  { text: 'booked Auli Snow Trip for 3 days',            emoji: '⛷️' },
+  { text: 'booked Chakrata weekend getaway',             emoji: '🌲' },
+  { text: 'booked Lansdowne day trip from Dehradun',     emoji: '🍃' },
+  // Spiritual
+  { text: 'booked Rishikesh + Haridwar Tour',            emoji: '🌊' },
+  { text: 'booked Haridwar Ganga Aarti trip',            emoji: '🛕' },
+  { text: 'booked Rishikesh rafting + sightseeing cab',  emoji: '🚣' },
+  // Outstation
+  { text: 'booked Outstation cab to Delhi NCR',          emoji: '🚗' },
+  { text: 'booked one-way cab Dehradun → Delhi',         emoji: '🛣️' },
+  { text: 'booked round-trip cab to Chandigarh',         emoji: '🔄' },
+  // Local / Corporate
+  { text: 'booked Corporate cab to Dehradun office',     emoji: '💼' },
+  { text: 'booked local cab for hospital visit',         emoji: '🏥' },
+  { text: 'booked monthly corporate package',            emoji: '📋' },
+  { text: 'booked wedding guest pickup — Innova Crysta', emoji: '💒' },
+];
+
+// Generate a realistic random time offset
+function randomTime(): string {
+  const minMinutes = 15;
+  const maxMinutes = 60 * 72;
+  const minutes = Math.floor(Math.random() * (maxMinutes - minMinutes)) + minMinutes;
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr${hours > 1 ? 's' : ''} ago`;
+  const days = Math.floor(hours / 24);
+  if (days === 1) return 'yesterday';
+  return `${days} days ago`;
+}
+
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateFeed(count = 20) {
+  const usedNames = new Set<string>();
+  const items = [];
+  let attempts = 0;
+  while (items.length < count && attempts < 100) {
+    attempts++;
+    const name = pick(NAMES);
+    if (usedNames.has(name)) continue;
+    usedNames.add(name);
+    const action = pick(ACTIONS);
+    items.push({ name, action: action.text, emoji: action.emoji, time: randomTime() });
+  }
+  return items;
+}
+
+// Notification rotation — Booking.com style
+document.addEventListener('DOMContentLoaded', () => {
+  const notification = document.getElementById('proof-notification');
+  const emojiEl = document.getElementById('proof-emoji');
+  const textEl = document.getElementById('proof-text');
+  const timeEl = document.getElementById('proof-time');
+
+  if (!notification || !emojiEl || !textEl || !timeEl) return;
+
+  const feed = generateFeed(20);
+  let index = 0;
+
+  function showNext() {
+    const item = feed[index % feed.length];
+    index++;
+
+    // Fade out
+    notification.classList.add('fade');
+
+    setTimeout(() => {
+      // Update content
+      emojiEl.textContent = item.emoji;
+      textEl.innerHTML = `<strong>${item.name}</strong> ${item.action}`;
+      timeEl.textContent = item.time;
+
+      // Fade in
+      notification.classList.remove('fade');
+    }, 500);
+  }
+
+  // Show first item immediately then rotate every 5 seconds
+  showNext();
+  setInterval(showNext, 5000);
+});
+</script>
