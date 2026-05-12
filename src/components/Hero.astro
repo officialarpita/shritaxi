@@ -61,7 +61,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         <button class="trip-tab" data-trip="airport" role="tab" aria-selected="false">Airport</button>
       </div>
 
-      <form class="booking-form" id="booking-form" novalidate>
+      <form class="booking-form" id="booking-form" data-wa={wa} novalidate>
         <input type="hidden" name="trip_type" id="trip_type_input" value="one-way" />
 
         <!-- Pickup -->
@@ -234,7 +234,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   </div>
 </section>
 
-<script define:vars={{ wa }}>
+<script>
   // Pre-select vehicle if coming from fleet page
   document.addEventListener('DOMContentLoaded', () => {
     const selectedVehicle = sessionStorage.getItem('selectedVehicle');
@@ -322,6 +322,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
       const msg = `🙏 *New Booking Request — Shri Taxi*\n\n📍 *Pickup:* ${pickup}\n📍 *Drop:* ${drop}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n🚗 *Vehicle:* ${vehicleNames[vehicle] || vehicle}\n🔄 *Trip Type:* ${trip}\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n\n_Booked via shritaxi.com_`;
 
+      const wa = form.dataset.wa || '';
       const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
 
       // Show success popup
