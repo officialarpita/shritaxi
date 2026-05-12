@@ -13,10 +13,12 @@ interface BookingPayload {
   pickup?: string;
   drop?: string;
   date?: string;
+  time?: string;
   trip_type?: string;
   vehicle?: string;
   notes?: string;
   referral_code?: string;
+  booking_id?: string;
   company?: string;
   turnstile_token?: string;
 }
@@ -68,7 +70,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   if (!verified) return json({ ok: false, error: 'Security check failed. Please reload and try again.' }, 400);
 
   // Validate
-  const required = ['name', 'phone', 'pickup', 'drop', 'date', 'trip_type', 'vehicle'] as const;
+  const required = ['name', 'phone', 'pickup', 'drop', 'date', 'time', 'trip_type', 'vehicle'] as const;
   for (const k of required) {
     const v = (payload[k] || '').toString().trim();
     if (!v) return json({ ok: false, error: `Please fill in ${k.replace('_', ' ')}.` }, 400);
@@ -81,23 +83,35 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     return json({ ok: false, error: 'Please pick today or a future date.' }, 400);
   }
 
-  const tripLabel = payload.trip_type === 'round_trip' ? 'Round-trip' : 'One-way';
+  const tripLabels: Record<string, string> = {
+    'one-way': 'One-way',
+    'round-trip': 'Round-trip',
+    'local': 'Local',
+    'airport': 'Airport',
+  };
+  const tripLabel = tripLabels[payload.trip_type!] || payload.trip_type!;
 
   const safeCode = sanitizeReferralCode((payload.referral_code || '').toString().trim());
   const referral = safeCode ? findReferral(safeCode) : null;
   const referralLine = !safeCode
     ? null
     : referral
-      ? `<b>Referral:</b> ${escapeHtml(safeCode)} → ${escapeHtml(referral.referrer)} ✅`
-      : `<b>Referral:</b> ${escapeHtml(safeCode)} — unknown ⚠️`;
+      ? `<b>Referral:</b> ${escapeHtml(safeCode)} → ${escapeHtml(referral.referrer)} (verified)`
+      : `<b>Referral:</b> ${escapeHtml(safeCode)} — unknown`;
+
+  // Booking ID: trust client-supplied if present, otherwise generate a server-side fallback
+  const bookingId = (payload.booking_id || '').trim().replace(/[^A-Z0-9-]/gi, '').slice(0, 32)
+    || `SHRI-${new Date().toISOString().slice(2,10).replace(/-/g,'')}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
 
   const lines = [
-    '🚕 <b>New booking request</b>',
+    '<b>New booking request</b>',
+    `<b>Booking ID:</b> ${escapeHtml(bookingId)}`,
     `<b>Name:</b> ${escapeHtml(payload.name!)}`,
     `<b>Phone:</b> ${escapeHtml(payload.phone!)}`,
     `<b>Pickup:</b> ${escapeHtml(payload.pickup!)}`,
     `<b>Drop:</b> ${escapeHtml(payload.drop!)}`,
     `<b>Date:</b> ${escapeHtml(payload.date!)}`,
+    `<b>Time:</b> ${escapeHtml(payload.time!)}`,
     `<b>Trip:</b> ${tripLabel}`,
     `<b>Vehicle:</b> ${escapeHtml(payload.vehicle!)}`,
     `<b>Notes:</b> ${escapeHtml(payload.notes?.trim() || '-')}`,
@@ -133,11 +147,13 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           timestamp: new Date().toISOString(),
+          booking_id: bookingId,
           name: payload.name,
           phone: payload.phone,
           pickup: payload.pickup,
           drop: payload.drop,
           date: payload.date,
+          time: payload.time,
           trip_type: tripLabel,
           vehicle: payload.vehicle,
           notes: payload.notes || '',
@@ -151,7 +167,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
     );
   }
 
-  return json({ ok: true });
+  return json({ ok: true, booking_id: bookingId });
 };
 
 export const onRequest: PagesFunction<Env> = async (ctx) => {

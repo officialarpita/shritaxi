@@ -311,7 +311,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       const vehicle = payload.vehicle || '';
       const name    = payload.name    || '';
       const phone   = payload.phone   || '';
-      const trip    = payload.trip_type === 'round_trip' ? 'Round Trip' : 'One Way';
+      const tripLabels: Record<string, string> = {
+        'one-way': 'One Way',
+        'round-trip': 'Round Trip',
+        'local': 'Local',
+        'airport': 'Airport',
+      };
+      const trip = tripLabels[payload.trip_type] || payload.trip_type || 'One Way';
 
       const vehicleNames: Record<string, string> = {
         sedan: 'Sedan (Dzire/Baleno)',
@@ -320,7 +326,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         traveller: 'Tempo Traveller',
       };
 
-      const msg = `🙏 *New Booking Request — Shri Taxi*\n\n📍 *Pickup:* ${pickup}\n📍 *Drop:* ${drop}\n📅 *Date:* ${date}\n⏰ *Time:* ${time}\n🚗 *Vehicle:* ${vehicleNames[vehicle] || vehicle}\n🔄 *Trip Type:* ${trip}\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n\n_Booked via shritaxi.com_`;
+      // Booking ID: SHRI-YYMMDD-XXXX (4-char base36 random suffix)
+      const d = new Date();
+      const yymmdd = d.toISOString().slice(2, 10).replace(/-/g, '');
+      const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+      const bookingId = `SHRI-${yymmdd}-${rand}`;
+      payload.booking_id = bookingId;
+
+      const msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
 
       const wa = form.dataset.wa || '';
       const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
@@ -332,10 +345,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
       if (popup && details) {
         details.innerHTML = `
-          <div>📍 <strong>${pickup}</strong> → <strong>${drop}</strong></div>
-          ${vehicleNames[vehicle] ? `<div>🚗 ${vehicleNames[vehicle]}</div>` : ''}
-          ${date ? `<div>📅 ${date} ${time ? '· ' + time : ''}</div>` : ''}
-          ${name ? `<div>👤 ${name}</div>` : ''}
+          <div><strong>Booking ID:</strong> ${bookingId}</div>
+          <div><strong>${pickup}</strong> → <strong>${drop}</strong></div>
+          ${vehicleNames[vehicle] ? `<div>Vehicle: ${vehicleNames[vehicle]}</div>` : ''}
+          ${date ? `<div>${date}${time ? ' · ' + time : ''}</div>` : ''}
+          ${name ? `<div>${name}</div>` : ''}
         `;
         if (waLink) waLink.href = waUrl;
         popup.setAttribute('aria-hidden', 'false');
