@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StickyBar from '../components/StickyBar.astro';
 import SeasonBanner from '../components/SeasonBanner.astro';
+import RelatedRoutes from '../components/RelatedRoutes.astro';
 import { fleet } from '../data/fleet';
 import { Image } from 'astro:assets';
 import RishikeshImg  from '../assets/images/Hrisikesh1.jpeg';
@@ -169,6 +170,8 @@ const faqSchema = {
         </div>
       </div>
     </section>
+
+    <RelatedRoutes currentPage="/dehradun-to-rishikesh-taxi" />
 
   </main>
 
