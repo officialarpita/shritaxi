@@ -234,7 +234,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   </div>
 </section>
 
-<script>
+<script define:vars={{ wa }}>
   // Pre-select vehicle if coming from fleet page
   document.addEventListener('DOMContentLoaded', () => {
     const selectedVehicle = sessionStorage.getItem('selectedVehicle');
@@ -355,7 +355,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       btn.style.background = 'var(--whatsapp)';
 
     } catch (err) {
-      // Even on error, show success — WhatsApp link is the fallback
+      console.error('Booking handler error:', err);
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
     } finally {
