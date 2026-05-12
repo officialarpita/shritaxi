@@ -1,0 +1,198 @@
+---
+interface RelatedRoute {
+  title: string;
+  href: string;
+  price: string;
+  duration: string;
+  tag: string;
+}
+
+interface Props {
+  currentPage: string;
+}
+
+const { currentPage } = Astro.props;
+
+const allRoutes: RelatedRoute[] = [
+  {
+    title: 'Dehradun to Mussoorie Taxi',
+    href: '/dehradun-to-mussoorie-taxi',
+    price: '₹1,500',
+    duration: '1 hr 30 min',
+    tag: 'Hill Station',
+  },
+  {
+    title: 'Dehradun to Haridwar Taxi',
+    href: '/dehradun-to-haridwar-taxi',
+    price: '₹2,000',
+    duration: '1 hr 30 min',
+    tag: 'Spiritual',
+  },
+  {
+    title: 'Dehradun to Rishikesh Taxi',
+    href: '/dehradun-to-rishikesh-taxi',
+    price: '₹2,000',
+    duration: '1 hr 15 min',
+    tag: 'Adventure',
+  },
+  {
+    title: 'Jolly Grant Airport Taxi',
+    href: '/jolly-grant-airport-taxi',
+    price: '₹1,000',
+    duration: '45 min',
+    tag: 'Airport',
+  },
+  {
+    title: 'Char Dham Yatra Packages',
+    href: '/char-dham-yatra',
+    price: '₹10,999',
+    duration: '3-10 Days',
+    tag: 'Pilgrimage',
+  },
+  {
+    title: 'Uttarakhand Tour Packages',
+    href: '/packages',
+    price: '₹3,599',
+    duration: 'Custom',
+    tag: 'Packages',
+  },
+];
+
+// Filter out current page
+const relatedRoutes = allRoutes.filter(r => r.href !== currentPage).slice(0, 4);
+
+const tagColors: Record<string, string> = {
+  'Hill Station': '#0d9488',
+  'Spiritual':    '#8b5cf6',
+  'Adventure':    '#3b82f6',
+  'Airport':      '#fb923c',
+  'Pilgrimage':   '#f59e0b',
+  'Packages':     '#0d9488',
+};
+---
+
+<section class="related-routes">
+  <div class="container">
+    <h2 class="related-title">Other Popular Taxi Services from Dehradun</h2>
+    <p class="related-sub">Explore more destinations with Shri Taxi — fixed price, all inclusive</p>
+    <div class="related-grid">
+      {relatedRoutes.map(r => (
+        <a href={r.href} class="related-card">
+          <div class="related-card-inner">
+            <span class="related-tag" style={`background:${tagColors[r.tag] || '#0d9488'}`}>{r.tag}</span>
+            <h3 class="related-name">{r.title}</h3>
+            <div class="related-meta">
+              <span class="related-price">{r.price}</span>
+              <span class="related-sep">·</span>
+              <span class="related-duration">{r.duration}</span>
+            </div>
+            <span class="related-cta">Book Now →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.related-routes {
+  background: var(--mint);
+  padding: 48px 0;
+  border-top: 1px solid var(--border);
+}
+
+.related-title {
+  font-size: 22px;
+  font-family: 'Playfair Display', serif;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+
+.related-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.related-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: block;
+}
+
+.related-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.related-card-inner {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.related-tag {
+  display: inline-block;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.related-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--slate);
+  line-height: 1.3;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.related-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.related-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+  font-family: 'Playfair Display', serif;
+}
+
+.related-sep {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.related-duration {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.related-cta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--saffron);
+}
+
+@media (max-width: 900px) {
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .related-grid { grid-template-columns: 1fr; }
+}
+</style>
