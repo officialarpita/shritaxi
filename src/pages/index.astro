@@ -20,19 +20,18 @@ const localBusinessSchema = {
   '@context': 'https://schema.org',
   '@type': ['TaxiService', 'LocalBusiness'],
   name: 'Shri Taxi — Taxi Service in Uttarakhand',
-  <!--description: 'Reliable taxi service in Dehradun for airport transfers, Char Dham Yatra, Mussoorie, Rishikesh, Haridwar, Nainital and all Uttarakhand destinations. Experienced local drivers, transparent pricing, 24/7 available.',-->
   description: 'Reliable taxi service across Uttarakhand — Dehradun, Mussoorie, Haridwar, Rishikesh, Nainital, Char Dham Yatra and outstation cabs to Delhi NCR & Chandigarh. Experienced local pahadi drivers, transparent pricing, 24/7 available.',
   url: 'https://shritaxi.com',
   telephone: phone,
   priceRange: '₹₹',
   image: 'https://shritaxi.com/images/hero-mountains.jpg',
-  <!--hasMap: 'https://www.google.com/maps/search/shri+taxi+dehradun',-->
+  logo: 'https://shritaxi.com/images/logo.png',
   hasMap: 'https://maps.app.goo.gl/X8hFada5oFN63vUp7',
   paymentAccepted: 'Cash, UPI, GPay, PhonePe, Paytm, Bank Transfer',
   currenciesAccepted: 'INR',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Dehradun',
+    streetAddress: 'Shastradhara Road',
     addressLocality: 'Dehradun',
     addressRegion: 'Uttarakhand',
     postalCode: '248001',
@@ -65,19 +64,28 @@ const localBusinessSchema = {
     { '@type': 'City', name: 'Kedarnath' },
     { '@type': 'City', name: 'Badrinath' },
     { '@type': 'City', name: 'Auli' },
+    { '@type': 'City', name: 'Dhanaulti' },
+    { '@type': 'City', name: 'Munsiyari' },
+    { '@type': 'City', name: 'Chopta' },
+    { '@type': 'City', name: 'Delhi' },
+    { '@type': 'City', name: 'Chandigarh' },
     { '@type': 'State', name: 'Uttarakhand' },
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Cab Services in Dehradun',
+    name: 'Taxi & Cab Services in Uttarakhand',
     itemListElement: [
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Airport Transfer – Jolly Grant Airport Dehradun' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Char Dham Yatra Taxi Package 2026' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Mussoorie' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Rishikesh' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Dehradun to Haridwar' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Delhi to Dehradun' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Delhi to Haridwar' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Delhi to Rishikesh' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Delhi to Mussoorie' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Taxi from Chandigarh to Dehradun' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Outstation Cab Dehradun – One Way & Round Trip' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Corporate Travel Dehradun' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Tempo Traveller Dehradun' } },
     ],
   },
@@ -87,7 +95,7 @@ const localBusinessSchema = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Shri Taxi',
+  name: 'Shri Taxi — Uttarakhand Taxi Service',
   url: 'https://shritaxi.com',
   potentialAction: {
     '@type': 'SearchAction',
@@ -98,10 +106,10 @@ const websiteSchema = {
 ---
 
 <Base
-  title="Taxi Service in Dehradun | Cab Booking Uttarakhand | Shri Taxi"
-  description="Book taxi service in Dehradun for airport transfers, Char Dham Yatra 2026, Mussoorie, Rishikesh, Haridwar & all Uttarakhand destinations. Verified drivers, transparent pricing, 24/7 support."
+  title="Taxi Service in Uttarakhand | Dehradun, Mussoorie, Char Dham & Delhi NCR | Shri Taxi"
+  description="Book taxi service across Uttarakhand — Char Dham Yatra 2026, Dehradun airport transfers, Mussoorie, Haridwar, Rishikesh & outstation cabs to Delhi NCR and Chandigarh. Pahadi drivers, fixed price, 24/7 support."
   canonicalUrl="https://shritaxi.com/"
-  ogImage="/images/hero-mountains.jpg"
+  ogImage="https://shritaxi.com/images/og.jpg"
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(localBusinessSchema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} slot="head" />
