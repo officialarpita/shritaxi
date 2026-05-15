@@ -106,7 +106,7 @@ export const testimonials: Testimonial[] = [
 
 export const aggregateRating = {
   ratingValue: 4.9,
-  reviewCount: 20,
+  reviewCount: 30,
   bestRating: 5,
   worstRating: 1,
 };
