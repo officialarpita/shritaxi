@@ -59,7 +59,7 @@ const charDhamPkgs = packages.filter(p =>
           <div class="pkg-card">
             <div class="pkg-img-wrap">
               <Image src={img} alt={`${p.name} taxi package from Dehradun`} width={320} height={180} widths={[280, 320, 640]}
-              sizes="(max-width: 640px) 280px, 320px"class="pkg-img" loading="lazy" />
+              sizes="(max-width: 640px) 280px, 320px"class="pkg-img" loading="lazy" format="webp" />
               <div class="pkg-overlay" aria-hidden="true"></div>
               <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
               <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
@@ -100,7 +100,7 @@ const charDhamPkgs = packages.filter(p =>
       <div class="pkg-card pkg-card--chardham">
         <div class="pkg-img-wrap">
           <Image src={CharDhamImg} alt="Char Dham Yatra taxi package 2026 from Dehradun" width={320} height={180} widths={[280, 320, 640]}
-          sizes="(max-width: 640px) 280px, 320px"class="pkg-img" loading="lazy" />
+          sizes="(max-width: 640px) 280px, 320px"class="pkg-img" loading="lazy" format="webp" />
           <div class="pkg-overlay" aria-hidden="true"></div>
           <span class="pkg-badge" style="background:#fb923c">Char Dham</span>
           <div class="pkg-discount-badge"><span class="discount-pct">10% OFF</span></div>
