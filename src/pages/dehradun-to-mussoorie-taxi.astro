@@ -220,6 +220,19 @@ const faqSchema = {
       </div>
     </section>
 
+
+    <!-- Cross-sell Delhi banner -->
+    <div class="delhi-crosssell">
+      <div class="container delhi-crosssell-inner">
+        <span class="delhi-crosssell-icon">🏙️</span>
+        <div>
+          <strong>Travelling from Delhi or Chandigarh?</strong>
+          <p>We cover all Uttarakhand routes from Delhi NCR & Chandigarh at fixed prices.</p>
+        </div>
+        <a href="/packages#multi-dest-packages" class="btn btn-call delhi-crosssell-btn">View Delhi Packages →</a>
+      </div>
+    </div>
+
     <RelatedRoutes currentPage="/dehradun-to-mussoorie-taxi" />
 
   </main>
@@ -483,4 +496,26 @@ details[open] .faq-q { color: var(--teal); }
   .loc-cta-btns { width: 100%; flex-direction: column; }
   .loc-cta-btns .btn { justify-content: center; }
 }
+
+.delhi-crosssell {
+  background: linear-gradient(135deg, #fff7ed, #ffedd5);
+  border-top: 2px solid var(--saffron);
+  border-bottom: 2px solid var(--saffron);
+  padding: 16px 0;
+}
+.delhi-crosssell-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.delhi-crosssell-icon { font-size: 28px; flex-shrink: 0; }
+.delhi-crosssell-inner strong { font-size: 15px; color: var(--slate); display: block; margin-bottom: 2px; }
+.delhi-crosssell-inner p { font-size: 13px; color: var(--muted); margin: 0; }
+.delhi-crosssell-btn { margin-left: auto; white-space: nowrap; flex-shrink: 0; }
+@media (max-width: 600px) {
+  .delhi-crosssell-inner { flex-direction: column; align-items: flex-start; }
+  .delhi-crosssell-btn { margin-left: 0; width: 100%; justify-content: center; }
+}
+
 </style>

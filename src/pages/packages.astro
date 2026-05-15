@@ -98,30 +98,216 @@ const schema = {
       </div>
     </div>
 
-    <!-- Quick Filter Tabs -->
+    <!-- Category Chip Filter -->
     <div class="pkg-filter-bar">
       <div class="container">
-        <p class="pkg-filter-label">Browse by Category</p>
-        <div class="pkg-filter-tabs">
-          <a href="#day-packages" class="pkg-filter-tab">
-            <span class="pkg-filter-icon">🏔️</span>
-            <span class="pkg-filter-text">Day Trips & Short Packages</span>
-          </a>
-          <a href="#char-dham-packages" class="pkg-filter-tab">
-            <span class="pkg-filter-icon">🙏</span>
-            <span class="pkg-filter-text">Char Dham Yatra 2026</span>
-          </a>
-          <a href="#multi-dest-packages" class="pkg-filter-tab pkg-filter-tab--highlight">
-            <span class="pkg-filter-icon">🏙️</span>
-            <span class="pkg-filter-text">Delhi & Chandigarh Circuits</span>
-            <span class="pkg-filter-new">NEW</span>
-          </a>
+        <p class="pkg-filter-label">What are you looking for?</p>
+        <div class="pkg-chips">
+          <button class="pkg-chip pkg-chip--active" data-filter="all">🌿 All Packages</button>
+          <button class="pkg-chip" data-filter="day">🏔️ Day Trips</button>
+          <button class="pkg-chip" data-filter="chardham">🙏 Char Dham</button>
+          <button class="pkg-chip pkg-chip--highlight" data-filter="circuits">🏙️ Delhi & Chandigarh <span class="chip-new">NEW</span></button>
         </div>
       </div>
     </div>
 
-    <!-- Day/Short Packages -->
-    <section class="section" id="day-packages">
+    <!-- Day/Short Packages — Accordion -->
+    <details class="pkg-accordion" id="day-packages" data-category="day" open>
+      <summary class="pkg-accordion-header">
+        <div class="pkg-accordion-title">
+          <span class="pkg-accordion-icon">🏔️</span>
+          <div>
+            <h2>Day Trips & Short Packages</h2>
+            <p>From Dehradun · Starting ₹3,599</p>
+          </div>
+        </div>
+        <div class="pkg-accordion-meta">
+          <span class="pkg-accordion-count">{dayPackages.length} packages</span>
+          <svg class="pkg-accordion-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </summary>
+      <div class="pkg-accordion-body">
+        <div class="pkg-grid">
+          {dayPackages.map(p => {
+            const img = imgMap[p.id] || CharDhamImg;
+            return (
+              <div class="pkg-card" id={p.id}>
+                <div class="pkg-img-wrap">
+                  <Image src={img} alt={`${p.name} taxi package from Dehradun`} width={400} height={220} class="pkg-img" loading="lazy" format="webp" />
+                  <div class="pkg-overlay"></div>
+                  <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
+                  <div class="pkg-discount-circle"><span>10%</span><span>OFF</span></div>
+                </div>
+                <div class="pkg-body">
+                  <h3 class="pkg-name">{p.name}</h3>
+                  <div class="pkg-highlights">
+                    {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
+                  </div>
+                  <div class="pkg-pricing-table">
+                    <div class="pkg-pricing-header">
+                      <span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span>
+                    </div>
+                    {p.tiers.map(t => (
+                      <div class="pkg-pricing-row">
+                        <span class="pkg-tier-vehicle">{t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'} {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}</span>
+                        <span class="pkg-tier-mrp">{fmt(t.mrp)}</span>
+                        <span class="pkg-tier-final">{fmt(t.discounted)}</span>
+                        <span class="pkg-tier-save">-{fmt(t.saving)}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+                  <div class="pkg-actions">
+                    <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                    <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </details>
+
+    <!-- Char Dham Packages — Accordion -->
+    <details class="pkg-accordion" id="char-dham-packages" data-category="chardham">
+      <summary class="pkg-accordion-header">
+        <div class="pkg-accordion-title">
+          <span class="pkg-accordion-icon">🙏</span>
+          <div>
+            <h2>Char Dham Yatra 2026</h2>
+            <p>From Dehradun · Season Open · Starting ₹10,999</p>
+          </div>
+        </div>
+        <div class="pkg-accordion-meta">
+          <span class="pkg-accordion-count">{charDhamPackages.length} packages</span>
+          <svg class="pkg-accordion-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </summary>
+      <div class="pkg-accordion-body">
+        <div class="chardham-grid">
+          {charDhamPackages.map(p => (
+            <div class="chardham-card" id={p.id}>
+              <div class="chardham-header">
+                <div class="chardham-header-left">
+                  <div class="chardham-icon">{p.id === 'ek-dham' ? '🙏' : p.id === 'do-dham' ? '🙏🙏' : '🙏🙏🙏🙏'}</div>
+                  <div>
+                    <span class="chardham-tag" style={`background:${p.badgeColor}`}>{p.id === 'ek-dham' ? 'Ek Dham' : p.id === 'do-dham' ? 'Do Dham' : 'Char Dham'} · {p.nights}N {p.days}D</span>
+                    <h3 class="chardham-name">{p.name}</h3>
+                    <p class="chardham-sub">{p.id === 'ek-dham' ? 'Choose any 1 Dham — Kedarnath, Badrinath, Yamunotri or Gangotri' : p.id === 'do-dham' ? 'Kedarnath + Badrinath · OR Yamunotri + Gangotri' : 'Yamunotri · Gangotri · Kedarnath · Badrinath — All 4 Dhams'}</p>
+                  </div>
+                </div>
+                <div class="chardham-discount-badge">10% OFF</div>
+              </div>
+              <div class="pkg-highlights" style="margin-bottom:14px">
+                {p.highlights.map(h => <span class="pkg-highlight-chip">{h}</span>)}
+              </div>
+              {p.itinerary && (
+                <div class="chardham-itinerary">
+                  {p.itinerary.map(day => <p class="itinerary-day">📍 {day}</p>)}
+                </div>
+              )}
+              <div class="chardham-pricing-table">
+                {p.tiers.map(t => (
+                  <div class="chardham-tier">
+                    <span class="chardham-tier-vehicle">
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                      {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
+                      <span class="chardham-seats">({t.seats}+1)</span>
+                    </span>
+                    <div class="chardham-tier-price">
+                      <span class="chardham-mrp">{fmt(t.mrp)}</span>
+                      <span class="chardham-final">{fmt(t.discounted)}</span>
+                      <span class="chardham-save">Save {fmt(t.saving)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p class="pkg-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+              <div class="pkg-actions">
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </details>
+
+    <!-- Delhi & Chandigarh Circuits — Accordion -->
+    <details class="pkg-accordion pkg-accordion--highlight" id="multi-dest-packages" data-category="circuits">
+      <summary class="pkg-accordion-header">
+        <div class="pkg-accordion-title">
+          <span class="pkg-accordion-icon">🏙️</span>
+          <div>
+            <h2>Delhi & Chandigarh Circuit Tours <span class="accordion-new-badge">NEW</span></h2>
+            <p>From Delhi NCR & Chandigarh · Same price · Starting ₹17,999</p>
+          </div>
+        </div>
+        <div class="pkg-accordion-meta">
+          <span class="pkg-accordion-count">{multiDestPackages.length} packages</span>
+          <svg class="pkg-accordion-chevron" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </summary>
+      <div class="pkg-accordion-body">
+        <div class="multi-notice">
+          <span>📍</span>
+          <p><strong>Same price from Delhi NCR & Chandigarh.</strong> Cab only — hotel, meals & safari not included.</p>
+        </div>
+        <div class="multi-grid">
+          {multiDestPackages.map(p => (
+            <div class="multi-card" id={p.id}>
+              <div class="multi-header">
+                <div>
+                  <span class="multi-tag" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <h3 class="multi-name">{p.name}</h3>
+                  <p class="multi-duration">⏱ {p.nights}N {p.days}D</p>
+                </div>
+                <div class="multi-discount">10% OFF</div>
+              </div>
+              <div class="multi-highlights">
+                {p.highlights.map(h => <span class="multi-highlight">{h}</span>)}
+              </div>
+              {p.itinerary && (
+                <div class="multi-itinerary">
+                  {p.itinerary.map(day => <div class="multi-day">📍 {day}</div>)}
+                </div>
+              )}
+              <div class="multi-pricing-table">
+                {p.tiers.map(t => (
+                  <div class="multi-tier">
+                    <span class="multi-tier-vehicle">
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                      {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
+                      <span class="multi-tier-seats">({t.seats}+1)</span>
+                    </span>
+                    <div class="multi-tier-price">
+                      <span class="multi-mrp">{fmt(t.mrp)}</span>
+                      <span class="multi-final">{fmt(t.discounted)}</span>
+                      <span class="multi-save">Save {fmt(t.saving)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p class="multi-inclusive">✓ Cab — driver, fuel, toll & parking included</p>
+              {p.excludes && p.excludes.length > 0 && (
+                <details class="multi-exclusions">
+                  <summary class="multi-excl-summary">View Exclusions ▾</summary>
+                  <ul class="multi-excl-list">
+                    {p.excludes.map(e => <li>✗ {e}</li>)}
+                  </ul>
+                </details>
+              )}
+              <div class="multi-actions">
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </details>
       <div class="container">
         <p class="section-label">Day Trips & Short Packages</p>
         <h2 class="section-title">Popular Tour Packages from Dehradun</h2>
@@ -383,22 +569,206 @@ const schema = {
 </Base>
 
 <script>
-  // Smooth scroll for filter tabs
-  document.querySelectorAll('.pkg-filter-tab').forEach(tab => {
-    tab.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = (tab as HTMLAnchorElement).getAttribute('href');
-      if (target) {
-        document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      // Update active state
-      document.querySelectorAll('.pkg-filter-tab').forEach(t => t.classList.remove('pkg-filter-tab--active'));
-      tab.classList.add('pkg-filter-tab--active');
+  // Chip filter — show/hide accordions
+  const chips = document.querySelectorAll('.pkg-chip');
+  const accordions = document.querySelectorAll('.pkg-accordion');
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filter = (chip as HTMLElement).dataset.filter;
+
+      // Update active chip
+      chips.forEach(c => c.classList.remove('pkg-chip--active'));
+      chip.classList.add('pkg-chip--active');
+
+      // Show/hide accordions
+      accordions.forEach(acc => {
+        const cat = (acc as HTMLElement).dataset.category;
+        if (filter === 'all' || filter === cat) {
+          (acc as HTMLDetailsElement).style.display = '';
+          // Auto-open selected category
+          if (filter === cat) (acc as HTMLDetailsElement).open = true;
+        } else {
+          (acc as HTMLDetailsElement).style.display = 'none';
+        }
+      });
+
+      // Scroll to first visible accordion
+      const firstVisible = document.querySelector('.pkg-accordion:not([style*="none"])');
+      firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>
 
 <style>
+/* ── Chip Filter ── */
+.pkg-filter-bar {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 20px 0;
+  position: sticky;
+  top: 60px;
+  z-index: 90;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.pkg-filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.pkg-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pkg-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate);
+  background: var(--mint);
+  border: 2px solid var(--border);
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.pkg-chip:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.pkg-chip--active {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #fff;
+}
+
+.pkg-chip--highlight {
+  border-color: var(--saffron);
+  color: #c2410c;
+  background: #fff7ed;
+  position: relative;
+}
+
+.pkg-chip--highlight.pkg-chip--active {
+  background: var(--saffron);
+  border-color: var(--saffron);
+  color: #fff;
+}
+
+.chip-new {
+  background: #ef4444;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+/* ── Accordion ── */
+.pkg-accordion {
+  border-bottom: 2px solid var(--border);
+}
+
+.pkg-accordion--highlight {
+  border-left: 4px solid var(--saffron);
+}
+
+.pkg-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  cursor: pointer;
+  list-style: none;
+  background: var(--white);
+}
+
+.pkg-accordion-header::-webkit-details-marker { display: none; }
+
+.pkg-accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pkg-accordion-icon { font-size: 32px; }
+
+.pkg-accordion-title h2 {
+  font-size: 22px;
+  font-family: 'Playfair Display', serif;
+  color: var(--slate);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pkg-accordion-title p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.pkg-accordion-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.pkg-accordion-count {
+  background: var(--mint);
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.pkg-accordion-chevron {
+  color: var(--muted);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+details[open] .pkg-accordion-chevron { transform: rotate(180deg); color: var(--teal); }
+details[open] .pkg-accordion-header { color: var(--teal); }
+
+.pkg-accordion-body {
+  padding: 8px 0 32px;
+}
+
+.accordion-new-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  vertical-align: middle;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .pkg-chips { gap: 8px; }
+  .pkg-chip { padding: 8px 14px; font-size: 13px; }
+  .pkg-accordion-icon { font-size: 24px; }
+  .pkg-accordion-title h2 { font-size: 18px; }
+  .pkg-accordion-count { display: none; }
+}
 /* Hero */
 .pkg-hero {
   background: linear-gradient(135deg, #0d9488, #0f766e);
