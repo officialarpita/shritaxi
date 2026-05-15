@@ -6,7 +6,7 @@ import CharDhamImg   from '../assets/images/CharDham1.jpeg';
 import NainitalImg   from '../assets/images/Nainital2.jpg';
 import AuliImg       from '../assets/images/Auli_togo.jpg';
 import NeemKaroliImg from '../assets/images/NeemKaroli.jpeg';
-import SurkandaImg   from '../assets/images/SurkandaDevi.jpeg';
+import DhanaultiImg  from '../assets/images/Dhanaulti.jpeg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
@@ -16,11 +16,11 @@ function fmt(n: number) {
 
 // 4 individual packages
 const homePkgs = packages.filter(p =>
-  ['surkanda-devi', 'neem-karoli', 'nainital', 'auli'].includes(p.id)
+  ['dhanaulti', 'neem-karoli', 'nainital', 'auli'].includes(p.id)
 );
 
 const imgMap: Record<string, ImageMetadata> = {
-  'surkanda-devi': SurkandaImg,
+  'dhanaulti': DhanaultiImg,
   'neem-karoli':   NeemKaroliImg,
   'nainital':      NainitalImg,
   'auli':          AuliImg,
