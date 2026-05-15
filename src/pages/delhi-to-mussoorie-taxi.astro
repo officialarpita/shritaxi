@@ -1,0 +1,197 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import RelatedRoutes from '../components/RelatedRoutes.astro';
+import { fmt } from '../data/pricing';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const vehicles = [
+  { name: 'Sedan (Dzire/Baleno)', icon: '🚗', seats: '4+1', oneWay: 4500, roundTrip: 9000 },
+  { name: 'Maruti Ertiga',        icon: '🚐', seats: '6+1', oneWay: 5500, roundTrip: 11000 },
+  { name: 'Toyota Innova Crysta', icon: '🚙', seats: '6+1', oneWay: 6670, roundTrip: 13340 },
+  { name: 'Tempo Traveller',      icon: '🚌', seats: '12+1', oneWay: 9000, roundTrip: 18000 },
+];
+
+const faqs = [
+  { q: 'What is the taxi fare from Delhi to Mussoorie?', a: 'Taxi from Delhi to Mussoorie starts at ₹4,500 for Sedan, ₹5,500 for Ertiga, ₹6,670 for Innova Crysta. All inclusive.' },
+  { q: 'How long is Delhi to Mussoorie?', a: 'Delhi to Mussoorie takes 6-7 hours by taxi. Distance is 290 km via Dehradun.' },
+  { q: 'Why is Mussoorie taxi ₹1,000 more than Delhi to Dehradun?', a: 'Mussoorie is 35 km beyond Dehradun on mountain roads. The extra distance and hill driving is reflected in the fare.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TaxiService',
+  name: 'Delhi to Mussoorie Taxi — Shri Taxi',
+  url: 'https://shritaxi.com/delhi-to-mussoorie-taxi',
+  telephone: phone,
+  offers: { '@type': 'Offer', price: '4500', priceCurrency: 'INR' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Base
+  title="Delhi to Mussoorie Taxi | ₹4,500 Fixed Price | Shri Taxi"
+  description="Book taxi from Delhi to Mussoorie at ₹4,500. Queen of Hills, Mall Road, Kempty Falls. Fixed price, all inclusive. Sedan, Ertiga, Innova Crysta available."
+  canonicalUrl="https://shritaxi.com/delhi-to-mussoorie-taxi"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/delhi-to-mussoorie-taxi" />
+
+  <main id="main-content">
+
+    <section class="loc-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Delhi to Mussoorie Taxi</span></nav>
+        <h1 class="loc-title">Delhi to Mussoorie Taxi</h1>
+        <p class="loc-sub">₹4,500 Fixed Price · Queen of the Hills</p>
+        <p class="loc-desc">Mussoorie, known as the Queen of Hills, is 290 km from Delhi and takes 6 hours by taxi via Dehradun. Famous for Mall Road, Kempty Falls and Lal Tibba viewpoint.</p>
+        <div class="loc-ctas">
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20from%20Delhi%20NCR%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Book Now</a>
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Us</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="loc-strip">
+      <div class="container loc-strip-inner">
+        <div class="loc-stat"><span class="loc-stat-val">290 km</span><span class="loc-stat-label">Distance</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">6 hrs</span><span class="loc-stat-label">Duration</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">₹4,500</span><span class="loc-stat-label">Starting From</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">24/7</span><span class="loc-stat-label">Available</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">Fixed</span><span class="loc-stat-label">Price</span></div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <p class="section-label">Fixed Fare</p>
+        <h2 class="section-title">Delhi to Mussoorie Taxi Fare</h2>
+        <p class="section-sub">All prices fixed and all inclusive — driver, fuel, toll and parking included</p>
+        <div class="pricing-grid">
+          {vehicles.map(v => (
+            <div class="pricing-card">
+              <div class="pricing-icon">{v.icon}</div>
+              <h3 class="pricing-vehicle">{v.name}</h3>
+              <p class="pricing-seats">{v.seats} seats</p>
+              <div class="pricing-prices">
+                <div class="pricing-row">
+                  <span class="pricing-label">One Way</span>
+                  <span class="pricing-val">{fmt(v.oneWay)}</span>
+                </div>
+                <div class="pricing-row">
+                  <span class="pricing-label">Round Trip</span>
+                  <span class="pricing-val">{fmt(v.roundTrip)}</span>
+                </div>
+              </div>
+              <p class="pricing-note">✓ All inclusive</p>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20${encodeURIComponent(v.name)}%20from%20Delhi%20NCR%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-whatsapp pricing-btn">Book Now</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--mint">
+      <div class="container loc-about">
+        <div>
+          <h2>Delhi to Mussoorie Taxi — Route Guide</h2>
+          <p>Mussoorie, known as the Queen of Hills, is 290 km from Delhi and takes 6 hours by taxi via Dehradun. Famous for Mall Road, Kempty Falls and Lal Tibba viewpoint.</p>
+          <h3>Stops on the Way</h3>
+          <ul>
+            <li>📍 Roorkee — 3.5 hrs</li>
+            <li>📍 Haridwar — 4.5 hrs</li>
+            <li>📍 Dehradun — 5.5 hrs</li>
+            <li>📍 Mussoorie — 6 hrs</li>
+          </ul>
+        </div>
+        <div class="cta-card">
+          <h3>Ready to Book?</h3>
+          <p>Get instant confirmation via WhatsApp. Our team responds within 15 minutes.</p>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20from%20Delhi%20NCR%20to%20Mussoorie`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Now</a>
+          <a href={`tel:${phone}`} class="btn btn-call" style="margin-top:10px">📞 {phone}</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Delhi to Mussoorie Taxi — FAQ</h2>
+        <div class="faq-list">
+          {faqs.map(f => (
+            <details class="faq-item" name="faq-delhi-to-mussoorie-taxi">
+              <summary class="faq-q">{f.q}<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <RelatedRoutes currentPage="/delhi-to-mussoorie-taxi" />
+
+  </main>
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.loc-hero { background: linear-gradient(135deg, #0d9488, #0f766e); padding: 52px 0 40px; }
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
+.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.loc-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+.loc-sub { font-size: 16px; color: var(--saffron); font-weight: 600; margin-bottom: 10px; }
+.loc-desc { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 680px; margin-bottom: 24px; }
+.loc-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.loc-strip { background: var(--teal-dark); padding: 16px 0; }
+.loc-strip-inner { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.loc-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.loc-stat-val { font-size: 20px; font-weight: 800; color: #fff; font-family: 'Playfair Display', serif; }
+.loc-stat-label { font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.pricing-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.pricing-icon { font-size: 36px; }
+.pricing-vehicle { font-size: 14px; font-weight: 700; color: var(--slate); }
+.pricing-seats { font-size: 12px; color: var(--muted); }
+.pricing-prices { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.pricing-row { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+.pricing-row:last-child { border-bottom: none; }
+.pricing-label { font-size: 12px; color: var(--muted); }
+.pricing-val { font-size: 15px; font-weight: 700; color: var(--teal); }
+.pricing-note { font-size: 11px; color: var(--teal); font-weight: 500; }
+.pricing-btn { width: 100%; justify-content: center; font-size: 13px; margin-top: auto; }
+.loc-about { display: grid; grid-template-columns: 1fr 320px; gap: 48px; align-items: start; }
+.loc-about h2 { font-size: 24px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 12px; }
+.loc-about h3 { font-size: 17px; font-weight: 600; color: var(--teal); margin: 18px 0 8px; }
+.loc-about p { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 10px; }
+.loc-about ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.loc-about li { font-size: 14px; color: var(--muted); }
+.cta-card { background: var(--teal); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 80px; }
+.cta-card h3 { font-size: 20px; color: #fff; font-family: 'Playfair Display', serif; }
+.cta-card p { font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+.faq-list { display: flex; flex-direction: column; max-width: 800px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--slate); list-style: none; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-chevron { flex-shrink: 0; color: var(--muted); transition: transform 0.2s; }
+details[open] .faq-chevron { transform: rotate(180deg); color: var(--teal); }
+details[open] .faq-q { color: var(--teal); }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; padding-bottom: 16px; }
+@media (max-width: 900px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } .loc-about { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .loc-strip-inner { gap: 20px; } .loc-ctas { flex-direction: column; } }
+</style>
