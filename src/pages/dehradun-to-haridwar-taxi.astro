@@ -137,7 +137,8 @@ const faqSchema = {
           <p>Haridwar can be visited year-round. March to June is peak season with Ganga Dussehra and Kanwar Mela. The Kumbh Mela (every 12 years) attracts millions. October to February offers pleasant winter weather perfect for temple visits.</p>
         </div>
         <div class="loc-image">
-          <Image src={HaridwarImg} alt="Haridwar Ganga Aarti taxi from Dehradun" width={500} height={350} class="loc-img" loading="lazy" />
+          <Image src={HaridwarImg} alt="Haridwar Ganga Aarti taxi from Dehradun" width={500} height={350} widths={[380, 500, 900]}
+            sizes="(max-width: 640px) 380px, (max-width: 1024px) 500px, 900px" format="webp" class="loc-img" loading="lazy" />
         </div>
       </div>
     </section>
