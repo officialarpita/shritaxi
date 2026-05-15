@@ -178,8 +178,10 @@ const faqSchema = {
         </div>
 
         <div class="loc-image">
-          <Image src={MussoorieImg} alt="Mussoorie hill station taxi from Dehradun" width={500} height={350} class="loc-img" loading="lazy" />
-          <Image src={Mussori2Img} alt="Dehradun to Mussoorie road taxi service" width={500} height={350} class="loc-img" loading="lazy" />
+          <Image src={MussoorieImg} alt="Mussoorie hill station taxi from Dehradun" width={500} height={350} widths={[380, 500, 900]}
+          sizes="(max-width: 640px) 380px, (max-width: 1024px) 500px, 900px" format="webp" class="loc-img" loading="lazy" />
+          <Image src={Mussori2Img} alt="Dehradun to Mussoorie road taxi service" width={500} height={350} widths={[380, 500, 900]}
+          sizes="(max-width: 640px) 380px, (max-width: 1024px) 500px, 900px" format="webp" class="loc-img" loading="lazy" />
         </div>
       </div>
     </section>
