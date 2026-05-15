@@ -98,6 +98,23 @@ const schema = {
       </div>
     </div>
 
+    <!-- Quick Filter Tabs -->
+    <div class="pkg-filter-bar">
+      <div class="container">
+        <div class="pkg-filter-tabs">
+          <a href="#day-packages" class="pkg-filter-tab">
+            🏔️ Day Trips & Short Packages
+          </a>
+          <a href="#char-dham-packages" class="pkg-filter-tab">
+            🙏 Char Dham Yatra 2026
+          </a>
+          <a href="#multi-dest-packages" class="pkg-filter-tab pkg-filter-tab--highlight">
+            🏙️ Delhi & Chandigarh Circuits
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Day/Short Packages -->
     <section class="section" id="day-packages">
       <div class="container">
@@ -360,6 +377,22 @@ const schema = {
   <StickyBar />
 </Base>
 
+<script>
+  // Smooth scroll for filter tabs
+  document.querySelectorAll('.pkg-filter-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = (tab as HTMLAnchorElement).getAttribute('href');
+      if (target) {
+        document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      // Update active state
+      document.querySelectorAll('.pkg-filter-tab').forEach(t => t.classList.remove('pkg-filter-tab--active'));
+      tab.classList.add('pkg-filter-tab--active');
+    });
+  });
+</script>
+
 <style>
 /* Hero */
 .pkg-hero {
@@ -534,6 +567,60 @@ const schema = {
 .chardham-save { font-size: 11px; color: #22c55e; font-weight: 700; background: #f0fdf4; padding: 2px 8px; border-radius: 20px; }
 
 /* Why grid */
+.pkg-filter-tab--active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+  background: var(--mint);
+}
+
+/* ── Quick Filter Tabs ── */
+.pkg-filter-bar {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 60px;
+  z-index: 90;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.pkg-filter-tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.pkg-filter-tabs::-webkit-scrollbar { display: none; }
+
+.pkg-filter-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.pkg-filter-tab:hover {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+  background: var(--mint);
+}
+
+.pkg-filter-tab--highlight {
+  color: var(--saffron) !important;
+  border-bottom-color: var(--saffron) !important;
+}
+
+.pkg-filter-tab--highlight:hover {
+  background: #fff7ed !important;
+}
+
 /* ── Multi-Destination ── */
 .multi-notice { display: flex; align-items: center; gap: 10px; background: var(--mint); border: 1px solid rgba(13,148,136,0.2); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 12px; font-size: 13px; color: var(--slate); }
 .cab-only-notice { display: flex; align-items: center; gap: 10px; background: #fffbf0; border: 1.5px solid #fcd34d; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: var(--slate); }
