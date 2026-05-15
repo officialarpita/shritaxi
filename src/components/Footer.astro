@@ -24,8 +24,16 @@ const popularRoutes = [
   { label: 'Jolly Grant Airport Taxi',   href: '/jolly-grant-airport-taxi' },
   { label: 'Dehradun to Haridwar Taxi',  href: '/dehradun-to-haridwar-taxi' },
   { label: 'Dehradun to Rishikesh Taxi', href: '/dehradun-to-rishikesh-taxi' },
-  { label: 'Dehradun to Delhi Taxi',     href: '/#routes' },
   { label: 'Char Dham Yatra 2026',       href: '/char-dham-yatra' },
+];
+
+const delhiRoutes = [
+  { label: 'Delhi to Dehradun Taxi',   href: '/delhi-to-dehradun-taxi' },
+  { label: 'Delhi to Haridwar Taxi',   href: '/delhi-to-haridwar-taxi' },
+  { label: 'Delhi to Rishikesh Taxi',  href: '/delhi-to-rishikesh-taxi' },
+  { label: 'Delhi to Mussoorie Taxi',  href: '/delhi-to-mussoorie-taxi' },
+  { label: 'Delhi to Char Dham Taxi',  href: '/delhi-to-char-dham-taxi' },
+  { label: 'Chandigarh to Dehradun',   href: '/chandigarh-to-dehradun-taxi' },
 ];
 ---
 
@@ -145,6 +153,14 @@ const popularRoutes = [
       <h4 class="footer-col-title">Popular Routes</h4>
       <ul class="footer-links">
         {popularRoutes.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
+      </ul>
+    </div>
+
+    <!-- Delhi & Chandigarh Routes -->
+    <div class="footer-col">
+      <h4 class="footer-col-title">From Delhi & Chandigarh</h4>
+      <ul class="footer-links">
+        {delhiRoutes.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
       </ul>
     </div>
 
