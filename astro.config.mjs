@@ -7,4 +7,18 @@ export default defineConfig({
   build: {
     format: 'directory',
   },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        quality: 80,
+      }
+    }
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'esbuild',
+    }
+  }
 });
