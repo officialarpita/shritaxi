@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 import StickyBar from '../components/StickyBar.astro';
 import SeasonBanner from '../components/SeasonBanner.astro';
 import { Image } from 'astro:assets';
-import { tourPackages, fmt } from '../data/pricing';
+import { tourPackages, fmt, delhiCharDhamTiers } from '../data/pricing';
 
 import CharDham1Img from '../assets/images/CharDham1.jpeg';
 import CharDham2Img from '../assets/images/CharDham2.jpeg';
@@ -15,9 +15,20 @@ import BadrinathImg from '../assets/images/Badrinath.jpeg';
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-const ekDham  = tourPackages.find(p => p.id === 'ek-dham')!;
-const doDham  = tourPackages.find(p => p.id === 'do-dham')!;
+const ekDham   = tourPackages.find(p => p.id === 'ek-dham')!;
+const doDham   = tourPackages.find(p => p.id === 'do-dham')!;
 const charDham = tourPackages.find(p => p.id === 'char-dham')!;
+
+// Delhi pricing = Dehradun + ₹6,000 per package
+const ekDhamDelhi   = delhiCharDhamTiers(ekDham.tiers);
+const doDhamDelhi   = delhiCharDhamTiers(doDham.tiers);
+const charDhamDelhi = delhiCharDhamTiers(charDham.tiers);
+
+const cities = [
+  { id: 'dehradun', label: '📍 From Dehradun', active: true },
+  { id: 'delhi',    label: '🏙️ From Delhi NCR', active: false },
+  { id: 'haridwar', label: '🛕 From Haridwar', active: false },
+];
 
 const faqs = [
   { q: 'When does Char Dham Yatra 2026 open?', a: 'Char Dham Yatra 2026 typically opens in April-May. Yamunotri and Gangotri open on Akshaya Tritiya, while Kedarnath and Badrinath open a few days later. The season closes in October-November.' },
@@ -97,7 +108,7 @@ const faqSchema = {
           </div>
           <div class="cd-hero-image">
             <Image src={CharDham1Img} alt="Char Dham Yatra taxi from Dehradun 2026" width={500} height={350} widths={[400, 500, 900]}
-            sizes="(max-width: 640px) 400px, (max-width: 1024px) 500px, 900px" format="webp" class="cd-hero-img" loading="eager" fetchpriority="high" fetchpriority="high"/>
+            sizes="(max-width: 640px) 400px, (max-width: 1024px) 500px, 900px" format="webp" class="cd-hero-img" loading="eager" fetchpriority="high" fetchpriority="high" fetchpriority="high"/>
           </div>
         </div>
       </div>
@@ -129,6 +140,21 @@ const faqSchema = {
         <h2 class="section-title">Choose Your Char Dham Package</h2>
         <p class="section-sub">From single dham to the complete circuit — we cover all routes</p>
 
+        <!-- City selector -->
+        <div class="city-selector">
+          <p class="city-selector-label">📍 Your pickup city:</p>
+          <div class="city-tabs">
+            {cities.map(c => (
+              <button class={`city-tab${c.active ? ' city-tab--active' : ''}`} data-city={c.id}>
+                {c.label}
+              </button>
+            ))}
+          </div>
+          <p class="city-note" id="city-note-dehradun">Prices shown are from Dehradun — all inclusive</p>
+          <p class="city-note" id="city-note-delhi" style="display:none">Prices shown are from Delhi NCR — includes Delhi ↔ Dehradun transfer (+₹6,000). All inclusive.</p>
+          <p class="city-note" id="city-note-haridwar" style="display:none">Prices shown are from Haridwar — same as Dehradun rates. All inclusive.</p>
+        </div>
+
         <div class="cd-packages">
 
           <!-- Ek Dham -->
@@ -147,7 +173,7 @@ const faqSchema = {
             <div class="cd-highlights">
               {ekDham.highlights.map(h => <span class="cd-highlight">{h}</span>)}
             </div>
-            <div class="cd-pricing-table">
+            <div class="cd-pricing-table" id="ek-pricing-dehradun">
               {ekDham.tiers.map(t => (
                 <div class="cd-tier">
                   <span class="cd-tier-name">
@@ -159,6 +185,22 @@ const faqSchema = {
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
                     <span class="cd-tier-final">{fmt(t.discounted)}</span>
                     <span class="cd-tier-save">Save {fmt(t.saving)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="cd-pricing-table" id="ek-pricing-delhi" style="display:none">
+              {ekDhamDelhi.map(t => (
+                <div class="cd-tier">
+                  <span class="cd-tier-name">
+                    {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                    {t.vehicleName}
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
+                  </span>
+                  <div class="cd-tier-prices">
+                    <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
+                    <span class="cd-tier-final">{fmt(t.discounted)}</span>
+                    <span class="cd-tier-save">+₹6,000 incl. Delhi transfer</span>
                   </div>
                 </div>
               ))}
@@ -183,7 +225,7 @@ const faqSchema = {
             <div class="cd-highlights">
               {doDham.highlights.map(h => <span class="cd-highlight">{h}</span>)}
             </div>
-            <div class="cd-pricing-table">
+            <div class="cd-pricing-table" id="do-pricing-dehradun">
               {doDham.tiers.map(t => (
                 <div class="cd-tier">
                   <span class="cd-tier-name">
@@ -195,6 +237,22 @@ const faqSchema = {
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
                     <span class="cd-tier-final">{fmt(t.discounted)}</span>
                     <span class="cd-tier-save">Save {fmt(t.saving)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="cd-pricing-table" id="do-pricing-delhi" style="display:none">
+              {doDhamDelhi.map(t => (
+                <div class="cd-tier">
+                  <span class="cd-tier-name">
+                    {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                    {t.vehicleName}
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
+                  </span>
+                  <div class="cd-tier-prices">
+                    <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
+                    <span class="cd-tier-final">{fmt(t.discounted)}</span>
+                    <span class="cd-tier-save">+₹6,000 incl. Delhi transfer</span>
                   </div>
                 </div>
               ))}
@@ -223,7 +281,7 @@ const faqSchema = {
             <div class="cd-itinerary">
               {charDham.itinerary?.map(day => <div class="cd-day">📍 {day}</div>)}
             </div>
-            <div class="cd-pricing-table">
+            <div class="cd-pricing-table" id="char-pricing-dehradun">
               {charDham.tiers.map(t => (
                 <div class="cd-tier">
                   <span class="cd-tier-name">
@@ -235,6 +293,22 @@ const faqSchema = {
                     <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
                     <span class="cd-tier-final">{fmt(t.discounted)}</span>
                     <span class="cd-tier-save">Save {fmt(t.saving)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div class="cd-pricing-table" id="char-pricing-delhi" style="display:none">
+              {charDhamDelhi.map(t => (
+                <div class="cd-tier">
+                  <span class="cd-tier-name">
+                    {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                    {t.vehicleName}
+                    <span class="cd-tier-seats">({t.seats}+1)</span>
+                  </span>
+                  <div class="cd-tier-prices">
+                    <span class="cd-tier-mrp">{fmt(t.mrp)}</span>
+                    <span class="cd-tier-final">{fmt(t.discounted)}</span>
+                    <span class="cd-tier-save">+₹6,000 incl. Delhi transfer</span>
                   </div>
                 </div>
               ))}
@@ -320,7 +394,38 @@ const faqSchema = {
   <StickyBar />
 </Base>
 
-<style>
+<script>
+  // City selector tabs
+  const cityTabs = document.querySelectorAll('.city-tab');
+  const cityNotes = document.querySelectorAll('.city-note');
+
+  cityTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const city = (tab as HTMLElement).dataset.city;
+
+      // Update tabs
+      cityTabs.forEach(t => t.classList.remove('city-tab--active'));
+      tab.classList.add('city-tab--active');
+
+      // Update notes
+      cityNotes.forEach(n => (n as HTMLElement).style.display = 'none');
+      const note = document.getElementById(`city-note-${city}`);
+      if (note) note.style.display = 'block';
+
+      // Toggle pricing tables
+      const ddhIds = ['ek-pricing-dehradun', 'do-pricing-dehradun', 'char-pricing-dehradun'];
+      const dliIds = ['ek-pricing-delhi',     'do-pricing-delhi',    'char-pricing-delhi'];
+
+      if (city === 'dehradun' || city === 'haridwar') {
+        ddhIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = ''; });
+        dliIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+      } else if (city === 'delhi') {
+        ddhIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+        dliIds.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = ''; });
+      }
+    });
+  });
+</script>
 /* Hero */
 .cd-hero {
   background: linear-gradient(135deg, #0d9488, #0f766e);
@@ -485,4 +590,13 @@ details[open] .faq-q { color: var(--teal); }
   .cd-cta-btns { width: 100%; flex-direction: column; }
   .cd-cta-btns .btn { justify-content: center; }
 }
+/* ── City Selector ── */
+.city-selector { background: var(--mint); border: 1.5px solid rgba(13,148,136,0.2); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 32px; }
+.city-selector-label { font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 12px; }
+.city-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.city-tab { padding: 10px 20px; font-size: 14px; font-weight: 600; color: var(--slate); background: var(--white); border: 2px solid var(--border); border-radius: 30px; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.city-tab:hover { border-color: var(--teal); color: var(--teal); }
+.city-tab--active { background: var(--teal); border-color: var(--teal); color: #fff; }
+.city-note { font-size: 12px; color: var(--muted); font-style: italic; }
+@media (max-width: 600px) { .city-tabs { gap: 8px; } .city-tab { padding: 8px 14px; font-size: 13px; } }
 </style>

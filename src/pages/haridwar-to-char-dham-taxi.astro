@@ -1,0 +1,265 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import RelatedRoutes from '../components/RelatedRoutes.astro';
+import { tourPackages, fmt } from '../data/pricing';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const ekDham   = tourPackages.find(p => p.id === 'ek-dham')!;
+const doDham   = tourPackages.find(p => p.id === 'do-dham')!;
+const charDham = tourPackages.find(p => p.id === 'char-dham')!;
+
+const packages = [ekDham, doDham, charDham];
+
+const faqs = [
+  { q: 'What is the taxi fare for Char Dham Yatra from Haridwar?', a: 'Char Dham Yatra taxi from Haridwar starts at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga, ₹56,699 for Innova Crysta and ₹80,999 for Tempo Traveller. Same rate as Dehradun. All inclusive.' },
+  { q: 'How long is Haridwar to Char Dham circuit?', a: 'The complete Char Dham circuit from Haridwar takes 10-12 days covering Yamunotri, Gangotri, Kedarnath and Badrinath. Ek Dham takes 3 days and Do Dham takes 5 days.' },
+  { q: 'Is Haridwar a good starting point for Char Dham Yatra?', a: 'Yes! Haridwar is one of the most popular starting points for Char Dham Yatra. Many pilgrims take a train or flight to Haridwar and then proceed by taxi for the yatra.' },
+  { q: 'What is the difference between Haridwar and Dehradun rates?', a: 'Char Dham Yatra rates from Haridwar are the same as Dehradun rates. The distance difference is minimal so we charge the same fixed price from both cities.' },
+  { q: 'Can I start Char Dham from Rishikesh?', a: 'Yes, we also offer pickup from Rishikesh at the same rate. Haridwar, Rishikesh and Dehradun are all charged at the same base rate for Char Dham Yatra.' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TaxiService',
+  name: 'Haridwar to Char Dham Taxi — Shri Taxi',
+  description: 'Book Char Dham Yatra taxi from Haridwar. Ek Dham, Do Dham, Char Dham packages starting ₹10,999. Same rate as Dehradun. All inclusive.',
+  url: 'https://shritaxi.com/haridwar-to-char-dham-taxi',
+  telephone: phone,
+  offers: { '@type': 'Offer', price: '35999', priceCurrency: 'INR' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Base
+  title="Haridwar to Char Dham Taxi | Char Dham Yatra 2026 from Haridwar | Shri Taxi"
+  description="Book Char Dham Yatra taxi from Haridwar starting ₹35,999 (10 days, Sedan). Ek Dham, Do Dham, Char Dham packages. Same rate as Dehradun. All inclusive fixed price."
+  canonicalUrl="https://shritaxi.com/haridwar-to-char-dham-taxi"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/haridwar-to-char-dham-taxi" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="loc-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <a href="/char-dham-yatra">Char Dham Yatra</a> › <span>From Haridwar</span></nav>
+        <h1 class="loc-title">Haridwar to Char Dham Taxi 2026</h1>
+        <p class="loc-sub">Ek Dham · Do Dham · Char Dham · Same rate as Dehradun</p>
+        <p class="loc-desc">Start your Char Dham Yatra from Haridwar — the gateway to the Himalayas. Our experienced pahadi drivers know every route to Yamunotri, Gangotri, Kedarnath and Badrinath. Fixed price, all inclusive. Also pickup from Rishikesh at same rate.</p>
+        <div class="loc-ctas">
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Char%20Dham%20Yatra%20taxi%20from%20Haridwar`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Book Now</a>
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Us</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats strip -->
+    <div class="loc-strip">
+      <div class="container loc-strip-inner">
+        <div class="loc-stat"><span class="loc-stat-val">2026</span><span class="loc-stat-label">Season Open</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">₹35,999</span><span class="loc-stat-label">Char Dham (Sedan)</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">10 Days</span><span class="loc-stat-label">Complete Circuit</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">24/7</span><span class="loc-stat-label">Available</span></div>
+        <div class="loc-stat"><span class="loc-stat-val">Fixed</span><span class="loc-stat-label">Price</span></div>
+      </div>
+    </div>
+
+    <!-- Packages -->
+    <section class="section">
+      <div class="container">
+        <p class="section-label">Char Dham Yatra 2026</p>
+        <h2 class="section-title">Char Dham Packages from Haridwar</h2>
+        <p class="section-sub">Same price as Dehradun — all inclusive, fixed fare</p>
+
+        <!-- Pickup note -->
+        <div class="pickup-note">
+          <span>🛕</span>
+          <p>Pickup from <strong>Haridwar</strong> or <strong>Rishikesh</strong> — same rate. Many pilgrims also continue from Delhi by train and we pick them up at Haridwar Railway Station.</p>
+        </div>
+
+        <div class="cd-packages">
+          {packages.map(p => (
+            <div class="cd-card">
+              <div class="cd-card-header">
+                <div>
+                  <span class="cd-tag">{p.id === 'ek-dham' ? '🙏 Ek Dham' : p.id === 'do-dham' ? '🙏🙏 Do Dham' : '🙏🙏🙏🙏 Char Dham'} · {p.nights}N {p.days}D</span>
+                  <h3 class="cd-name">{p.name}</h3>
+                  <p class="cd-desc">{p.id === 'ek-dham' ? 'Choose any 1 dham — Kedarnath, Badrinath, Yamunotri or Gangotri' : p.id === 'do-dham' ? 'Kedarnath + Badrinath OR Yamunotri + Gangotri' : 'All 4 Dhams — Yamunotri · Gangotri · Kedarnath · Badrinath'}</p>
+                </div>
+                <div class="cd-badge">10% OFF</div>
+              </div>
+
+              <div class="cd-highlights">
+                {p.highlights.map(h => <span class="cd-highlight">{h}</span>)}
+              </div>
+
+              {p.itinerary && (
+                <div class="cd-itinerary">
+                  {p.itinerary.map(day => <p class="cd-day">📍 {day}</p>)}
+                </div>
+              )}
+
+              <div class="cd-pricing">
+                {p.tiers.map(t => (
+                  <div class="cd-tier-row">
+                    <span class="cd-vehicle">
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                      {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
+                      <span class="cd-seats">({t.seats}+1)</span>
+                    </span>
+                    <div class="cd-price-group">
+                      <span class="cd-mrp">{fmt(t.mrp)}</span>
+                      <span class="cd-final">{fmt(t.discounted)}</span>
+                      <span class="cd-save">Save {fmt(t.saving)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p class="cd-inclusive">✓ All inclusive — driver, fuel, toll & parking</p>
+
+              <div class="cd-actions">
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20${encodeURIComponent(p.name)}%20from%20Haridwar%202026`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Book Now</a>
+                <a href="/char-dham-yatra" class="btn btn-outline">View Full Details</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- About section -->
+    <section class="section section--mint">
+      <div class="container loc-about">
+        <div>
+          <h2>Haridwar — Gateway to Char Dham</h2>
+          <p>Haridwar, one of the seven sacred cities in Hinduism, is the most popular starting point for Char Dham Yatra. Thousands of pilgrims arrive by train from Delhi, Mumbai, Kolkata and other cities and begin their yatra from here.</p>
+          <h3>Why start Char Dham from Haridwar?</h3>
+          <ul>
+            <li>✓ Well connected by train from all major cities</li>
+            <li>✓ Begin with Ganga snan and Har Ki Pauri aarti</li>
+            <li>✓ Closest major city to all 4 dhams</li>
+            <li>✓ Same taxi rate as Dehradun</li>
+            <li>✓ Also pickup from Rishikesh at same rate</li>
+          </ul>
+          <h3>Char Dham Route from Haridwar</h3>
+          <ul>
+            <li>📍 Haridwar → Barkot → Yamunotri (Day 1-2)</li>
+            <li>📍 Yamunotri → Uttarkashi → Gangotri (Day 3-4)</li>
+            <li>📍 Gangotri → Guptkashi → Kedarnath (Day 5-6)</li>
+            <li>📍 Kedarnath → Badrinath (Day 7-8)</li>
+            <li>📍 Badrinath → Haridwar (Day 9-10)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="cta-card">
+            <h3>Book Your Char Dham Taxi</h3>
+            <p>Haridwar pickup available. Our team responds within 15 minutes.</p>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Char%20Dham%20taxi%20from%20Haridwar`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Now</a>
+            <a href={`tel:${phone}`} class="btn btn-call" style="margin-top:10px">📞 {phone}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Haridwar Char Dham Taxi — FAQ</h2>
+        <div class="faq-list">
+          {faqs.map(f => (
+            <details class="faq-item" name="haridwar-cd-faq">
+              <summary class="faq-q">{f.q}<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <RelatedRoutes currentPage="/haridwar-to-char-dham-taxi" />
+
+  </main>
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.loc-hero { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 52px 0 40px; }
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.65); margin-bottom: 16px; }
+.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.loc-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+.loc-sub { font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 600; margin-bottom: 10px; }
+.loc-desc { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 680px; margin-bottom: 24px; }
+.loc-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.loc-strip { background: #b45309; padding: 16px 0; }
+.loc-strip-inner { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.loc-stat { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.loc-stat-val { font-size: 20px; font-weight: 800; color: #fff; font-family: 'Playfair Display', serif; }
+.loc-stat-label { font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.5px; }
+
+.pickup-note { display: flex; align-items: center; gap: 10px; background: #fff7ed; border: 1.5px solid #fcd34d; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 24px; font-size: 13px; color: var(--slate); }
+
+.cd-packages { display: flex; flex-direction: column; gap: 24px; }
+.cd-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+.cd-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.cd-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #fff; background: var(--saffron); padding: 3px 12px; border-radius: 20px; margin-bottom: 8px; }
+.cd-name { font-size: 20px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 4px; }
+.cd-desc { font-size: 13px; color: var(--muted); }
+.cd-badge { background: #ef4444; color: #fff; font-size: 13px; font-weight: 800; padding: 6px 14px; border-radius: 20px; flex-shrink: 0; }
+.cd-highlights { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.cd-highlight { background: var(--mint); color: var(--teal); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(13,148,136,0.2); }
+.cd-itinerary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: var(--mint); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px; }
+.cd-day { font-size: 12px; color: var(--muted); }
+.cd-pricing { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+.cd-tier-row { background: var(--mint); border: 1px solid rgba(13,148,136,0.2); border-radius: var(--radius-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.cd-vehicle { font-size: 12px; font-weight: 600; color: var(--slate); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.cd-seats { font-size: 10px; color: var(--muted); font-weight: 400; }
+.cd-price-group { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.cd-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.cd-final { font-size: 18px; font-weight: 800; color: var(--teal); font-family: 'Playfair Display', serif; }
+.cd-save { font-size: 10px; color: #22c55e; font-weight: 700; background: #f0fdf4; padding: 2px 6px; border-radius: 20px; }
+.cd-inclusive { font-size: 11px; color: var(--teal); font-weight: 500; margin-bottom: 12px; }
+.cd-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.loc-about { display: grid; grid-template-columns: 1fr 320px; gap: 48px; align-items: start; }
+.loc-about h2 { font-size: 24px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 12px; }
+.loc-about h3 { font-size: 17px; font-weight: 600; color: var(--teal); margin: 18px 0 8px; }
+.loc-about p { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 10px; }
+.loc-about ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.loc-about li { font-size: 14px; color: var(--muted); }
+
+.cta-card { background: var(--saffron); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 80px; }
+.cta-card h3 { font-size: 20px; color: #fff; font-family: 'Playfair Display', serif; }
+.cta-card p { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+
+.faq-list { display: flex; flex-direction: column; max-width: 800px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; font-size: 15px; font-weight: 600; color: var(--slate); list-style: none; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-chevron { flex-shrink: 0; color: var(--muted); transition: transform 0.2s; }
+details[open] .faq-chevron { transform: rotate(180deg); color: var(--teal); }
+details[open] .faq-q { color: var(--teal); }
+.faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; padding-bottom: 16px; }
+
+@media (max-width: 900px) { .loc-about { grid-template-columns: 1fr; } .cd-pricing { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .loc-strip-inner { gap: 20px; } .loc-ctas { flex-direction: column; } .cd-pricing { grid-template-columns: 1fr; } .cd-actions { grid-template-columns: 1fr; } }
+</style>
