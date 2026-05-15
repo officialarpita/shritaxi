@@ -309,7 +309,7 @@ const schema = {
               <p class="multi-inclusive">✓ Cab inclusive — driver, fuel, toll & parking</p>
 
               <!-- Exclusions -->
-              {p.excludes && (
+              {p.excludes && p.excludes.length > 0 && (
                 <details class="multi-exclusions">
                   <summary class="multi-excl-summary">View Exclusions ▾</summary>
                   <ul class="multi-excl-list">
