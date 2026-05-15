@@ -245,6 +245,89 @@ const schema = {
       </div>
     </section>
 
+    <!-- Multi-Destination Packages -->
+    <section class="section" id="multi-dest-packages">
+      <div class="container">
+        <p class="section-label">Multi-Destination Tours</p>
+        <h2 class="section-title">Uttarakhand Circuit Tour Packages</h2>
+        <p class="section-sub">Complete Uttarakhand circuits from Delhi, Chandigarh & Dehradun — cab only, all inclusive pricing</p>
+
+        <!-- Pickup notice -->
+        <div class="multi-notice">
+          <span>🏙️</span>
+          <p><strong>Pickup from Delhi, Chandigarh or Dehradun</strong> — same price. Our experienced pahadi drivers know every road on these circuits.</p>
+        </div>
+
+        <!-- Cab only notice -->
+        <div class="cab-only-notice">
+          <span>ℹ️</span>
+          <p><strong>Cab-Only Package</strong> — These packages include cab with driver, fuel, toll and parking only. Hotel, meals, safari permits and entrance fees are not included.</p>
+        </div>
+
+        <div class="multi-grid">
+          {multiDestPackages.map(p => (
+            <div class="multi-card" id={p.id}>
+              <div class="multi-header">
+                <div>
+                  <span class="multi-tag" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <h3 class="multi-name">{p.name}</h3>
+                  <p class="multi-duration">⏱ {p.nights}N {p.days}D</p>
+                </div>
+                <div class="multi-discount">10% OFF</div>
+              </div>
+
+              <!-- Highlights -->
+              <div class="multi-highlights">
+                {p.highlights.map(h => <span class="multi-highlight">{h}</span>)}
+              </div>
+
+              <!-- Itinerary -->
+              {p.itinerary && (
+                <div class="multi-itinerary">
+                  {p.itinerary.map(day => <div class="multi-day">📍 {day}</div>)}
+                </div>
+              )}
+
+              <!-- Pricing table -->
+              <div class="multi-pricing-table">
+                {p.tiers.map(t => (
+                  <div class="multi-tier">
+                    <span class="multi-tier-vehicle">
+                      {t.vehicleId === 'sedan' ? '🚗' : t.vehicleId === 'ertiga' ? '🚐' : t.vehicleId === 'innova' ? '🚙' : '🚌'}
+                      {t.vehicleId === 'sedan' ? 'Sedan' : t.vehicleId === 'ertiga' ? 'Ertiga' : t.vehicleId === 'innova' ? 'Innova Crysta' : 'Traveller'}
+                      <span class="multi-tier-seats">({t.seats}+1)</span>
+                    </span>
+                    <div class="multi-tier-price">
+                      <span class="multi-mrp">{fmt(t.mrp)}</span>
+                      <span class="multi-final">{fmt(t.discounted)}</span>
+                      <span class="multi-save">Save {fmt(t.saving)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <p class="multi-inclusive">✓ Cab inclusive — driver, fuel, toll & parking</p>
+
+              <!-- Exclusions -->
+              {p.excludes && (
+                <details class="multi-exclusions">
+                  <summary class="multi-excl-summary">View Exclusions ▾</summary>
+                  <ul class="multi-excl-list">
+                    {p.excludes.map(e => <li>✗ {e}</li>)}
+                  </ul>
+                </details>
+              )}
+
+              <div class="multi-actions">
+                <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- Why Book -->
     <section class="section">
       <div class="container">
@@ -461,6 +544,78 @@ const schema = {
 .chardham-final { font-size: 20px; font-weight: 800; color: var(--teal); font-family: 'Playfair Display', serif; }
 .chardham-save { font-size: 11px; color: #22c55e; font-weight: 700; background: #f0fdf4; padding: 2px 8px; border-radius: 20px; }
 
+/* ── Multi-Destination Packages ── */
+.multi-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--mint);
+  border: 1px solid rgba(13,148,136,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.cab-only-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fffbf0;
+  border: 1.5px solid #fcd34d;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.multi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+.multi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.multi-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.multi-tag { font-size: 11px; font-weight: 700; color: #fff; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 6px; }
+.multi-name { font-size: 18px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; margin-bottom: 4px; }
+.multi-duration { font-size: 13px; color: var(--muted); }
+.multi-discount { background: #ef4444; color: #fff; font-size: 13px; font-weight: 800; padding: 6px 14px; border-radius: 20px; flex-shrink: 0; animation: pulse-badge 2s ease-in-out infinite; }
+
+.multi-highlights { display: flex; flex-wrap: wrap; gap: 6px; }
+.multi-highlight { background: var(--mint); color: var(--teal); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(13,148,136,0.2); }
+
+.multi-itinerary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; background: var(--mint); border-radius: var(--radius-md); padding: 12px; }
+.multi-day { font-size: 12px; color: var(--muted); }
+
+.multi-pricing-table { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.multi-tier { background: var(--mint); border: 1px solid rgba(13,148,136,0.2); border-radius: var(--radius-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
+.multi-tier-vehicle { font-size: 12px; font-weight: 600; color: var(--slate); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.multi-tier-seats { font-size: 10px; color: var(--muted); font-weight: 400; }
+.multi-tier-price { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.multi-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.multi-final { font-size: 18px; font-weight: 800; color: var(--teal); font-family: 'Playfair Display', serif; }
+.multi-save { font-size: 10px; color: #22c55e; font-weight: 700; background: #f0fdf4; padding: 2px 6px; border-radius: 20px; }
+
+.multi-inclusive { font-size: 11px; color: var(--teal); font-weight: 500; }
+
+/* Exclusions accordion */
+.multi-exclusions { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
+.multi-excl-summary { padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; list-style: none; background: #fafafa; }
+.multi-excl-summary::-webkit-details-marker { display: none; }
+details[open] .multi-excl-summary { color: var(--slate); background: #f5f5f5; }
+.multi-excl-list { list-style: none; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.multi-excl-list li { font-size: 12px; color: var(--muted); }
+
+.multi-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: auto; }
+
 /* Why grid */
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .why-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; text-align: center; }
@@ -478,6 +633,7 @@ const schema = {
 /* Responsive */
 @media (max-width: 1100px) {
   .chardham-card { grid-template-columns: 300px 1fr; }
+  .multi-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {
   .pkg-grid { grid-template-columns: repeat(2, 1fr); }
