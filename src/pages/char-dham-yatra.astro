@@ -96,7 +96,8 @@ const faqSchema = {
             </div>
           </div>
           <div class="cd-hero-image">
-            <Image src={CharDham1Img} alt="Char Dham Yatra taxi from Dehradun 2026" width={500} height={350} class="cd-hero-img" loading="eager" />
+            <Image src={CharDham1Img} alt="Char Dham Yatra taxi from Dehradun 2026" width={500} height={350} widths={[400, 500, 900]}
+            sizes="(max-width: 640px) 400px, (max-width: 1024px) 500px, 900px" format="webp" class="cd-hero-img" loading="eager" fetchpriority="high"/>
           </div>
         </div>
       </div>
@@ -276,8 +277,10 @@ const faqSchema = {
           </ul>
         </div>
         <div class="cd-about-images">
-          <Image src={CharDham2Img} alt="Kedarnath temple Char Dham Yatra" width={450} height={280} class="cd-about-img" loading="lazy" />
-          <Image src={BadrinathImg} alt="Badrinath temple Char Dham Yatra taxi" width={450} height={280} class="cd-about-img" loading="lazy" />
+          <Image src={CharDham2Img} alt="Kedarnath temple Char Dham Yatra" width={450} height={280} widths={[350, 450, 800]}
+            sizes="(max-width: 640px) 350px, (max-width: 1024px) 450px, 800px" format="webp" class="cd-about-img" loading="lazy" />
+          <Image src={BadrinathImg} alt="Badrinath temple Char Dham Yatra taxi" width={450} height={280} widths={[350, 450, 800]}
+          sizes="(max-width: 640px) 350px, (max-width: 1024px) 450px, 800px" format="webp" class="cd-about-img" loading="lazy" />
         </div>
       </div>
     </section>
