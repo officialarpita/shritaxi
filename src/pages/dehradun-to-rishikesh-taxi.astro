@@ -137,8 +137,10 @@ const faqSchema = {
           <p>Rishikesh is pleasant year-round. February to May is ideal for river rafting before monsoon raises water levels. September to November offers great weather post-monsoon. The International Yoga Festival in March draws yoga practitioners worldwide.</p>
         </div>
         <div class="loc-image">
-          <Image src={RishikeshImg} alt="Rishikesh taxi from Dehradun Laxman Jhula" width={500} height={350} class="loc-img" loading="lazy" />
-          <Image src={Rishikesh2Img} alt="Dehradun to Rishikesh cab service" width={500} height={350} class="loc-img" loading="lazy" />
+          <Image src={RishikeshImg} alt="Rishikesh taxi from Dehradun Laxman Jhula" width={500} height={350} widths={[380, 500, 900]}
+            sizes="(max-width: 640px) 380px, (max-width: 1024px) 500px, 900px" format="webp" class="loc-img" loading="lazy" />
+          <Image src={Rishikesh2Img} alt="Dehradun to Rishikesh cab service" width={500} height={350} widths={[380, 500, 900]}
+            sizes="(max-width: 640px) 380px, (max-width: 1024px) 500px, 900px" format="webp" class="loc-img" loading="lazy" />
         </div>
       </div>
     </section>
