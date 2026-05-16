@@ -30,8 +30,8 @@ const imgMap: Record<string, ImageMetadata> = {
   'auli':        AuliImg,
   'kedarnath':   KedarnathImg,
   'badrinath':   BadrinathImg,
-  'ek-dham':     CharDhamImg,
-  'do-dham':     CharDhamImg,
+  'ek-dham':     KedarnathImg,
+  'do-dham':     BadrinathImg,
   'char-dham':   CharDhamImg,
 };
 
@@ -183,7 +183,7 @@ const schema = {
               {charDhamPackages.map(p => (
                 <div class="pkg-card">
                   <div class="pkg-img-wrap">
-                    <Image src={CharDhamImg} alt={`${p.name} taxi package`} width={380} height={200} widths={[300, 380, 760]} sizes="(max-width: 640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
+                    <Image src={imgMap[p.id] || CharDhamImg} alt={`${p.name} taxi package`} width={380} height={200} widths={[300, 380, 760]} sizes="(max-width: 640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
                     <div class="pkg-overlay"></div>
                     <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
                     <span class="pkg-nights">{p.nights}N {p.days}D</span>
