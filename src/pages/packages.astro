@@ -103,9 +103,8 @@ const schema = {
       <div class="container">
         <p class="pkg-filter-label">What are you looking for?</p>
         <div class="pkg-chips">
-          <button class="pkg-chip pkg-chip--active" data-filter="all">🌿 All Packages</button>
-          <button class="pkg-chip" data-filter="day">🏔️ Day Trips</button>
-          <button class="pkg-chip" data-filter="chardham">🙏 Char Dham</button>
+          <button class="pkg-chip pkg-chip--active" data-filter="day">🏔️ Day Trips & Short Packages</button>
+          <button class="pkg-chip" data-filter="chardham">🙏 Char Dham Yatra 2026</button>
           <button class="pkg-chip pkg-chip--highlight" data-filter="circuits">🏙️ Delhi & Chandigarh <span class="chip-new">NEW</span></button>
         </div>
       </div>
@@ -576,17 +575,12 @@ const schema = {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const chips = document.querySelectorAll('.pkg-chip');
+    const chips = document.querySelectorAll<HTMLElement>('.pkg-chip');
     const accordions = document.querySelectorAll<HTMLDetailsElement>('.pkg-accordion[data-category]');
 
-    function applyFilter(filter: string) {
+    function showOnly(filter: string) {
       accordions.forEach(acc => {
-        const cat = acc.dataset.category || '';
-        if (filter === 'all') {
-          acc.style.display = '';
-          // Only day trips open by default
-          acc.open = cat === 'day';
-        } else if (filter === cat) {
+        if (acc.dataset.category === filter) {
           acc.style.display = '';
           acc.open = true;
         } else {
@@ -596,18 +590,14 @@ const schema = {
       });
     }
 
-    // Apply on load — show all, only Day Trips open
-    applyFilter('all');
+    // Default — show Day Trips only
+    showOnly('day');
 
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
-        const filter = (chip as HTMLElement).dataset.filter || 'all';
         chips.forEach(c => c.classList.remove('pkg-chip--active'));
         chip.classList.add('pkg-chip--active');
-        applyFilter(filter);
-
-        // Scroll to filter bar
-        document.querySelector('.pkg-filter-bar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showOnly(chip.dataset.filter || 'day');
       });
     });
   });
