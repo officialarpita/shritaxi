@@ -12,6 +12,23 @@ function getAvatarColor(initials: string) {
   return colors[index];
 }
 
+// Calculate relative date dynamically from isoDate
+function getRelativeDate(isoDate: string): string {
+  const now = new Date();
+  const past = new Date(isoDate);
+  const diffMs = now.getTime() - past.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'today';
+  if (diffDays === 1) return 'yesterday';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 14) return '1 week ago';
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  if (diffDays < 60) return '1 month ago';
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+  return `${Math.floor(diffDays / 365)} year${Math.floor(diffDays / 365) > 1 ? 's' : ''} ago`;
+}
+
 // Static placeholder — replaced dynamically by client-side JS
 const proofFeed = [
   { name: 'Priya S.',   action: 'just booked Char Dham Yatra',     time: '2 hrs ago',  emoji: '🙏' },
@@ -117,7 +134,7 @@ const reviewsSchema = {
               <span class="stars">{'⭐'.repeat(featuredReview.rating)}</span>
               {featuredReview.verified && <span class="verified">✓ Google Review</span>}
             </div>
-            <span class="review-date">{featuredReview.date}</span>
+            <span class="review-date">{getRelativeDate(featuredReview.isoDate)}</span>
           </div>
           <p class="quote">
             "{featuredReview.shortQuote || featuredReview.quote}"
@@ -159,7 +176,7 @@ const reviewsSchema = {
               </div>
             </div>
             <div class="date-source">
-              <span class="date-sm">{t.date}</span>
+              <span class="date-sm">{getRelativeDate(t.isoDate)}</span>
               {t.source === 'Google' && (
                 <span class="google-badge-sm">
                   <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
