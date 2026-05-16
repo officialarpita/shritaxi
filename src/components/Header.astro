@@ -225,18 +225,19 @@ function isActive(href: string) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: rgba(255,255,255,0.85);
+  color: var(--slate);
   font-size: 15px;
   font-weight: 500;
   padding: 14px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  border-bottom: 1px solid var(--border);
   transition: background 0.15s;
 }
-.mobile-link:hover { background: rgba(255,255,255,0.07); color: #fff; }
+.mobile-link { color: var(--slate); }
+.mobile-link:hover { background: var(--mint); color: var(--teal); }
 .mobile-link.mobile-active {
-  color: #fff;
+  color: var(--teal);
   font-weight: 600;
-  background: rgba(255,255,255,0.08);
+  background: var(--mint);
 }
 
 .mobile-active-dot {
