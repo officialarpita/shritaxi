@@ -112,6 +112,9 @@ const schema = {
     </div>
 
     <!-- Day/Short Packages — Accordion -->
+    <section class="section pkg-sections">
+      <div class="container">
+
     <details class="pkg-accordion" id="day-packages" data-category="day" open>
       <summary class="pkg-accordion-header">
         <div class="pkg-accordion-title">
@@ -523,6 +526,9 @@ const schema = {
           ))}
         </div>
       </div>
+    </details>
+
+      </div>
     </section>
 
     <!-- Why Book -->
@@ -680,10 +686,12 @@ const schema = {
 /* ── Accordion ── */
 .pkg-accordion {
   border-bottom: 2px solid var(--border);
+  max-width: 1200px;
 }
 
 .pkg-accordion--highlight {
   border-left: 4px solid var(--saffron);
+  padding-left: 16px;
 }
 
 .pkg-accordion-header {
@@ -694,6 +702,7 @@ const schema = {
   cursor: pointer;
   list-style: none;
   background: var(--white);
+  width: 100%;
 }
 
 .pkg-accordion-header::-webkit-details-marker { display: none; }
@@ -748,6 +757,7 @@ details[open] .pkg-accordion-header { color: var(--teal); }
 
 .pkg-accordion-body {
   padding: 8px 0 32px;
+  max-width: 1200px;
 }
 
 .accordion-new-badge {
@@ -806,7 +816,7 @@ details[open] .pkg-accordion-header { color: var(--teal); }
 /* Package grid */
 .pkg-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 380px));
   gap: 20px;
 }
 
@@ -819,13 +829,14 @@ details[open] .pkg-accordion-header { color: var(--teal); }
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.2s, transform 0.2s;
+  width: 100%;
 }
 .pkg-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
 
 /* Image */
 .pkg-img-wrap {
   position: relative;
-  height: 180px;
+  height: 200px;
   overflow: hidden;
 }
 .pkg-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.35s; }
