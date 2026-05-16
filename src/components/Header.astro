@@ -115,13 +115,13 @@ function isActive(href: string) {
 
 <style>
 .header {
-  background: #0f172a;
+  background: #1e3a5f;
   position: sticky;
   top: 0;
   z-index: 100;
   transition: box-shadow 0.2s;
 }
-.header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+.header.scrolled { box-shadow: 0 2px 20px rgba(30,58,95,0.4); }
 
 .header-inner {
   display: flex;
@@ -212,7 +212,7 @@ function isActive(href: string) {
 .mobile-menu {
   display: none;
   flex-direction: column;
-  background: #1e293b;
+  background: #1e3a5f;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
@@ -257,5 +257,25 @@ function isActive(href: string) {
   .header-cta { display: none; }
   .hamburger { display: flex; }
   .mobile-menu { display: flex; }
+}
+
+/* ── Mobile — White Header ── */
+@media (max-width: 1000px) {
+  .header { background: #ffffff; border-bottom: 1px solid #e2e8f0; }
+  .header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .hamburger span { background: var(--slate); }
+  .mobile-menu {
+    background: #ffffff;
+    border-top: 1px solid var(--border);
+  }
+  .mobile-link {
+    color: var(--slate);
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-link:hover { background: var(--mint); color: var(--teal); }
+  .mobile-link.mobile-active {
+    color: var(--teal);
+    background: var(--mint);
+  }
 }
 </style>
