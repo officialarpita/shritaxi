@@ -32,6 +32,36 @@ const schema = {
   offers: { '@type': 'Offer', name: 'Dehradun to Rishikesh Taxi', price: '2000', priceCurrency: 'INR' },
 };
 
+
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Shri Taxi — Uttarakhand Taxi Service',
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.9',
+    reviewCount: '30',
+    bestRating: '5',
+    worstRating: '1',
+  },
+  review: [
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Subhash Chaudhary' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5' },
+      reviewBody: 'Excellent service! Driver was very professional and punctual. Highly recommend Shri Taxi for Uttarakhand travel.',
+      datePublished: '2025-11-01',
+    },
+    {
+      '@type': 'Review',
+      author: { '@type': 'Person', name: 'Ghanshyam Sharma' },
+      reviewRating: { '@type': 'Rating', ratingValue: '5' },
+      reviewBody: 'Best cab service for Char Dham Yatra. Driver knew all the routes perfectly. Very comfortable journey.',
+      datePublished: '2026-05-09',
+    },
+  ],
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -46,6 +76,7 @@ const faqSchema = {
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(reviewSchema)} slot="head" />
 
   <TopBar />
   <SeasonBanner />
