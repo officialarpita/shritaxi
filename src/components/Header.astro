@@ -34,20 +34,7 @@ function isActive(href: string) {
   <div class="container header-inner">
     <!-- Logo -->
     <a href="/" class="logo" aria-label="Shri Taxi Home">
-      <div class="logo-icon">
-        <svg width="28" height="28" viewBox="0 0 40 40" fill="none">
-          <rect width="40" height="40" rx="8" fill="var(--saffron)"/>
-          <path d="M8 26l4-10h16l4 10H8z" fill="#fff" opacity="0.95"/>
-          <rect x="10" y="22" width="20" height="6" rx="3" fill="#fff"/>
-          <circle cx="14" cy="29" r="2.5" fill="var(--teal)"/>
-          <circle cx="26" cy="29" r="2.5" fill="var(--teal)"/>
-          <rect x="16" y="18" width="8" height="5" rx="1" fill="var(--teal)" opacity="0.5"/>
-        </svg>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">Shri Taxi</span>
-        <span class="logo-tagline">Pahadi Roots. Trusted Routes.</span>
-      </div>
+      <img src="/images/logo.png" alt="Shri Taxi — Pahadi Roots. Trusted Routes." class="logo-img" width="120" height="120" loading="eager" />
     </a>
 
     <!-- Desktop Nav -->
@@ -144,8 +131,8 @@ function isActive(href: string) {
 }
 
 /* Logo */
-.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.logo-text { display: flex; flex-direction: column; }
+.logo { display: flex; align-items: center; flex-shrink: 0; text-decoration: none; }
+.logo-img { height: 56px; width: auto; object-fit: contain; display: block; }
 .logo-name {
   font-family: 'Playfair Display', serif;
   font-size: 20px;

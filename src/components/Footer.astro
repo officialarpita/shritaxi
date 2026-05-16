@@ -111,8 +111,7 @@ const delhiRoutes = [
     <!-- Brand column -->
     <div class="footer-brand">
       <a href="/" class="footer-logo">
-        <span class="footer-logo-name">Shri Taxi</span>
-        <span class="footer-logo-tag">Pahadi Roots. Trusted Routes.</span>
+        <img src="/images/logo.png" alt="Shri Taxi" class="footer-logo-img" width="140" height="140" loading="lazy" />
       </a>
       <p class="footer-about">
         Dehradun-based taxi service covering Uttarakhand, hill stations, Char Dham routes and outstation trips across North India.
@@ -303,7 +302,8 @@ const delhiRoutes = [
 }
 
 /* Brand */
-.footer-logo {
+.footer-logo { text-decoration: none; display: inline-block; }
+.footer-logo-img { height: 80px; width: auto; object-fit: contain; display: block; }
   display: flex;
   flex-direction: column;
   margin-bottom: 14px;
