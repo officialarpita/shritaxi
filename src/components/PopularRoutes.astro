@@ -1,38 +1,38 @@
 ---
 import { Image } from 'astro:assets';
-import AirportImg      from '../assets/images/airportTransfer1.jpeg';
-import MussoorieImg    from '../assets/images/Mussori2.jpeg';
-import HaridwarImg     from '../assets/images/Haridwar.jpeg';
-import RishikeshImg    from '../assets/images/Hrisikesh2.jpeg';
-import OutstationImg   from '../assets/images/outstationCab.jpeg';
-import DhanaultiImg    from '../assets/images/Dhanaulti.jpeg';
-import HillStationImg  from '../assets/images/HillStation.jpeg';
-import AuliImg         from '../assets/images/Auli1.jpg';
-import Corporate1Img   from '../assets/images/Corporate1.jpeg';
-import Corporate2Img   from '../assets/images/Corporate2.jpeg';
-import CharDhamImg     from '../assets/images/CharDham1.jpeg';
+import AirportImg    from '../assets/images/airportTransfer1.jpeg';
+import MussoorieImg  from '../assets/images/Mussori2.jpeg';
+import HaridwarImg   from '../assets/images/Haridwar.jpeg';
+import RishikeshImg  from '../assets/images/Hrisikesh2.jpeg';
+import DhanaultiImg  from '../assets/images/Dhanaulti.jpeg';
+import HillStationImg from '../assets/images/HillStation.jpeg';
+import TehriImg      from '../assets/images/Tehri.jpg';
+import ChakrataImg   from '../assets/images/Chakrata.jpg';
+import DelhiImg      from '../assets/images/Delhi.jpg';
+import ChandigarhImg from '../assets/images/Chandigarh.jpg';
+import CharDhamImg   from '../assets/images/CharDham1.jpeg';
 
 const wa = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
 const dehradunRoutes = [
-  { from: 'Jolly Grant Airport', to: 'Dehradun',           distance: '27 km',  duration: '45 min',       img: AirportImg,     tag: 'Airport',      oneWay: '₹1,000', roundTrip: null,      href: '/jolly-grant-airport-taxi' },
-  { from: 'Dehradun',           to: 'Mussoorie',           distance: '35 km',  duration: '1 hr 30 min',  img: MussoorieImg,   tag: 'Hill Station', oneWay: '₹1,500', roundTrip: '₹3,500', href: '/dehradun-to-mussoorie-taxi' },
-  { from: 'Dehradun',           to: 'Haridwar',            distance: '54 km',  duration: '1 hr 30 min',  img: HaridwarImg,    tag: 'Spiritual',    oneWay: '₹2,000', roundTrip: '₹3,500', href: '/dehradun-to-haridwar-taxi' },
-  { from: 'Dehradun',           to: 'Rishikesh',           distance: '46 km',  duration: '1 hr 15 min',  img: RishikeshImg,   tag: 'Adventure',    oneWay: '₹2,000', roundTrip: '₹3,500', href: '/dehradun-to-rishikesh-taxi' },
-  { from: 'Dehradun',           to: 'Dhanaulti & Kanatal', distance: '65 km',  duration: '2 hrs',        img: DhanaultiImg,   tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages#dhanaulti' },
-  { from: 'Dehradun',           to: 'Tehri',               distance: '75 km',  duration: '2 hrs 30 min', img: HillStationImg, tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages' },
-  { from: 'Dehradun',           to: 'Chakrata',            distance: '90 km',  duration: '3 hrs',        img: AuliImg,        tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages' },
-  { from: 'Dehradun',           to: 'Delhi NCR',           distance: '310 km', duration: '6 hrs',        img: Corporate1Img,  tag: 'Outstation',   oneWay: '₹3,500', roundTrip: '₹7,000', href: '/delhi-to-dehradun-taxi' },
-  { from: 'Dehradun',           to: 'Chandigarh',          distance: '280 km', duration: '5 hrs',        img: Corporate2Img,  tag: 'Outstation',   oneWay: '₹3,500', roundTrip: '₹7,000', href: '/chandigarh-to-dehradun-taxi' },
+  { from: 'Jolly Grant Airport', to: 'Dehradun',           distance: '27 km',  duration: '45 min',       img: AirportImg,    tag: 'Airport',      oneWay: '₹1,000', roundTrip: null,      href: '/jolly-grant-airport-taxi' },
+  { from: 'Dehradun',           to: 'Mussoorie',           distance: '35 km',  duration: '1 hr 30 min',  img: MussoorieImg,  tag: 'Hill Station', oneWay: '₹1,500', roundTrip: '₹3,500', href: '/dehradun-to-mussoorie-taxi' },
+  { from: 'Dehradun',           to: 'Haridwar',            distance: '54 km',  duration: '1 hr 30 min',  img: HaridwarImg,   tag: 'Spiritual',    oneWay: '₹2,000', roundTrip: '₹3,500', href: '/dehradun-to-haridwar-taxi' },
+  { from: 'Dehradun',           to: 'Rishikesh',           distance: '46 km',  duration: '1 hr 15 min',  img: RishikeshImg,  tag: 'Adventure',    oneWay: '₹2,000', roundTrip: '₹3,500', href: '/dehradun-to-rishikesh-taxi' },
+  { from: 'Dehradun',           to: 'Dhanaulti & Kanatal', distance: '65 km',  duration: '2 hrs',        img: DhanaultiImg,  tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages#dhanaulti' },
+  { from: 'Dehradun',           to: 'Tehri',               distance: '75 km',  duration: '2 hrs 30 min', img: TehriImg,      tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages' },
+  { from: 'Dehradun',           to: 'Chakrata',            distance: '90 km',  duration: '3 hrs',        img: ChakrataImg,   tag: 'Day Trip',     oneWay: '₹3,599', roundTrip: null,      href: '/packages' },
+  { from: 'Dehradun',           to: 'Delhi NCR',           distance: '310 km', duration: '6 hrs',        img: DelhiImg,      tag: 'Outstation',   oneWay: '₹3,500', roundTrip: '₹7,000', href: '/delhi-to-dehradun-taxi' },
+  { from: 'Dehradun',           to: 'Chandigarh',          distance: '280 km', duration: '5 hrs',        img: ChandigarhImg, tag: 'Outstation',   oneWay: '₹3,500', roundTrip: '₹7,000', href: '/chandigarh-to-dehradun-taxi' },
 ];
 
 const delhiRoutes = [
-  { from: 'Delhi NCR',  to: 'Dehradun',  distance: '310 km',  duration: '6 hrs',        img: Corporate1Img, tag: 'Outstation',   oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/delhi-to-dehradun-taxi' },
+  { from: 'Delhi NCR',  to: 'Dehradun',  distance: '310 km',  duration: '6 hrs',        img: DelhiImg,      tag: 'Outstation',   oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/delhi-to-dehradun-taxi' },
   { from: 'Delhi NCR',  to: 'Haridwar',  distance: '230 km',  duration: '5 hrs',        img: HaridwarImg,   tag: 'Spiritual',    oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/delhi-to-haridwar-taxi' },
   { from: 'Delhi NCR',  to: 'Rishikesh', distance: '260 km',  duration: '5 hrs 30 min', img: RishikeshImg,  tag: 'Adventure',    oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/delhi-to-rishikesh-taxi' },
   { from: 'Delhi NCR',  to: 'Mussoorie', distance: '290 km',  duration: '6 hrs',        img: MussoorieImg,  tag: 'Hill Station', oneWay: '₹4,500',  roundTrip: '₹9,000', href: '/delhi-to-mussoorie-taxi' },
   { from: 'Delhi NCR',  to: 'Char Dham', distance: '350 km+', duration: '7 hrs+',       img: CharDhamImg,   tag: 'Pilgrimage',   oneWay: '₹41,999', roundTrip: null,      href: '/delhi-to-char-dham-taxi' },
-  { from: 'Chandigarh', to: 'Dehradun',  distance: '280 km',  duration: '5 hrs',        img: Corporate2Img, tag: 'Outstation',   oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/chandigarh-to-dehradun-taxi' },
+  { from: 'Chandigarh', to: 'Dehradun',  distance: '280 km',  duration: '5 hrs',        img: ChandigarhImg, tag: 'Outstation',   oneWay: '₹3,500',  roundTrip: '₹7,000', href: '/chandigarh-to-dehradun-taxi' },
 ];
 
 const tagColors: Record<string, string> = {
