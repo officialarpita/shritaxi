@@ -575,33 +575,45 @@ const schema = {
 </Base>
 
 <script>
-  // Chip filter — show/hide accordions
   const chips = document.querySelectorAll('.pkg-chip');
-  const accordions = document.querySelectorAll('.pkg-accordion');
+  const accordions = document.querySelectorAll('.pkg-accordion[data-category]');
+
+  function applyFilter(filter: string) {
+    accordions.forEach(acc => {
+      const el = acc as HTMLDetailsElement;
+      const cat = el.dataset.category;
+      if (filter === 'all' || filter === cat) {
+        el.style.display = '';
+      } else {
+        el.style.display = 'none';
+        el.open = false;
+      }
+    });
+
+    // Auto-open the matching accordion
+    if (filter !== 'all') {
+      const target = document.querySelector(`.pkg-accordion[data-category="${filter}"]`) as HTMLDetailsElement;
+      if (target) {
+        target.open = true;
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      }
+    } else {
+      // Show all but only keep first open
+      accordions.forEach((acc, i) => {
+        (acc as HTMLDetailsElement).open = i === 0;
+      });
+    }
+  }
+
+  // On page load — all chips show all, first accordion open, rest closed
+  applyFilter('all');
 
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
-      const filter = (chip as HTMLElement).dataset.filter;
-
-      // Update active chip
+      const filter = (chip as HTMLElement).dataset.filter || 'all';
       chips.forEach(c => c.classList.remove('pkg-chip--active'));
       chip.classList.add('pkg-chip--active');
-
-      // Show/hide accordions
-      accordions.forEach(acc => {
-        const cat = (acc as HTMLElement).dataset.category;
-        if (filter === 'all' || filter === cat) {
-          (acc as HTMLDetailsElement).style.display = '';
-          // Auto-open selected category
-          if (filter === cat) (acc as HTMLDetailsElement).open = true;
-        } else {
-          (acc as HTMLDetailsElement).style.display = 'none';
-        }
-      });
-
-      // Scroll to first visible accordion
-      const firstVisible = document.querySelector('.pkg-accordion:not([style*="none"])');
-      firstVisible?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      applyFilter(filter);
     });
   });
 </script>
