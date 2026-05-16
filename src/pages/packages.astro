@@ -174,7 +174,7 @@ const schema = {
     </details>
 
     <!-- Char Dham Packages — Accordion -->
-    <details class="pkg-accordion" id="char-dham-packages" data-category="chardham">
+    <details class="pkg-accordion" id="char-dham-packages" data-category="chardham" style="display:none">
       <summary class="pkg-accordion-header">
         <div class="pkg-accordion-title">
           <span class="pkg-accordion-icon">🙏</span>
@@ -239,7 +239,7 @@ const schema = {
     </details>
 
     <!-- Delhi & Chandigarh Circuits — Accordion -->
-    <details class="pkg-accordion pkg-accordion--highlight" id="multi-dest-packages" data-category="circuits">
+    <details class="pkg-accordion pkg-accordion--highlight" id="multi-dest-packages" data-category="circuits" style="display:none">
       <summary class="pkg-accordion-header">
         <div class="pkg-accordion-title">
           <span class="pkg-accordion-icon">🏙️</span>
@@ -614,12 +614,6 @@ const schema = {
 </script>
 
 <style>
-/* Hide non-day accordions by default — JS will show on interaction */
-.pkg-accordion[data-category="chardham"],
-.pkg-accordion[data-category="circuits"] {
-  display: none;
-}
-
 /* ── Chip Filter ── */
 .pkg-filter-bar {
   background: var(--white);
