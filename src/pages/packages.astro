@@ -575,50 +575,51 @@ const schema = {
 </Base>
 
 <script>
-  const chips = document.querySelectorAll('.pkg-chip');
-  const accordions = document.querySelectorAll('.pkg-accordion[data-category]');
+  document.addEventListener('DOMContentLoaded', () => {
+    const chips = document.querySelectorAll('.pkg-chip');
+    const accordions = document.querySelectorAll<HTMLDetailsElement>('.pkg-accordion[data-category]');
 
-  function applyFilter(filter: string) {
-    accordions.forEach(acc => {
-      const el = acc as HTMLDetailsElement;
-      const cat = el.dataset.category;
-      if (filter === 'all' || filter === cat) {
-        el.style.display = '';
-      } else {
-        el.style.display = 'none';
-        el.open = false;
-      }
-    });
-
-    // Auto-open the matching accordion
-    if (filter !== 'all') {
-      const target = document.querySelector(`.pkg-accordion[data-category="${filter}"]`) as HTMLDetailsElement;
-      if (target) {
-        target.open = true;
-        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-      }
-    } else {
-      // Show all but only keep first open
-      accordions.forEach((acc, i) => {
-        (acc as HTMLDetailsElement).open = i === 0;
+    function applyFilter(filter: string) {
+      accordions.forEach(acc => {
+        const cat = acc.dataset.category || '';
+        if (filter === 'all') {
+          acc.style.display = '';
+          // Only day trips open by default
+          acc.open = cat === 'day';
+        } else if (filter === cat) {
+          acc.style.display = '';
+          acc.open = true;
+        } else {
+          acc.style.display = 'none';
+          acc.open = false;
+        }
       });
     }
-  }
 
-  // On page load — all chips show all, first accordion open, rest closed
-  applyFilter('all');
+    // Apply on load — show all, only Day Trips open
+    applyFilter('all');
 
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      const filter = (chip as HTMLElement).dataset.filter || 'all';
-      chips.forEach(c => c.classList.remove('pkg-chip--active'));
-      chip.classList.add('pkg-chip--active');
-      applyFilter(filter);
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const filter = (chip as HTMLElement).dataset.filter || 'all';
+        chips.forEach(c => c.classList.remove('pkg-chip--active'));
+        chip.classList.add('pkg-chip--active');
+        applyFilter(filter);
+
+        // Scroll to filter bar
+        document.querySelector('.pkg-filter-bar')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
   });
 </script>
 
 <style>
+/* Hide non-day accordions by default — JS will show on interaction */
+.pkg-accordion[data-category="chardham"],
+.pkg-accordion[data-category="circuits"] {
+  display: none;
+}
+
 /* ── Chip Filter ── */
 .pkg-filter-bar {
   background: var(--white);
