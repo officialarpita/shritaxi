@@ -115,14 +115,13 @@ function isActive(href: string) {
 
 <style>
 .header {
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background: #0f172a;
   position: sticky;
   top: 0;
   z-index: 100;
   transition: box-shadow 0.2s;
 }
-.header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+.header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.4); }
 
 .header-inner {
   display: flex;
@@ -155,7 +154,7 @@ function isActive(href: string) {
 }
 
 .nav-link {
-  color: var(--slate);
+  color: rgba(255,255,255,0.85);
   font-size: 13px;
   font-weight: 500;
   padding: 6px 10px;
@@ -164,11 +163,11 @@ function isActive(href: string) {
   white-space: nowrap;
   position: relative;
 }
-.nav-link:hover { background: var(--mint); color: var(--teal); }
+.nav-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
 /* Active state */
 .nav-link.active {
-  color: var(--teal);
+  color: #fff;
   font-weight: 600;
 }
 .nav-link.active::after {
@@ -178,7 +177,7 @@ function isActive(href: string) {
   left: 10px;
   right: 10px;
   height: 2px;
-  background: var(--teal);
+  background: var(--saffron);
   border-radius: 2px;
 }
 
@@ -201,7 +200,7 @@ function isActive(href: string) {
   display: block;
   width: 22px;
   height: 2px;
-  background: var(--slate);
+  background: #fff;
   border-radius: 2px;
   transition: transform 0.25s, opacity 0.25s;
 }
@@ -213,8 +212,7 @@ function isActive(href: string) {
 .mobile-menu {
   display: none;
   flex-direction: column;
-  background: #fff;
-  border-top: 1px solid var(--border);
+  background: #1e293b;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease;
@@ -225,19 +223,18 @@ function isActive(href: string) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--slate);
+  color: rgba(255,255,255,0.85);
   font-size: 15px;
   font-weight: 500;
   padding: 14px 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   transition: background 0.15s;
 }
-.mobile-link { color: var(--slate); }
-.mobile-link:hover { background: var(--mint); color: var(--teal); }
+.mobile-link:hover { background: rgba(255,255,255,0.07); color: #fff; }
 .mobile-link.mobile-active {
-  color: var(--teal);
+  color: #fff;
   font-weight: 600;
-  background: var(--mint);
+  background: rgba(255,255,255,0.08);
 }
 
 .mobile-active-dot {
