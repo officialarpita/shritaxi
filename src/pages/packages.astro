@@ -111,7 +111,10 @@ const schema = {
             </div>
             <div class="acc-header-right">
               <span class="acc-price">₹3,599+</span>
-              <svg class="acc-chevron" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              <div class="acc-cta">
+                <span class="acc-explore">Explore</span>
+                <svg class="acc-chevron acc-chevron--bounce" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
           </summary>
           <div class="acc-body">
@@ -169,7 +172,10 @@ const schema = {
             </div>
             <div class="acc-header-right">
               <span class="acc-price">₹10,999+</span>
-              <svg class="acc-chevron" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              <div class="acc-cta">
+                <span class="acc-explore">Explore</span>
+                <svg class="acc-chevron acc-chevron--bounce acc-chevron--delay1" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
           </summary>
           <div class="acc-body">
@@ -224,7 +230,10 @@ const schema = {
             </div>
             <div class="acc-header-right">
               <span class="acc-price">₹17,999+</span>
-              <svg class="acc-chevron" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              <div class="acc-cta">
+                <span class="acc-explore">Explore</span>
+                <svg class="acc-chevron acc-chevron--bounce acc-chevron--delay2" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
           </summary>
           <div class="acc-body">
@@ -388,8 +397,22 @@ const schema = {
 
 .acc-header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .acc-price { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Playfair Display', serif; white-space: nowrap; }
+
+.acc-cta { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.acc-explore { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.85); letter-spacing: 0.8px; text-transform: uppercase; }
+
 .acc-chevron { color: rgba(255,255,255,0.9); transition: transform 0.25s; flex-shrink: 0; }
 details[open] > summary .acc-chevron { transform: rotate(180deg); }
+details[open] > summary .acc-explore { display: none; }
+
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+.acc-chevron--bounce { animation: bounce-arrow 1.2s ease-in-out infinite; }
+.acc-chevron--delay1 { animation-delay: 0.2s; }
+.acc-chevron--delay2 { animation-delay: 0.4s; }
+details[open] > summary .acc-chevron--bounce { animation: none; }
 
 .acc-badge-season {
   background: #fff;
