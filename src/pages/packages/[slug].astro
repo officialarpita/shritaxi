@@ -303,6 +303,21 @@ const breadcrumbSchema = {
 <style>
 /* Hero */
 .pkg-hero { background: #0f172a; padding: 40px 0; }
+
+@media (max-width: 1000px) {
+  .pkg-hero { background: #ffffff; }
+  .pkg-hero-title { color: var(--slate); }
+  .pkg-hero-tag { background: rgba(0,0,0,0.15) !important; }
+  .pkg-highlights .pkg-chip { background: var(--mint); color: var(--teal); border-color: var(--teal-light); }
+  .pkg-price-block { background: var(--mint); border-color: var(--teal-light); }
+  .pkg-price-label { color: var(--muted); }
+  .pkg-mrp { color: var(--muted); }
+  .pkg-price { color: var(--saffron); }
+  .pkg-save { background: #f0fdf4; color: #16a34a; }
+  .pkg-price-note { color: var(--muted); }
+  .pkg-incl { color: var(--teal); }
+  .pkg-trust-row { color: var(--muted); }
+}
 .pkg-hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
 .pkg-hero-img-wrap { position: relative; border-radius: var(--radius-lg); overflow: hidden; }
 .pkg-hero-img { width: 100%; height: 380px; object-fit: cover; }
