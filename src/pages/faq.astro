@@ -1,0 +1,224 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const faqCategories = [
+  {
+    id: 'pricing',
+    label: '💰 Pricing',
+    faqs: [
+      { q: 'What is the taxi fare from Delhi to Dehradun?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 one way for Sedan, ₹4,500 for Ertiga, ₹5,670 for Innova Crysta and ₹8,000 for Tempo Traveller. All prices include driver, fuel, toll and parking. No hidden charges.' },
+      { q: 'What is the taxi fare from Dehradun to Mussoorie?', a: 'Dehradun to Mussoorie taxi costs ₹1,500 one way or ₹3,500 round trip for Sedan. Ertiga costs ₹2,000 one way. All inclusive — driver, fuel and toll included.' },
+      { q: 'What is the Jolly Grant Airport taxi fare?', a: 'Jolly Grant Airport to Dehradun city is ₹1,000 fixed fare for Sedan, ₹1,200 for Ertiga and ₹1,500 for Innova Crysta. No extra charge for late night or early morning pickups.' },
+      { q: 'What is the Char Dham Yatra taxi fare from Dehradun?', a: 'Char Dham Yatra package from Dehradun starts at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga, ₹56,699 for Innova Crysta and ₹80,999 for Tempo Traveller. 10% discount applied.' },
+      { q: 'Is the taxi fare from Chandigarh same as Delhi?', a: 'Yes. Taxi fare from Chandigarh to Dehradun is ₹3,500 — same as Delhi NCR rate. All inclusive, fixed price, no hidden charges.' },
+      { q: 'Do you charge extra for late night pickups?', a: 'No extra charge for late night or early morning pickups. Our fare is fixed 24/7, 365 days. What we quote is what you pay.' },
+    ],
+  },
+  {
+    id: 'booking',
+    label: '🚗 Booking',
+    faqs: [
+      { q: 'How do I book a taxi with Shri Taxi?', a: 'Book via WhatsApp at +91 6397321825 or call us directly. Share your pickup location, drop location, date and vehicle preference. We confirm within 15 minutes.' },
+      { q: 'How much advance booking is required?', a: 'We recommend booking at least 2-3 hours in advance for local trips and 24 hours for outstation trips. For Char Dham Yatra, book as early as possible as cabs fill up fast during peak season.' },
+      { q: 'Can I cancel my booking?', a: 'Yes. Cancellations more than 24 hours before the trip are eligible for full refund. Cancellations within 24 hours may be subject to a cancellation fee. Contact us on WhatsApp to cancel.' },
+      { q: 'What payment methods do you accept?', a: 'We accept cash, UPI (GPay, PhonePe, Paytm), and bank transfer. No advance payment required for most bookings — pay the driver directly after your trip.' },
+      { q: 'Will I get the driver details before the trip?', a: 'Yes. We share driver name, contact number and vehicle number 2 hours before your trip via WhatsApp. You can also track the driver on the day of the trip.' },
+      { q: 'Can I modify my booking after confirmation?', a: 'Yes. Changes to pickup time, date or route can be made via WhatsApp. We try to accommodate all changes subject to driver availability.' },
+    ],
+  },
+  {
+    id: 'service',
+    label: '✓ Service',
+    faqs: [
+      { q: 'Do you pick up from Delhi NCR?', a: 'Yes. We pick up from all Delhi NCR locations — IGI Airport, New Delhi Railway Station, Noida, Gurgaon, Faridabad and Ghaziabad at ₹3,500 fixed price to Dehradun.' },
+      { q: 'Do you pick up from Chandigarh?', a: 'Yes. We pick up from Chandigarh city and Chandigarh Airport at ₹3,500 fixed price to Dehradun — same as Delhi NCR rate.' },
+      { q: 'Are your drivers experienced for mountain routes?', a: 'Yes. All our drivers are local pahadi residents who have driven Uttarakhand mountain routes for years. They know every road condition, shortcut, rest stop and temple timing.' },
+      { q: 'Is the cab AC?', a: 'Yes. All our vehicles — Sedan, Ertiga, Innova Crysta and Tempo Traveller — are fully air conditioned.' },
+      { q: 'Can we make stops during the journey?', a: 'Yes. You can make stops during the journey for food, sightseeing or rest. For outstation trips, additional stops on the planned route are accommodated at no extra charge.' },
+      { q: 'Do you provide 24/7 service?', a: 'Yes. We are available 24 hours, 7 days a week, 365 days a year. Early morning airport pickups, late night arrivals — we are always available.' },
+    ],
+  },
+  {
+    id: 'vehicles',
+    label: '🚙 Vehicles',
+    faqs: [
+      { q: 'What vehicles are available at Shri Taxi?', a: 'We offer Sedan (Dzire/Baleno — 4+1), Ertiga (6+1), Innova Crysta (6+1) and Tempo Traveller (12+1). All vehicles are well maintained, AC and GPS equipped.' },
+      { q: 'Which vehicle is best for Char Dham Yatra?', a: 'Innova Crysta is most popular for Char Dham Yatra — comfortable seats, good ground clearance for mountain roads and reliable AC. For groups of 7-12, Tempo Traveller is recommended.' },
+      { q: 'How much luggage can I carry?', a: 'Sedan can carry 2-3 medium bags, Ertiga 3-4 bags, Innova Crysta 4-5 bags and Tempo Traveller 8-10 bags. For large groups with heavy luggage, we recommend Tempo Traveller.' },
+      { q: 'Are child seats available?', a: 'Child seats can be arranged on request. Please mention when booking via WhatsApp and we will make the necessary arrangements.' },
+    ],
+  },
+  {
+    id: 'chardham',
+    label: '🙏 Char Dham',
+    faqs: [
+      { q: 'When does Char Dham Yatra 2026 open?', a: 'Char Dham Yatra 2026 opens in April-May. Yamunotri and Gangotri open on Akshaya Tritiya. Kedarnath and Badrinath open a few days later. Season closes in October-November.' },
+      { q: 'What is the best time for Char Dham Yatra?', a: 'May-June and September-October are the best months for Char Dham Yatra. July-August has monsoon which can cause road disruptions. April-May and October-November have pleasant weather.' },
+      { q: 'Can senior citizens do Char Dham Yatra by taxi?', a: 'Yes. Taxi is the most comfortable mode for senior citizens. Our drivers assist with luggage and know the best accessible routes. For Kedarnath, helicopter or pony service is available separately.' },
+      { q: 'What should I carry for Char Dham Yatra?', a: 'Carry warm clothes (even in summer — cold at high altitude), comfortable walking shoes, medicines, ID proof, Yatra registration and some cash. Our drivers will guide you with local advice.' },
+      { q: 'Is helicopter booking available for Kedarnath?', a: 'Helicopter booking for Kedarnath is a separate service managed by the government. Our taxi will drop you at the helipad. We can guide you on helicopter booking process.' },
+    ],
+  },
+  {
+    id: 'uniqueness',
+    label: '🎁 Our Promise',
+    faqs: [
+      { q: 'What is the Shri Taxi gift hamper?', a: 'Every Shri Taxi passenger receives a special Uttarakhand welcome hamper — local snacks, a branded water bottle and a handwritten safe journey card. Our way of saying welcome to the mountains.' },
+      { q: 'What are Shri Taxi Wallet Points?', a: 'Earn points on every booking — 50 to 1000 points depending on trip value. 100 points = ₹100 off on next booking. Extra points for Google reviews, photo sharing and referrals.' },
+      { q: 'What is the Shri Taxi Green Mission?', a: 'Our eco initiative to keep Uttarakhand mountains clean. Collect plastic during your journey and hand it to the driver. Earn extra Wallet Points and help keep our mountains beautiful.' },
+      { q: 'What is the No Hidden Cost Guarantee?', a: 'The price we quote includes driver, fuel, toll and parking — nothing extra. No fuel surcharge, no night charge, no waiting charge. What we quote is what you pay. Always.' },
+    ],
+  },
+];
+
+const allFaqs = faqCategories.flatMap(c => c.faqs);
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: allFaqs.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://shritaxi.com' },
+    { '@type': 'ListItem', position: 2, name: 'FAQ', item: 'https://shritaxi.com/faq' },
+  ],
+};
+---
+
+<Base
+  title="Frequently Asked Questions | Shri Taxi — Taxi Service Uttarakhand"
+  description="All your taxi booking questions answered — pricing, booking, vehicles, Char Dham Yatra, service areas and more. Shri Taxi FAQ page."
+  canonicalUrl="https://shritaxi.com/faq"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbSchema)} slot="head" />
+
+  <TopBar />
+  <Header currentPath="/faq" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="faq-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>FAQs</span></nav>
+        <h1 class="faq-hero-title">Frequently Asked Questions</h1>
+        <p class="faq-hero-sub">All your taxi booking questions answered in one place</p>
+        <!-- Category pills -->
+        <div class="faq-cats">
+          {faqCategories.map((c, i) => (
+            <button class={`faq-cat-btn${i === 0 ? ' faq-cat-btn--active' : ''}`} data-cat={c.id}>{c.label}</button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Sections -->
+    <section class="section">
+      <div class="container faq-layout">
+        <div class="faq-main">
+          {faqCategories.map(cat => (
+            <div class="faq-section" id={`cat-${cat.id}`}>
+              <h2 class="faq-section-title">{cat.label}</h2>
+              <div class="faq-list">
+                {cat.faqs.map(f => (
+                  <details class="faq-item" name={`faq-${cat.id}`}>
+                    <summary class="faq-q">
+                      {f.q}
+                      <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </summary>
+                    <p class="faq-a">{f.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="faq-sidebar">
+          <div class="faq-contact-card">
+            <h3>Still have questions?</h3>
+            <p>We respond within 15 minutes</p>
+            <a href={`tel:${phone}`} class="btn btn-saffron btn-full">📞 Call Us</a>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20have%20a%20question`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 WhatsApp</a>
+            <div class="faq-contact-trust">
+              <p>⭐ 4.9 Rating · 30+ Reviews</p>
+              <p>🏔️ Pahadi Drivers</p>
+              <p>✓ No Hidden Costs</p>
+            </div>
+          </div>
+          <div class="faq-quick-links">
+            <h3>Quick Links</h3>
+            <a href="/packages">View All Packages →</a>
+            <a href="/popular-routes">Popular Routes →</a>
+            <a href="/char-dham-yatra">Char Dham 2026 →</a>
+            <a href="/rewards">Shri Taxi Rewards →</a>
+            <a href="/green-mission">Green Mission →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.faq-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
+.faq-hero-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+.faq-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
+.faq-cats { display: flex; flex-wrap: wrap; gap: 8px; }
+.faq-cat-btn { padding: 8px 16px; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+.faq-cat-btn:hover, .faq-cat-btn--active { background: #fff; color: #0d9488; border-color: #fff; }
+
+.faq-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start; }
+.faq-section { margin-bottom: 40px; }
+.faq-section-title { font-size: 20px; font-weight: 700; color: var(--teal); font-family: 'DM Sans', sans-serif; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--mint-dark); }
+
+/* Sidebar */
+.faq-sidebar { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 20px; }
+.faq-contact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+.faq-contact-card h3 { font-size: 17px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; margin-bottom: 2px; }
+.faq-contact-card > p { font-size: 13px; color: var(--muted); }
+.faq-contact-trust { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.faq-contact-trust p { font-size: 13px; color: var(--muted); }
+.faq-quick-links { background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-lg); padding: 20px; display: flex; flex-direction: column; gap: 4px; }
+.faq-quick-links h3 { font-size: 14px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; margin-bottom: 10px; }
+.faq-quick-links a { font-size: 14px; color: var(--teal); font-weight: 500; padding: 6px 0; border-bottom: 1px solid var(--mint-dark); transition: color 0.15s; }
+.faq-quick-links a:last-child { border-bottom: none; }
+.faq-quick-links a:hover { color: var(--teal-dark); }
+
+@media (max-width: 1024px) { .faq-layout { grid-template-columns: 1fr; } .faq-sidebar { position: static; } }
+@media (max-width: 640px) { .faq-cats { gap: 6px; } .faq-cat-btn { font-size: 12px; padding: 6px 12px; } }
+</style>
+
+<script>
+  const catBtns = document.querySelectorAll('.faq-cat-btn');
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      catBtns.forEach(b => b.classList.remove('faq-cat-btn--active'));
+      btn.classList.add('faq-cat-btn--active');
+      const cat = (btn as HTMLElement).dataset.cat;
+      const target = document.getElementById(`cat-${cat}`);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>

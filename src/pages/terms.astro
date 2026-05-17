@@ -3,168 +3,51 @@ import Base from '../layouts/Base.astro';
 import TopBar from '../components/TopBar.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
-const lastUpdated = '10 May 2026';
-const businessEmail = import.meta.env.PUBLIC_BUSINESS_EMAIL || 'contact@shritaxi.com';
-const businessPhone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+import StickyBar from '../components/StickyBar.astro';
 ---
-
 <Base
-  title="Terms & Conditions | Shri Taxi"
-  description="Terms and conditions for booking taxi services with Shri Taxi in Dehradun and Uttarakhand — booking, pricing, cancellations, and liability."
+  title="Terms of Service | Shri Taxi"
+  description="Terms and conditions for using Shri Taxi services."
   canonicalUrl="https://shritaxi.com/terms"
 >
+  <!-- Override robots for this page only -->
+  <meta name="robots" content="noindex, nofollow" slot="head" />
+
   <TopBar />
   <Header currentPath="/terms" />
   <main id="main-content">
-    <section class="legal">
-      <div class="container">
-        <h1>Terms &amp; Conditions</h1>
-        <p class="legal-meta">Last updated: {lastUpdated}</p>
+    <section class="section">
+      <div class="container" style="max-width:800px;">
+        <h1 style="font-family:'Playfair Display',serif;font-size:36px;margin-bottom:8px;">Terms of Service</h1>
+        <p style="color:#64748b;margin-bottom:32px;">Last updated: May 2026</p>
 
-        <p>
-          These Terms &amp; Conditions ("Terms") govern your use of Shri Taxi services and the website at
-          <a href="https://shritaxi.com">shritaxi.com</a>. By making a booking with us — through the website,
-          WhatsApp, phone, or any other channel — you agree to these Terms.
-        </p>
+        <div class="policy-content">
+          <h2>Booking & Confirmation</h2>
+          <p>All bookings are confirmed via WhatsApp or phone call. A booking is considered confirmed only after you receive confirmation from our team with driver details.</p>
 
-        <h2>1. Service description</h2>
-        <p>
-          Shri Taxi provides on-demand taxi, airport transfer, outstation, hill-station and Char Dham Yatra
-          services in Dehradun and across Uttarakhand. Vehicles range from sedans and SUVs to Innova Crysta and
-          Tempo Travellers, supplied by us or by partner operators we work with.
-        </p>
+          <h2>Pricing</h2>
+          <p>All prices quoted include driver charges, fuel, toll and parking. Prices are fixed as quoted — no additional charges will be added at the end of your journey unless mutually agreed upon for route changes.</p>
 
-        <h2>2. Booking</h2>
-        <ul>
-          <li>A booking is confirmed only when we acknowledge it by phone, SMS, or WhatsApp with driver and vehicle details.</li>
-          <li>Please share accurate trip details — pickup, drop, date, time, passenger count, and luggage. Incorrect details may lead to delays or revised pricing.</li>
-          <li>You must be 18 or older to make a booking. You are responsible for the conduct of all passengers in your group.</li>
-        </ul>
+          <h2>Cancellation Policy</h2>
+          <p>Cancellations must be communicated via WhatsApp or phone call. Cancellations made more than 24 hours before the trip are eligible for a full refund. Cancellations within 24 hours may be subject to a cancellation fee.</p>
 
-        <h2>3. Pricing and payment</h2>
-        <ul>
-          <li>Quoted fares are inclusive of driver allowance, fuel, and standard tolls unless stated otherwise.</li>
-          <li>State entry permits, parking, and any extra night halts beyond the agreed itinerary are charged separately at actuals.</li>
-          <li>Char Dham, snow-season, and festival-period trips may carry a seasonal surcharge that we communicate in writing before you confirm.</li>
-          <li>Payments are settled directly with the driver — cash, UPI, GPay, PhonePe, Paytm, or bank transfer. We do not collect card payments online.</li>
-          <li>An advance may be requested for multi-day trips and Char Dham packages. Any advance is adjusted in the final fare.</li>
-        </ul>
+          <h2>Passenger Responsibility</h2>
+          <p>Passengers are responsible for their luggage and personal belongings. Shri Taxi is not liable for loss or damage to personal items during the journey.</p>
 
-        <h2>4. Cancellation and refund</h2>
-        <ul>
-          <li>Cancellations made more than 12 hours before the scheduled pickup are free of charge for local and short trips.</li>
-          <li>For outstation and multi-day trips, cancellation within 24 hours of pickup may incur a charge to cover driver positioning and lost slots.</li>
-          <li>For Char Dham and tour packages, the cancellation terms shared at the time of booking apply.</li>
-          <li>Refunds of any advance, where due, are processed within 7 working days to the original payment method.</li>
-        </ul>
+          <h2>Driver Conduct</h2>
+          <p>Our drivers are trained professionals. Any concerns about driver conduct should be reported to us immediately via WhatsApp at +91 6397321825.</p>
 
-        <h2>5. Trip changes and waiting time</h2>
-        <ul>
-          <li>Reasonable changes to the itinerary during the trip are accommodated where possible; significant route or distance changes may revise the fare.</li>
-          <li>Waiting time beyond 30 minutes at pickup, or beyond the agreed schedule, may be charged at standard rates.</li>
-          <li>Daily distance and hours included in tour packages are stated upfront; usage beyond those limits is billed at the per-km/hour rate disclosed at the time of booking.</li>
-        </ul>
-
-        <h2>6. Vehicles and drivers</h2>
-        <ul>
-          <li>We allocate the vehicle category you booked. We may, with notice, substitute a vehicle of equal or higher category if the original is unavailable.</li>
-          <li>All drivers carry valid commercial licences and the vehicle papers required by Indian and Uttarakhand transport regulations.</li>
-          <li>Smoking, consumption of alcohol or illegal substances, and dangerous behaviour inside the vehicle are not permitted. Drivers may end the trip if safety is compromised.</li>
-        </ul>
-
-        <h2>7. Luggage and personal belongings</h2>
-        <p>
-          Please confirm luggage volume in advance for compact vehicles. We are not liable for items left behind in
-          the vehicle, but will make reasonable efforts to return them at the customer's cost.
-        </p>
-
-        <h2>8. Delays and force majeure</h2>
-        <p>
-          We aim to be on time, but we cannot guarantee arrival or journey times due to traffic, weather,
-          landslides, road closures, vehicle breakdowns, regulatory checks, or other events outside our control. We
-          are not liable for any indirect loss (such as missed flights, missed events, or onward bookings) caused by
-          such delays. For airport pickups we recommend booking with a comfortable buffer.
-        </p>
-
-        <h2>9. Liability</h2>
-        <ul>
-          <li>Vehicles operate under valid commercial insurance as required by law. Compensation for any incident is limited to that available under the applicable insurance.</li>
-          <li>Our total liability for any claim relating to a booking is limited to the fare paid for that booking.</li>
-          <li>We are not liable for any indirect, incidental, or consequential losses.</li>
-        </ul>
-
-        <h2>10. Char Dham and high-altitude travel</h2>
-        <p>
-          Char Dham Yatra and high-altitude routes (Kedarnath, Badrinath, Auli, Chopta, etc.) involve mountain
-          driving, weather risk, and physical exertion. Customers travel at their own risk and are responsible for
-          assessing their own fitness, carrying necessary medication, and obtaining mandatory registrations and
-          permits where required by the Government of Uttarakhand.
-        </p>
-
-        <h2>11. Website use</h2>
-        <p>
-          The content on shritaxi.com is provided for information. Fares, packages, and route details may change
-          without notice. We do our best to keep the information accurate but do not warrant that it is error-free.
-        </p>
-
-        <h2>12. Governing law and disputes</h2>
-        <p>
-          These Terms are governed by the laws of India. Any dispute arising out of a booking shall be subject to
-          the exclusive jurisdiction of the courts at Dehradun, Uttarakhand.
-        </p>
-
-        <h2>13. Changes to these Terms</h2>
-        <p>
-          We may revise these Terms at any time. The version in effect at the time of your booking is the version
-          that applies to that booking.
-        </p>
-
-        <h2>14. Contact</h2>
-        <ul>
-          <li>Phone: <a href={`tel:${businessPhone}`}>{businessPhone}</a></li>
-          <li>Email: <a href={`mailto:${businessEmail}`}>{businessEmail}</a></li>
-          <li>Address: Shri Taxi, Dehradun, Uttarakhand, India.</li>
-        </ul>
+          <h2>Contact Us</h2>
+          <p>For any queries regarding these terms, contact us at +91 6397321825.</p>
+        </div>
       </div>
     </section>
   </main>
   <Footer />
+  <StickyBar />
 </Base>
 
 <style>
-  .legal {
-    padding: 80px 0 64px;
-    background: var(--white);
-  }
-  .legal .container {
-    max-width: 820px;
-  }
-  .legal h1 {
-    font-size: 36px;
-    margin-bottom: 8px;
-  }
-  .legal h2 {
-    font-size: 22px;
-    margin: 32px 0 12px;
-  }
-  .legal p,
-  .legal li {
-    color: var(--slate);
-    line-height: 1.7;
-    margin-bottom: 12px;
-  }
-  .legal ul {
-    padding-left: 20px;
-    margin-bottom: 12px;
-  }
-  .legal a {
-    color: var(--teal);
-    text-decoration: underline;
-  }
-  .legal-meta {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 24px;
-  }
+.policy-content h2 { font-size: 20px; color: #1e293b; margin: 28px 0 10px; font-family: 'DM Sans', sans-serif; font-weight: 700; }
+.policy-content p { font-size: 15px; color: #64748b; line-height: 1.75; margin-bottom: 16px; }
 </style>

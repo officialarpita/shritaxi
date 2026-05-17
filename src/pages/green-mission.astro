@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Shri Taxi Green Mission — Clean Mountains, Happy Journeys',
+  description: 'Shri Taxi Green Mission — collect plastic during your Uttarakhand journey and earn extra Wallet Points. Helping keep our mountains clean.',
+  url: 'https://shritaxi.com/green-mission',
+};
+---
+
+<Base
+  title="Green Mission | Clean Mountains, Happy Journeys | Shri Taxi Uttarakhand"
+  description="Join Shri Taxi Green Mission — collect plastic during your Uttarakhand journey and earn extra Wallet Points. Every trip helps keep our mountains clean."
+  canonicalUrl="https://shritaxi.com/green-mission"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <TopBar />
+  <Header currentPath="/green-mission" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="green-hero">
+      <div class="green-hero-decor" aria-hidden="true">
+        <span class="leaf leaf-1">🌿</span>
+        <span class="leaf leaf-2">🌲</span>
+        <span class="leaf leaf-3">🦅</span>
+        <span class="leaf leaf-4">🏔️</span>
+        <span class="leaf leaf-5">🌿</span>
+      </div>
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Green Mission</span></nav>
+        <div class="green-badge">🌿 New Initiative</div>
+        <h1 class="green-hero-title">Shri Taxi Green Mission</h1>
+        <p class="green-hero-tagline">Clean Mountains. Happy Journeys.</p>
+        <p class="green-hero-desc">Our pahadi roots run deep. Our drivers have watched the Char Dham routes fill with plastic over the years. We decided to do something about it. Every Shri Taxi journey is now an opportunity to give back to the mountains that give us our livelihood.</p>
+        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20join%20Green%20Mission%20on%20my%20next%20trip`} target="_blank" rel="noopener" class="btn btn-outline-white btn-lg">Join Green Mission →</a>
+      </div>
+    </section>
+
+    <!-- Impact Stats -->
+    <section class="section">
+      <div class="container">
+        <div class="impact-grid">
+          {[
+            { num: '450 kg', label: 'Plastic Collected', icon: '🗑️' },
+            { num: '120+', label: 'Eco Trips Completed', icon: '🌿' },
+            { num: '85', label: 'Green Warriors', icon: '👥' },
+            { num: '15', label: 'Mountain Routes Cleaned', icon: '🏔️' },
+          ].map(s => (
+            <div class="impact-card">
+              <div class="impact-icon">{s.icon}</div>
+              <div class="impact-num">{s.num}</div>
+              <div class="impact-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section section--mint">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Simple Steps</p>
+          <h2 class="section-title">How Green Mission Works</h2>
+        </div>
+        <div class="steps-grid">
+          {[
+            { step: '1', icon: '🚗', title: 'Book Your Trip', desc: 'Book any Shri Taxi trip as usual via WhatsApp or call.' },
+            { step: '2', icon: '🛍️', title: 'Get Your Bag', desc: 'Driver provides a biodegradable garbage collection bag at the start of your journey.' },
+            { step: '3', icon: '♻️', title: 'Collect Plastic', desc: 'Collect any plastic waste you see during your trip — bottles, wrappers, bags.' },
+            { step: '4', icon: '🏆', title: 'Earn Rewards', desc: 'Hand the collected waste to your driver and earn extra Wallet Points instantly.' },
+            { step: '5', icon: '🌿', title: 'We Dispose Responsibly', desc: 'We ensure collected plastic reaches proper recycling facilities.' },
+          ].map(s => (
+            <div class="step-card">
+              <div class="step-num">{s.step}</div>
+              <div class="step-icon">{s.icon}</div>
+              <h3 class="step-title">{s.title}</h3>
+              <p class="step-desc">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Rewards -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Your Rewards</p>
+          <h2 class="section-title">Earn Points for a Cleaner Uttarakhand</h2>
+        </div>
+        <div class="rewards-grid">
+          {[
+            { amount: 'Small Bag (~500g)', points: '+100 Points', worth: '₹100 off next booking', color: '#0d9488' },
+            { amount: 'Medium Bag (~1kg)', points: '+200 Points', worth: '₹200 off next booking', color: '#f59e0b' },
+            { amount: 'Large Bag (2kg+)', points: '+500 Points + 🎁', worth: 'Gift Hamper + ₹500 off', color: '#10b981' },
+            { amount: 'Share Photo on Social', points: '+50 Points', worth: '₹50 off next booking', color: '#3b82f6' },
+          ].map(r => (
+            <div class="reward-card" style={`border-top: 4px solid ${r.color}`}>
+              <div class="reward-amount">{r.amount}</div>
+              <div class="reward-points" style={`color:${r.color}`}>{r.points}</div>
+              <div class="reward-worth">{r.worth}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section green-cta">
+      <div class="container green-cta-inner">
+        <div>
+          <h2>Join the Green Mission Today</h2>
+          <p>Book your next Uttarakhand trip and be a green warrior</p>
+        </div>
+        <div class="green-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-saffron">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20join%20Green%20Mission`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.green-hero { background: linear-gradient(135deg, #064e3b, #065f46); padding: 64px 0; position: relative; overflow: hidden; }
+.green-hero-decor { position: absolute; inset: 0; pointer-events: none; }
+.leaf { position: absolute; font-size: 48px; opacity: 0.1; }
+.leaf-1 { top: 10%; left: 3%; } .leaf-2 { top: 15%; right: 5%; font-size: 56px; }
+.leaf-3 { bottom: 25%; right: 12%; font-size: 40px; } .leaf-4 { bottom: 15%; left: 8%; }
+.leaf-5 { top: 50%; left: 45%; font-size: 36px; }
+.green-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; font-weight: 700; padding: 5px 16px; border-radius: 30px; margin-bottom: 16px; }
+.green-hero-title { font-size: clamp(30px, 5vw, 52px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+.green-hero-tagline { font-size: 20px; color: #6ee7b7; font-style: italic; font-family: 'Playfair Display', serif; margin-bottom: 20px; }
+.green-hero-desc { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.75; max-width: 640px; margin-bottom: 28px; }
+
+.impact-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.impact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 20px; text-align: center; box-shadow: var(--shadow-sm); }
+.impact-icon { font-size: 36px; margin-bottom: 12px; }
+.impact-num { font-size: 32px; font-weight: 700; color: #065f46; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.impact-label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+.steps-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.step-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 16px; text-align: center; position: relative; }
+.step-num { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #065f46; color: #fff; width: 24px; height: 24px; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.step-icon { font-size: 28px; margin: 8px 0 10px; }
+.step-title { font-size: 14px; font-weight: 700; color: var(--slate); margin-bottom: 6px; font-family: 'DM Sans', sans-serif; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+.rewards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.reward-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 16px; text-align: center; }
+.reward-amount { font-size: 14px; font-weight: 600; color: var(--slate); margin-bottom: 10px; }
+.reward-points { font-size: 22px; font-weight: 700; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.reward-worth { font-size: 12px; color: var(--muted); }
+
+.green-cta { background: #065f46; }
+.green-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.green-cta h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.green-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
+.green-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 1024px) { .steps-grid { grid-template-columns: repeat(3, 1fr); } .impact-grid { grid-template-columns: repeat(2, 1fr); } .rewards-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .impact-grid { grid-template-columns: 1fr 1fr; }
+  .rewards-grid { grid-template-columns: 1fr 1fr; }
+  .green-cta-inner { flex-direction: column; }
+  .green-cta-btns { flex-direction: column; width: 100%; }
+  .green-cta-btns .btn { justify-content: center; }
+}
+</style>

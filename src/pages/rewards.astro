@@ -1,0 +1,174 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+---
+
+<Base
+  title="Shri Taxi Rewards | Earn Wallet Points on Every Booking | Uttarakhand"
+  description="Earn Wallet Points on every Shri Taxi booking. Redeem on next trip. Extra points for reviews, referrals and Green Mission. Book now and start earning."
+  canonicalUrl="https://shritaxi.com/rewards"
+>
+  <TopBar />
+  <Header currentPath="/rewards" />
+
+  <main id="main-content">
+
+    <section class="rewards-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Rewards</span></nav>
+        <div class="rewards-badge">🏆 Loyalty Program</div>
+        <h1 class="rewards-title">Shri Taxi Rewards</h1>
+        <p class="rewards-sub">Earn points on every trip. Redeem on your next booking. The more you travel, the more you save.</p>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Simple & Rewarding</p>
+          <h2 class="section-title">How It Works</h2>
+        </div>
+        <div class="how-grid">
+          <div class="how-card">
+            <div class="how-num">1</div>
+            <div class="how-icon">🚗</div>
+            <h3>Book Any Trip</h3>
+            <p>Book any Shri Taxi trip — local, outstation or Char Dham package.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-num">2</div>
+            <div class="how-icon">⭐</div>
+            <h3>Earn Points</h3>
+            <p>Points credited automatically after trip completion via WhatsApp.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-num">3</div>
+            <div class="how-icon">💰</div>
+            <h3>Redeem & Save</h3>
+            <p>Use points on next booking. 100 points = ₹100 discount.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Points table -->
+    <section class="section section--mint">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Earn Points</p>
+          <h2 class="section-title">Points on Every Booking</h2>
+        </div>
+        <div class="points-table">
+          <div class="points-table-head">
+            <span>Trip Value</span>
+            <span>Points Earned</span>
+            <span>Worth</span>
+          </div>
+          {[
+            { range: '₹1,000 – ₹3,000', points: '50 points', worth: '₹50 off' },
+            { range: '₹3,001 – ₹10,000', points: '150 points', worth: '₹150 off' },
+            { range: '₹10,001 – ₹35,000', points: '500 points', worth: '₹500 off' },
+            { range: 'Char Dham Package', points: '1,000 points', worth: '₹1,000 off' },
+          ].map(r => (
+            <div class="points-row">
+              <span class="points-range">{r.range}</span>
+              <span class="points-earned">{r.points}</span>
+              <span class="points-worth">{r.worth}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="section-header" style="margin-top:48px;">
+          <p class="section-label">Bonus Points</p>
+          <h2 class="section-title">Extra Ways to Earn</h2>
+        </div>
+        <div class="bonus-grid">
+          {[
+            { icon: '⭐', action: 'Write a Google Review', points: '+100 Points' },
+            { icon: '📸', action: 'Share Trip Photo on Social Media', points: '+50 Points' },
+            { icon: '👥', action: 'Refer a Friend', points: '+200 Points' },
+            { icon: '🎂', action: 'Birthday Trip', points: 'Double Points' },
+            { icon: '🌿', action: 'Green Mission — Small Collection', points: '+100 Points' },
+            { icon: '♻️', action: 'Green Mission — Large Collection', points: '+500 Points + 🎁' },
+          ].map(b => (
+            <div class="bonus-card">
+              <span class="bonus-icon">{b.icon}</span>
+              <div>
+                <p class="bonus-action">{b.action}</p>
+                <p class="bonus-points">{b.points}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section rewards-cta">
+      <div class="container rewards-cta-inner">
+        <div>
+          <h2>Start Earning Today</h2>
+          <p>Book your next trip and start collecting Wallet Points</p>
+        </div>
+        <div class="rewards-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-saffron">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20and%20earn%20Wallet%20Points`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Book & Earn</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.rewards-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
+.rewards-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #f59e0b; font-size: 12px; font-weight: 700; padding: 5px 16px; border-radius: 30px; margin-bottom: 14px; }
+.rewards-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+.rewards-sub { font-size: 16px; color: rgba(255,255,255,0.8); max-width: 560px; }
+
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.how-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 24px; text-align: center; position: relative; }
+.how-num { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--teal); color: #fff; width: 28px; height: 28px; border-radius: 50%; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.how-icon { font-size: 36px; margin: 8px 0 12px; }
+.how-card h3 { font-size: 17px; font-weight: 700; color: var(--slate); margin-bottom: 8px; font-family: 'DM Sans', sans-serif; }
+.how-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+.points-table { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 8px; }
+.points-table-head { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 12px 16px; background: var(--teal); color: #fff; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.points-row { display: grid; grid-template-columns: 2fr 1fr 1fr; padding: 14px 16px; border-top: 1px solid var(--border); align-items: center; transition: background 0.15s; }
+.points-row:hover { background: var(--mint); }
+.points-range { font-size: 15px; font-weight: 600; color: var(--slate); }
+.points-earned { font-size: 15px; font-weight: 700; color: var(--teal); }
+.points-worth { font-size: 14px; color: #16a34a; font-weight: 600; }
+
+.bonus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.bonus-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; gap: 12px; transition: box-shadow 0.15s; }
+.bonus-card:hover { box-shadow: var(--shadow-sm); }
+.bonus-icon { font-size: 28px; flex-shrink: 0; }
+.bonus-action { font-size: 14px; font-weight: 600; color: var(--slate); margin-bottom: 4px; }
+.bonus-points { font-size: 13px; font-weight: 700; color: var(--teal); }
+
+.rewards-cta { background: var(--navy); }
+.rewards-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.rewards-cta h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.rewards-cta p { font-size: 14px; color: rgba(255,255,255,0.7); }
+.rewards-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 1024px) { .bonus-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) {
+  .how-grid { grid-template-columns: 1fr; }
+  .bonus-grid { grid-template-columns: 1fr; }
+  .rewards-cta-inner { flex-direction: column; }
+  .rewards-cta-btns { flex-direction: column; width: 100%; }
+  .rewards-cta-btns .btn { justify-content: center; }
+}
+</style>

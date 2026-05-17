@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: 'Contact Shri Taxi',
+  url: 'https://shritaxi.com/contact',
+  mainEntity: {
+    '@type': 'LocalBusiness',
+    name: 'Shri Taxi',
+    telephone: '+916397321825',
+    address: { '@type': 'PostalAddress', streetAddress: 'Shastradhara Road', addressLocality: 'Dehradun', addressRegion: 'Uttarakhand', addressCountry: 'IN' },
+    openingHours: 'Mo-Su 00:00-23:59',
+  },
+};
+---
+
+<Base
+  title="Contact Shri Taxi | Book Taxi in Uttarakhand | +91 6397321825"
+  description="Contact Shri Taxi for taxi booking in Uttarakhand. Call or WhatsApp +91 6397321825. Available 24/7 for Dehradun, Mussoorie, Haridwar, Rishikesh and Char Dham trips."
+  canonicalUrl="https://shritaxi.com/contact"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(contactSchema)} slot="head" />
+  <TopBar />
+  <Header currentPath="/contact" />
+
+  <main id="main-content">
+
+    <section class="contact-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Contact Us</span></nav>
+        <h1 class="contact-title">Get in Touch</h1>
+        <p class="contact-sub">We respond within 15 minutes · Available 24/7</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-grid">
+
+        <!-- Contact options -->
+        <div class="contact-options">
+          <div class="contact-card contact-card--primary">
+            <div class="contact-icon">📞</div>
+            <h2>Call Us</h2>
+            <p>Direct line — fastest way to book</p>
+            <a href={`tel:${phone}`} class="btn btn-saffron btn-lg btn-full">{phone}</a>
+            <p class="contact-note">Available 24/7 · Hindi & English</p>
+          </div>
+
+          <div class="contact-card contact-card--whatsapp">
+            <div class="contact-icon">💬</div>
+            <h2>WhatsApp Us</h2>
+            <p>Send message — reply in 15 mins</p>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg btn-full">Open WhatsApp</a>
+            <p class="contact-note">Share trip details for instant quote</p>
+          </div>
+
+          <!-- Business details -->
+          <div class="contact-details">
+            <h3>Business Details</h3>
+            <div class="contact-detail-list">
+              <div class="contact-detail-item">
+                <span class="contact-detail-icon">📍</span>
+                <div>
+                  <strong>Location</strong>
+                  <p>Shastradhara Road, Dehradun<br/>Uttarakhand — 248001</p>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="contact-detail-icon">🕐</span>
+                <div>
+                  <strong>Hours</strong>
+                  <p>Open 24 hours · 7 days a week<br/>365 days a year</p>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="contact-detail-icon">⚡</span>
+                <div>
+                  <strong>Response Time</strong>
+                  <p>Average 8 minutes on WhatsApp<br/>Instant on call</p>
+                </div>
+              </div>
+              <div class="contact-detail-item">
+                <span class="contact-detail-icon">🗺️</span>
+                <div>
+                  <strong>Find Us</strong>
+                  <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600;">View on Google Maps →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map embed -->
+        <div class="contact-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.4!2d78.104961!3d30.376788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3908d783d8ea259d%3A0x92183f75ec9f2933!2sShri%20Taxi!5e0!3m2!1sen!2sin!4v1"
+            width="100%"
+            height="400"
+            style="border:0;border-radius:16px;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Shri Taxi location on Google Maps"
+          ></iframe>
+          <div class="contact-map-trust">
+            <span>⭐ 4.9 / 5.0</span>
+            <span>·</span>
+            <span>30+ Google Reviews</span>
+            <span>·</span>
+            <a href="https://maps.app.goo.gl/X8hFada5oFN63vUp7" target="_blank" rel="noopener">Leave a Review →</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.contact-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
+.contact-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+.contact-sub { font-size: 16px; color: rgba(255,255,255,0.8); }
+
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.contact-options { display: flex; flex-direction: column; gap: 16px; }
+.contact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
+.contact-card--primary { border-top: 4px solid var(--saffron); }
+.contact-card--whatsapp { border-top: 4px solid var(--whatsapp); }
+.contact-icon { font-size: 32px; }
+.contact-card h2 { font-size: 20px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; }
+.contact-card > p { font-size: 14px; color: var(--muted); }
+.contact-note { font-size: 12px; color: var(--muted); text-align: center; }
+.contact-details { background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-lg); padding: 24px; }
+.contact-details h3 { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; margin-bottom: 16px; }
+.contact-detail-list { display: flex; flex-direction: column; gap: 14px; }
+.contact-detail-item { display: flex; gap: 12px; align-items: flex-start; }
+.contact-detail-icon { font-size: 20px; flex-shrink: 0; }
+.contact-detail-item strong { font-size: 13px; font-weight: 700; color: var(--slate); display: block; margin-bottom: 2px; }
+.contact-detail-item p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.contact-map-trust { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-top: 12px; flex-wrap: wrap; }
+.contact-map-trust a { color: var(--teal); font-weight: 600; }
+
+@media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
+</style>
