@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import PopularRoutes from '../components/PopularRoutes.astro';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Popular Taxi Routes in Uttarakhand',
+  description: 'Most booked taxi routes from Dehradun and Delhi NCR — Airport, Mussoorie, Haridwar, Rishikesh, Char Dham and outstation cabs at fixed prices.',
+  url: 'https://shritaxi.com/popular-routes',
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What are the most popular taxi routes from Dehradun?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Most popular routes from Dehradun are: Airport to Dehradun (₹1,000), Dehradun to Mussoorie (₹1,500), Dehradun to Haridwar (₹2,000), Dehradun to Rishikesh (₹2,000), and Delhi to Dehradun (₹3,500). All fixed price, all inclusive.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What is the taxi fare from Delhi to Dehradun?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Delhi to Dehradun taxi fare is ₹3,500 fixed price for Sedan, ₹4,500 for Ertiga and ₹5,670 for Innova Crysta. All inclusive — driver, fuel, toll and parking. Available 24/7.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Does Shri Taxi operate from Chandigarh?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Yes. Shri Taxi offers cab service from Chandigarh to Dehradun at ₹3,500 fixed price — same rate as Delhi NCR. Available 24/7.' },
+    },
+  ],
+};
+---
+
+<Base
+  title="Popular Taxi Routes in Uttarakhand | Dehradun, Delhi NCR & Chandigarh | Shri Taxi"
+  description="Book popular taxi routes — Airport ₹1,000 · Mussoorie ₹1,500 · Haridwar ₹2,000 · Delhi to Dehradun ₹3,500 · Char Dham taxi 2026. Fixed price, all inclusive, 24/7."
+  canonicalUrl="https://shritaxi.com/popular-routes"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/popular-routes" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="routes-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Popular Routes</span></nav>
+        <p class="section-label">Cab Services</p>
+        <h1 class="routes-hero-title">Popular Taxi Routes in Uttarakhand</h1>
+        <p class="routes-hero-sub">Fixed price cab service from Dehradun, Delhi NCR & Chandigarh — all inclusive, no hidden charges, available 24/7</p>
+        <div class="routes-hero-trust">
+          <span class="trust-pill">⭐ 4.9 Google Rating</span>
+          <span class="trust-pill">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill">🔒 Fixed Price</span>
+          <span class="trust-pill">📞 24/7 Available</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Answer Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="aeo-answer">
+          <strong>Shri Taxi</strong> operates popular taxi routes across Uttarakhand from Dehradun, Delhi NCR and Chandigarh. Airport transfer starts at ₹1,000, Dehradun to Mussoorie at ₹1,500, Haridwar and Rishikesh at ₹2,000, Delhi to Dehradun at ₹3,500 and Char Dham Yatra from ₹35,999. All prices are fixed and include driver, fuel, toll and parking.
+        </p>
+      </div>
+    </section>
+
+    <!-- Popular Routes Component -->
+    <PopularRoutes />
+
+    <!-- FAQ -->
+    <section class="section section--mint">
+      <div class="container">
+        <h2 class="section-title">Route FAQs</h2>
+        <div class="faq-list">
+          {faqSchema.mainEntity.map(f => (
+            <details class="faq-item" name="routes-faq">
+              <summary class="faq-q">
+                {f.name}
+                <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <p class="faq-a">{f.acceptedAnswer.text}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section routes-cta">
+      <div class="container routes-cta-inner">
+        <div>
+          <h2>Book Your Taxi Now</h2>
+          <p>Fixed price · Instant confirmation · Available 24/7</p>
+        </div>
+        <div class="routes-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Booking</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.routes-hero { background: linear-gradient(135deg, #0d9488, #0f766e); padding: 48px 0 36px; }
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
+.routes-hero-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; line-height: 1.2; }
+.routes-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 20px; max-width: 600px; }
+.routes-hero-trust { display: flex; flex-wrap: wrap; gap: 8px; }
+.trust-pill { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 30px; }
+
+.aeo-block { background: #f0fdfa; border-top: 3px solid #0d9488; border-bottom: 1px solid #ccfbf1; padding: 20px 0; }
+.aeo-answer { font-size: 16px; color: var(--slate); line-height: 1.75; max-width: 860px; }
+
+.faq-list { display: flex; flex-direction: column; max-width: 800px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; cursor: pointer; font-size: 16px; font-weight: 600; color: var(--slate); list-style: none; gap: 12px; }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-chevron { flex-shrink: 0; color: var(--muted); transition: transform 0.2s; }
+details[open] .faq-chevron { transform: rotate(180deg); color: #0d9488; }
+details[open] .faq-q { color: #0d9488; }
+.faq-a { font-size: 15px; color: var(--muted); line-height: 1.75; padding-bottom: 16px; }
+
+.routes-cta { background: #0d9488; }
+.routes-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.routes-cta h2 { font-size: 24px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.routes-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
+.routes-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media (max-width: 600px) {
+  .routes-cta-inner { flex-direction: column; }
+  .routes-cta-btns { flex-direction: column; width: 100%; }
+  .routes-cta-btns .btn { justify-content: center; }
+}
+</style>
