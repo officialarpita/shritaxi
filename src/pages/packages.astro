@@ -122,7 +122,7 @@ const schema = {
               {dayPackages.map(p => {
                 const img = imgMap[p.id] || CharDhamImg;
                 return (
-                  <div class="pkg-card">
+                  <div class="pkg-card" id={p.id}>
                     <div class="pkg-img-wrap">
                       <Image src={img} alt={`${p.name} taxi package`} width={380} height={200} widths={[300, 380, 760]} sizes="(max-width: 640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
                       <div class="pkg-overlay"></div>
@@ -334,22 +334,37 @@ const schema = {
 </Base>
 
 <script>
-  // Auto-open correct accordion based on URL hash
   document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
+    if (!hash) return;
+
     const accordions = document.querySelectorAll<HTMLDetailsElement>('.acc[id]');
 
-    if (hash) {
-      // Close all first
-      accordions.forEach(acc => { acc.open = false; acc.style.display = 'none'; });
+    // Always keep all accordions visible
+    // Just open the right one and scroll to specific card if hash matches a card id
+    const targetCard = document.querySelector<HTMLElement>(hash);
+    const targetAcc = document.querySelector<HTMLDetailsElement>(hash);
 
-      // Open the matching one
-      const target = document.querySelector<HTMLDetailsElement>(hash);
-      if (target) {
-        target.style.display = '';
-        target.open = true;
-        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    if (targetCard && targetCard.classList.contains('pkg-card')) {
+      // Hash points to a specific card — open its parent accordion
+      const parentAcc = targetCard.closest<HTMLDetailsElement>('details.acc');
+      if (parentAcc) {
+        // Close all, open parent
+        accordions.forEach(acc => { acc.open = false; acc.style.display = ''; });
+        parentAcc.open = true;
+        // Scroll to the specific card
+        setTimeout(() => {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Highlight the card briefly
+          targetCard.style.boxShadow = '0 0 0 3px #0d9488';
+          setTimeout(() => targetCard.style.boxShadow = '', 2000);
+        }, 300);
       }
+    } else if (targetAcc && targetAcc.tagName === 'DETAILS') {
+      // Hash points to accordion — open it, keep others visible but closed
+      accordions.forEach(acc => { acc.open = false; acc.style.display = ''; });
+      targetAcc.open = true;
+      setTimeout(() => targetAcc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
     }
   });
 </script>
