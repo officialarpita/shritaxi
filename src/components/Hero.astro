@@ -8,13 +8,6 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
   <div class="hero-bg">
     <img src="/images/hero-mountains.jpg" alt="Uttarakhand mountains" class="hero-bg-img" loading="eager" fetchpriority="high" />
     <div class="hero-overlay"></div>
-    <!-- Mountain silhouette decoration -->
-    <div class="hero-mountain-decor" aria-hidden="true">
-      <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <path d="M0,120 L0,80 L120,30 L240,70 L360,15 L480,60 L600,8 L720,55 L840,10 L960,50 L1080,20 L1200,58 L1320,25 L1440,60 L1440,120 Z" fill="rgba(255,255,255,0.04)"/>
-        <path d="M0,120 L0,95 L180,55 L360,85 L540,40 L720,75 L900,38 L1080,70 L1260,45 L1440,75 L1440,120 Z" fill="rgba(255,255,255,0.06)"/>
-      </svg>
-    </div>
   </div>
 
   <div class="container hero-content">
@@ -123,12 +116,8 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
   </div>
 
-  <!-- Bottom mountain silhouette -->
-  <div class="hero-bottom-decor" aria-hidden="true">
-    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <path d="M0,60 L0,35 L160,8 L320,38 L480,5 L640,32 L800,3 L960,30 L1120,8 L1280,35 L1440,15 L1440,60 Z" fill="#ffffff"/>
-    </svg>
-  </div>
+  <!-- bottom padding only -->
+  <div style="height: 20px;"></div>
 </section>
 
 <style>
@@ -277,16 +266,7 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 .form-submit { margin-top: 4px; font-size: 15px; padding: 13px; }
 .form-note { font-size: 11px; color: #64748b; text-align: center; margin-top: 4px; }
 
-/* Bottom decoration */
-.hero-bottom-decor {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  z-index: 1;
-}
-.hero-bottom-decor svg { width: 100%; height: 100%; }
+/* Bottom decoration removed */
 
 /* Responsive */
 @media (max-width: 1024px) {
