@@ -1,1 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StickyBar from '../../components/StickyBar.astro';
+import SeasonBanner from '../../components/SeasonBanner.astro';
+import { Image } from 'astro:assets';
+import { tourPackages, fmt } from '../../data/pricing';
 
+import CharDhamImg  from '../../assets/images/CharDham1.jpeg';
+import NainitalImg  from '../../assets/images/Nainital2.jpg';
+import AuliImg      from '../../assets/images/Auli_togo.jpg';
+import KedarnathImg from '../../assets/images/CharDham2.jpeg';
+import BadrinathImg from '../../assets/images/Badrinath.jpeg';
+import NeemKaroliImg from '../../assets/images/NeemKaroli.jpeg';
+import DhanaultiImg from '../../assets/images/Dhanaulti.jpeg';
+import MunsiyariImg from '../../assets/images/Munsyari.jpeg';
+import ChoptaImg    from '../../assets/images/Chopta.jpeg';
+
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const imgMap: Record<string, ImageMetadata> = {
+  'dhanaulti': DhanaultiImg, 'neem-karoli': NeemKaroliImg,
+  'nainital': NainitalImg, 'auli': AuliImg, 'munsiyari': MunsiyariImg,
+  'chopta': ChoptaImg, 'kedarnath': KedarnathImg, 'badrinath': BadrinathImg,
+  'ek-dham': KedarnathImg, 'do-dham': BadrinathImg, 'char-dham': CharDhamImg,
+};
+
+const categories = [
+  { id: 'all', label: '🌿 All Packages' },
+  { id: 'pilgrimage', label: '🙏 Pilgrimage' },
+  { id: 'hill-station', label: '🏔️ Hill Stations' },
+  { id: 'adventure', label: '🏕️ Adventure' },
+  { id: 'circuits', label: '🏙️ Delhi Circuits' },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Uttarakhand Tour Packages with Cab',
+  url: 'https://shritaxi.com/packages',
+  numberOfItems: tourPackages.length,
+  itemListElement: tourPackages.map((p, i) => ({
+    '@type': 'ListItem', position: i + 1,
+    name: p.name, url: `https://shritaxi.com/packages/${p.id}`,
+  })),
+};
+---
+
+<Base
+  title="Uttarakhand Tour Packages with Cab | Char Dham, Hill Stations & Delhi Circuits | Shri Taxi"
+  description="Book Uttarakhand tour packages with cab — Char Dham ₹35,999, Nainital ₹10,999, Dhanaulti ₹3,599. All inclusive, 10% discount, pahadi drivers."
+  canonicalUrl="https://shritaxi.com/packages"
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/packages" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="pkgs-hero">
+      <div class="container">
+        <nav class="breadcrumb"><a href="/">Home</a> › <span>Tour Packages</span></nav>
+        <p class="section-label" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;">Cab-only Packages</p>
+        <h1 class="pkgs-hero-title">Uttarakhand Tour Packages with Cab</h1>
+        <p class="pkgs-hero-sub">All inclusive · 10% discount · Experienced pahadi drivers · No hidden costs</p>
+        <div class="trust-pills">
+          <span class="trust-pill">⭐ 4.9 Rating</span>
+          <span class="trust-pill">🎁 Gift Hamper on Every Booking</span>
+          <span class="trust-pill">🏆 Earn Wallet Points</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="route-answer">Shri Taxi offers curated cab packages across Uttarakhand — from day trips to Dhanaulti (₹3,599) to 10-day Char Dham Yatra (₹35,999). All packages include driver, fuel, toll and parking. 10% discount on all packages. Experienced local pahadi drivers. Rated 4.9/5 on Google with 30+ verified reviews.</p>
+      </div>
+    </section>
+
+    <!-- Package Grid -->
+    <section class="section">
+      <div class="container">
+        <div class="pkgs-grid">
+          {tourPackages.map(p => {
+            const img = imgMap[p.id] || CharDhamImg;
+            const lowestPrice = p.tiers?.[0]?.discounted || p.tiers?.[0]?.mrp;
+            return (
+              <a href={`/packages/${p.id}`} class="pkg-card card">
+                <div class="pkg-img-wrap">
+                  <Image src={img} alt={`${p.name} taxi package`} width={380} height={200} widths={[300,380,760]} sizes="(max-width:640px) 300px,380px" format="webp" class="pkg-img" loading="lazy" />
+                  <div class="pkg-overlay"></div>
+                  <span class="pkg-tag" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <span class="pkg-duration">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
+                  <span class="pkg-disc">10% OFF</span>
+                </div>
+                <div class="pkg-body">
+                  <h2 class="pkg-name">{p.name}</h2>
+                  <div class="pkg-highlights">
+                    {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
+                  </div>
+                  {lowestPrice && (
+                    <div class="pkg-price-row">
+                      <span class="pkg-price">₹{lowestPrice.toLocaleString('en-IN')}</span>
+                      <span class="pkg-price-label">Sedan onwards</span>
+                    </div>
+                  )}
+                  <p class="pkg-incl">✓ All inclusive · No hidden costs</p>
+                  <div class="pkg-footer">
+                    <span class="pkg-trust">⭐ 4.9 · 🎁 Gift Hamper</span>
+                    <span class="pkg-cta-link">View Details →</span>
+                  </div>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.pkgs-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 40px; }
+.pkgs-hero-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin: 12px 0 10px; line-height: 1.2; }
+.pkgs-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+.aeo-block { background: var(--mint); border-top: 3px solid var(--teal); padding: 20px 0; }
+.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; max-width: 900px; }
+.pkgs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.pkg-card { display: flex; flex-direction: column; text-decoration: none; }
+.pkg-img-wrap { position: relative; height: 200px; overflow: hidden; }
+.pkg-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.pkg-card:hover .pkg-img { transform: scale(1.05); }
+.pkg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%); }
+.pkg-tag { position: absolute; top: 10px; left: 10px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.pkg-duration { position: absolute; bottom: 10px; left: 10px; color: #fff; font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 20px; }
+.pkg-disc { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 20px; }
+.pkg-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.pkg-name { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.3; }
+.pkg-highlights { display: flex; flex-wrap: wrap; gap: 4px; }
+.pkg-chip { background: var(--mint); color: var(--teal); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--teal-light); }
+.pkg-price-row { display: flex; align-items: baseline; gap: 8px; }
+.pkg-price { font-size: 22px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.pkg-price-label { font-size: 12px; color: var(--muted); }
+.pkg-incl { font-size: 12px; color: var(--teal); font-weight: 500; }
+.pkg-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); margin-top: auto; }
+.pkg-trust { font-size: 11px; color: var(--muted); }
+.pkg-cta-link { font-size: 13px; font-weight: 700; color: var(--saffron); }
+@media (max-width: 640px) { .pkgs-grid { grid-template-columns: 1fr; } }
+</style>
