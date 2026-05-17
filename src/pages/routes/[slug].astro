@@ -1,1 +1,326 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StickyBar from '../../components/StickyBar.astro';
+import SeasonBanner from '../../components/SeasonBanner.astro';
+import { transfers, fmt } from '../../data/pricing';
 
+export async function getStaticPaths() {
+  return transfers.map(t => ({
+    params: { slug: t.id },
+    props: { route: t },
+  }));
+}
+
+const { route } = Astro.props;
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const vehicles = [
+  { id: 'sedan',     name: 'Sedan',          emoji: '🚗', seats: '4+1', price: route.oneWay,         roundTrip: route.roundTrip },
+  { id: 'ertiga',    name: 'Ertiga',         emoji: '🚐', seats: '6+1', price: Math.round(route.oneWay * 1.28), roundTrip: route.roundTrip ? Math.round(route.roundTrip * 1.28) : null },
+  { id: 'innova',    name: 'Innova Crysta',  emoji: '🚙', seats: '6+1', price: Math.round(route.oneWay * 1.62), roundTrip: route.roundTrip ? Math.round(route.roundTrip * 1.62) : null },
+  { id: 'traveller', name: 'Tempo Traveller',emoji: '🚌', seats: '12+1',price: Math.round(route.oneWay * 2.28), roundTrip: null },
+];
+
+const routeFaqs = [
+  { q: `What is the taxi fare from ${route.from} to ${route.to}?`, a: `Taxi fare from ${route.from} to ${route.to} is ₹${route.oneWay.toLocaleString('en-IN')} one way for Sedan. All inclusive — driver, fuel, toll and parking. No hidden charges.` },
+  { q: `How long does ${route.from} to ${route.to} take?`, a: `The journey from ${route.from} to ${route.to} takes approximately ${route.duration}. Distance is ${route.distance}.` },
+  { q: `Is the taxi fare from ${route.from} to ${route.to} all inclusive?`, a: `Yes. Our taxi fare of ₹${route.oneWay.toLocaleString('en-IN')} includes driver charges, fuel, toll and parking. No hidden costs — what we quote is what you pay.` },
+  { q: `Can I book a round trip from ${route.from} to ${route.to}?`, a: route.roundTrip ? `Yes. Round trip from ${route.from} to ${route.to} costs ₹${route.roundTrip.toLocaleString('en-IN')} for Sedan. Driver waits and returns with you. All inclusive.` : `Please contact us for round trip pricing on this route.` },
+  { q: `How do I book a taxi from ${route.from} to ${route.to}?`, a: `Book via WhatsApp at +91 6397321825 or call us directly. We confirm within 15 minutes and share driver details 2 hours before your trip.` },
+];
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TaxiService',
+  name: `${route.from} to ${route.to} Taxi — Shri Taxi`,
+  description: route.seoDesc,
+  url: `https://shritaxi.com/routes/${route.id}`,
+  provider: { '@type': 'LocalBusiness', name: 'Shri Taxi', telephone: '+916397321825' },
+  offers: vehicles.map(v => ({ '@type': 'Offer', name: v.name, price: String(v.price), priceCurrency: 'INR', description: `${v.name} taxi from ${route.from} to ${route.to}` })),
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '30' },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: routeFaqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://shritaxi.com' },
+    { '@type': 'ListItem', position: 2, name: 'Popular Routes', item: 'https://shritaxi.com/popular-routes' },
+    { '@type': 'ListItem', position: 3, name: `${route.from} to ${route.to}`, item: `https://shritaxi.com/routes/${route.id}` },
+  ],
+};
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.route-answer', '.faq-a'] },
+};
+---
+
+<Base
+  title={route.seoTitle}
+  description={route.seoDesc}
+  canonicalUrl={`https://shritaxi.com/routes/${route.id}`}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(speakableSchema)} slot="head" />
+
+  <TopBar />
+  <SeasonBanner />
+  <Header currentPath="/popular-routes" />
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="route-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/">Home</a> ›
+          <a href="/popular-routes">Popular Routes</a> ›
+          <span>{route.from} to {route.to}</span>
+        </nav>
+        <div class="route-hero-content">
+          <div class="route-hero-text">
+            <p class="route-tag-label">{route.tag}</p>
+            <h1 class="route-hero-title">{route.from} to {route.to} Taxi</h1>
+            <div class="route-meta">
+              <span>📍 {route.distance}</span>
+              <span>⏱ {route.duration}</span>
+              <span>✓ All inclusive</span>
+            </div>
+            <div class="route-price-hero">
+              <span class="route-price-from">Sedan from</span>
+              <span class="route-price-amount">₹{route.oneWay.toLocaleString('en-IN')}</span>
+              {route.roundTrip && <span class="route-price-rt">Round trip ₹{route.roundTrip.toLocaleString('en-IN')}</span>}
+            </div>
+            <div class="route-hero-ctas">
+              <a href={`tel:${phone}`} class="btn btn-saffron btn-lg">📞 Call Now</a>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20taxi%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">💬 WhatsApp</a>
+            </div>
+            <div class="route-trust">
+              <span class="trust-pill">⭐ 4.9 Rating</span>
+              <span class="trust-pill">✓ No Hidden Costs</span>
+              <span class="trust-pill">🏔️ Pahadi Drivers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEO Answer Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="route-answer">
+          Taxi from <strong>{route.from}</strong> to <strong>{route.to}</strong> costs <strong>₹{route.oneWay.toLocaleString('en-IN')}</strong> one way for Sedan with Shri Taxi. Distance is {route.distance}, takes approximately {route.duration}. All inclusive — driver, fuel, toll and parking. No hidden costs. Available 24/7. Book via WhatsApp or call +91 6397321825.
+        </p>
+        <div class="trust-pills">
+          <span class="trust-pill trust-pill--dark">⭐ 4.9 Google Rating</span>
+          <span class="trust-pill trust-pill--dark">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill trust-pill--dark">🔒 No Hidden Costs</span>
+          <span class="trust-pill trust-pill--dark">📞 24/7 Available</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vehicle Pricing Cards -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Choose Your Vehicle</p>
+          <h2 class="section-title">{route.from} to {route.to} — All Vehicle Prices</h2>
+          <p class="section-sub">All prices are fixed and all inclusive. Driver + fuel + toll + parking included.</p>
+        </div>
+        <div class="vehicle-grid">
+          {vehicles.map((v, i) => (
+            <div class={`vehicle-card${i === 2 ? ' vehicle-card--popular' : ''}`}>
+              {i === 2 && <div class="vehicle-popular-badge">Most Popular</div>}
+              <div class="vehicle-emoji">{v.emoji}</div>
+              <h3 class="vehicle-name">{v.name}</h3>
+              <p class="vehicle-seats">{v.seats} passengers</p>
+              <div class="vehicle-price">
+                <span class="vehicle-price-amount">₹{v.price.toLocaleString('en-IN')}</span>
+                <span class="vehicle-price-label">one way</span>
+              </div>
+              {v.roundTrip && (
+                <p class="vehicle-rt">Round trip: ₹{v.roundTrip.toLocaleString('en-IN')}</p>
+              )}
+              <p class="vehicle-incl">✓ Driver · Fuel · Toll · Parking</p>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20${v.name}%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 Book {v.name}</a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Route Details -->
+    <section class="section section--mint">
+      <div class="container">
+        <div class="route-details-grid">
+          <div class="route-details-text">
+            <h2>About {route.from} to {route.to} Route</h2>
+            <p>{route.note}</p>
+            <div class="route-info-cards">
+              <div class="route-info-card">
+                <span class="route-info-icon">📍</span>
+                <div><strong>Distance</strong><p>{route.distance}</p></div>
+              </div>
+              <div class="route-info-card">
+                <span class="route-info-icon">⏱</span>
+                <div><strong>Duration</strong><p>{route.duration}</p></div>
+              </div>
+              <div class="route-info-card">
+                <span class="route-info-icon">💰</span>
+                <div><strong>Starting Fare</strong><p>₹{route.oneWay.toLocaleString('en-IN')} (Sedan)</p></div>
+              </div>
+              <div class="route-info-card">
+                <span class="route-info-icon">📞</span>
+                <div><strong>Available</strong><p>24/7 — 365 days</p></div>
+              </div>
+            </div>
+          </div>
+          <div class="route-booking-card">
+            <h3>Book This Route</h3>
+            <p>Confirm your booking in 15 minutes</p>
+            <div class="route-booking-btns">
+              <a href={`tel:${phone}`} class="btn btn-saffron btn-full">📞 {phone}</a>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20taxi%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 WhatsApp Booking</a>
+            </div>
+            <div class="route-booking-trust">
+              <p>🎁 Gift hamper on every booking</p>
+              <p>🏆 Earn Wallet Points on this trip</p>
+              <p>🌿 Green Mission participant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title" style="margin-bottom:24px;">{route.from} to {route.to} — FAQs</h2>
+        <div class="faq-list" style="max-width:780px;">
+          {routeFaqs.map(f => (
+            <details class="faq-item" name="route-faq">
+              <summary class="faq-q">
+                {f.q}
+                <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section route-cta">
+      <div class="container route-cta-inner">
+        <div>
+          <h2>Book {route.from} to {route.to} Taxi Now</h2>
+          <p>Fixed price · No hidden costs · Instant confirmation</p>
+        </div>
+        <div class="route-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20taxi%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+/* Hero */
+.route-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 40px; }
+.route-tag-label { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f59e0b; margin-bottom: 10px; }
+.route-hero-title { font-size: clamp(28px, 4vw, 44px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 14px; line-height: 1.2; }
+.route-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 20px; }
+.route-price-hero { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+.route-price-from { font-size: 14px; color: rgba(255,255,255,0.7); }
+.route-price-amount { font-size: 44px; font-weight: 700; color: #f59e0b; font-family: 'Playfair Display', serif; line-height: 1; }
+.route-price-rt { font-size: 14px; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+.route-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.route-trust { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* AEO */
+.aeo-block { background: var(--mint); border-top: 3px solid var(--teal); padding: 20px 0; }
+.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; margin-bottom: 14px; max-width: 900px; }
+
+/* Vehicle Cards */
+.vehicle-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.vehicle-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.vehicle-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.vehicle-card--popular { border: 2px solid var(--teal); box-shadow: var(--shadow-teal); }
+.vehicle-popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--teal); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 14px; border-radius: 20px; white-space: nowrap; }
+.vehicle-emoji { font-size: 36px; }
+.vehicle-name { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; }
+.vehicle-seats { font-size: 13px; color: var(--muted); }
+.vehicle-price { display: flex; align-items: baseline; gap: 6px; justify-content: center; }
+.vehicle-price-amount { font-size: 28px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.vehicle-price-label { font-size: 12px; color: var(--muted); }
+.vehicle-rt { font-size: 12px; color: var(--muted); }
+.vehicle-incl { font-size: 12px; color: var(--teal); font-weight: 500; }
+
+/* Route Details */
+.route-details-grid { display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: start; }
+.route-details-text h2 { font-size: 24px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 12px; }
+.route-details-text p { font-size: 15px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+.route-info-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.route-info-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 14px; display: flex; align-items: flex-start; gap: 10px; }
+.route-info-icon { font-size: 20px; flex-shrink: 0; }
+.route-info-card strong { font-size: 12px; font-weight: 700; color: var(--slate); display: block; margin-bottom: 2px; }
+.route-info-card p { font-size: 13px; color: var(--muted); }
+.route-booking-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; position: sticky; top: 90px; }
+.route-booking-card h3 { font-size: 20px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 4px; }
+.route-booking-card > p { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+.route-booking-btns { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.route-booking-trust { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--border); padding-top: 14px; }
+.route-booking-trust p { font-size: 13px; color: var(--muted); }
+
+/* CTA */
+.route-cta { background: var(--teal); }
+.route-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.route-cta h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.route-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
+.route-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* Responsive */
+@media (max-width: 1024px) { .vehicle-grid { grid-template-columns: repeat(2, 1fr); } .route-details-grid { grid-template-columns: 1fr; } }
+@media (max-width: 640px) {
+  .vehicle-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .vehicle-card { padding: 16px 12px; }
+  .vehicle-price-amount { font-size: 22px; }
+  .route-info-cards { grid-template-columns: 1fr; }
+  .route-cta-inner { flex-direction: column; }
+  .route-cta-btns { flex-direction: column; width: 100%; }
+  .route-cta-btns .btn { justify-content: center; }
+  .route-hero-ctas { flex-direction: column; }
+}
+</style>
