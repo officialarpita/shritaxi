@@ -147,7 +147,12 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15,38,64,0.88) 0%, rgba(13,148,136,0.6) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.55) 0%,
+    rgba(0,0,0,0.30) 55%,
+    rgba(0,0,0,0.05) 100%
+  );
 }
 .hero-mountain-decor {
   position: absolute;
