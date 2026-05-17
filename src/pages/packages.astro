@@ -333,6 +333,27 @@ const schema = {
   <StickyBar />
 </Base>
 
+<script>
+  // Auto-open correct accordion based on URL hash
+  document.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash;
+    const accordions = document.querySelectorAll<HTMLDetailsElement>('.acc[id]');
+
+    if (hash) {
+      // Close all first
+      accordions.forEach(acc => { acc.open = false; acc.style.display = 'none'; });
+
+      // Open the matching one
+      const target = document.querySelector<HTMLDetailsElement>(hash);
+      if (target) {
+        target.style.display = '';
+        target.open = true;
+        setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      }
+    }
+  });
+</script>
+
 <style>
 /* ── Hero ── */
 .pkg-hero { background: linear-gradient(135deg, #0d9488, #0f766e); padding: 48px 0 36px; }
