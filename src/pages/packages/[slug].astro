@@ -29,6 +29,22 @@ const { pkg } = Astro.props;
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
+// Related packages — same destination keyword or circuit packages
+const relatedIds: Record<string, string[]> = {
+  'nainital': ['nainital-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet'],
+  'auli': ['munsiyari', 'chopta'],
+  'chopta': ['auli', 'munsiyari'],
+  'munsiyari': ['auli', 'chopta'],
+  'dhanaulti': ['neem-karoli', 'kedarnath'],
+  'char-dham': ['ek-dham', 'do-dham'],
+  'ek-dham': ['do-dham', 'char-dham'],
+  'do-dham': ['ek-dham', 'char-dham'],
+};
+const relatedPackages = (relatedIds[pkg.id] || [])
+  .map(id => tourPackages.find(p => p.id === id))
+  .filter(Boolean)
+  .slice(0, 3);
+
 const imgMap: Record<string, ImageMetadata> = {
   'dhanaulti': DhanaultiImg, 'neem-karoli': NeemKaroliImg,
   'nainital': NainitalImg, 'auli': AuliImg, 'munsiyari': MunsiyariImg,
@@ -229,6 +245,42 @@ const breadcrumbSchema = {
       </div>
     </section>
 
+    <!-- Related Packages -->
+    {relatedPackages.length > 0 && (
+      <section class="section section--mint">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-label">You Might Also Like</p>
+            <h2 class="section-title">More {pkg.name.split(' ')[0]} Packages</h2>
+            <p class="section-sub">Explore more Uttarakhand tour options for your group</p>
+          </div>
+          <div class="related-grid">
+            {relatedPackages.map(r => (
+              <a href={`/packages/${r.id}`} class="related-card card">
+                <div class="related-header" style={`background:${r.badgeColor}`}>
+                  <span class="related-tag">{r.tag}</span>
+                  <span class="related-duration">{r.nights}N {r.days}D</span>
+                  <span class="related-disc">10% OFF</span>
+                </div>
+                <div class="related-body">
+                  <h3 class="related-name">{r.name}</h3>
+                  <div class="related-highlights">
+                    {r.highlights.slice(0,2).map(h => <span class="pkg-chip">{h}</span>)}
+                  </div>
+                  <div class="related-price-row">
+                    <span class="related-price">{fmt(r.tiers[0].discounted)}</span>
+                    <span class="related-label">Sedan · {r.nights}N {r.days}D</span>
+                  </div>
+                  <p class="related-incl">✓ All inclusive · No hidden costs</p>
+                  <span class="related-cta">View Package →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- CTA -->
     <section class="section pkg-cta">
       <div class="container pkg-cta-inner">
@@ -302,6 +354,22 @@ const breadcrumbSchema = {
 .include-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--slate); background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-md); padding: 10px 14px; }
 .include-check { color: var(--teal); font-weight: 700; font-size: 16px; flex-shrink: 0; }
 
+/* Related Packages */
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.related-card { display: flex; flex-direction: column; text-decoration: none; }
+.related-header { padding: 20px 16px; position: relative; display: flex; align-items: center; justify-content: center; min-height: 90px; }
+.related-tag { position: absolute; top: 10px; left: 10px; color: #fff; font-size: 10px; font-weight: 700; background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 20px; }
+.related-duration { color: #fff; font-size: 18px; font-weight: 700; font-family: 'Playfair Display', serif; }
+.related-disc { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 20px; }
+.related-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.related-name { font-size: 15px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.3; }
+.related-highlights { display: flex; flex-wrap: wrap; gap: 4px; }
+.related-price-row { display: flex; align-items: baseline; gap: 8px; }
+.related-price { font-size: 20px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.related-label { font-size: 11px; color: var(--muted); }
+.related-incl { font-size: 11px; color: var(--teal); font-weight: 500; }
+.related-cta { font-size: 13px; font-weight: 700; color: var(--saffron); margin-top: auto; }
+
 /* CTA */
 .pkg-cta { background: var(--teal); }
 .pkg-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
@@ -310,7 +378,7 @@ const breadcrumbSchema = {
 .pkg-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
 /* Responsive */
-@media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
   .pkg-hero-img { height: 240px; }
   .tiers-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
