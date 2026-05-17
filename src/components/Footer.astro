@@ -1,419 +1,147 @@
 ---
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
-
-const quickLinks = [
-  { label: 'Home',           href: '/' },
-  { label: 'Cab Services',   href: '/cab-services' },
-  { label: 'Our Fleet',      href: '/cab-services#fleet' },
-  { label: 'Packages',       href: '/packages' },
-  { label: 'Contact Us',     href: '/#contact' },
-];
-
-const services = [
-  { label: 'Airport Transfer',    href: '/cab-services#airport' },
-  { label: 'Local Taxi Service',  href: '/cab-services#local' },
-  { label: 'Outstation Cab',      href: '/cab-services#outstation' },
-  { label: 'Char Dham Yatra',     href: '/char-dham-yatra' },
-  { label: 'Hill Station Tours',  href: '/cab-services#hill-station' },
-  { label: 'Corporate Travel',    href: '/cab-services#corporate' },
-];
-
-const popularRoutes = [
-  { label: 'Dehradun to Mussoorie Taxi',    href: '/dehradun-to-mussoorie-taxi' },
-  { label: 'Jolly Grant Airport Taxi',      href: '/jolly-grant-airport-taxi' },
-  { label: 'Dehradun to Haridwar Taxi',     href: '/dehradun-to-haridwar-taxi' },
-  { label: 'Dehradun to Rishikesh Taxi',    href: '/dehradun-to-rishikesh-taxi' },
-  { label: 'Haridwar to Char Dham Taxi',    href: '/haridwar-to-char-dham-taxi' },
-  { label: 'Char Dham Yatra 2026',          href: '/char-dham-yatra' },
-];
-
-const delhiRoutes = [
-  { label: 'Delhi to Dehradun Taxi',   href: '/delhi-to-dehradun-taxi' },
-  { label: 'Delhi to Haridwar Taxi',   href: '/delhi-to-haridwar-taxi' },
-  { label: 'Delhi to Rishikesh Taxi',  href: '/delhi-to-rishikesh-taxi' },
-  { label: 'Delhi to Mussoorie Taxi',  href: '/delhi-to-mussoorie-taxi' },
-  { label: 'Delhi to Char Dham Taxi',  href: '/delhi-to-char-dham-taxi' },
-  { label: 'Chandigarh to Dehradun',   href: '/chandigarh-to-dehradun-taxi' },
-];
+const year  = new Date().getFullYear();
 ---
 
-  <!-- Google Maps embed — local SEO signal -->
-  <div class="footer-map">
-    <div class="container">
-      <div class="footer-map-inner">
-        <div class="footer-map-text">
-          <h3 class="footer-map-title">Find Us in Dehradun</h3>
-          <p class="footer-map-sub">Serving Uttarakhand, Hill Stations & Delhi NCR — 24/7</p>
-          <div class="footer-map-details">
-            <span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Dehradun, Uttarakhand, India
-            </span>
-            <span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-              {phone}
-            </span>
-            <span>
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              24/7 Available
-            </span>
-          </div>
-          <a
-            href="https://www.google.com/maps/search/shri+taxi+dehradun"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-saffron footer-map-btn"
-          >
-            Open in Google Maps →
-          </a>
-        </div>
-        <div class="footer-map-embed">
-          <iframe
-            title="Shri Taxi location in Dehradun on Google Maps"
-            src="https://www.google.com/maps?q=taxi+service+dehradun+uttarakhand&output=embed"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            aria-label="Google Maps showing taxi services in Dehradun"
-          ></iframe>
-        </div>
+<footer class="footer">
+
+  <!-- Top CTA bar -->
+  <div class="footer-cta">
+    <div class="container footer-cta-inner">
+      <div class="footer-cta-text">
+        <h2>Ready to Book Your Uttarakhand Taxi?</h2>
+        <p>Instant confirmation · No hidden costs · Pahadi drivers · 24/7</p>
+      </div>
+      <div class="footer-cta-btns">
+        <a href={`tel:${phone}`} class="btn btn-saffron">📞 {phone}</a>
+        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Booking</a>
       </div>
     </div>
   </div>
 
+  <!-- Main footer -->
+  <div class="footer-main">
+    <div class="container footer-grid">
 
-<div class="footer-cta">
-  <div class="container footer-cta-inner">
-    <div class="footer-cta-text">
-      <div class="footer-cta-icon">🚕</div>
-      <div>
-        <h3 class="footer-cta-title">Book Your Taxi in Dehradun Today</h3>
-        <p class="footer-cta-sub">Looking for a reliable taxi service in Dehradun? Contact Shri Taxi for airport transfers, local sightseeing, Char Dham Yatra and outstation cabs — instant confirmation</p>
-      </div>
-    </div>
-    <div class="footer-cta-btns">
-      <a href={`tel:${phone}`} class="btn btn-call">
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        Call Now
-      </a>
-      <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.106.549 4.09 1.508 5.814L.057 23.25l5.561-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.49-5.191-1.352l-.371-.22-3.301.867.881-3.22-.241-.393A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        WhatsApp Us
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- Main Footer -->
-<footer class="footer" id="contact">
-  <div class="container footer-grid">
-
-    <!-- Brand column -->
-    <div class="footer-brand">
-      <a href="/" class="footer-logo">
-        <img src="/images/logo.png" alt="Shri Taxi" class="footer-logo-img" width="140" height="140" loading="lazy" />
-      </a>
-      <p class="footer-about">
-        Dehradun-based taxi service covering Uttarakhand, hill stations, Char Dham routes and outstation trips across North India.
-      </p>
-      <div class="footer-contact-info">
-        <a href={`tel:${phone}`} class="footer-contact-link">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          {phone}
+      <!-- Brand -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.png" alt="Shri Taxi" width="140" height="70" loading="lazy" />
         </a>
-        <span class="footer-contact-link">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Dehradun, Uttarakhand, India
-        </span>
-        <span class="footer-contact-link">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          24/7 Available
-        </span>
+        <p class="footer-tagline">Pahadi Roots. Trusted Routes.</p>
+        <p class="footer-desc">Reliable taxi service across Uttarakhand — Dehradun, Mussoorie, Haridwar, Rishikesh, Nainital and Char Dham Yatra 2026.</p>
+        <div class="footer-trust">
+          <span>⭐ 4.9 Rating</span>
+          <span>·</span>
+          <span>30+ Reviews</span>
+          <span>·</span>
+          <span>Since 2019</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Quick Links -->
-    <div class="footer-col">
-      <h4 class="footer-col-title">Quick Links</h4>
-      <ul class="footer-links">
-        {quickLinks.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
-      </ul>
-    </div>
+      <!-- Quick Links -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/cab-services">Cab Services</a></li>
+          <li><a href="/popular-routes">Popular Routes</a></li>
+          <li><a href="/packages">Tour Packages</a></li>
+          <li><a href="/char-dham-yatra">Char Dham Yatra 2026</a></li>
+          <li><a href="/faq">FAQs</a></li>
+          <li><a href="/green-mission">Green Mission 🌿</a></li>
+          <li><a href="/rewards">Shri Taxi Rewards 🏆</a></li>
+        </ul>
+      </div>
 
-    <!-- Services -->
-    <div class="footer-col">
-      <h4 class="footer-col-title">Our Services</h4>
-      <ul class="footer-links">
-        {services.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
-      </ul>
-    </div>
+      <!-- Dehradun Routes -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">From Dehradun</h3>
+        <ul class="footer-links">
+          <li><a href="/routes/dehradun-to-mussoorie">Dehradun → Mussoorie</a></li>
+          <li><a href="/routes/dehradun-to-haridwar">Dehradun → Haridwar</a></li>
+          <li><a href="/routes/dehradun-to-rishikesh">Dehradun → Rishikesh</a></li>
+          <li><a href="/routes/jolly-grant-airport">Jolly Grant Airport</a></li>
+          <li><a href="/routes/dehradun-to-nainital">Dehradun → Nainital</a></li>
+          <li><a href="/routes/dehradun-to-chandigarh">Dehradun → Chandigarh</a></li>
+        </ul>
+      </div>
 
-    <!-- Popular Routes -->
-    <div class="footer-col">
-      <h4 class="footer-col-title">Popular Routes</h4>
-      <ul class="footer-links">
-        {popularRoutes.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
-      </ul>
-    </div>
+      <!-- Delhi Routes -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">From Delhi & Chandigarh</h3>
+        <ul class="footer-links">
+          <li><a href="/routes/delhi-to-dehradun">Delhi → Dehradun</a></li>
+          <li><a href="/routes/delhi-to-haridwar">Delhi → Haridwar</a></li>
+          <li><a href="/routes/delhi-to-rishikesh">Delhi → Rishikesh</a></li>
+          <li><a href="/routes/delhi-to-mussoorie">Delhi → Mussoorie</a></li>
+          <li><a href="/routes/delhi-to-nainital">Delhi → Nainital</a></li>
+          <li><a href="/routes/chandigarh-to-dehradun">Chandigarh → Dehradun</a></li>
+        </ul>
+      </div>
 
-    <!-- Delhi & Chandigarh Routes -->
-    <div class="footer-col">
-      <h4 class="footer-col-title">From Delhi & Chandigarh</h4>
-      <ul class="footer-links">
-        {delhiRoutes.map(l => <li><a href={l.href} class="footer-link">{l.label}</a></li>)}
-      </ul>
     </div>
-
   </div>
 
   <!-- Bottom bar -->
   <div class="footer-bottom">
     <div class="container footer-bottom-inner">
-      <span>© 2026 Shri Taxi · All Rights Reserved</span>
-      <div class="footer-legal">
-        <a href="/privacy-policy" class="footer-legal-link">Privacy Policy</a>
+      <p>© {year} Shri Taxi · All Rights Reserved · Dehradun, Uttarakhand</p>
+      <div class="footer-bottom-links">
+        <a href="/privacy-policy">Privacy Policy</a>
         <span>·</span>
-        <a href="/terms" class="footer-legal-link">Terms &amp; Conditions</a>
+        <a href="/terms">Terms of Service</a>
         <span>·</span>
-        <a href="/sitemap-index.xml" class="footer-legal-link">Sitemap</a>
+        <a href="/sitemap-index.xml">Sitemap</a>
       </div>
     </div>
   </div>
+
 </footer>
 
 <style>
-/* ── Map Section ── */
-.footer-map {
-  background: var(--teal-dark);
-  padding: 40px 0 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
+.footer { background: #0f172a; color: rgba(255,255,255,0.75); }
 
-.footer-map-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: center;
-  padding-bottom: 40px;
-}
+/* CTA Bar */
+.footer-cta { background: #0d9488; padding: 36px 0; }
+.footer-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.footer-cta-text h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.footer-cta-text p { font-size: 14px; color: rgba(255,255,255,0.8); }
+.footer-cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
 
-.footer-map-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  color: #fff;
-  margin-bottom: 6px;
-}
-
-.footer-map-sub {
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
-  margin-bottom: 20px;
-}
-
-.footer-map-details {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.footer-map-details span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
-}
-
-.footer-map-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-saffron { background: var(--saffron); color: #fff; }
-
-.footer-map-embed {
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  height: 280px;
-}
-
-.footer-map-embed iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
-
-/* ── CTA Banner ── */
-.footer-cta {
-  background: var(--teal);
-  padding: 28px 0;
-}
-
-.footer-cta-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.footer-cta-text {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.footer-cta-icon { font-size: 32px; flex-shrink: 0; }
-
-.footer-cta-title {
-  font-size: 20px;
-  color: #fff;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 3px;
-}
-
-.footer-cta-sub {
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
-}
-
-.footer-cta-btns {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-/* ── Main Footer ── */
-.footer {
-  background: var(--teal-dark);
-  color: rgba(255,255,255,0.85);
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  padding-top: 48px;
-  padding-bottom: 40px;
-}
+/* Main */
+.footer-main { padding: 48px 0 32px; }
+.footer-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 40px; }
 
 /* Brand */
-.footer-logo { text-decoration: none; display: inline-block; }
-.footer-logo-img { height: 80px; width: auto; object-fit: contain; display: block; }
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 14px;
-}
-
-.footer-logo-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  color: #fff;
-  line-height: 1;
-}
-
-.footer-logo-tag {
-  font-size: 11px;
-  color: rgba(255,255,255,0.55);
-  margin-top: 2px;
-}
-
-.footer-about {
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.65;
-  margin-bottom: 16px;
-}
-
-.footer-contact-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-contact-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: rgba(255,255,255,0.75);
-  transition: color 0.15s;
-}
-.footer-contact-link:hover { color: #fff; }
+.footer-logo { display: inline-block; margin-bottom: 12px; }
+.footer-logo img { filter: brightness(1.1); }
+.footer-tagline { font-size: 13px; color: #f59e0b; font-weight: 600; font-style: italic; margin-bottom: 10px; }
+.footer-desc { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 14px; }
+.footer-trust { display: flex; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.5); }
 
 /* Columns */
-.footer-col-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 16px;
-}
+.footer-col-title { font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; font-family: 'DM Sans', sans-serif; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-links a { font-size: 13px; color: rgba(255,255,255,0.6); transition: color 0.15s; }
+.footer-links a:hover { color: #0d9488; }
 
-.footer-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footer-link {
-  font-size: 13px;
-  color: rgba(255,255,255,0.65);
-  transition: color 0.15s;
-}
-.footer-link:hover { color: var(--saffron-light); }
-
-/* Bottom bar */
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.footer-bottom-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.45);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.footer-legal {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.footer-legal-link {
-  color: rgba(255,255,255,0.45);
-  transition: color 0.15s;
-}
-.footer-legal-link:hover { color: rgba(255,255,255,0.8); }
+/* Bottom */
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding: 16px 0; }
+.footer-bottom-inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.4); }
+.footer-bottom-links { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.4); }
+.footer-bottom-links a { color: rgba(255,255,255,0.4); transition: color 0.15s; }
+.footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-  .footer-brand { grid-column: 1 / -1; }
-  .footer-map-inner { grid-template-columns: 1fr; gap: 24px; }
-  .footer-map-embed { height: 220px; }
-}
-
+@media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }
-  .footer-cta-inner { flex-direction: column; align-items: flex-start; }
-  .footer-cta-btns { width: 100%; }
-  .footer-cta-btns .btn { flex: 1; justify-content: center; }
-  .footer-bottom-inner { flex-direction: column; align-items: flex-start; }
+  .footer-cta-inner { flex-direction: column; text-align: center; }
+  .footer-cta-btns { flex-direction: column; width: 100%; }
+  .footer-cta-btns .btn { justify-content: center; }
+  .footer-bottom-inner { flex-direction: column; text-align: center; }
 }
 </style>

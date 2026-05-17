@@ -1,0 +1,111 @@
+---
+---
+<div class="live-bookings">
+  <div class="container">
+    <div class="live-strip">
+      <div class="live-header">
+        <span class="live-dot"></span>
+        <span class="live-title">Live Bookings</span>
+      </div>
+      <div class="live-ticker" id="live-ticker">
+        <div class="live-item" id="live-display">
+          <span class="live-emoji">🚗</span>
+          <span class="live-text">Loading...</span>
+          <span class="live-time"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.live-bookings {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 10px 0;
+}
+.live-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.live-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.live-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0d9488;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.live-ticker { flex: 1; overflow: hidden; }
+.live-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slide-up 0.4s ease;
+}
+.live-emoji { font-size: 16px; }
+.live-text { font-size: 13px; color: #1e293b; font-weight: 500; }
+.live-time { font-size: 12px; color: #64748b; margin-left: auto; white-space: nowrap; }
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .live-text { font-size: 12px; }
+  .live-header { padding: 3px 10px; }
+}
+</style>
+
+<script>
+  const bookings = [
+    { emoji: '🚗', name: 'Rahul S.', action: 'booked Sedan · Delhi → Dehradun', mins: 2 },
+    { emoji: '🙏', name: 'Sharma family', action: 'booked Innova · Char Dham Yatra 2026', mins: 5 },
+    { emoji: '🏔️', name: 'Priya M.', action: 'booked Mussoorie Day Trip', mins: 8 },
+    { emoji: '✈️', name: 'Anil K.', action: 'booked Airport Transfer · Jolly Grant', mins: 12 },
+    { emoji: '🚐', name: 'Gupta family', action: 'booked Ertiga · Haridwar & Rishikesh', mins: 15 },
+    { emoji: '🏕️', name: 'Meera T.', action: 'booked Nainital Tour Package · 3 Days', mins: 18 },
+    { emoji: '🙏', name: 'Verma ji', action: 'booked Kedarnath Yatra · Innova Crysta', mins: 22 },
+    { emoji: '🚗', name: 'Sunita R.', action: 'booked Dehradun → Chandigarh taxi', mins: 28 },
+  ];
+
+  let current = 0;
+  const display = document.getElementById('live-display');
+
+  function updateBooking() {
+    if (!display) return;
+    const b = bookings[current % bookings.length];
+    const mins = b.mins + Math.floor(Math.random() * 5);
+
+    display.style.opacity = '0';
+    display.style.transform = 'translateY(8px)';
+    display.style.transition = 'all 0.3s ease';
+
+    setTimeout(() => {
+      const textEl = display.querySelector('.live-text') as HTMLElement;
+      const timeEl = display.querySelector('.live-time') as HTMLElement;
+      const emojiEl = display.querySelector('.live-emoji') as HTMLElement;
+      if (textEl) textEl.textContent = `${b.name} ${b.action}`;
+      if (timeEl) timeEl.textContent = `${mins} min ago`;
+      if (emojiEl) emojiEl.textContent = b.emoji;
+      display.style.opacity = '1';
+      display.style.transform = 'translateY(0)';
+    }, 300);
+
+    current++;
+  }
+
+  updateBooking();
+  setInterval(updateBooking, 4000);
+</script>

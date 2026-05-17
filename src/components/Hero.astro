@@ -1,282 +1,311 @@
 ---
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
-const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
 ---
-<section class="hero" id="home" aria-label="Hero">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-overlay" aria-hidden="true"></div>
 
-  <div class="container hero-inner">
-    <!-- Left: Headline + CTAs -->
-    <div class="hero-content">
-      <p class="hero-region">Dehradun · Uttarakhand · Delhi NCR</p>
+<section class="hero">
+  <!-- Background -->
+  <div class="hero-bg">
+    <img src="/images/hero-mountains.jpg" alt="Uttarakhand mountains" class="hero-bg-img" loading="eager" fetchpriority="high" />
+    <div class="hero-overlay"></div>
+    <!-- Mountain silhouette decoration -->
+    <div class="hero-mountain-decor" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,120 L0,80 L120,30 L240,70 L360,15 L480,60 L600,8 L720,55 L840,10 L960,50 L1080,20 L1200,58 L1320,25 L1440,60 L1440,120 Z" fill="rgba(255,255,255,0.04)"/>
+        <path d="M0,120 L0,95 L180,55 L360,85 L540,40 L720,75 L900,38 L1080,70 L1260,45 L1440,75 L1440,120 Z" fill="rgba(255,255,255,0.06)"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="container hero-content">
+
+    <!-- Left: Text + CTAs -->
+    <div class="hero-text">
+      <div class="hero-label">
+        <span class="live-dot"></span>
+        Dehradun · Uttarakhand · Delhi NCR
+      </div>
+
       <h1 class="hero-title">
-        Taxi Service in Uttarakhand<br>
-        <em>Airport, Dehradun, Mussoorie, Haridwar, Rishikesh &amp; Char Dham</em>
+        Taxi Service in<br/>
+        <em>Uttarakhand</em>
       </h1>
-      <!-- <p class="hero-sub">24/7 cab booking from Dehradun to Jolly Grant Airport, Mussoorie, Rishikesh, Haridwar, Char Dham Yatra &amp; all Uttarakhand destinations</p> -->
-      <p class="hero-sub">24/7 cab booking from Dehradun, Haridwar &amp; Rishikesh to Jolly Grant Airport, Mussoorie, Char Dham Yatra, Delhi NCR &amp; all Uttarakhand destinations</p>
 
-      <!-- SEO: crawlable service area — visually hidden but indexed by Google -->
-      <p class="seo-context">
-         <!-- Shri Taxi provides reliable and affordable taxi service in Dehradun for local travel, airport transfers, outstation trips and Char Dham Yatra packages. Book cab from Dehradun to Mussoorie, Haridwar, Rishikesh, Nainital, Kedarnath, Badrinath, Jolly Grant Airport and all Uttarakhand destinations. Experienced local hill drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer and hill station tours.-->
-      Shri Taxi provides reliable and affordable taxi service across Uttarakhand — Dehradun, Haridwar, Rishikesh, Mussoorie, Nainital, Auli, Dhanaulti, Kanatal, Tehri and Char Dham Yatra. Book cab from Dehradun to Jolly Grant Airport, Delhi NCR, Chandigarh and all major Uttarakhand destinations. Also serving Delhi to Dehradun, Delhi to Haridwar, Delhi to Rishikesh and Delhi to Char Dham routes. Experienced local pahadi drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer, hill station tours and pilgrimages.
+      <p class="hero-sub">
+        Airport, Dehradun, Mussoorie, Haridwar,<br class="hero-br"/>
+        Rishikesh & Char Dham — All Routes Covered
       </p>
 
       <!-- Trust pills -->
-      <div class="hero-pills">
-        <span class="pill">✓ Safe journeys</span>
-        <span class="pill">✓ Verified drivers</span>
-        <span class="pill">✓ Transparent pricing</span>
-        <span class="pill">✓ Local hill experts</span>
+      <div class="hero-trust">
+        <span class="trust-pill">⭐ 4.9 / 5.0 Rating</span>
+        <span class="trust-pill">✓ No Hidden Costs</span>
+        <span class="trust-pill">🏔️ Pahadi Drivers</span>
+        <span class="trust-pill">📞 24/7 Available</span>
       </div>
 
       <!-- Primary CTAs -->
       <div class="hero-ctas">
-        <a href={`tel:${phone}`} class="btn btn-call hero-btn">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-          Call Now
+        <a href={`tel:${phone}`} class="btn btn-saffron btn-lg hero-cta-primary">
+          📞 Call Now
         </a>
-        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp hero-btn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.106.549 4.09 1.508 5.814L.057 23.25l5.561-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.49-5.191-1.352l-.371-.22-3.301.867.881-3.22-.241-.393A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-          WhatsApp Booking
+        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg hero-cta-primary">
+          💬 WhatsApp Us
         </a>
-        <a href="#booking" class="btn btn-outline-white hero-btn">
-          Book Online
-        </a>
+      </div>
+
+      <!-- Response time -->
+      <p class="hero-response">
+        <span class="live-dot"></span>
+        We're online · Average response: <strong>8 minutes</strong>
+      </p>
+    </div>
+
+    <!-- Right: Booking Form -->
+    <div class="hero-form-wrap">
+      <div class="hero-form">
+        <div class="hero-form-header">
+          <h2>Book Your Taxi</h2>
+          <p>Fast, Easy & Secure Booking</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="form-tabs" role="tablist">
+          {['One Way', 'Round Trip', 'Airport'].map((t, i) => (
+            <button class={`form-tab${i === 0 ? ' form-tab--active' : ''}`} role="tab" data-tab={t.toLowerCase().replace(' ', '-')}>
+              {t}
+            </button>
+          ))}
+        </div>
+
+        <!-- Form -->
+        <form class="booking-form" onsubmit="handleBooking(event)">
+          <div class="form-field">
+            <label class="form-label">📍 Pickup Location</label>
+            <input type="text" class="form-input" placeholder="e.g. Jolly Grant Airport, Delhi NCR" id="pickup" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">📍 Drop Location</label>
+            <input type="text" class="form-input" placeholder="e.g. Mussoorie, Haridwar, Dehradun" id="drop" required />
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">📅 Date</label>
+              <input type="date" class="form-input" id="date" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label">🚗 Vehicle</label>
+              <select class="form-input form-select" id="vehicle">
+                <option value="sedan">Sedan (4+1)</option>
+                <option value="ertiga">Ertiga (6+1)</option>
+                <option value="innova">Innova Crysta (6+1)</option>
+                <option value="tempo">Tempo Traveller (12+1)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">👤 Your Name</label>
+              <input type="text" class="form-input" placeholder="Full name" id="name" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label">📞 Phone</label>
+              <input type="tel" class="form-input" placeholder="+91 XXXXXXXXXX" id="phone-input" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-teal btn-full form-submit">
+            Get Instant Quote →
+          </button>
+          <p class="form-note">🔒 Confirmed within 15 minutes · No advance payment needed</p>
+        </form>
       </div>
     </div>
 
-    <!-- Right: Booking Card -->
-    <div class="booking-card" id="booking">
-      <div class="booking-card-header">
-        <h2 class="booking-title">Book Your Taxi</h2>
-        <p class="booking-sub">Fast, Easy &amp; Secure Booking</p>
-      </div>
+  </div>
 
-      <!-- Trip type tabs -->
-      <div class="trip-tabs" role="tablist">
-        <button class="trip-tab active" data-trip="one-way" role="tab" aria-selected="true">One Way</button>
-        <button class="trip-tab" data-trip="round-trip" role="tab" aria-selected="false">Round Trip</button>
-        <button class="trip-tab" data-trip="local" role="tab" aria-selected="false">Local</button>
-        <button class="trip-tab" data-trip="airport" role="tab" aria-selected="false">Airport</button>
-      </div>
-
-      <form class="booking-form" id="booking-form" data-wa={wa} novalidate>
-        <input type="hidden" name="trip_type" id="trip_type_input" value="one-way" />
-
-        <!-- Pickup -->
-        <div class="form-group">
-          <label for="pickup" class="form-label">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-            Pickup Location
-          </label>
-          <input type="text" id="pickup" name="pickup" placeholder="e.g. Jolly Grant Airport" class="form-input" required autocomplete="off" list="locations-list" />
-        </div>
-
-        <!-- Drop -->
-        <div class="form-group">
-          <label for="drop" class="form-label">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Drop Location
-          </label>
-          <input type="text" id="drop" name="drop" placeholder="e.g. Mussoorie" class="form-input" required autocomplete="off" list="locations-list" />
-        </div>
-
-        <!-- Shared datalist for both pickup and drop -->
-        <datalist id="locations-list">
-          <option value="Dehradun" />
-          <option value="Clock Tower, Dehradun" />
-          <option value="Rajpur Road, Dehradun" />
-          <option value="Sahastradhara, Dehradun" />
-          <option value="ISBT Dehradun" />
-          <option value="Dehradun Railway Station" />
-          <option value="Jolly Grant Airport (DED)" />
-          <option value="FRI (Forest Research Institute), Dehradun" />
-          <option value="Mindrolling Monastery, Dehradun" />
-          <option value="Robber's Cave, Dehradun" />
-          <option value="Mussoorie" />
-          <option value="Mall Road, Mussoorie" />
-          <option value="Kempty Falls" />
-          <option value="Dhanaulti" />
-          <option value="Landour" />
-          <option value="Haridwar" />
-          <option value="Har Ki Pauri, Haridwar" />
-          <option value="Haridwar Railway Station" />
-          <option value="Chandi Devi Temple" />
-          <option value="Mansa Devi Temple" />
-          <option value="Rishikesh" />
-          <option value="Laxman Jhula, Rishikesh" />
-          <option value="Ram Jhula, Rishikesh" />
-          <option value="Triveni Ghat, Rishikesh" />
-          <option value="Tapovan, Rishikesh" />
-          <option value="Shivpuri (rafting)" />
-          <option value="Yamunotri" />
-          <option value="Gangotri" />
-          <option value="Kedarnath" />
-          <option value="Sonprayag" />
-          <option value="Gaurikund" />
-          <option value="Badrinath" />
-          <option value="Joshimath" />
-          <option value="Chopta" />
-          <option value="Tungnath" />
-          <option value="Auli" />
-          <option value="Guptkashi" />
-          <option value="Uttarkashi" />
-          <option value="Chamba" />
-          <option value="Tehri" />
-          <option value="New Tehri" />
-          <option value="Pauri" />
-          <option value="Lansdowne" />
-          <option value="Kanatal" />
-          <option value="Nainital" />
-          <option value="Mall Road, Nainital" />
-          <option value="Bhimtal" />
-          <option value="Sattal" />
-          <option value="Naukuchiatal" />
-          <option value="Kausani" />
-          <option value="Ranikhet" />
-          <option value="Almora" />
-          <option value="Mukteshwar" />
-          <option value="Binsar" />
-          <option value="Jim Corbett National Park" />
-          <option value="Ramnagar" />
-          <option value="Delhi Airport (IGI)" />
-          <option value="New Delhi Railway Station" />
-          <option value="Chandigarh" />
-          <option value="Chandigarh Airport" />
-          <option value="Shimla" />
-          <option value="Manali" />
-          <option value="Agra" />
-          <option value="Jaipur" />
-          <option value="Lucknow" />
-        </datalist>
-
-        <!-- Date + Time -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="date" class="form-label">Date</label>
-            <input type="date" id="date" name="date" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label for="time" class="form-label">Time</label>
-            <input type="time" id="time" name="time" class="form-input" required />
-          </div>
-        </div>
-
-        <!-- Vehicle picker -->
-        <div class="form-group">
-          <label class="form-label">Vehicle Type</label>
-          <div class="vehicle-grid">
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="sedan" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚗</span>
-                <span class="vehicle-name">Sedan</span>
-                <span class="vehicle-seats">4+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="ertiga" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚐</span>
-                <span class="vehicle-name">Ertiga</span>
-                <span class="vehicle-seats">6+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="innova" checked />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚙</span>
-                <span class="vehicle-name">Innova Crysta</span>
-                <span class="vehicle-seats">6+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="traveller" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚌</span>
-                <span class="vehicle-name">Tempo</span>
-                <span class="vehicle-seats">12+1</span>
-              </span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Name + Phone -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Full name" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label for="phone" class="form-label">Phone</label>
-            <input type="tel" id="phone_no" name="phone" placeholder="+91 XXXXXXXXXX" class="form-input" required />
-          </div>
-        </div>
-
-        {/* Honeypot — hidden from humans, bots fill it */}
-        <label class="honeypot" aria-hidden="true" tabindex="-1">
-          <input type="text" name="company" autocomplete="off" tabindex="-1" />
-        </label>
-
-        <!-- Cloudflare Turnstile -->
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible"></div>
-
-        <button type="submit" class="btn btn-teal booking-submit">
-          Book Now →
-        </button>
-        <p class="booking-secure">
-          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          100% Safe &amp; Secure Booking
-        </p>
-      </form>
-    </div>
+  <!-- Bottom mountain silhouette -->
+  <div class="hero-bottom-decor" aria-hidden="true">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,60 L0,35 L160,8 L320,38 L480,5 L640,32 L800,3 L960,30 L1120,8 L1280,35 L1440,15 L1440,60 Z" fill="#ffffff"/>
+    </svg>
   </div>
 </section>
 
+<style>
+.hero {
+  position: relative;
+  min-height: 620px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 60px 0 80px;
+}
+
+/* Background */
+.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg-img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15,38,64,0.88) 0%, rgba(13,148,136,0.6) 100%);
+}
+.hero-mountain-decor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+}
+.hero-mountain-decor svg { width: 100%; height: 100%; }
+
+/* Content */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 48px;
+  align-items: center;
+}
+
+/* Text */
+.hero-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-size: clamp(32px, 5vw, 52px);
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  font-family: 'Playfair Display', serif;
+}
+.hero-title em {
+  color: #f59e0b;
+  font-style: italic;
+}
+.hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.hero-br { display: none; }
+.hero-trust { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.hero-cta-primary { min-width: 160px; }
+.hero-response {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.65);
+}
+.hero-response strong { color: rgba(255,255,255,0.9); }
+
+/* Booking Form */
+.hero-form-wrap { position: relative; }
+.hero-form {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.hero-form-header { margin-bottom: 16px; }
+.hero-form-header h2 {
+  font-size: 20px;
+  color: #0d9488;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 2px;
+}
+.hero-form-header p { font-size: 12px; color: #64748b; }
+
+/* Form Tabs */
+.form-tabs {
+  display: flex;
+  gap: 4px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+.form-tab {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.form-tab--active { background: #fff; color: #0d9488; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+/* Form Fields */
+.form-field { display: flex; flex-direction: column; gap: 4px; }
+.form-label { font-size: 12px; font-weight: 600; color: #475569; }
+.form-input {
+  padding: 10px 12px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: 'DM Sans', sans-serif;
+  color: #1e293b;
+  background: #fff;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.form-input:focus { outline: none; border-color: #0d9488; }
+.form-input::placeholder { color: #94a3b8; }
+.form-select { cursor: pointer; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.booking-form { display: flex; flex-direction: column; gap: 10px; }
+.form-submit { margin-top: 4px; font-size: 15px; padding: 13px; }
+.form-note { font-size: 11px; color: #64748b; text-align: center; margin-top: 4px; }
+
+/* Bottom decoration */
+.hero-bottom-decor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 1;
+}
+.hero-bottom-decor svg { width: 100%; height: 100%; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; gap: 32px; }
+  .hero { padding: 48px 0 60px; min-height: auto; }
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 36px 0 48px; }
+  .hero-title { font-size: clamp(28px, 7vw, 38px); }
+  .hero-form { padding: 20px; border-radius: 16px; }
+  .hero-cta-primary { flex: 1; min-width: 120px; }
+  .hero-br { display: block; }
+}
+
+@media (max-width: 480px) {
+  .form-row { grid-template-columns: 1fr; }
+  .hero-ctas { flex-direction: column; }
+  .hero-cta-primary { width: 100%; }
+  .form-tabs .form-tab { font-size: 11px; padding: 6px; }
+}
+</style>
+
 <script>
-  // Pre-select vehicle if coming from fleet page
-  document.addEventListener('DOMContentLoaded', () => {
-    const selectedVehicle = sessionStorage.getItem('selectedVehicle');
-    if (selectedVehicle) {
-      const radio = document.querySelector(`input[name="vehicle"][value="${selectedVehicle}"]`) as HTMLInputElement;
-      if (radio) {
-        radio.checked = true;
-        // Scroll booking form into view smoothly
-        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      sessionStorage.removeItem('selectedVehicle');
-    }
-  });
-
-  // Close popup
-  const popup = document.getElementById('booking-popup');
-  const closeBtn = document.getElementById('popup-close');
-
-  function closePopup() {
-    popup?.classList.remove('active');
-    popup?.setAttribute('aria-hidden', 'true');
-  }
-
-  closeBtn?.addEventListener('click', closePopup);
-  popup?.addEventListener('click', (e) => {
-    if (e.target === popup) closePopup();
-  });
-
-  // Trip tabs
-  const tabs = document.querySelectorAll('.trip-tab');
-  const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected','true');
-      if (tripInput) tripInput.value = tab.getAttribute('data-trip') || '';
-    });
-  });
-
   // Set min date to today
   const dateInput = document.getElementById('date') as HTMLInputElement;
   if (dateInput) {
@@ -285,501 +314,33 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     dateInput.value = today;
   }
 
-  // Form submit — matches original BookingForm logic with Turnstile
-  const form = document.getElementById('booking-form') as HTMLFormElement;
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const fd = new FormData(form);
-
-    const payload: Record<string, string> = {};
-    fd.forEach((v, k) => { payload[k] = v.toString(); });
-
-    btn.disabled = true;
-    btn.textContent = 'Processing…';
-
-    try {
-      // Build WhatsApp message with all booking details
-      const pickup  = payload.pickup  || '';
-      const drop    = payload.drop    || '';
-      const date    = payload.date    || '';
-      const time    = payload.time    || '';
-      const vehicle = payload.vehicle || '';
-      const name    = payload.name    || '';
-      const phone   = payload.phone   || '';
-      const tripLabels: Record<string, string> = {
-        'one-way': 'One Way',
-        'round-trip': 'Round Trip',
-        'local': 'Local',
-        'airport': 'Airport',
-      };
-      const trip = tripLabels[payload.trip_type] || payload.trip_type || 'One Way';
-
-      const vehicleNames: Record<string, string> = {
-        sedan: 'Sedan (Dzire/Baleno)',
-        ertiga: 'Maruti Ertiga',
-        innova: 'Toyota Innova Crysta',
-        traveller: 'Tempo Traveller',
-      };
-
-      // Booking ID: SHRI-YYMMDD-XXXX (4-char base36 random suffix)
-      const d = new Date();
-      const yymmdd = d.toISOString().slice(2, 10).replace(/-/g, '');
-      const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
-      const bookingId = `SHRI-${yymmdd}-${rand}`;
-      payload.booking_id = bookingId;
-
-      const msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
-
-      const wa = form.dataset.wa || '';
-      const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
-
-      // Show success popup
-      const popup   = document.getElementById('booking-popup');
-      const details = document.getElementById('popup-details');
-      const waLink  = document.getElementById('popup-wa') as HTMLAnchorElement;
-
-      if (popup && details) {
-        details.innerHTML = `
-          <div><strong>Booking ID:</strong> ${bookingId}</div>
-          <div><strong>${pickup}</strong> → <strong>${drop}</strong></div>
-          ${vehicleNames[vehicle] ? `<div>Vehicle: ${vehicleNames[vehicle]}</div>` : ''}
-          ${date ? `<div>${date}${time ? ' · ' + time : ''}</div>` : ''}
-          ${name ? `<div>${name}</div>` : ''}
-        `;
-        if (waLink) waLink.href = waUrl;
-        popup.setAttribute('aria-hidden', 'false');
-        popup.classList.add('active');
-      }
-
-      // Send to API for Telegram + Google Sheets logging
-      const token = (fd.get('cf-turnstile-response') || '').toString();
-      payload.turnstile_token = token;
-      console.log('Sending to API:', JSON.stringify(payload));
-      fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).then(r => r.json()).then(d => console.log('API response:', d)).catch(e => console.error('API error:', e));
-
-      btn.textContent = '✓ Booking Confirmed!';
-      btn.style.background = 'var(--whatsapp)';
-
-    } catch (err) {
-      console.error('Booking handler error:', err);
-      btn.textContent = '✓ Booking Confirmed!';
-      btn.style.background = 'var(--whatsapp)';
-    } finally {
-      btn.disabled = false;
-    }
-
-    // Reset form and Turnstile after 4 seconds
-    setTimeout(() => {
-      btn.textContent = 'Book Now →';
-      btn.style.background = '';
-      form.reset();
-      // Just reset Turnstile — never re-render manually (causes postMessage error)
-      // @ts-ignore
-      if (window.turnstile) window.turnstile.reset();
-    }, 4000);
+  // Form tabs
+  document.querySelectorAll('.form-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('form-tab--active'));
+      tab.classList.add('form-tab--active');
+    });
   });
+
+  // Booking form → WhatsApp
+  (window as any).handleBooking = function(e: Event) {
+    e.preventDefault();
+    const pickup  = (document.getElementById('pickup') as HTMLInputElement)?.value;
+    const drop    = (document.getElementById('drop') as HTMLInputElement)?.value;
+    const date    = (document.getElementById('date') as HTMLInputElement)?.value;
+    const vehicle = (document.getElementById('vehicle') as HTMLSelectElement)?.value;
+    const name    = (document.getElementById('name') as HTMLInputElement)?.value;
+    const phone   = (document.getElementById('phone-input') as HTMLInputElement)?.value;
+
+    const msg = `Hi Shri Taxi! I want to book a cab.
+📍 Pickup: ${pickup}
+📍 Drop: ${drop}
+📅 Date: ${date}
+🚗 Vehicle: ${vehicle}
+👤 Name: ${name}
+📞 Phone: ${phone}`;
+
+    const wa = '916397321825';
+    window.open(`https://wa.me/${wa}?text=${encodeURIComponent(msg)}`, '_blank');
+  };
 </script>
-
-<style>
-/* ── Hero wrapper ── */
-.hero {
-  position: relative;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: url('/images/hero-mountains.jpg') center/cover no-repeat;
-  z-index: 0;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(0,0,0,0.55) 0%,
-    rgba(0,0,0,0.30) 55%,
-    rgba(0,0,0,0.05) 100%
-  );
-  z-index: 1;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 48px;
-  align-items: center;
-  padding-top: 48px;
-  padding-bottom: 48px;
-}
-
-/* ── Left content ── */
-.hero-region {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-  margin-bottom: 12px;
-}
-
-.hero-title {
-  font-size: clamp(28px, 4vw, 46px);
-  color: #fff;
-  line-height: 1.15;
-  margin-bottom: 12px;
-}
-
-.hero-title em {
-  font-style: italic;
-  color: var(--saffron-light);
-}
-
-.hero-sub {
-  font-size: 17px;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 24px;
-}
-
-.hero-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 28px;
-}
-
-.pill {
-  background: rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.9);
-  font-size: 12px;
-  font-weight: 500;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
-  backdrop-filter: blur(4px);
-}
-
-.hero-ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.hero-btn { padding: 13px 22px; font-size: 14px; }
-
-.btn-outline-white {
-  background: transparent;
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.6);
-}
-.btn-outline-white:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: #fff;
-}
-
-/* ── Booking Card ── */
-.booking-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-}
-
-.booking-card-header {
-  background: var(--teal);
-  padding: 18px 24px;
-}
-
-/* ── Booking Success Popup ── */
-.booking-popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.booking-popup.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.popup-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(20px);
-  transition: transform 0.3s;
-}
-
-.booking-popup.active .popup-card {
-  transform: translateY(0);
-}
-
-.popup-icon { font-size: 48px; margin-bottom: 12px; }
-
-.popup-title {
-  font-size: 22px;
-  font-family: 'Playfair Display', serif;
-  color: var(--teal);
-  margin-bottom: 14px;
-}
-
-.popup-details {
-  background: var(--mint);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: var(--slate);
-  text-align: left;
-  line-height: 1.8;
-}
-
-.popup-msg {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.popup-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.popup-close {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-/* SEO context */
-.seo-context {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Text shadow for readability on raw photo */
-.hero-region,
-.hero-title,
-.hero-sub {
-  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-}
-
-.booking-title {
-  font-size: 20px;
-  color: #fff;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 2px;
-}
-
-.booking-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.75);
-}
-
-/* Trip tabs */
-.trip-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--border);
-}
-
-.trip-tab {
-  background: none;
-  border: none;
-  padding: 11px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-  border-bottom: 2.5px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.trip-tab.active {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
-}
-
-.trip-tab:hover:not(.active) { color: var(--slate); }
-
-/* Form */
-.booking-form {
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.form-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--slate);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.form-input {
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  font-size: 13px;
-  color: var(--slate);
-  font-family: 'DM Sans', sans-serif;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  background: #fafafa;
-  width: 100%;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.1);
-  background: #fff;
-}
-
-/* Vehicle picker */
-.vehicle-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
-.vehicle-opt { cursor: pointer; }
-.vehicle-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
-
-.vehicle-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 4px;
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  background: #fafafa;
-  transition: border-color 0.15s, background 0.15s;
-  cursor: pointer;
-}
-
-.vehicle-opt input:checked + .vehicle-card {
-  border-color: var(--teal);
-  background: rgba(13,148,136,0.06);
-}
-
-.vehicle-icon { font-size: 20px; }
-.vehicle-name { font-size: 11px; font-weight: 600; color: var(--slate); }
-.vehicle-seats { font-size: 10px; color: var(--muted); }
-
-.honeypot {
-  position: absolute !important;
-  left: -9999px !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.cf-turnstile {
-  margin-top: 4px;
-}
-
-/* Submit */
-.booking-submit {
-  width: 100%;
-  justify-content: center;
-  padding: 14px;
-  font-size: 15px;
-  margin-top: 4px;
-}
-
-.booking-secure {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: -6px;
-}
-
-/* ── Mobile ── */
-@media (max-width: 960px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .booking-card { max-width: 100%; }
-}
-
-@media (max-width: 600px) {
-  .hero { min-height: auto; }
-  .hero-inner { padding-top: 32px; padding-bottom: 32px; }
-  .hero-ctas { flex-direction: column; }
-  .hero-btn { width: 100%; justify-content: center; }
-  .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
-  .form-row { grid-template-columns: 1fr; }
-}
-</style>
-
-<!-- Booking Success Popup -->
-<div class="booking-popup" id="booking-popup" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="popup-card">
-    <div class="popup-icon">✅</div>
-    <h3 class="popup-title">Booking Received!</h3>
-    <div class="popup-details" id="popup-details"></div>
-    <p class="popup-msg">Our team will call you within <strong>15 minutes</strong> to confirm your booking and share the price.</p>
-    <div class="popup-actions">
-      <a id="popup-wa" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">
-        💬 WhatsApp Us
-      </a>
-      <button class="btn btn-outline popup-close" id="popup-close">Close</button>
-    </div>
-  </div>
-</div>
-
-<!-- Cloudflare Turnstile -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
