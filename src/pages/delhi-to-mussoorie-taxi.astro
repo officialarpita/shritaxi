@@ -63,6 +63,30 @@ const reviewSchema = {
   ],
 };
 
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Delhi to Mussoorie Taxi — Shri Taxi',
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['.hero-desc, .route-answer, .faq-a'],
+  },
+};
+
+
+const priceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Delhi to Mussoorie Taxi Service',
+  provider: { '@type': 'LocalBusiness', name: 'Shri Taxi' },
+  offers: [
+    { '@type': 'Offer', name: 'Sedan', price: '4500', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Ertiga', price: '5500', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Innova Crysta', price: '6670', priceCurrency: 'INR' },
+  ],
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -77,6 +101,8 @@ const faqSchema = {
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(speakableSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(priceSchema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(reviewSchema)} slot="head" />
 
   <TopBar />
@@ -84,6 +110,18 @@ const faqSchema = {
   <Header currentPath="/delhi-to-mussoorie-taxi" />
 
   <main id="main-content">
+    <!-- AEO Answer Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="route-answer">Taxi from Delhi to Mussoorie costs ₹4,500 fixed price for Sedan, ₹5,500 for Ertiga and ₹6,670 for Innova Crysta. Distance is 290 km, takes approximately 6 hours. All inclusive — driver, fuel, toll and parking. Available 24/7.</p>
+        <div class="aeo-trust-strip">
+          <span class="trust-pill">⭐ 4.9 Google Rating</span>
+          <span class="trust-pill">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill">🔒 Fixed Price</span>
+          <span class="trust-pill">📞 24/7 Available</span>
+        </div>
+      </div>
+    </section>
 
     <section class="loc-hero">
       <div class="container">
@@ -225,4 +263,10 @@ details[open] .faq-q { color: var(--teal); }
 .faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; padding-bottom: 16px; }
 @media (max-width: 900px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } .loc-about { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .loc-strip-inner { gap: 20px; } .loc-ctas { flex-direction: column; } }
+
+/* AEO Block */
+.aeo-block { background: #f0fdfa; border-top: 3px solid #0d9488; border-bottom: 1px solid #ccfbf1; padding: 20px 0; }
+.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; margin-bottom: 14px; max-width: 860px; }
+.aeo-trust-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.trust-pill { background: #fff; border: 1px solid #0d9488; color: #0f766e; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 30px; }
 </style>

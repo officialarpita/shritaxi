@@ -63,6 +63,36 @@ const schema = {
   },
 };
 
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Char Dham Yatra Taxi Package 2026 — Shri Taxi',
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['.cd-desc', '.route-answer', '.faq-a'],
+  },
+};
+
+const priceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Char Dham Yatra Taxi Package 2026',
+  provider: { '@type': 'LocalBusiness', name: 'Shri Taxi' },
+  offers: [
+    { '@type': 'Offer', name: 'Sedan (10 Days)', price: '35999', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Ertiga (10 Days)', price: '44999', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Innova Crysta (10 Days)', price: '56699', priceCurrency: 'INR' },
+  ],
+};
+
+const reviewSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Shri Taxi',
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '30', bestRating: '5' },
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -81,12 +111,27 @@ const faqSchema = {
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(speakableSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(priceSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(reviewSchema)} slot="head" />
 
   <TopBar />
   <SeasonBanner />
   <Header currentPath="/char-dham-yatra" />
 
   <main id="main-content">
+    <!-- AEO Answer Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="route-answer">Shri Taxi offers Char Dham Yatra taxi packages from Dehradun 2026 starting at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga and ₹56,699 for Innova Crysta. Packages cover all 4 dhams — Yamunotri, Gangotri, Kedarnath and Badrinath. Experienced pahadi drivers, fixed price, all inclusive. Rated 4.9/5 on Google with 30+ reviews.</p>
+        <div class="aeo-trust-strip">
+          <span class="trust-pill">⭐ 4.9 Google Rating</span>
+          <span class="trust-pill">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill">🙏 2026 Season Open</span>
+          <span class="trust-pill">📞 24/7 Available</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Hero -->
     <section class="cd-hero">
@@ -425,7 +470,6 @@ const faqSchema = {
     });
   });
 </script>
-<style>
 /* Hero */
 .cd-hero {
   background: linear-gradient(135deg, #0d9488, #0f766e);
@@ -599,4 +643,9 @@ details[open] .faq-q { color: var(--teal); }
 .city-tab--active { background: var(--teal); border-color: var(--teal); color: #fff; }
 .city-note { font-size: 12px; color: var(--muted); font-style: italic; }
 @media (max-width: 600px) { .city-tabs { gap: 8px; } .city-tab { padding: 8px 14px; font-size: 13px; } }
+
+.aeo-block { background: #f0fdfa; border-top: 3px solid #0d9488; border-bottom: 1px solid #ccfbf1; padding: 20px 0; }
+.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; margin-bottom: 14px; max-width: 860px; }
+.aeo-trust-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.trust-pill { background: #fff; border: 1px solid #0d9488; color: #0f766e; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 30px; }
 </style>

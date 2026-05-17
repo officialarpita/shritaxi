@@ -65,6 +65,30 @@ const reviewSchema = {
   ],
 };
 
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Jolly Grant Airport to Dehradun Taxi — Shri Taxi',
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['.hero-desc, .route-answer, .faq-a'],
+  },
+};
+
+
+const priceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Jolly Grant Airport to Dehradun Taxi Service',
+  provider: { '@type': 'LocalBusiness', name: 'Shri Taxi' },
+  offers: [
+    { '@type': 'Offer', name: 'Sedan', price: '1000', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Ertiga', price: '1200', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Innova Crysta', price: '1500', priceCurrency: 'INR' },
+  ],
+};
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -92,6 +116,8 @@ const airportTransfers = [
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(speakableSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(priceSchema)} slot="head" />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(reviewSchema)} slot="head" />
 
   <TopBar />
@@ -99,6 +125,18 @@ const airportTransfers = [
   <Header currentPath="/jolly-grant-airport-taxi" />
 
   <main id="main-content">
+    <!-- AEO Answer Block -->
+    <section class="aeo-block">
+      <div class="container">
+        <p class="route-answer">Taxi from Jolly Grant Airport to Dehradun costs ₹1,000 fixed price for Sedan, ₹1,200 for Ertiga and ₹1,500 for Innova Crysta. Distance is 27 km, takes approximately 45 minutes. Available 24/7 with flight tracking. No extra charge for late night pickups.</p>
+        <div class="aeo-trust-strip">
+          <span class="trust-pill">⭐ 4.9 Google Rating</span>
+          <span class="trust-pill">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill">🔒 Fixed Price</span>
+          <span class="trust-pill">📞 24/7 Available</span>
+        </div>
+      </div>
+    </section>
 
     <!-- Hero -->
     <section class="loc-hero">
@@ -318,4 +356,10 @@ details[open] .faq-q { color: var(--teal); }
   .delhi-crosssell-btn { margin-left: 0; width: 100%; justify-content: center; }
 }
 
+
+/* AEO Block */
+.aeo-block { background: #f0fdfa; border-top: 3px solid #0d9488; border-bottom: 1px solid #ccfbf1; padding: 20px 0; }
+.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; margin-bottom: 14px; max-width: 860px; }
+.aeo-trust-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.trust-pill { background: #fff; border: 1px solid #0d9488; color: #0f766e; font-size: 13px; font-weight: 600; padding: 5px 14px; border-radius: 30px; }
 </style>
