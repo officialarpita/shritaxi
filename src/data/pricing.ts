@@ -370,7 +370,7 @@ export const tourPackages: TourPackage[] = [
     nights: 2,
     tag: 'Family Favourite',
     badgeColor: '#0d9488',
-    href: '/packages#nainital',
+    href: '/packages/nainital',
     highlights: ['Naini Lake Boating', 'Mall Road Shopping', 'Naina Devi Temple', 'Tiffin Top', 'Sat Tal', 'Snow View Point'],
     itinerary: ['Day 1: Dehradun → Nainital', 'Day 2: Local sightseeing', 'Day 3: Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
