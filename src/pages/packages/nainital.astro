@@ -302,16 +302,26 @@ const schema = {
 
 /* ── CHIPS ── */
 .chips-bar { display:block; width:100%; background:#fff;
-  border-bottom:1px solid var(--border); padding:10px 0; }
+  border-bottom:1px solid var(--border); padding:12px 0; }
+/* Desktop: centered flex wrap */
 .chips-scroll {
-  display:flex; gap:8px; overflow-x:auto;
-  padding:0 20px; scrollbar-width:none; -ms-overflow-style:none;
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:8px; padding:0 20px;
 }
-.chips-scroll::-webkit-scrollbar { display:none; }
 .act-chip {
-  flex-shrink:0; background:var(--mint); color:var(--teal);
+  background:var(--mint); color:var(--teal);
   font-size:13px; font-weight:600; padding:6px 16px;
   border-radius:20px; border:1px solid rgba(13,148,136,.2); white-space:nowrap;
+}
+/* Mobile: 2-col equal grid */
+@media (max-width:600px) {
+  .chips-scroll {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    padding:0 16px;
+  }
+  .act-chip { text-align:center; white-space:normal; }
 }
 
 /* ── VEHICLE GRID ── */
