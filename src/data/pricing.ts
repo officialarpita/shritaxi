@@ -20,6 +20,7 @@ export interface Transfer {
   duration: string;
   oneWay: number;
   roundTrip: number | null;
+  dayTrip?: number;
   tag: string;
   note: string;
   seoTitle: string;
@@ -131,6 +132,7 @@ export const transfers: Transfer[] = [
     duration: '1 hr 30 min',
     oneWay: 1500,
     roundTrip: 3500,
+    dayTrip: 3000,
     tag: 'Hill Station',
     note: 'All inclusive · Starting price',
     seoTitle: 'Dehradun to Mussoorie Taxi | ₹1,500 One Way | ₹3,500 Round Trip',
@@ -145,6 +147,7 @@ export const transfers: Transfer[] = [
     duration: '1 hr 30 min',
     oneWay: 2000,
     roundTrip: 3500,
+    dayTrip: 3000,
     tag: 'Spiritual',
     note: 'All inclusive · Starting price',
     seoTitle: 'Dehradun to Haridwar Taxi | ₹2,000 One Way | ₹3,500 Round Trip',
@@ -159,6 +162,7 @@ export const transfers: Transfer[] = [
     duration: '1 hr 15 min',
     oneWay: 2000,
     roundTrip: 3500,
+    dayTrip: 3000,
     tag: 'Adventure',
     note: 'All inclusive · Starting price',
     seoTitle: 'Dehradun to Rishikesh Taxi | ₹2,000 One Way | ₹3,500 Round Trip',
@@ -340,7 +344,7 @@ export const tourPackages: TourPackage[] = [
     nights: 0,
     tag: 'Day Trip',
     badgeColor: '#0d9488',
-    href: '/packages#dhanaulti',
+    href: '/packages/dhanaulti',
     highlights: ['Dhanaulti Eco Park', 'Surkanda Devi Temple', 'Kanatal Village', 'Snow View Point'],
     itinerary: ['Morning: Depart Dehradun', 'Dhanaulti Eco Park', 'Surkanda Devi Temple', 'Kanatal → Return'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
