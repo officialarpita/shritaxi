@@ -68,6 +68,12 @@ const dayTripYMYL: Record<string, Array<{name:string; href:string; price:string;
     { name:'Rishikesh Day Trip',  href:'/dehradun-to-rishikesh-taxi', price:'₹3,000', tag:'Adventure',   color:'#16a34a', nd:'Day Trip', highlights:['Laxman Jhula','Rafting','Triveni Ghat'] },
     { name:'Dhanaulti Day Trip',  href:'/packages/dhanaulti',         price:'₹3,599', tag:'Day Trip',    color:'#0d9488', nd:'Day Trip', highlights:['Eco Park','Surkanda Devi','Kanatal'] },
   ],
+  'nainital': [
+    { name:'Kainchi Dham Trip',   href:'/packages/neem-karoli',       price:'₹7,199', tag:'Spiritual',   color:'#8b5cf6', nd:'1N 2D', highlights:['Kainchi Dham Ashram','Bhowali Market','Naukuchiatal'] },
+    { name:'Tehri Lake Day Trip', href:'/packages/tehri',             price:'₹3,599', tag:'Day Trip',    color:'#0891b2', nd:'Day Trip', highlights:['Tehri Dam','Lake Boating','Water Sports'] },
+    { name:'Mukteshwar Trip',     href:'/packages/mukteshwar',        price:'₹3,599', tag:'Day Trip',    color:'#f59e0b', nd:'Day Trip', highlights:['Mukteshwar Temple','Chauli Ki Jali','Apple Orchards'] },
+    { name:'Lansdowne Trip',      href:'/packages/lansdowne',         price:'₹3,599', tag:'Day Trip',    color:'#16a34a', nd:'Day Trip', highlights:['Bhulla Lake','War Memorial','Tip-n-Top View'] },
+  ],
 };
 const isDayTrip = pkg.nights === 0;
 const ymylItems = dayTripYMYL[pkg.id] || null;
@@ -78,6 +84,9 @@ const imgMap: Record<string, ImageMetadata> = {
   'chopta': ChoptaImg, 'kedarnath': KedarnathImg, 'badrinath': BadrinathImg,
   'ek-dham': KedarnathImg, 'do-dham': BadrinathImg, 'char-dham': CharDhamImg,
   'chakrata': ChakrataImg,
+  'tehri': DhanaultiImg,      // fallback until Tehri image added
+  'lansdowne': ChoptaImg,     // fallback until Lansdowne image added
+  'mukteshwar': NainitalImg,  // fallback until Mukteshwar image added
 };
 const img = imgMap[pkg.id] || CharDhamImg;
 
@@ -245,7 +254,7 @@ const breadcrumbSchema = {
         <div class="container">
           <div class="section-header">
             <p class="section-label">You Might Also Like</p>
-            <h2 class="section-title">{isDayTrip ? 'More Day Trips from Dehradun' : `Similar ${pkg.tag} Packages`}</h2>
+            <h2 class="section-title">{isDayTrip ? 'More Day Trips from Dehradun' : `Similar ${pkg.name.split(' ')[0]} Packages`}</h2>
             <p class="section-sub">{isDayTrip ? 'Other popular same-day escapes at similar prices' : 'Explore more Uttarakhand tour options for your group'}</p>
           </div>
 
