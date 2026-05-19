@@ -54,6 +54,24 @@ const relatedPackages = (relatedIds[pkg.id] || [])
   .filter(Boolean)
   .slice(0, 4);
 
+// For day trip packages — show actual day trips including transfer routes
+const dayTripYMYL: Record<string, Array<{name:string; href:string; price:string; tag:string; color:string; nd:string; highlights:string[]}>> = {
+  'dhanaulti': [
+    { name:'Mussoorie Day Trip',  href:'/dehradun-to-mussoorie-taxi', price:'₹3,000', tag:'Hill Station', color:'#0891b2', nd:'Day Trip', highlights:['Mall Road','Kempty Falls','Gun Hill'] },
+    { name:'Haridwar Day Trip',   href:'/dehradun-to-haridwar-taxi',  price:'₹3,000', tag:'Spiritual',   color:'#f59e0b', nd:'Day Trip', highlights:['Har Ki Pauri','Ganga Aarti','Mansa Devi'] },
+    { name:'Rishikesh Day Trip',  href:'/dehradun-to-rishikesh-taxi', price:'₹3,000', tag:'Adventure',   color:'#16a34a', nd:'Day Trip', highlights:['Laxman Jhula','Rafting','Triveni Ghat'] },
+    { name:'Chakrata Day Trip',   href:'/packages/chakrata',          price:'₹3,599', tag:'Nature',      color:'#0d9488', nd:'Day Trip', highlights:['Tiger Falls','Deoban Forest','Chilmiri Neck'] },
+  ],
+  'chakrata': [
+    { name:'Mussoorie Day Trip',  href:'/dehradun-to-mussoorie-taxi', price:'₹3,000', tag:'Hill Station', color:'#0891b2', nd:'Day Trip', highlights:['Mall Road','Kempty Falls','Gun Hill'] },
+    { name:'Haridwar Day Trip',   href:'/dehradun-to-haridwar-taxi',  price:'₹3,000', tag:'Spiritual',   color:'#f59e0b', nd:'Day Trip', highlights:['Har Ki Pauri','Ganga Aarti','Mansa Devi'] },
+    { name:'Rishikesh Day Trip',  href:'/dehradun-to-rishikesh-taxi', price:'₹3,000', tag:'Adventure',   color:'#16a34a', nd:'Day Trip', highlights:['Laxman Jhula','Rafting','Triveni Ghat'] },
+    { name:'Dhanaulti Day Trip',  href:'/packages/dhanaulti',         price:'₹3,599', tag:'Day Trip',    color:'#0d9488', nd:'Day Trip', highlights:['Eco Park','Surkanda Devi','Kanatal'] },
+  ],
+};
+const isDayTrip = pkg.nights === 0;
+const ymylItems = dayTripYMYL[pkg.id] || null;
+
 const imgMap: Record<string, ImageMetadata> = {
   'dhanaulti': DhanaultiImg, 'neem-karoli': NeemKaroliImg,
   'nainital': NainitalImg, 'auli': AuliImg, 'munsiyari': MunsiyariImg,
@@ -221,38 +239,68 @@ const breadcrumbSchema = {
       </section>
     )}
 
-    <!-- Related Packages — shown right after itinerary -->
-    {relatedPackages.length > 0 && (
+    <!-- You Might Also Like -->
+    {(ymylItems || relatedPackages.length > 0) && (
       <section class="section section--mint">
         <div class="container">
           <div class="section-header">
             <p class="section-label">You Might Also Like</p>
-            <h2 class="section-title">More {pkg.name.split(' ')[0]} Packages</h2>
-            <p class="section-sub">Explore more Uttarakhand tour options for your group</p>
+            <h2 class="section-title">{isDayTrip ? 'More Day Trips from Dehradun' : `Similar ${pkg.tag} Packages`}</h2>
+            <p class="section-sub">{isDayTrip ? 'Other popular same-day escapes at similar prices' : 'Explore more Uttarakhand tour options for your group'}</p>
           </div>
-          <div class="related-grid">
-            {relatedPackages.map(r => (
-              <a href={`/packages/${r.id}`} class="related-card card">
-                <div class="related-header" style={`background:${r.badgeColor}`}>
-                  <span class="related-tag">{r.tag}</span>
-                  <span class="related-duration">{r.nights}N {r.days}D</span>
-                  <span class="related-disc">10% OFF</span>
-                </div>
-                <div class="related-body">
-                  <h3 class="related-name">{r.name}</h3>
-                  <div class="related-highlights">
-                    {r.highlights.slice(0,2).map(h => <span class="pkg-chip">{h}</span>)}
+
+          {ymylItems && (
+            <div class="related-grid">
+              {ymylItems.map(item => (
+                <a href={item.href} class="related-card card">
+                  <div class="related-header" style={`background:linear-gradient(135deg,${item.color},#0f172a)`}>
+                    <span class="related-tag">{item.tag}</span>
+                    <span class="related-duration">{item.nd}</span>
+                    <span class="related-disc">10% OFF</span>
                   </div>
-                  <div class="related-price-row">
-                    <span class="related-price">{fmt(r.tiers[0].discounted)}</span>
-                    <span class="related-label">Sedan · {r.nights}N {r.days}D</span>
+                  <div class="related-body">
+                    <h3 class="related-name">{item.name}</h3>
+                    <div class="related-highlights">
+                      {item.highlights.slice(0,2).map(h => <span class="pkg-chip">{h}</span>)}
+                    </div>
+                    <div class="related-price-row">
+                      <span class="related-price">{item.price}</span>
+                      <span class="related-label">Sedan · Day Trip</span>
+                    </div>
+                    <p class="related-incl">✓ All inclusive · No hidden costs</p>
+                    <span class="related-cta">View Details →</span>
                   </div>
-                  <p class="related-incl">✓ All inclusive · No hidden costs</p>
-                  <span class="related-cta">View Package →</span>
-                </div>
-              </a>
-            ))}
-          </div>
+                </a>
+              ))}
+            </div>
+          )}
+
+          {!ymylItems && relatedPackages.length > 0 && (
+            <div class="related-grid">
+              {relatedPackages.map(r => (
+                <a href={`/packages/${r.id}`} class="related-card card">
+                  <div class="related-header" style={`background:${r.badgeColor}`}>
+                    <span class="related-tag">{r.tag}</span>
+                    <span class="related-duration">{r.nights}N {r.days}D</span>
+                    <span class="related-disc">10% OFF</span>
+                  </div>
+                  <div class="related-body">
+                    <h3 class="related-name">{r.name}</h3>
+                    <div class="related-highlights">
+                      {r.highlights.slice(0,2).map(h => <span class="pkg-chip">{h}</span>)}
+                    </div>
+                    <div class="related-price-row">
+                      <span class="related-price">{fmt(r.tiers[0].discounted)}</span>
+                      <span class="related-label">Sedan · {r.nights}N {r.days}D</span>
+                    </div>
+                    <p class="related-incl">✓ All inclusive · No hidden costs</p>
+                    <span class="related-cta">View Package →</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+
         </div>
       </section>
     )}
