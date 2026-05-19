@@ -17,6 +17,7 @@ import NeemKaroliImg from '../../assets/images/NeemKaroli.jpeg';
 import DhanaultiImg  from '../../assets/images/Dhanaulti.jpeg';
 import MunsiyariImg  from '../../assets/images/Munsyari.jpeg';
 import ChoptaImg     from '../../assets/images/Chopta.jpeg';
+import ChakrataImg   from '../../assets/images/Chakrata.jpg';
 
 export async function getStaticPaths() {
   return tourPackages.map(p => ({
@@ -31,14 +32,22 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
 // Related packages — same destination keyword or circuit packages
 const relatedIds: Record<string, string[]> = {
-  'nainital': ['nainital-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
-  'auli': ['munsiyari', 'chopta'],
-  'chopta': ['auli', 'munsiyari'],
-  'munsiyari': ['auli', 'chopta'],
-  'dhanaulti': ['neem-karoli', 'kedarnath'],
-  'char-dham': ['ek-dham', 'do-dham'],
-  'ek-dham': ['do-dham', 'char-dham'],
-  'do-dham': ['ek-dham', 'char-dham'],
+  'nainital':    ['nainital-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
+  'dhanaulti':   ['chakrata', 'chopta', 'neem-karoli'],
+  'chakrata':    ['dhanaulti', 'chopta', 'neem-karoli'],
+  'neem-karoli': ['kedarnath', 'chopta', 'nainital'],
+  'auli':        ['munsiyari', 'chopta', 'kedarnath'],
+  'chopta':      ['auli', 'munsiyari', 'kedarnath'],
+  'munsiyari':   ['auli', 'chopta', 'kedarnath'],
+  'kedarnath':   ['char-dham', 'do-dham', 'chopta'],
+  'badrinath':   ['char-dham', 'do-dham', 'kedarnath'],
+  'char-dham':   ['ek-dham', 'do-dham', 'kedarnath'],
+  'ek-dham':     ['do-dham', 'char-dham', 'kedarnath'],
+  'do-dham':     ['ek-dham', 'char-dham', 'kedarnath'],
+  'nainital-corbett':                    ['nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
+  'nainital-ranikhet-corbett':           ['nainital-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
+  'mussoorie-corbett-nainital-ranikhet': ['nainital-corbett', 'nainital-ranikhet-corbett', 'almora-kausani'],
+  'almora-kausani':                      ['nainital-corbett', 'mussoorie-corbett-nainital-ranikhet', 'nainital-ranikhet-corbett'],
 };
 const relatedPackages = (relatedIds[pkg.id] || [])
   .map(id => tourPackages.find(p => p.id === id))
@@ -50,6 +59,7 @@ const imgMap: Record<string, ImageMetadata> = {
   'nainital': NainitalImg, 'auli': AuliImg, 'munsiyari': MunsiyariImg,
   'chopta': ChoptaImg, 'kedarnath': KedarnathImg, 'badrinath': BadrinathImg,
   'ek-dham': KedarnathImg, 'do-dham': BadrinathImg, 'char-dham': CharDhamImg,
+  'chakrata': ChakrataImg,
 };
 const img = imgMap[pkg.id] || CharDhamImg;
 
@@ -57,7 +67,8 @@ const vehicleEmojis: Record<string, string> = {
   sedan: '🚗', ertiga: '🚐', innova: '🚙', traveller: '🚌',
 };
 
-const pkgFaqs = [
+// Use custom FAQs from pricing.ts if available, else fall back to generic
+const pkgFaqs = pkg.faqs && pkg.faqs.length > 0 ? pkg.faqs : [
   { q: `What is included in ${pkg.name}?`, a: `${pkg.name} includes cab with experienced driver, fuel charges, toll and parking for all ${pkg.days} days. Hotel accommodation is arranged separately as per your preference.` },
   { q: `What is the starting price for ${pkg.name}?`, a: `${pkg.name} starts at ${fmt(pkg.tiers[0].discounted)} for ${pkg.tiers[0].vehicleName} (${pkg.nights}N ${pkg.days}D). This is after 10% discount. Price includes driver, fuel, toll and parking.` },
   { q: `Can I customize the ${pkg.name} itinerary?`, a: `Yes! We can customize the itinerary as per your pace and preferences. Extra days can be added at the per day rate of your chosen vehicle. Contact us on WhatsApp to discuss.` },
