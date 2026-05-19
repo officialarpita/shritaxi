@@ -42,6 +42,7 @@ export interface TourPackage {
   itinerary?: string[];
   includes: string[];
   tiers: PricingTier[];
+  faqs?: Array<{ q: string; a: string }>;
 }
 
 // ── Vehicle base rates ──
@@ -348,6 +349,13 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Dhanaulti Eco Park', 'Surkanda Devi Temple', 'Kanatal Village', 'Snow View Point'],
     itinerary: ['Morning: Depart Dehradun', 'Dhanaulti Eco Park', 'Surkanda Devi Temple', 'Kanatal → Return'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Dhanaulti Day Trip?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Entry tickets to Eco Park and Surkanda Devi Temple are not included.' },
+      { q: 'What time do we leave and return?', a: 'We typically depart Dehradun by 7–8 AM and return by 6–7 PM. The schedule can be adjusted to your preference.' },
+      { q: 'Can we add Mussoorie or Chakrata on the same day?', a: 'Multi-stop day trips can be arranged. WhatsApp us to get a custom quote for your preferred stops.' },
+      { q: 'Is Dhanaulti suitable for families with kids?', a: 'Yes — Dhanaulti Eco Park and the scenic drive are family-friendly. The road is well-maintained and safe.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(1),
   },
   {
@@ -363,6 +371,13 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Tiger Falls', 'Deoban Forest', 'Chilmiri Neck', 'Lakhamandal Temple'],
     itinerary: ['Morning: Depart Dehradun', 'Tiger Falls', 'Deoban Forest viewpoint', 'Chilmiri Neck → Return'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Chakrata Day Trip?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Entry tickets to Tiger Falls and other spots are not included.' },
+      { q: 'How far is Tiger Falls from Dehradun?', a: 'Tiger Falls is about 98km from Dehradun — approximately 3 hours drive through scenic mountain roads via Chakrata.' },
+      { q: 'What is the best season to visit Chakrata?', a: 'March to June and September to November are ideal. Winters (Dec–Feb) bring snow making some roads inaccessible. Monsoon (July–Aug) has landslide risk.' },
+      { q: 'Can we combine Dhanaulti and Chakrata in one day?', a: 'They are in opposite directions from Dehradun so combining both in a single day is not recommended. Each deserves its own day trip.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(1),
   },
   {
@@ -378,6 +393,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Kainchi Dham Ashram', 'Bhowali Market', 'Nainital Lake', 'Naukuchiatal'],
     itinerary: ['Day 1: Dehradun → Kainchi Dham → Bhowali', 'Day 2: Nainital sightseeing → Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in this package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Hotel, meals and donations at the ashram are not included.' },
+      { q: 'How far is Kainchi Dham from Dehradun?', a: 'Kainchi Dham is approximately 270km from Dehradun — about 7–8 hours drive. We typically depart early morning on Day 1.' },
+      { q: 'Can we visit Nainital on the same trip?', a: 'Yes — Day 2 of the itinerary includes Nainital Lake, Mall Road and Naukuchiatal before returning to Dehradun.' },
+      { q: 'Is there a dress code at Kainchi Dham?', a: 'Modest, respectful attire is expected. Remove footwear before entering the ashram. Photography restrictions may apply inside.' },
+      { q: 'When is the best time to visit Kainchi Dham?', a: 'June 15th is the annual Bhandara — the most auspicious day but very crowded. For a peaceful visit, weekdays in April–May or September–October are ideal.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. The cab price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(2),
   },
   {
@@ -393,6 +416,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Naini Lake Boating', 'Mall Road Shopping', 'Naina Devi Temple', 'Tiffin Top', 'Sat Tal', 'Snow View Point'],
     itinerary: ['Day 1: Dehradun → Nainital', 'Day 2: Local sightseeing', 'Day 3: Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Nainital Tour Package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Hotel, meals and entry fees are not included.' },
+      { q: 'What is the starting price for Nainital Tour Package?', a: 'Sedan starts at ₹10,999 for 3 days / 2 nights. Price includes 10% discount. All inclusive — driver, fuel, toll & parking.' },
+      { q: 'Can I customize the Nainital Tour Itinerary?', a: 'Yes — extra days can be added, or sightseeing spots adjusted to your pace. WhatsApp us to customize your trip.' },
+      { q: 'What is the best time to visit Nainital?', a: 'March to June and September to November are the best seasons. Summers are pleasant, winters get cold but scenic with occasional snowfall.' },
+      { q: 'How do I book the Nainital Tour Package?', a: 'Simply WhatsApp or call us. We confirm your booking within 15 minutes and send all trip details on WhatsApp.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(3, 10999),
   },
   {
@@ -408,6 +439,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Auli Skiing Slopes', 'Gondola Cable Car', 'Gorson Bugyal Trek', 'Nanda Devi Views', 'Joshimath'],
     itinerary: ['Day 1: Dehradun → Joshimath → Auli', 'Day 2: Skiing & cable car', 'Day 3: Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Auli Snow Trip Package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Skiing equipment, lift passes and hotel are not included.' },
+      { q: 'When is the best time for skiing in Auli?', a: 'January to March is peak ski season with guaranteed snow. November–December and April can also have snow but less reliable.' },
+      { q: 'Is Auli good for beginners in skiing?', a: 'Yes — Auli has certified instructors and beginner-friendly slopes. The Gondola cable car ride is enjoyable even without skiing.' },
+      { q: 'How far is Auli from Dehradun?', a: 'Auli is about 280km from Dehradun via Joshimath — approximately 9–10 hours through scenic mountain roads.' },
+      { q: 'Can we visit Badrinath from Auli?', a: 'Yes — Badrinath is only 45km from Joshimath. We can add a Badrinath visit to the itinerary for an additional day at the per-day vehicle rate.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(3, 10999),
   },
   {
@@ -423,6 +462,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Panchuli Peaks View', 'Munsiyari Hill Station', 'Khaliya Top Trek', 'Nanda Devi Views', 'Pithoragarh Fort'],
     itinerary: ['Day 1: Dehradun → Pithoragarh', 'Day 2: Pithoragarh → Munsiyari', 'Day 3: Munsiyari → Return'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Munsiyari Package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Hotel, meals and trek guide are not included.' },
+      { q: 'How far is Munsiyari from Dehradun?', a: 'Munsiyari is about 395km from Dehradun — approximately 12–14 hours. We stop overnight at Pithoragarh to break the journey comfortably.' },
+      { q: 'What is the best time to visit Munsiyari?', a: 'April to June and September to November are ideal. Summers offer clear Panchuli peak views. Avoid monsoon (July–August) due to landslide risk on mountain roads.' },
+      { q: 'Is Khaliya Top trek difficult?', a: 'Khaliya Top is a moderate 4km trek with stunning Himalayan views. Suitable for reasonably fit travellers and families with older children.' },
+      { q: 'Can we extend the Munsiyari trip to Pithoragarh?', a: 'Yes — Pithoragarh is en route and we already stop there on Day 1. Extra sightseeing in Pithoragarh can be added at the per-day vehicle rate.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(3, 10999),
   },
   {
@@ -438,6 +485,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Tungnath Temple', 'Chandrashila Summit', 'Deoria Tal Lake', 'Ukhimath Village'],
     itinerary: ['Day 1: Dehradun → Chopta via Ukhimath', 'Day 2: Tungnath trek → Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Chopta Tungnath Package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Trek guide, permits and meals are not included.' },
+      { q: 'Is the Tungnath trek difficult?', a: 'The Tungnath trek is about 3.5km each way with moderate difficulty. Suitable for reasonably fit travellers. Ponies are available at the base for those who prefer not to trek.' },
+      { q: 'What is the best season for Chopta?', a: 'March to June and September to November are ideal. Winter (Dec–Feb) brings heavy snow and the temple closes. Summer is perfect for trekking with clear Himalayan views.' },
+      { q: 'Can we do Chopta as a day trip from Dehradun?', a: 'Chopta is about 220km from Dehradun. A day trip is very rushed — we recommend the 1N 2D package for a relaxed, enjoyable experience.' },
+      { q: 'Is Chandrashila summit accessible from Chopta?', a: 'Yes — Chandrashila peak (3,680m) is a further 1.5km beyond Tungnath Temple. It offers 360-degree Himalayan views including Nanda Devi and Trishul.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking and taxes.' },
+    ],
     tiers: tiers(2),
   },
   {
@@ -453,6 +508,14 @@ export const tourPackages: TourPackage[] = [
     highlights: ['Kedarnath Temple', 'Sonprayag Base Camp', 'Gaurikund', 'Triyuginarayan Temple'],
     itinerary: ['Day 1: Dehradun → Sonprayag', 'Day 2: Kedarnath darshan', 'Day 3: Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
+    faqs: [
+      { q: 'What is included in Kedarnath Package?', a: 'Cab with experienced driver, fuel, toll & parking, and all taxes. Pony, helicopter, hotel and meals are not included and are the customer\'s own expense.' },
+      { q: 'When does Kedarnath temple open in 2026?', a: 'Kedarnath typically opens on Akshaya Tritiya (around late April/early May 2026) and closes on Bhai Dooj in November. Check official announcements for exact 2026 opening dates.' },
+      { q: 'How do we reach Kedarnath temple from Gaurikund?', a: 'From Gaurikund, it is a 16km trek each way. Ponies, palanquins and IRCTC helicopters (from Phata/Sirsi) are available — all booked separately by the customer.' },
+      { q: 'Is this package pilgrimage-only or can we sightsee?', a: 'The package is designed for Kedarnath darshan. We drop at Sonprayag/Gaurikund and pick up after your return. Triyuginarayan Temple can be added on Day 1 route.' },
+      { q: 'Is it safe to travel to Kedarnath?', a: 'Yes — the route is well-maintained and our drivers have 50+ Char Dham trips of experience. We monitor weather and road conditions before every departure.' },
+      { q: 'Are there hidden charges?', a: 'No hidden charges on the cab. Pony, helicopter, hotel and all personal expenses are the customer\'s own responsibility.' },
+    ],
     tiers: tiers(3, 10999),
   },
   {
@@ -530,7 +593,7 @@ export const tourPackages: TourPackage[] = [
     nights: 4,
     tag: 'Wildlife',
     badgeColor: '#16a34a',
-    href: '/packages#nainital-corbett',
+    href: '/packages/nainital-corbett',
     highlights: ['Naini Lake Boating', 'Jim Corbett Safari', 'Bhimtal Lake', 'Snow View Point', 'Corbett Museum'],
     itinerary: ['Day 1: Delhi → Nainital', 'Day 2: Nainital sightseeing', 'Day 3: Bhimtal Lakes → Corbett', 'Day 4: Jim Corbett Safari', 'Day 5: Return Delhi'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
@@ -546,7 +609,7 @@ export const tourPackages: TourPackage[] = [
     nights: 7,
     tag: 'Uttarakhand Circuit',
     badgeColor: '#0d9488',
-    href: '/packages#mussoorie-corbett-nainital-ranikhet',
+    href: '/packages/mussoorie-corbett-nainital-ranikhet',
     highlights: ['Mussoorie Mall Road', 'Jim Corbett Safari', 'Naini Lake', 'Ranikhet Hills', 'Kempty Falls', 'Bhimtal Lakes'],
     itinerary: ['Day 1: Delhi → Mussoorie', 'Day 2: Mussoorie sightseeing', 'Day 3: Mussoorie → Ranikhet', 'Day 4: Ranikhet → Nainital', 'Day 5: Nainital sightseeing', 'Day 6: Bhimtal → Corbett', 'Day 7: Jim Corbett Safari', 'Day 8: Return Delhi'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
@@ -562,7 +625,7 @@ export const tourPackages: TourPackage[] = [
     nights: 5,
     tag: 'Hills + Wildlife',
     badgeColor: '#3b82f6',
-    href: '/packages#nainital-ranikhet-corbett',
+    href: '/packages/nainital-ranikhet-corbett',
     highlights: ['Naini Lake', 'Ranikhet Cantonment', 'Jim Corbett Safari', 'Chaubatia Gardens', 'Bhimtal Lakes'],
     itinerary: ['Day 1: Delhi → Nainital', 'Day 2: Nainital sightseeing', 'Day 3: Nainital → Ranikhet', 'Day 4: Ranikhet → Corbett', 'Day 5: Jim Corbett Safari', 'Day 6: Return Delhi'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
@@ -578,7 +641,7 @@ export const tourPackages: TourPackage[] = [
     nights: 7,
     tag: 'Kumaon Circuit',
     badgeColor: '#f59e0b',
-    href: '/packages#almora-kausani',
+    href: '/packages/almora-kausani',
     highlights: ['Kausani Himalayan Views', 'Almora Temples', 'Naini Lake', 'Ranikhet Hills', 'Jim Corbett Safari', 'Binsar Wildlife'],
     itinerary: ['Day 1: Delhi → Nainital', 'Day 2: Nainital sightseeing', 'Day 3: Nainital → Almora', 'Day 4: Almora → Kausani', 'Day 5: Kausani → Ranikhet', 'Day 6: Ranikhet → Corbett', 'Day 7: Jim Corbett Safari', 'Day 8: Return Delhi'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
