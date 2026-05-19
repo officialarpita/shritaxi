@@ -10,7 +10,7 @@ import { tourPackages, fmt } from '../../data/pricing';
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-const pkg = tourPackages.find(p => p.id === 'dhanaulti')!;
+const pkg = tourPackages.find(p => p.id === 'chakrata')!;
 
 const vNames: Record<string,string> = { sedan:'Sedan', ertiga:'Maruti Ertiga', innova:'Innova Crysta', traveller:'Tempo Traveller' };
 const vIcons: Record<string,string> = { sedan:'🚗', ertiga:'🚐', innova:'🚙', traveller:'🚌' };
@@ -33,7 +33,7 @@ const schema = {
 <Base
   title={pkg.seoTitle}
   description={pkg.seoDesc}
-  canonicalUrl="https://shritaxi.com/packages/dhanaulti"
+  canonicalUrl="https://shritaxi.com/packages/chakrata"
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
   <TopBar />
@@ -44,16 +44,16 @@ const schema = {
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-bg" style="background-image:url('/images/dhanaulti.jpg')"></div>
+      <div class="hero-bg" style="background-image:url('/images/chakrata.jpg')"></div>
       <div class="hero-scrim"></div>
       <div class="hero-inner container">
-        <nav class="breadcrumb"><a href="/">Home</a> › <a href="/packages">Packages</a> › <span>Dhanaulti</span></nav>
+        <nav class="breadcrumb"><a href="/">Home</a> › <a href="/packages">Packages</a> › <span>Chakrata</span></nav>
         <div class="hero-badges">
           <span class="hbadge hbadge--teal">Day Trip</span>
           <span class="hbadge hbadge--glass">1D · No Stay</span>
           <span class="hbadge hbadge--red">10% OFF</span>
         </div>
-        <h1 class="hero-title">Dhanaulti & Kanatal Day Trip</h1>
+        <h1 class="hero-title">Chakrata Day Trip from Dehradun</h1>
         <p class="hero-sub">From Dehradun · All inclusive · No hidden charges · Return same day</p>
         <div class="hero-bottom">
           <div class="hero-price">
@@ -64,7 +64,7 @@ const schema = {
             </div>
           </div>
           <div class="hero-ctas">
-            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20Dhanaulti%20Day%20Trip`}
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20Chakrata%20Day%20Trip`}
               target="_blank" rel="noopener" class="btn btn-wa">💬 Book on WhatsApp</a>
             <a href={`tel:${phone}`} class="btn btn-call">📞 Call</a>
           </div>
@@ -100,7 +100,7 @@ const schema = {
                 <span class="v-price">{fmt(t.discounted)}</span>
               </div>
               <p class="v-save">Save {fmt(t.saving)}</p>
-              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20Dhanaulti%20Day%20Trip%20in%20${encodeURIComponent(vNames[t.vehicleId])}`}
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20Chakrata%20Day%20Trip%20in%20${encodeURIComponent(vNames[t.vehicleId])}`}
                 target="_blank" rel="noopener" class="v-btn">Book {vNames[t.vehicleId]}</a>
             </div>
           ))}
@@ -186,7 +186,7 @@ const schema = {
 
           <!-- Rishikesh -->
           <a href="/dehradun-to-rishikesh-taxi" class="ymyl-card">
-            <div class="ymyl-top" style="background:linear-gradient(135deg,#16a34a,#0f172a)">
+            <div class="ymyl-top" style="background:linear-gradient(135deg,#0d9488,#0f172a)">
               <span class="ymyl-nd">Day Trip</span>
               <span class="ymyl-tag" style="background:#16a34a">Adventure</span>
               <span class="ymyl-icon">🌊</span>
@@ -199,15 +199,15 @@ const schema = {
           </a>
 
           <!-- Chakrata -->
-          <a href="/packages/chakrata" class="ymyl-card">
-            <div class="ymyl-top" style="background:linear-gradient(135deg,#16a34a,#0f172a)">
+          <a href="/packages/dhanaulti" class="ymyl-card">
+            <div class="ymyl-top" style="background:linear-gradient(135deg,#0d9488,#0f172a)">
               <span class="ymyl-nd">Day Trip</span>
               <span class="ymyl-tag" style="background:#16a34a">Nature</span>
               <span class="ymyl-icon">🌲</span>
             </div>
             <div class="ymyl-body">
-              <p class="ymyl-name">Chakrata Day Trip</p>
-              <p class="ymyl-sub">Tiger Falls · Deoban Forest · Chilmiri Neck</p>
+              <p class="ymyl-name">Dhanaulti & Kanatal Day Trip</p>
+              <p class="ymyl-sub">Dhanaulti Eco Park · Surkanda Devi · Kanatal</p>
               <p class="ymyl-price">from ₹3,599 <span class="ymyl-disc">10% OFF</span></p>
             </div>
           </a>
@@ -219,13 +219,13 @@ const schema = {
     <!-- FAQ -->
     <section class="section section--mint">
       <div class="container">
-        <h2 class="sec-title">Dhanaulti Day Trip — FAQs</h2>
+        <h2 class="sec-title">Chakrata Day Trip — FAQs</h2>
         <div class="faq-list">
           {[
-            { q:'What is included in the Dhanaulti Day Trip?',         a:'Cab with experienced driver, fuel, toll & parking, and all taxes. Entry tickets to Eco Park and Surkanda Devi Temple are not included.' },
+            { q:'What is included in the Chakrata Day Trip?',         a:'Cab with experienced driver, fuel, toll & parking, and all taxes. Entry tickets to Tiger Falls and Deoban Forest are not included.' },
             { q:'What time do we leave and return?',                   a:'We typically depart Dehradun by 7–8 AM and return by 6–7 PM. The schedule can be adjusted to your preference.' },
             { q:'Can I add Chakrata or Mussoorie to the same trip?',   a:'Yes, multi-stop day trips can be arranged. WhatsApp us to get a custom quote for your preferred stops.' },
-            { q:'Is the Dhanaulti trip suitable for families with kids?', a:'Absolutely. Dhanaulti Eco Park and the scenic drive are family-friendly. The road is well-maintained and safe.' },
+            { q:'Is the Chakrata trip suitable for families with kids?', a:'Absolutely. Chakrata Tiger Falls and the scenic drive are family-friendly. The road is well-maintained and safe.' },
             { q:'Are there hidden charges?',                           a:'No hidden charges. Price is all-inclusive of driver, fuel, toll, parking & taxes.' },
           ].map(f => (
             <details class="faq-item">
@@ -240,11 +240,11 @@ const schema = {
     <!-- BOOK CTA -->
     <section class="section book-cta">
       <div class="container book-cta-inner">
-        <h2 class="cta-title">Book Dhanaulti Day Trip Now</h2>
+        <h2 class="cta-title">Book Chakrata Day Trip Now</h2>
         <p class="cta-sub">10% discount · Instant confirmation · No hidden charges</p>
         <div class="cta-btns">
           <a href={`tel:${phone}`} class="btn btn-call-lg">📞 {phone}</a>
-          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20Dhanaulti%20Day%20Trip`}
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20Chakrata%20Day%20Trip`}
             target="_blank" rel="noopener" class="btn btn-wa-lg">💬 WhatsApp Booking</a>
         </div>
       </div>
