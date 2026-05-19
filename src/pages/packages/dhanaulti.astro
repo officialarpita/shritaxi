@@ -5,7 +5,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import StickyBar from '../../components/StickyBar.astro';
 import SeasonBanner from '../../components/SeasonBanner.astro';
-import { tourPackages, routes, fmt } from '../../data/pricing';
+import { tourPackages, fmt } from '../../data/pricing';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
@@ -16,10 +16,8 @@ const vNames: Record<string,string> = { sedan:'Sedan', ertiga:'Maruti Ertiga', i
 const vIcons: Record<string,string> = { sedan:'🚗', ertiga:'🚐', innova:'🚙', traveller:'🚌' };
 const vSeats: Record<string,string> = { sedan:'4 seats', ertiga:'6 seats', innova:'6–7 seats', traveller:'12 seats' };
 
-// Day trip routes for You Might Also Like
-const dayTripRoutes = routes.filter(r =>
-  ['dehradun-mussoorie','dehradun-haridwar','dehradun-rishikesh'].includes(r.id)
-);
+
+
 
 const schema = {
   '@context': 'https://schema.org',
