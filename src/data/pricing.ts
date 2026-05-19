@@ -374,7 +374,7 @@ export const tourPackages: TourPackage[] = [
     nights: 1,
     tag: 'Spiritual',
     badgeColor: '#8b5cf6',
-    href: '/packages#neem-karoli',
+    href: '/packages/neem-karoli',
     highlights: ['Kainchi Dham Ashram', 'Bhowali Market', 'Nainital Lake', 'Naukuchiatal'],
     itinerary: ['Day 1: Dehradun → Kainchi Dham → Bhowali', 'Day 2: Nainital sightseeing → Return Dehradun'],
     includes: ['Cab with experienced driver', 'Fuel charges', 'Toll & parking', 'All taxes'],
