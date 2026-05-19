@@ -36,12 +36,12 @@ const imgMap: Record<string, ImageMetadata> = {
 };
 
 const dayPackages = tourPackages.filter(p =>
-  ['dhanaulti', 'neem-karoli', 'nainital', 'auli', 'munsiyari', 'chopta', 'kedarnath', 'badrinath'].includes(p.id)
+  ['dhanaulti', 'neem-karoli', 'nainital', 'auli', 'munsiyari', 'chopta'].includes(p.id)
 );
 const charDhamPackages = tourPackages.filter(p =>
   ['ek-dham', 'do-dham', 'char-dham'].includes(p.id)
 );
-const multiDestPackages = tourPackages.filter(p =>
+const delhiPackages = tourPackages.filter(p =>
   ['nainital-corbett', 'mussoorie-corbett-nainital-ranikhet', 'nainital-ranikhet-corbett', 'almora-kausani'].includes(p.id)
 );
 
@@ -57,6 +57,9 @@ const schema = {
     url: `https://shritaxi.com${p.href}`,
   })),
 };
+
+const vLabel = (id: string) =>
+  id === 'sedan' ? '🚗 Sedan' : id === 'ertiga' ? '🚐 Ertiga' : id === 'innova' ? '🚙 Innova' : '🚌 Tempo';
 ---
 
 <Base
@@ -65,7 +68,6 @@ const schema = {
   canonicalUrl="https://shritaxi.com/packages"
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
-
   <TopBar />
   <SeasonBanner />
   <Header currentPath="/packages" />
@@ -78,7 +80,7 @@ const schema = {
         <nav class="breadcrumb"><a href="/">Home</a> › <span>Tour Packages</span></nav>
         <p class="pkg-hero-label">Uttarakhand Tour Packages</p>
         <h1 class="pkg-hero-title">Uttarakhand Tour Packages with Cab</h1>
-        <p class="pkg-hero-sub">All inclusive · Experienced hill drivers · 10% discount on all packages · Driver + fuel + toll + parking included</p>
+        <p class="pkg-hero-sub">All inclusive · Experienced hill drivers · 10% discount · Driver + fuel + toll + parking</p>
         <div class="pkg-hero-ctas">
           <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
           <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20know%20about%20your%20tour%20packages`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
@@ -95,198 +97,194 @@ const schema = {
       </div>
     </div>
 
-    <!-- 3 Accordions -->
-    <section class="section pkg-accordions">
+    <!-- Sticky Pill Nav -->
+    <div class="pill-nav-wrap">
+      <nav class="pill-nav" aria-label="Package categories">
+        <a href="#day-trips"  class="pill active">🏔️ Day Trips</a>
+        <a href="#char-dham"  class="pill">🙏 Char Dham</a>
+        <a href="#delhi-tours" class="pill">🏙️ Delhi Tours</a>
+      </nav>
+    </div>
+
+    <!-- ─── SECTION 1: Day Trips ─── -->
+    <section class="pkg-section" id="day-trips">
       <div class="container">
-
-        <!-- Accordion 1 — Day Trips (Teal/Green) -->
-        <details class="acc acc--teal" id="day-packages">
-          <summary class="acc-header">
-            <div class="acc-header-left">
-              <span class="acc-icon">🏔️</span>
-              <div class="acc-meta">
-                <h2 class="acc-title">Day Trips & Short Packages</h2>
-                <p class="acc-sub">From Dehradun · {dayPackages.length} packages · Starting ₹3,599</p>
-              </div>
-            </div>
-            <div class="acc-header-right">
-              <span class="acc-price">₹3,599+</span>
-              <div class="acc-cta">
-                <span class="acc-explore">Explore</span>
-                <svg class="acc-chevron acc-chevron--bounce" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-          </summary>
-          <div class="acc-body">
-            <div class="pkg-grid">
-              {dayPackages.map(p => {
-                const img = imgMap[p.id] || CharDhamImg;
-                return (
-                  <div class="pkg-card" id={p.id}>
-                    <div class="pkg-img-wrap">
-                      <Image src={img} alt={`${p.name} taxi package`} width={380} height={200} widths={[300, 380, 760]} sizes="(max-width: 640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
-                      <div class="pkg-overlay"></div>
-                      <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
-                      <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
-                      <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
-                    </div>
-                    <div class="pkg-body">
-                      <h3 class="pkg-name">{p.name}</h3>
-                      <div class="pkg-chips-wrap">
-                        {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
-                      </div>
-                      <div class="pkg-table">
-                        <div class="pkg-table-head"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
-                        {p.tiers.map(t => (
-                          <div class="pkg-table-row">
-                            <span>{t.vehicleId === 'sedan' ? '🚗 Sedan' : t.vehicleId === 'ertiga' ? '🚐 Ertiga' : t.vehicleId === 'innova' ? '🚙 Innova' : '🚌 Tempo'}</span>
-                            <span class="t-mrp">{fmt(t.mrp)}</span>
-                            <span class="t-price">{fmt(t.discounted)}</span>
-                            <span class="t-save">-{fmt(t.saving)}</span>
-                          </div>
-                        ))}
-                      </div>
-                      <p class="pkg-incl">✓ All inclusive — driver, fuel, toll & parking</p>
-                      <div class="pkg-actions">
-                        <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
-                        <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
-                      </div>
-                      <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
-                    </div>
-                  </div>
-                );
-              })}
+        <div class="sec-head sec-head--teal">
+          <div class="sec-head-left">
+            <span class="sec-icon">🏔️</span>
+            <div>
+              <h2 class="sec-title">Day Trips & Short Packages</h2>
+              <p class="sec-sub">From Dehradun · {dayPackages.length} packages · Starting ₹3,599</p>
             </div>
           </div>
-        </details>
+          <span class="sec-price">₹3,599+</span>
+        </div>
 
-        <!-- Accordion 2 — Char Dham (Saffron/Orange) -->
-        <details class="acc acc--saffron" id="char-dham-packages">
-          <summary class="acc-header">
-            <div class="acc-header-left">
-              <span class="acc-icon">🙏</span>
-              <div class="acc-meta">
-                <h2 class="acc-title">Char Dham Yatra 2026 <span class="acc-badge-season">Season Open</span></h2>
-                <p class="acc-sub">From Dehradun · {charDhamPackages.length} packages · Starting ₹10,999</p>
-              </div>
-            </div>
-            <div class="acc-header-right">
-              <span class="acc-price">₹10,999+</span>
-              <div class="acc-cta">
-                <span class="acc-explore">Explore</span>
-                <svg class="acc-chevron acc-chevron--bounce acc-chevron--delay1" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-          </summary>
-          <div class="acc-body">
-            <div class="pkg-grid">
-              {charDhamPackages.map(p => (
-                <div class="pkg-card">
-                  <div class="pkg-img-wrap">
-                    <Image src={imgMap[p.id] || CharDhamImg} alt={`${p.name} taxi package`} width={380} height={200} widths={[300, 380, 760]} sizes="(max-width: 640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
-                    <div class="pkg-overlay"></div>
-                    <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
-                    <span class="pkg-nights">{p.nights}N {p.days}D</span>
-                    <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
-                  </div>
-                  <div class="pkg-body">
-                    <h3 class="pkg-name">{p.name}</h3>
-                    <div class="pkg-chips-wrap">
-                      {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
-                    </div>
-                    <div class="pkg-table">
-                      <div class="pkg-table-head"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
-                      {p.tiers.map(t => (
-                        <div class="pkg-table-row">
-                          <span>{t.vehicleId === 'sedan' ? '🚗 Sedan' : t.vehicleId === 'ertiga' ? '🚐 Ertiga' : t.vehicleId === 'innova' ? '🚙 Innova' : '🚌 Tempo'}</span>
-                          <span class="t-mrp">{fmt(t.mrp)}</span>
-                          <span class="t-price">{fmt(t.discounted)}</span>
-                          <span class="t-save">-{fmt(t.saving)}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <p class="pkg-incl">✓ All inclusive — driver, fuel, toll & parking</p>
-                    <div class="pkg-actions">
-                      <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
-                      <a href="/char-dham-yatra" class="btn btn-outline pkg-btn">View Details</a>
-                    </div>
-                    <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
-                  </div>
+        <div class="pkg-grid">
+          {dayPackages.map(p => {
+            const img = imgMap[p.id] || CharDhamImg;
+            const isDedicated = p.href.startsWith('/packages/');
+            return (
+              <div class="pkg-card" id={p.id}>
+                <div class="pkg-img-wrap">
+                  <Image src={img} alt={`${p.name} taxi package`} width={380} height={200}
+                    widths={[300,380,760]} sizes="(max-width:640px) 300px, 380px"
+                    format="webp" class="pkg-img" loading="lazy" />
+                  <div class="pkg-overlay"></div>
+                  <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                  <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
+                  <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </details>
-
-        <!-- Accordion 3 — Delhi Circuits (Purple/Indigo) -->
-        <details class="acc acc--purple" id="multi-dest-packages">
-          <summary class="acc-header">
-            <div class="acc-header-left">
-              <span class="acc-icon">🏙️</span>
-              <div class="acc-meta">
-                <h2 class="acc-title">Delhi & Chandigarh Circuit Tours <span class="acc-badge-new">NEW</span></h2>
-                <p class="acc-sub">Same price from Delhi & Chandigarh · {multiDestPackages.length} packages · Starting ₹17,999</p>
-              </div>
-            </div>
-            <div class="acc-header-right">
-              <span class="acc-price">₹17,999+</span>
-              <div class="acc-cta">
-                <span class="acc-explore">Explore</span>
-                <svg class="acc-chevron acc-chevron--bounce acc-chevron--delay2" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-          </summary>
-          <div class="acc-body">
-            <div class="multi-notice"><span>📍</span><p><strong>Pickup from Delhi NCR or Chandigarh — same price.</strong> Cab only — hotel, meals & safari not included.</p></div>
-            <div class="pkg-grid">
-              {multiDestPackages.map(p => (
-                <div class="pkg-card">
-                  <div class="pkg-img-wrap pkg-img-no-img" style={`background:linear-gradient(135deg,${p.badgeColor},#1e1b4b)`}>
-                    <span class="pkg-no-icon">🏔️</span>
-                    <span class="pkg-nights pkg-nights--center">{p.nights}N {p.days}D</span>
-                    <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
-                    <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
+                <div class="pkg-body">
+                  <h3 class="pkg-name">{p.name}</h3>
+                  <div class="pkg-chips-wrap">
+                    {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
                   </div>
-                  <div class="pkg-body">
-                    <h3 class="pkg-name">{p.name}</h3>
-                    <div class="pkg-chips-wrap">
-                      {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
-                    </div>
-                    {p.itinerary && (
-                      <div class="pkg-itinerary">
-                        {p.itinerary.map(d => <p class="pkg-day">📍 {d}</p>)}
+                  <div class="pkg-table">
+                    <div class="pkg-table-head"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
+                    {p.tiers.map(t => (
+                      <div class="pkg-table-row">
+                        <span>{vLabel(t.vehicleId)}</span>
+                        <span class="t-mrp">{fmt(t.mrp)}</span>
+                        <span class="t-price">{fmt(t.discounted)}</span>
+                        <span class="t-save">-{fmt(t.saving)}</span>
                       </div>
-                    )}
-                    <div class="pkg-table">
-                      <div class="pkg-table-head"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
-                      {p.tiers.map(t => (
-                        <div class="pkg-table-row">
-                          <span>{t.vehicleId === 'sedan' ? '🚗 Sedan' : t.vehicleId === 'ertiga' ? '🚐 Ertiga' : t.vehicleId === 'innova' ? '🚙 Innova' : '🚌 Tempo'}</span>
-                          <span class="t-mrp">{fmt(t.mrp)}</span>
-                          <span class="t-price">{fmt(t.discounted)}</span>
-                          <span class="t-save">-{fmt(t.saving)}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <p class="pkg-incl">✓ Cab — driver, fuel, toll & parking included</p>
-                    {p.excludes && (
-                      <details class="excl">
-                        <summary class="excl-summary">View Exclusions ▾</summary>
-                        <ul class="excl-list">{p.excludes.map(e => <li>✗ {e}</li>)}</ul>
-                      </details>
-                    )}
-                    <div class="pkg-actions">
-                      <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}`} target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
-                      <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
-                    </div>
-                    <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
+                    ))}
                   </div>
+                  <p class="pkg-incl">✓ All inclusive — driver, fuel, toll & parking</p>
+                  <div class="pkg-actions">
+                    <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}`}
+                      target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                    {isDedicated
+                      ? <a href={p.href} class="btn btn-outline pkg-btn">View Details</a>
+                      : <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
+                    }
+                  </div>
+                  <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
                 </div>
-              ))}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 2: Char Dham ─── -->
+    <section class="pkg-section pkg-section--saffron" id="char-dham">
+      <div class="container">
+        <div class="sec-head sec-head--saffron">
+          <div class="sec-head-left">
+            <span class="sec-icon">🙏</span>
+            <div>
+              <h2 class="sec-title">Char Dham Yatra 2026 <span class="sec-badge-season">Season Open</span></h2>
+              <p class="sec-sub">From Dehradun · {charDhamPackages.length} packages · Starting ₹10,999</p>
             </div>
           </div>
-        </details>
+          <span class="sec-price">₹10,999+</span>
+        </div>
 
+        <div class="pkg-grid">
+          {charDhamPackages.map(p => (
+            <div class="pkg-card" id={p.id}>
+              <div class="pkg-img-wrap">
+                <Image src={imgMap[p.id] || CharDhamImg} alt={`${p.name} taxi package`}
+                  width={380} height={200} widths={[300,380,760]}
+                  sizes="(max-width:640px) 300px, 380px" format="webp" class="pkg-img" loading="lazy" />
+                <div class="pkg-overlay"></div>
+                <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                <span class="pkg-nights">{p.nights}N {p.days}D</span>
+                <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
+              </div>
+              <div class="pkg-body">
+                <h3 class="pkg-name">{p.name}</h3>
+                <div class="pkg-chips-wrap">
+                  {p.highlights.slice(0,3).map(h => <span class="pkg-chip pkg-chip--saffron">{h}</span>)}
+                </div>
+                <div class="pkg-table">
+                  <div class="pkg-table-head pkg-table-head--saffron"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
+                  {p.tiers.map(t => (
+                    <div class="pkg-table-row">
+                      <span>{vLabel(t.vehicleId)}</span>
+                      <span class="t-mrp">{fmt(t.mrp)}</span>
+                      <span class="t-price t-price--saffron">{fmt(t.discounted)}</span>
+                      <span class="t-save">-{fmt(t.saving)}</span>
+                    </div>
+                  ))}
+                </div>
+                <p class="pkg-incl">✓ All inclusive — driver, fuel, toll & parking</p>
+                <div class="pkg-actions">
+                  <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}%202026`}
+                    target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                  <a href="/char-dham-yatra" class="btn btn-outline-saffron pkg-btn">View Details</a>
+                </div>
+                <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 3: Delhi & Chandigarh Tours ─── -->
+    <section class="pkg-section pkg-section--purple" id="delhi-tours">
+      <div class="container">
+        <div class="sec-head sec-head--purple">
+          <div class="sec-head-left">
+            <span class="sec-icon">🏙️</span>
+            <div>
+              <h2 class="sec-title">Delhi & Chandigarh Circuit Tours <span class="sec-badge-new">NEW</span></h2>
+              <p class="sec-sub">Same price from Delhi & Chandigarh · {delhiPackages.length} packages · Starting ₹17,999</p>
+            </div>
+          </div>
+          <span class="sec-price">₹17,999+</span>
+        </div>
+
+        <div class="multi-notice">
+          <span>📍</span>
+          <p><strong>Pickup from Delhi NCR or Chandigarh — same price.</strong> Cab only — hotel, meals & safari not included.</p>
+        </div>
+
+        <div class="pkg-grid">
+          {delhiPackages.map(p => (
+            <div class="pkg-card" id={p.id}>
+              <div class="pkg-img-no-img" style={`background:linear-gradient(135deg,${p.badgeColor},#1e1b4b)`}>
+                <span class="pkg-no-icon">🏔️</span>
+                <span class="pkg-nights-center">{p.nights}N {p.days}D</span>
+                <span class="pkg-badge" style={`background:${p.badgeColor}`}>{p.tag}</span>
+                <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
+              </div>
+              <div class="pkg-body">
+                <h3 class="pkg-name">{p.name}</h3>
+                <div class="pkg-chips-wrap">
+                  {p.highlights.slice(0,3).map(h => <span class="pkg-chip pkg-chip--purple">{h}</span>)}
+                </div>
+                {p.itinerary && (
+                  <div class="pkg-itinerary">
+                    {p.itinerary.map(d => <p class="pkg-day">📍 {d}</p>)}
+                  </div>
+                )}
+                <div class="pkg-table">
+                  <div class="pkg-table-head pkg-table-head--purple"><span>Vehicle</span><span>MRP</span><span>You Pay</span><span>Save</span></div>
+                  {p.tiers.map(t => (
+                    <div class="pkg-table-row">
+                      <span>{vLabel(t.vehicleId)}</span>
+                      <span class="t-mrp">{fmt(t.mrp)}</span>
+                      <span class="t-price t-price--purple">{fmt(t.discounted)}</span>
+                      <span class="t-save">-{fmt(t.saving)}</span>
+                    </div>
+                  ))}
+                </div>
+                <p class="pkg-incl">✓ Cab — driver, fuel, toll & parking included</p>
+                <div class="pkg-actions">
+                  <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%27m%20interested%20in%20${encodeURIComponent(p.name)}`}
+                    target="_blank" rel="noopener" class="btn btn-whatsapp pkg-btn">💬 Book Now</a>
+                  <a href={`tel:${phone}`} class="btn btn-outline pkg-btn">📞 Call Us</a>
+                </div>
+                <p class="pkg-trust">⭐ 4.9 · 30+ Reviews · Fixed Price</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
 
@@ -296,12 +294,12 @@ const schema = {
         <h2 class="section-title">Why Book Your Uttarakhand Tour with Shri Taxi?</h2>
         <div class="why-grid">
           {[
-            { icon: '🏔️', title: 'Local Pahadi Drivers', desc: 'Our drivers know every mountain road, shortcut and rest stop. Safety is our top priority.' },
-            { icon: '💰', title: '10% Discount Always', desc: 'All packages come with 10% discount. Transparent pricing — no hidden charges ever.' },
-            { icon: '✓', title: 'All Inclusive', desc: 'Driver + fuel + toll + parking included. No surprise bills at the end of your trip.' },
-            { icon: '📞', title: '24/7 Support', desc: 'Our team is available round the clock during your journey for any assistance.' },
-            { icon: '🚗', title: 'All Vehicle Types', desc: 'Sedan, Ertiga, Innova Crysta or Tempo Traveller — we have the right vehicle for your group.' },
-            { icon: '📋', title: 'Flexible Itinerary', desc: 'Customize your trip. Extra days can be added. We adapt to your pace and preferences.' },
+            { icon:'🏔️', title:'Local Pahadi Drivers', desc:'Our drivers know every mountain road, shortcut and rest stop. Safety is our top priority.' },
+            { icon:'💰', title:'10% Discount Always', desc:'All packages come with 10% discount. Transparent pricing — no hidden charges ever.' },
+            { icon:'✓',  title:'All Inclusive',        desc:'Driver + fuel + toll + parking included. No surprise bills at the end of your trip.' },
+            { icon:'📞', title:'24/7 Support',         desc:'Our team is available round the clock during your journey for any assistance.' },
+            { icon:'🚗', title:'All Vehicle Types',    desc:'Sedan, Ertiga, Innova Crysta or Tempo Traveller — we have the right vehicle for your group.' },
+            { icon:'📋', title:'Flexible Itinerary',   desc:'Customize your trip. Extra days can be added. We adapt to your pace and preferences.' },
           ].map(w => (
             <div class="why-card">
               <div class="why-icon">{w.icon}</div>
@@ -322,7 +320,8 @@ const schema = {
         </div>
         <div class="pkg-cta-btns">
           <a href={`tel:${phone}`} class="btn btn-call">📞 {phone}</a>
-          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20tour%20package`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Booking</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20tour%20package`}
+            target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Booking</a>
         </div>
       </div>
     </section>
@@ -333,244 +332,262 @@ const schema = {
   <StickyBar />
 </Base>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const hash = window.location.hash;
-    if (!hash) return;
-
-    const accordions = document.querySelectorAll<HTMLDetailsElement>('.acc[id]');
-
-    // Always keep all accordions visible
-    // Just open the right one and scroll to specific card if hash matches a card id
-    const targetCard = document.querySelector<HTMLElement>(hash);
-    const targetAcc = document.querySelector<HTMLDetailsElement>(hash);
-
-    if (targetCard && targetCard.classList.contains('pkg-card')) {
-      // Hash points to a specific card — open its parent accordion
-      const parentAcc = targetCard.closest<HTMLDetailsElement>('details.acc');
-      if (parentAcc) {
-        // Close all, open parent
-        accordions.forEach(acc => { acc.open = false; acc.style.display = ''; });
-        parentAcc.open = true;
-        // Scroll to the specific card
-        setTimeout(() => {
-          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          // Highlight the card briefly
-          targetCard.style.boxShadow = '0 0 0 3px #0d9488';
-          setTimeout(() => targetCard.style.boxShadow = '', 2000);
-        }, 300);
-      }
-    } else if (targetAcc && targetAcc.tagName === 'DETAILS') {
-      // Hash points to accordion — open it, keep others visible but closed
-      accordions.forEach(acc => { acc.open = false; acc.style.display = ''; });
-      targetAcc.open = true;
-      setTimeout(() => targetAcc.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-    }
-  });
-</script>
-
 <style>
+/* ── Tokens ── */
+:root {
+  --teal:   #0d9488; --teal-d: #0f766e;
+  --saffron:#f59e0b; --saff-d: #d97706;
+  --purple: #7c3aed; --purp-d: #6d28d9;
+  --slate:  #1e293b; --muted:  #64748b;
+  --border: #e2e8f0; --mint:   #f0fdfa;
+  --r:12px; --r-sm:8px;
+}
+
+/* ── Buttons ── */
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:7px;
+  font-weight:700; border-radius:50px; text-decoration:none;
+  transition:opacity .15s,transform .15s; }
+.btn:active { transform:scale(.97); }
+.btn-call      { background:var(--saffron); color:#fff; padding:12px 24px; font-size:15px; }
+.btn-whatsapp  { background:#25D366; color:#fff; padding:12px 24px; font-size:15px; }
+.btn-outline   { background:#fff; color:var(--teal); border:2px solid var(--teal);
+  padding:10px 16px; font-size:14px; }
+.btn-outline-saffron { background:#fff; color:var(--saffron); border:2px solid var(--saffron);
+  padding:10px 16px; font-size:14px; border-radius:50px; font-weight:700; text-decoration:none;
+  display:inline-flex; align-items:center; justify-content:center; transition:opacity .15s; }
+
+/* ── Layout ── */
+.container { max-width:1080px; margin:0 auto; padding:0 20px; }
+.section     { padding:40px 0; }
+.section--mint { background:var(--mint); }
+.section-title { font-size:clamp(20px,3vw,26px); font-weight:800; color:var(--slate);
+  font-family:'Playfair Display',serif; margin-bottom:20px; }
+
 /* ── Hero ── */
-.pkg-hero { background: linear-gradient(135deg, #0d9488, #0f766e); padding: 48px 0 36px; }
-.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
-.breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
-.pkg-hero-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 10px; }
-.pkg-hero-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; line-height: 1.2; }
-.pkg-hero-sub { font-size: 15px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
-.pkg-hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.pkg-hero { background:linear-gradient(135deg,#0d9488,#0f766e); padding:48px 0 36px; }
+.breadcrumb { font-size:12px; color:rgba(255,255,255,.6); margin-bottom:12px; }
+.breadcrumb a { color:rgba(255,255,255,.75); text-decoration:none; }
+.pkg-hero-label { font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  color:rgba(255,255,255,.6); margin-bottom:10px; }
+.pkg-hero-title { font-size:clamp(26px,4vw,42px); color:#fff; font-family:'Playfair Display',serif;
+  margin-bottom:10px; line-height:1.2; }
+.pkg-hero-sub { font-size:15px; color:rgba(255,255,255,.8); margin-bottom:24px; }
+.pkg-hero-ctas { display:flex; gap:12px; flex-wrap:wrap; }
 
 /* ── Discount Bar ── */
-.discount-bar { background: var(--saffron); padding: 10px 0; }
-.discount-bar-inner { display: flex; align-items: center; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.discount-bar-inner p { font-size: 14px; color: #fff; text-align: center; }
-.discount-badge { background: #fff; color: var(--saffron); font-size: 12px; font-weight: 800; padding: 3px 12px; border-radius: 20px; white-space: nowrap; }
+.discount-bar { background:var(--saffron); padding:10px 0; }
+.discount-bar-inner { display:flex; align-items:center; gap:10px; justify-content:center; flex-wrap:wrap; }
+.discount-bar-inner p { font-size:14px; color:#fff; text-align:center; }
+.discount-badge { background:#fff; color:var(--saffron); font-size:12px; font-weight:800;
+  padding:3px 12px; border-radius:20px; white-space:nowrap; }
 
-/* ── Accordions ── */
-.pkg-accordions { padding-top: 32px; padding-bottom: 32px; }
+/* ── Sticky Pill Nav ── */
+.pill-nav-wrap {
+  position:sticky; top:0; z-index:40;
+  background:#fff; border-bottom:2px solid var(--border);
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  padding:10px 0;
+}
+.pill-nav {
+  display:flex; gap:8px; overflow-x:auto;
+  padding:0 20px; scrollbar-width:none; -ms-overflow-style:none;
+  justify-content:center;
+}
+.pill-nav::-webkit-scrollbar { display:none; }
+.pill {
+  flex-shrink:0; padding:9px 20px; border-radius:50px; font-size:14px; font-weight:700;
+  text-decoration:none; color:var(--muted);
+  border:2px solid var(--border); background:#fff;
+  transition:all .2s; white-space:nowrap;
+}
+.pill:hover, .pill.active { background:var(--teal); color:#fff; border-color:var(--teal); }
 
-.acc {
-  border-radius: var(--radius-lg);
-  margin-bottom: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+/* ── Package Sections ── */
+.pkg-section { padding:40px 0; background:#fff; }
+.pkg-section--saffron { background:#fffbeb; }
+.pkg-section--purple  { background:#f5f3ff; }
+
+/* Section header */
+.sec-head {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:20px 24px; border-radius:var(--r); margin-bottom:24px;
+  flex-wrap:wrap;
+}
+.sec-head--teal   { background:linear-gradient(135deg,#0d9488,#0f766e); }
+.sec-head--saffron{ background:linear-gradient(135deg,#f59e0b,#d97706); }
+.sec-head--purple { background:linear-gradient(135deg,#7c3aed,#6d28d9); }
+
+.sec-head-left { display:flex; align-items:center; gap:16px; flex:1; }
+.sec-icon { font-size:36px; flex-shrink:0; }
+.sec-title {
+  font-size:clamp(18px,2.5vw,22px); font-weight:800; color:#fff;
+  font-family:'Playfair Display',serif; margin-bottom:3px;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.sec-sub   { font-size:13px; color:rgba(255,255,255,.8); }
+.sec-price { font-size:20px; font-weight:900; color:#fff;
+  font-family:'Playfair Display',serif; white-space:nowrap; flex-shrink:0; }
+
+.sec-badge-season {
+  background:#fff; color:#d97706; font-size:10px; font-weight:800;
+  padding:2px 8px; border-radius:20px; font-family:'DM Sans',sans-serif;
+}
+.sec-badge-new {
+  background:#ef4444; color:#fff; font-size:10px; font-weight:800;
+  padding:2px 8px; border-radius:20px; font-family:'DM Sans',sans-serif;
 }
 
-/* Teal — Day Trips */
-.acc--teal { border: 2px solid #0d9488; }
-.acc--teal > summary { background: linear-gradient(135deg, #0d9488, #0f766e); }
-.acc--teal > summary:hover { background: linear-gradient(135deg, #0f766e, #115e59); }
-.acc--teal .acc-body { background: #f0fdfa; border-top: 2px solid #0d9488; }
-
-/* Saffron — Char Dham */
-.acc--saffron { border: 2px solid #f59e0b; }
-.acc--saffron > summary { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.acc--saffron > summary:hover { background: linear-gradient(135deg, #d97706, #b45309); }
-.acc--saffron .acc-body { background: #fffbeb; border-top: 2px solid #f59e0b; }
-
-/* Purple — Delhi Circuits */
-.acc--purple { border: 2px solid #7c3aed; }
-.acc--purple > summary { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-.acc--purple > summary:hover { background: linear-gradient(135deg, #6d28d9, #5b21b6); }
-.acc--purple .acc-body { background: #f5f3ff; border-top: 2px solid #7c3aed; }
-
-/* Accordion header */
-.acc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  cursor: pointer;
-  list-style: none;
-  gap: 16px;
-}
-.acc-header::-webkit-details-marker { display: none; }
-
-.acc-header-left { display: flex; align-items: center; gap: 16px; flex: 1; }
-.acc-icon { font-size: 32px; flex-shrink: 0; }
-.acc-meta { flex: 1; }
-.acc-title { font-size: 20px; font-weight: 700; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.acc-sub { font-size: 14px; color: rgba(255,255,255,0.8); }
-
-.acc-header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.acc-price { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Playfair Display', serif; white-space: nowrap; }
-
-.acc-cta { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.acc-explore { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.85); letter-spacing: 0.8px; text-transform: uppercase; }
-
-.acc-chevron { color: rgba(255,255,255,0.9); transition: transform 0.25s; flex-shrink: 0; }
-details[open] > summary .acc-chevron { transform: rotate(180deg); }
-details[open] > summary .acc-explore { display: none; }
-
-@keyframes bounce-arrow {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(5px); }
-}
-.acc-chevron--bounce { animation: bounce-arrow 1.2s ease-in-out infinite; }
-.acc-chevron--delay1 { animation-delay: 0.2s; }
-.acc-chevron--delay2 { animation-delay: 0.4s; }
-details[open] > summary .acc-chevron--bounce { animation: none; }
-
-.acc-badge-season {
-  background: #fff;
-  color: #d97706;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-family: 'DM Sans', sans-serif;
-}
-.acc-badge-new {
-  background: #ef4444;
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-family: 'DM Sans', sans-serif;
-}
-
-/* Accordion body */
-.acc-body { padding: 24px; }
-
-/* ── Package Grid ── */
+/* ── Package Grid — 2-col mobile, auto desktop ── */
 .pkg-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
 }
 
 /* ── Package Card ── */
 .pkg-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: box-shadow 0.2s, transform 0.2s;
+  background:#fff; border:1.5px solid var(--border);
+  border-radius:var(--r); overflow:hidden;
+  display:flex; flex-direction:column;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  transition:box-shadow .2s,transform .2s;
 }
-.pkg-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.pkg-card:hover { box-shadow:0 8px 24px rgba(0,0,0,.1); transform:translateY(-3px); }
 
-.pkg-img-wrap { position: relative; height: 180px; overflow: hidden; }
-.pkg-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
-.pkg-card:hover .pkg-img { transform: scale(1.05); }
-.pkg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 60%); }
+.pkg-img-wrap { position:relative; height:140px; overflow:hidden; }
+.pkg-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .3s; }
+.pkg-card:hover .pkg-img { transform:scale(1.05); }
+.pkg-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.5),transparent 60%); }
 
-.pkg-img-no-img { display: flex; align-items: center; justify-content: center; height: 140px; }
-.pkg-no-icon { font-size: 48px; }
+.pkg-img-no-img {
+  position:relative; height:120px;
+  display:flex; align-items:center; justify-content:center;
+}
+.pkg-no-icon { font-size:40px; }
+.pkg-nights-center {
+  position:absolute; bottom:8px; left:8px; color:#fff; font-size:11px; font-weight:700;
+  background:rgba(0,0,0,.4); padding:2px 7px; border-radius:20px;
+}
 
-.pkg-badge { position: absolute; top: 10px; left: 10px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; z-index: 1; }
-.pkg-nights { position: absolute; bottom: 10px; left: 10px; color: #fff; font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.45); padding: 2px 8px; border-radius: 20px; z-index: 1; }
-.pkg-nights--center { bottom: auto; left: auto; position: relative; }
-.pkg-disc { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; width: 42px; height: 42px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; line-height: 1.2; z-index: 1; }
+.pkg-badge  { position:absolute; top:8px; left:8px; color:#fff; font-size:10px;
+  font-weight:700; padding:2px 9px; border-radius:20px; z-index:1; }
+.pkg-nights { position:absolute; bottom:8px; left:8px; color:#fff; font-size:11px;
+  font-weight:700; background:rgba(0,0,0,.4); padding:2px 7px; border-radius:20px; z-index:1; }
+.pkg-disc   { position:absolute; top:8px; right:8px; background:#ef4444; color:#fff;
+  width:38px; height:38px; border-radius:50%; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; font-size:8px; font-weight:900;
+  line-height:1.2; z-index:1; }
 
 /* Card body */
-.pkg-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.pkg-name { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.3; }
-.pkg-chips-wrap { display: flex; flex-wrap: wrap; gap: 4px; }
-.pkg-chip { background: var(--mint); color: var(--teal); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(13,148,136,0.15); }
+.pkg-body { padding:12px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.pkg-name { font-size:14px; font-weight:700; color:var(--slate);
+  font-family:'Playfair Display',serif; line-height:1.3; }
+.pkg-chips-wrap { display:flex; flex-wrap:wrap; gap:4px; }
+.pkg-chip         { background:var(--mint); color:var(--teal); font-size:11px; font-weight:600;
+  padding:2px 9px; border-radius:20px; border:1px solid rgba(13,148,136,.15); }
+.pkg-chip--saffron{ background:#fffbeb; color:#d97706;
+  border:1px solid rgba(245,158,11,.2); font-size:11px; font-weight:600;
+  padding:2px 9px; border-radius:20px; }
+.pkg-chip--purple { background:#f5f3ff; color:#7c3aed;
+  border:1px solid rgba(124,58,237,.2); font-size:11px; font-weight:600;
+  padding:2px 9px; border-radius:20px; }
 
 /* Pricing table */
-.pkg-table { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; font-size: 12px; }
-.pkg-table-head { display: grid; grid-template-columns: 1.6fr 0.8fr 0.8fr 0.7fr; padding: 7px 10px; background: var(--teal); color: #fff; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
-.pkg-table-row { display: grid; grid-template-columns: 1.6fr 0.8fr 0.8fr 0.7fr; padding: 7px 10px; border-top: 1px solid var(--border); align-items: center; font-size: 13px; }
-.pkg-table-row:nth-child(even) { background: #fafafa; }
-.t-mrp { color: var(--muted); text-decoration: line-through; }
-.t-price { font-weight: 800; color: var(--teal); }
-.t-save { color: #16a34a; font-weight: 700; font-size: 12px; }
+.pkg-table { border:1px solid var(--border); border-radius:var(--r-sm); overflow:hidden; }
+.pkg-table-head {
+  display:grid; grid-template-columns:1.6fr .8fr .8fr .7fr;
+  padding:6px 8px; background:var(--teal); color:#fff;
+  font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.3px;
+}
+.pkg-table-head--saffron { background:var(--saffron); }
+.pkg-table-head--purple  { background:var(--purple); }
+.pkg-table-row {
+  display:grid; grid-template-columns:1.6fr .8fr .8fr .7fr;
+  padding:6px 8px; border-top:1px solid var(--border);
+  align-items:center; font-size:11px;
+}
+.pkg-table-row:nth-child(even) { background:#fafafa; }
+.t-mrp  { color:var(--muted); text-decoration:line-through; }
+.t-price { font-weight:800; color:var(--teal); }
+.t-price--saffron { color:var(--saffron); }
+.t-price--purple  { color:var(--purple); }
+.t-save { color:#16a34a; font-weight:700; font-size:10px; }
 
-.pkg-incl { font-size: 13px; color: var(--teal); font-weight: 500; }
-.pkg-trust { font-size: 12px; color: var(--muted); text-align: center; padding-top: 4px; border-top: 1px solid var(--border); margin-top: auto; }
+.pkg-incl  { font-size:12px; color:var(--teal); font-weight:500; }
+.pkg-trust { font-size:11px; color:var(--muted); text-align:center;
+  padding-top:4px; border-top:1px solid var(--border); margin-top:auto; }
+.pkg-actions { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.pkg-btn  { font-size:12px; padding:10px 6px; }
 
-.pkg-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.pkg-btn { justify-content: center; font-size: 14px; padding: 12px 8px; }
-
-/* Itinerary */
-.pkg-itinerary { background: rgba(0,0,0,0.03); border-radius: var(--radius-md); padding: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-.pkg-day { font-size: 11px; color: var(--muted); }
-
-/* Exclusions */
-.multi-notice { display: flex; align-items: center; gap: 10px; background: #fff7ed; border: 1.5px solid #fcd34d; border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: var(--slate); }
-.excl { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; }
-.excl-summary { padding: 7px 12px; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; list-style: none; background: #fafafa; }
-.excl-summary::-webkit-details-marker { display: none; }
-.excl-list { list-style: none; padding: 8px 12px; font-size: 11px; color: var(--muted); display: flex; flex-direction: column; gap: 3px; }
+/* Multi-dest */
+.multi-notice { display:flex; align-items:center; gap:10px; background:#fff7ed;
+  border:1.5px solid #fcd34d; border-radius:var(--r-sm); padding:12px 16px;
+  margin-bottom:16px; font-size:13px; color:var(--slate); }
+.pkg-itinerary { background:rgba(0,0,0,.03); border-radius:var(--r-sm); padding:8px;
+  display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.pkg-day { font-size:11px; color:var(--muted); }
 
 /* ── Why Book ── */
-.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.why-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; text-align: center; }
-.why-icon { font-size: 32px; margin-bottom: 10px; }
-.why-title { font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
-.why-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.why-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.why-card { background:#fff; border:1px solid var(--border);
+  border-radius:var(--r); padding:20px; text-align:center; }
+.why-icon  { font-size:32px; margin-bottom:10px; }
+.why-title { font-size:15px; font-weight:700; color:var(--slate); margin-bottom:6px; }
+.why-desc  { font-size:13px; color:var(--muted); line-height:1.6; }
 
 /* ── CTA ── */
-.pkg-cta { background: var(--teal); }
-.pkg-cta-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
-.pkg-cta h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
-.pkg-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
-.pkg-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.pkg-cta { background:var(--teal); padding:40px 0; }
+.pkg-cta-inner { display:flex; justify-content:space-between; align-items:center;
+  gap:24px; flex-wrap:wrap; }
+.pkg-cta h2 { font-size:22px; color:#fff; font-family:'Playfair Display',serif; margin-bottom:6px; }
+.pkg-cta p  { font-size:14px; color:rgba(255,255,255,.75); }
+.pkg-cta-btns { display:flex; gap:10px; flex-wrap:wrap; }
 
 /* ── Responsive ── */
-@media (max-width: 900px) {
-  .why-grid { grid-template-columns: repeat(2, 1fr); }
+@media (min-width:900px) {
+  .pkg-grid { grid-template-columns:repeat(3,1fr); }
+  .pill-nav { justify-content:center; }
 }
-
-@media (max-width: 600px) {
-  .acc-header { padding: 16px; gap: 10px; }
-  .acc-icon { font-size: 24px; }
-  .acc-title { font-size: 15px; }
-  .acc-sub { font-size: 13px; }
-  .acc-price { font-size: 15px; }
-  .acc-body { padding: 16px 12px; }
-  .pkg-grid { grid-template-columns: 1fr; }
-  .pkg-table-head, .pkg-table-row { grid-template-columns: 1.4fr 0.8fr 0.8fr 0.7fr; font-size: 10px; padding: 6px 8px; }
-  .pkg-actions { grid-template-columns: 1fr 1fr; }
-  .why-grid { grid-template-columns: 1fr; }
-  .pkg-cta-inner { flex-direction: column; }
-  .pkg-cta-btns { width: 100%; flex-direction: column; }
-  .pkg-cta-btns .btn { justify-content: center; }
-  .discount-bar-inner { flex-direction: column; text-align: center; gap: 6px; }
-  .pkg-itinerary { grid-template-columns: 1fr; }
+@media (min-width:1080px) {
+  .pkg-grid { grid-template-columns:repeat(3,1fr); }
+  .pkg-img-wrap { height:180px; }
+  .pkg-name { font-size:16px; }
+  .pkg-body { padding:16px; }
+}
+@media (max-width:600px) {
+  .pkg-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .pill-nav { justify-content:flex-start; }
+  .sec-head { padding:14px 16px; }
+  .sec-icon { font-size:28px; }
+  .pkg-body { padding:10px; gap:6px; }
+  .pkg-name { font-size:13px; }
+  .pkg-table-head, .pkg-table-row { font-size:9px; padding:5px 6px; }
+  .pkg-actions { grid-template-columns:1fr 1fr; }
+  .pkg-btn { font-size:11px; padding:8px 4px; }
+  .why-grid { grid-template-columns:1fr 1fr; }
+  .pkg-cta-inner { flex-direction:column; }
+  .pkg-cta-btns { width:100%; flex-direction:column; }
+  .pkg-cta-btns .btn { justify-content:center; }
+  .discount-bar-inner { flex-direction:column; text-align:center; gap:6px; }
+  .pkg-itinerary { grid-template-columns:1fr; }
+}
+@media (max-width:380px) {
+  .pkg-grid { grid-template-columns:1fr; }
 }
 </style>
+
+<script>
+// Highlight active pill on scroll
+const sections = document.querySelectorAll('.pkg-section[id]');
+const pills    = document.querySelectorAll('.pill');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      pills.forEach(p => p.classList.remove('active'));
+      const active = document.querySelector(`.pill[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
