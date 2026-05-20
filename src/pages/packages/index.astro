@@ -1,125 +1,351 @@
 ---
-import Base from '../../layouts/Base.astro';
-import TopBar from '../../components/TopBar.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import StickyBar from '../../components/StickyBar.astro';
-import SeasonBanner from '../../components/SeasonBanner.astro';
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Header from '../components/Header.astro';
+import SeasonBanner from '../components/SeasonBanner.astro';
+import Hero from '../components/Hero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import LiveBookings from '../components/LiveBookings.astro';
+import Reviews from '../components/Reviews.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
 import { Image } from 'astro:assets';
-import { tourPackages, fmt } from '../../data/pricing';
 
-import CharDhamImg  from '../../assets/images/CharDham1.jpeg';
-import NainitalImg  from '../../assets/images/Nainital2.jpg';
-import AuliImg      from '../../assets/images/Auli_togo.jpg';
-import KedarnathImg from '../../assets/images/CharDham2.jpeg';
-import BadrinathImg from '../../assets/images/Badrinath.jpeg';
-import NeemKaroliImg from '../../assets/images/NeemKaroli.jpeg';
-import DhanaultiImg from '../../assets/images/Dhanaulti.jpeg';
-import MunsiyariImg from '../../assets/images/Munsyari.jpeg';
-import ChoptaImg    from '../../assets/images/Chopta.jpeg';
+import AirportImg   from '../assets/images/airportTransfer1.jpeg';
+import MussoorieImg from '../assets/images/Mussori2.jpeg';
+import HaridwarImg  from '../assets/images/Haridwar.jpeg';
+import DelhiImg     from '../assets/images/Delhi.jpg';
+import CharDhamImg  from '../assets/images/CharDham1.jpeg';
+import NainitalImg  from '../assets/images/Nainital2.jpg';
+import DhanaultiImg from '../assets/images/Dhanaulti.jpeg';
+import ChoptaImg    from '../assets/images/Chopta.jpeg';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-const imgMap: Record<string, ImageMetadata> = {
-  'dhanaulti': DhanaultiImg, 'neem-karoli': NeemKaroliImg,
-  'nainital': NainitalImg, 'auli': AuliImg, 'munsiyari': MunsiyariImg,
-  'chopta': ChoptaImg, 'kedarnath': KedarnathImg, 'badrinath': BadrinathImg,
-  'ek-dham': KedarnathImg, 'do-dham': BadrinathImg, 'char-dham': CharDhamImg,
-};
-
-const categories = [
-  { id: 'all', label: '🌿 All Packages' },
-  { id: 'pilgrimage', label: '🙏 Pilgrimage' },
-  { id: 'hill-station', label: '🏔️ Hill Stations' },
-  { id: 'adventure', label: '🏕️ Adventure' },
-  { id: 'circuits', label: '🏙️ Delhi Circuits' },
+const topRoutes = [
+  { from: 'Jolly Grant Airport', to: 'Dehradun',  price: '₹1,000', img: AirportImg,   href: '/routes/jolly-grant-airport',  tag: 'Airport',      tagColor: '#0d9488' },
+  { from: 'Dehradun',           to: 'Mussoorie',  price: '₹1,500', img: MussoorieImg, href: '/routes/dehradun-to-mussoorie', tag: 'Hill Station', tagColor: '#3b82f6' },
+  { from: 'Dehradun',           to: 'Haridwar',   price: '₹2,000', img: HaridwarImg,  href: '/routes/dehradun-to-haridwar',  tag: 'Spiritual',    tagColor: '#8b5cf6' },
+  { from: 'Delhi NCR',          to: 'Dehradun',   price: '₹3,500', img: DelhiImg,     href: '/routes/delhi-to-dehradun',     tag: 'Outstation',   tagColor: '#f59e0b' },
 ];
 
-const schema = {
+const topPackages = [
+  { name: 'Char Dham Yatra 2026',  price: '₹35,999', duration: '10 Days', tag: 'Most Popular',     color: '#f59e0b', img: CharDhamImg,  href: '/char-dham-yatra' },
+  { name: 'Nainital Tour Package', price: '₹10,999', duration: '3 Days',  tag: 'Family Favourite', color: '#0d9488', img: NainitalImg,  href: '/packages/nainital' },
+  { name: 'Chopta Tungnath Trek',  price: '₹7,199',  duration: '2 Days',  tag: 'Adventure',        color: '#10b981', img: ChoptaImg,    href: '/packages/chopta' },
+];
+
+const aeoStats = [
+  { value: 'From ₹1,000', label: 'Airport Transfer' },
+  { value: 'From ₹3,500', label: 'Delhi → Dehradun' },
+  { value: '4.9★',        label: 'Google Rating' },
+  { value: '< 15 Min',    label: 'Booking Confirmed' },
+  { value: '24/7',        label: 'Support Available' },
+];
+
+const aeoFaqs = [
+  { q: 'What is the taxi fare from Delhi to Dehradun?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 fixed price one way for Sedan. Ertiga ₹4,500, Innova Crysta ₹5,670 and Tempo Traveller ₹8,000. All prices include driver, fuel, toll and parking. No hidden charges. Available 24/7.' },
+  { q: 'Which taxi service is best for Char Dham Yatra 2026?', a: 'Shri Taxi offers Char Dham Yatra packages from Dehradun starting ₹35,999 for Sedan (10 days). All 4 dhams covered — Yamunotri, Gangotri, Kedarnath and Badrinath. Experienced local pahadi drivers. Rated 4.9/5 on Google.' },
+  { q: 'What is the taxi fare from Jolly Grant Airport to Dehradun?', a: 'Jolly Grant Airport to Dehradun city taxi fare is ₹1,000 fixed price for Sedan. Available 24/7. No extra charge for late night or early morning pickups. Book via WhatsApp or call +91 6397321825.' },
+  { q: 'How much does a taxi from Dehradun to Mussoorie cost?', a: 'Dehradun to Mussoorie taxi costs ₹1,500 one way or ₹3,500 round trip for Sedan. Distance is 35 km, takes about 1 hour 30 minutes. All inclusive — driver, fuel and toll. No hidden charges.' },
+  { q: 'Does Shri Taxi pick up from Delhi NCR and Chandigarh?', a: 'Yes. Shri Taxi offers cab pickup from Delhi NCR and Chandigarh at ₹3,500 fixed price one way to Dehradun. Same rate from both cities. Available 24/7. Book via WhatsApp for instant confirmation.' },
+];
+
+const priceRows = [
+  { route: 'Airport → Dehradun',            sedan: '₹1,000',  ertiga: '₹1,200',  innova: '₹1,500',  tag: 'Airport',      color: '#0d9488' },
+  { route: 'Dehradun → Mussoorie',          sedan: '₹1,500',  ertiga: '₹2,000',  innova: '₹2,500',  tag: 'Hill Station', color: '#3b82f6' },
+  { route: 'Dehradun → Haridwar',           sedan: '₹2,000',  ertiga: '₹2,500',  innova: '₹3,200',  tag: 'Spiritual',    color: '#8b5cf6' },
+  { route: 'Dehradun → Rishikesh',          sedan: '₹2,000',  ertiga: '₹2,500',  innova: '₹3,200',  tag: 'Adventure',    color: '#f59e0b' },
+  { route: 'Delhi → Dehradun',              sedan: '₹3,500',  ertiga: '₹4,500',  innova: '₹5,670',  tag: 'Outstation',   color: '#fb923c' },
+  { route: 'Delhi → Mussoorie',             sedan: '₹4,500',  ertiga: '₹5,500',  innova: '₹6,670',  tag: 'Hill Station', color: '#3b82f6' },
+  { route: 'Char Dham Yatra (from Dehradun)', sedan: '₹35,999', ertiga: '₹44,999', innova: '₹56,699', tag: 'Pilgrimage',   color: '#ef4444' },
+];
+
+// Schema
+const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Uttarakhand Tour Packages with Cab',
-  url: 'https://shritaxi.com/packages',
-  numberOfItems: tourPackages.length,
-  itemListElement: tourPackages.map((p, i) => ({
-    '@type': 'ListItem', position: i + 1,
-    name: p.name, url: `https://shritaxi.com/packages/${p.id}`,
-  })),
+  '@type': ['TaxiService', 'LocalBusiness'],
+  name: 'Shri Taxi — Taxi Service in Uttarakhand',
+  description: 'Reliable taxi service across Uttarakhand — Dehradun, Mussoorie, Haridwar, Rishikesh, Nainital and Char Dham Yatra 2026.',
+  url: 'https://shritaxi.com',
+  telephone: '+916397321825',
+  priceRange: '₹₹',
+  image: 'https://shritaxi.com/images/og.jpg',
+  logo: 'https://shritaxi.com/images/logo.png',
+  aggregateRating: { '@type': 'AggregateRating', ratingValue: '4.9', reviewCount: '30', bestRating: '5' },
+  address: { '@type': 'PostalAddress', streetAddress: 'Shastradhara Road', addressLocality: 'Dehradun', addressRegion: 'Uttarakhand', postalCode: '248001', addressCountry: 'IN' },
+  geo: { '@type': 'GeoCoordinates', latitude: 30.3165, longitude: 78.0322 },
+  openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '00:00', closes: '23:59' },
+  areaServed: ['Dehradun','Mussoorie','Haridwar','Rishikesh','Nainital','Kedarnath','Badrinath','Delhi','Chandigarh','Uttarakhand'].map(n => ({ '@type': 'City', name: n })),
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: aeoFaqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  speakable: { '@type': 'SpeakableSpecification', cssSelector: ['.aeo-answer', '.faq-a', '.price-table'] },
+};
+
+const priceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Taxi Service in Uttarakhand',
+  provider: { '@type': 'LocalBusiness', name: 'Shri Taxi' },
+  offers: [
+    { '@type': 'Offer', name: 'Airport Transfer',       price: '1000',  priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Dehradun to Mussoorie',  price: '1500',  priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Delhi to Dehradun',      price: '3500',  priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Char Dham Yatra Package',price: '35999', priceCurrency: 'INR' },
+  ],
 };
 ---
 
 <Base
-  title="Uttarakhand Tour Packages with Cab | Char Dham, Hill Stations & Delhi Circuits | Shri Taxi"
-  description="Book Uttarakhand tour packages with cab — Char Dham ₹35,999, Nainital ₹10,999, Dhanaulti ₹3,599. All inclusive, 10% discount, pahadi drivers."
-  canonicalUrl="https://shritaxi.com/packages"
+  title="Taxi Service in Uttarakhand | Dehradun, Mussoorie, Char Dham & Delhi NCR | Shri Taxi"
+  description="Book taxi in Uttarakhand — Airport ₹1,000 · Mussoorie ₹1,500 · Haridwar ₹2,000 · Delhi to Dehradun ₹3,500 · Char Dham 2026 ₹35,999. No hidden costs. Pahadi drivers. 24/7."
+  canonicalUrl="https://shritaxi.com/"
 >
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(localBusinessSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(speakableSchema)} slot="head" />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(priceSchema)} slot="head" />
 
   <TopBar />
   <SeasonBanner />
-  <Header currentPath="/packages" />
+  <Header currentPath="/" />
 
   <main id="main-content">
 
-    <!-- Hero -->
-    <section class="pkgs-hero">
+    <!-- 1. Hero -->
+    <Hero />
+
+    <!-- 2. Trust Strip -->
+    <TrustBar />
+
+    <!-- 3. Live Bookings -->
+    <LiveBookings />
+
+    <!-- 4. AEO Answer Block — redesigned with big stats -->
+    <section class="aeo-block">
       <div class="container">
-        <nav class="breadcrumb"><a href="/">Home</a> › <span>Tour Packages</span></nav>
-        <p class="section-label" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;">Cab-only Packages</p>
-        <h1 class="pkgs-hero-title">Uttarakhand Tour Packages with Cab</h1>
-        <p class="pkgs-hero-sub">All inclusive · 10% discount · Experienced pahadi drivers · No hidden costs</p>
+        <p class="section-label" style="margin-bottom:20px;">Trusted Across Uttarakhand</p>
+
+        <!-- Big stats row -->
+        <div class="aeo-stats">
+          {aeoStats.map(s => (
+            <div class="aeo-stat">
+              <span class="aeo-stat-value">{s.value}</span>
+              <span class="aeo-stat-label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Answer paragraph for SEO/AEO -->
+        <p class="aeo-answer">
+          <strong>Shri Taxi</strong> provides reliable taxi service across Uttarakhand from Dehradun, Delhi NCR and Chandigarh. Airport transfer starts at <strong>₹1,000</strong>, Dehradun to Mussoorie at <strong>₹1,500</strong>, Haridwar and Rishikesh at <strong>₹2,000</strong>, Delhi to Dehradun at <strong>₹3,500</strong> and Char Dham Yatra from <strong>₹35,999</strong>. All prices include driver, fuel, toll and parking. No hidden costs. Available 24/7.
+        </p>
+
+        <!-- Trust pills -->
         <div class="trust-pills">
-          <span class="trust-pill">⭐ 4.9 Rating</span>
-          <span class="trust-pill">🎁 Gift Hamper on Every Booking</span>
-          <span class="trust-pill">🏆 Earn Wallet Points</span>
+          <span class="trust-pill trust-pill--dark">⭐ 4.9 / 5.0 Google Rating</span>
+          <span class="trust-pill trust-pill--dark">✓ 30+ Verified Reviews</span>
+          <span class="trust-pill trust-pill--dark">🔒 No Hidden Costs</span>
+          <span class="trust-pill trust-pill--dark">🏔️ Pahadi Drivers</span>
+          <span class="trust-pill trust-pill--dark">📞 24/7 Available</span>
         </div>
       </div>
     </section>
 
-    <!-- AEO Block -->
-    <section class="aeo-block">
+    <!-- 5. Price Table -->
+    <section class="section price-section">
       <div class="container">
-        <p class="route-answer">Shri Taxi offers curated cab packages across Uttarakhand — from day trips to Dhanaulti (₹3,599) to 10-day Char Dham Yatra (₹35,999). All packages include driver, fuel, toll and parking. 10% discount on all packages. Experienced local pahadi drivers. Rated 4.9/5 on Google with 30+ verified reviews.</p>
+        <div class="section-header">
+          <p class="section-label">Transparent Pricing</p>
+          <h2 class="section-title">Taxi Fares — All Routes</h2>
+          <p class="section-sub">Fixed price, all inclusive. Driver + fuel + toll + parking. No hidden costs ever.</p>
+        </div>
+
+        <div class="price-table">
+          <div class="price-table-head">
+            <span>Route</span>
+            <span>Sedan</span>
+            <span>Ertiga</span>
+            <span class="price-col-hide">Innova</span>
+            <span>Category</span>
+          </div>
+          {priceRows.map(r => (
+            <div class="price-row">
+              <span class="price-route">{r.route}</span>
+              <span class="price-val price-val--main">{r.sedan}</span>
+              <span class="price-val">{r.ertiga}</span>
+              <span class="price-val price-col-hide">{r.innova}</span>
+              <span class="price-tag" style={`background:${r.color}18; color:${r.color}; border:1px solid ${r.color}35`}>{r.tag}</span>
+            </div>
+          ))}
+        </div>
+
+        <p class="price-note">
+          * Prices are from Dehradun unless stated. Delhi & Chandigarh packages available —
+          <a href="/packages#delhi-tours" class="price-note-link">View Delhi packages →</a>
+        </p>
+
+        <div class="price-ctas">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call for Quote</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20check%20fare`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
+          <a href="/popular-routes" class="btn btn-outline">View All Routes →</a>
+        </div>
       </div>
     </section>
 
-    <!-- Package Grid -->
+    <!-- 6. Most Booked Routes -->
+    <section class="section section--mint">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Popular Routes</p>
+          <h2 class="section-title">Most Booked Taxi Routes</h2>
+          <p class="section-sub">Fixed price cab service from Dehradun, Delhi NCR & Chandigarh</p>
+        </div>
+        <div class="routes-grid">
+          {topRoutes.map(r => (
+            <a href={r.href} class="route-card card">
+              <div class="route-img-wrap">
+                <Image src={r.img} alt={`Taxi from ${r.from} to ${r.to}`} width={320} height={180}
+                  widths={[280,320,640]} sizes="(max-width:640px) 280px,320px"
+                  format="webp" class="route-img" loading="lazy" />
+                <div class="route-overlay"></div>
+                <span class="route-tag" style={`background:${r.tagColor}`}>{r.tag}</span>
+              </div>
+              <div class="route-body">
+                <div class="route-from-to">
+                  <span>{r.from}</span>
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  <span>{r.to}</span>
+                </div>
+                <div class="route-price-row">
+                  <span class="route-price">{r.price}</span>
+                  <span class="route-label">Sedan · One Way</span>
+                </div>
+                <p class="route-incl">✓ All inclusive · No hidden costs</p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="view-all">
+          <a href="/popular-routes" class="btn btn-outline">View All Routes →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Green Mission -->
+    <section class="green-section">
+      <div class="container green-inner">
+        <div class="green-decor" aria-hidden="true">
+          <span class="green-leaf green-leaf--1">🌿</span>
+          <span class="green-leaf green-leaf--2">🌲</span>
+          <span class="green-leaf green-leaf--3">🦅</span>
+          <span class="green-leaf green-leaf--4">🌿</span>
+        </div>
+        <div class="green-content">
+          <p class="section-label" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3);color:#fff;">🌿 New Initiative</p>
+          <h2 class="green-title">Shri Taxi Green Mission</h2>
+          <p class="green-sub">Collect plastic on your Uttarakhand journey and earn extra Wallet Points. Together we keep our mountains clean.</p>
+          <div class="green-stats">
+            <div class="green-stat"><span class="green-num">450 kg</span><span class="green-label">Plastic Collected</span></div>
+            <div class="green-stat"><span class="green-num">120+</span><span class="green-label">Eco Trips</span></div>
+            <div class="green-stat"><span class="green-num">85</span><span class="green-label">Green Warriors</span></div>
+            <div class="green-stat"><span class="green-num">15</span><span class="green-label">Routes Cleaned</span></div>
+          </div>
+          <a href="/green-mission" class="btn btn-outline-white">Join Green Mission →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Popular Packages -->
     <section class="section">
       <div class="container">
+        <div class="section-header">
+          <p class="section-label">Tour Packages</p>
+          <h2 class="section-title">Popular Uttarakhand Packages</h2>
+          <p class="section-sub">All inclusive cab packages — 10% discount, experienced pahadi drivers</p>
+        </div>
         <div class="pkgs-grid">
-          {tourPackages.map(p => {
-            const img = imgMap[p.id] || CharDhamImg;
-            const lowestPrice = p.tiers?.[0]?.discounted || p.tiers?.[0]?.mrp;
-            return (
-              <a href={`/packages/${p.id}`} class="pkg-card card">
-                <div class="pkg-img-wrap">
-                  <Image src={img} alt={`${p.name} taxi package`} width={380} height={200} widths={[300,380,760]} sizes="(max-width:640px) 300px,380px" format="webp" class="pkg-img" loading="lazy" />
-                  <div class="pkg-overlay"></div>
-                  <span class="pkg-tag" style={`background:${p.badgeColor}`}>{p.tag}</span>
-                  <span class="pkg-duration">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
-                  <span class="pkg-disc">10% OFF</span>
+          {topPackages.map(p => (
+            <a href={p.href} class="pkg-card card">
+              <div class="pkg-img-wrap">
+                <Image src={p.img} alt={`${p.name} taxi package`} width={400} height={220}
+                  widths={[320,400,800]} sizes="(max-width:640px) 320px,400px"
+                  format="webp" class="pkg-img" loading="lazy" />
+                <div class="pkg-overlay"></div>
+                <span class="pkg-tag" style={`background:${p.color}`}>{p.tag}</span>
+                <span class="pkg-duration">{p.duration}</span>
+                <span class="pkg-disc">10% OFF</span>
+              </div>
+              <div class="pkg-body">
+                <h3 class="pkg-name">{p.name}</h3>
+                <div class="pkg-price-row">
+                  <span class="pkg-price">{p.price}</span>
+                  <span class="pkg-price-label">Sedan onwards</span>
                 </div>
-                <div class="pkg-body">
-                  <h2 class="pkg-name">{p.name}</h2>
-                  <div class="pkg-highlights">
-                    {p.highlights.slice(0,3).map(h => <span class="pkg-chip">{h}</span>)}
-                  </div>
-                  {lowestPrice && (
-                    <div class="pkg-price-row">
-                      <span class="pkg-price">₹{lowestPrice.toLocaleString('en-IN')}</span>
-                      <span class="pkg-price-label">Sedan onwards</span>
-                    </div>
-                  )}
-                  <p class="pkg-incl">✓ All inclusive · No hidden costs</p>
-                  <div class="pkg-footer">
-                    <span class="pkg-trust">⭐ 4.9 · 🎁 Gift Hamper</span>
-                    <span class="pkg-cta-link">View Details →</span>
-                  </div>
-                </div>
-              </a>
-            );
-          })}
+                <p class="pkg-incl">✓ All inclusive · No hidden costs</p>
+                <span class="pkg-cta">View Details →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="view-all">
+          <a href="/packages" class="btn btn-teal">View All Packages →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Reviews -->
+    <Reviews />
+
+    <!-- 10. FAQ -->
+    <section class="section section--light">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">Quick Answers</p>
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-sub">Direct answers to the most common taxi booking questions</p>
+        </div>
+        <div class="faq-list" style="max-width:780px; margin:0 auto 32px;">
+          {aeoFaqs.map(f => (
+            <details class="faq-item" name="homepage-faq">
+              <summary class="faq-q">
+                {f.q}
+                <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </summary>
+              <p class="faq-a">{f.a}</p>
+            </details>
+          ))}
+        </div>
+        <div class="faq-footer">
+          <p>Have more questions?</p>
+          <div class="faq-footer-btns">
+            <a href="/faq" class="btn btn-outline">View All FAQs →</a>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20have%20a%20question`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Ask on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Final CTA -->
+    <section class="final-cta">
+      <div class="container final-cta-inner">
+        <div class="final-cta-text">
+          <h2 class="final-cta-title">Ready to Book Your Uttarakhand Trip?</h2>
+          <p class="final-cta-sub">Call or WhatsApp — we confirm your booking in under 15 minutes. Available 24/7.</p>
+        </div>
+        <div class="final-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call btn-lg">📞 {phone}</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">💬 WhatsApp Booking</a>
         </div>
       </div>
     </section>
@@ -131,14 +357,115 @@ const schema = {
 </Base>
 
 <style>
-.pkgs-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 40px; }
-.pkgs-hero-title { font-size: clamp(26px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin: 12px 0 10px; line-height: 1.2; }
-.pkgs-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
-.aeo-block { background: var(--mint); border-top: 3px solid var(--teal); padding: 20px 0; }
-.route-answer { font-size: 16px; color: var(--slate); line-height: 1.75; max-width: 900px; }
-.pkgs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+/* ── AEO Block ── */
+.aeo-block {
+  background: var(--mint);
+  border-top: 3px solid var(--teal);
+  border-bottom: 1px solid var(--mint-dark);
+  padding: 32px 0;
+}
+
+.aeo-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--mint-dark);
+  flex-wrap: wrap;
+}
+
+.aeo-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+  gap: 4px;
+}
+
+.aeo-stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 700;
+  color: var(--teal);
+  line-height: 1;
+}
+
+.aeo-stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.aeo-answer {
+  font-size: 17px;
+  color: var(--slate);
+  line-height: 1.75;
+  margin-bottom: 16px;
+  max-width: 900px;
+}
+
+/* ── Price Table ── */
+.price-section { background: var(--white); }
+.price-table { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+.price-table-head { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 11px 16px; background: var(--teal); color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.price-row { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 13px 16px; border-top: 1px solid var(--border); align-items: center; transition: background 0.15s; }
+.price-row:hover { background: var(--mint); }
+.price-row:nth-child(even) { background: #fafafa; }
+.price-row:nth-child(even):hover { background: var(--mint); }
+.price-route { font-size: 14px; font-weight: 600; color: var(--slate); }
+.price-val { font-size: 14px; font-weight: 700; color: var(--teal); }
+.price-val--main { font-size: 15px; }
+.price-tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+.price-note { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.price-note-link { color: var(--teal); font-weight: 600; text-decoration: underline; }
+.price-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* ── Routes ── */
+.routes-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.route-card { display: flex; flex-direction: column; text-decoration: none; }
+.route-img-wrap { position: relative; height: 150px; overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+.route-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.route-card:hover .route-img { transform: scale(1.06); }
+.route-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 60%); }
+.route-tag { position: absolute; top: 8px; left: 8px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; }
+.route-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.route-from-to { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--slate); flex-wrap: wrap; }
+.route-price-row { display: flex; align-items: baseline; gap: 8px; }
+.route-price { font-size: 22px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.route-label { font-size: 11px; color: var(--muted); }
+.route-incl { font-size: 11px; color: var(--teal); font-weight: 500; }
+
+/* ── Green Mission — Option C (teal → dark green gradient) ── */
+.green-section {
+  background: linear-gradient(135deg, #0d9488 0%, #065f46 60%, #064e3b 100%);
+  padding: 56px 0;
+  position: relative;
+  overflow: hidden;
+}
+.green-inner { position: relative; z-index: 1; }
+.green-decor { position: absolute; inset: 0; pointer-events: none; }
+.green-leaf { position: absolute; font-size: 40px; opacity: 0.12; }
+.green-leaf--1 { top: 10%; left: 5%; }
+.green-leaf--2 { top: 20%; right: 8%; font-size: 48px; }
+.green-leaf--3 { bottom: 20%; right: 15%; font-size: 32px; }
+.green-leaf--4 { bottom: 10%; left: 12%; font-size: 36px; }
+.green-content { max-width: 680px; }
+.green-title { font-size: clamp(26px, 4vw, 38px); color: #fff; font-family: 'Playfair Display', serif; margin: 12px 0 10px; }
+.green-sub { font-size: 16px; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 24px; }
+.green-stats { display: flex; gap: 40px; margin-bottom: 28px; flex-wrap: wrap; }
+.green-stat { display: flex; flex-direction: column; gap: 2px; }
+.green-num { font-size: 28px; font-weight: 700; color: #6ee7b7; font-family: 'Playfair Display', serif; }
+.green-label { font-size: 12px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ── Packages ── */
+.pkgs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 24px; }
 .pkg-card { display: flex; flex-direction: column; text-decoration: none; }
-.pkg-img-wrap { position: relative; height: 200px; overflow: hidden; }
+.pkg-img-wrap { position: relative; height: 200px; overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
 .pkg-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
 .pkg-card:hover .pkg-img { transform: scale(1.05); }
 .pkg-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%); }
@@ -146,15 +473,55 @@ const schema = {
 .pkg-duration { position: absolute; bottom: 10px; left: 10px; color: #fff; font-size: 12px; font-weight: 700; background: rgba(0,0,0,0.4); padding: 2px 8px; border-radius: 20px; }
 .pkg-disc { position: absolute; top: 10px; right: 10px; background: #ef4444; color: #fff; font-size: 10px; font-weight: 800; padding: 4px 8px; border-radius: 20px; }
 .pkg-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-.pkg-name { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.3; }
-.pkg-highlights { display: flex; flex-wrap: wrap; gap: 4px; }
-.pkg-chip { background: var(--mint); color: var(--teal); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; border: 1px solid var(--teal-light); }
+.pkg-name { font-size: 17px; font-weight: 700; color: var(--slate); font-family: 'Playfair Display', serif; line-height: 1.3; }
 .pkg-price-row { display: flex; align-items: baseline; gap: 8px; }
-.pkg-price { font-size: 22px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
+.pkg-price { font-size: 24px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
 .pkg-price-label { font-size: 12px; color: var(--muted); }
 .pkg-incl { font-size: 12px; color: var(--teal); font-weight: 500; }
-.pkg-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); margin-top: auto; }
-.pkg-trust { font-size: 11px; color: var(--muted); }
-.pkg-cta-link { font-size: 13px; font-weight: 700; color: var(--saffron); }
-@media (max-width: 640px) { .pkgs-grid { grid-template-columns: 1fr; } }
+.pkg-cta { font-size: 13px; font-weight: 700; color: var(--saffron); margin-top: auto; }
+
+/* ── FAQ ── */
+.faq-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; flex-wrap: wrap; }
+.faq-footer p { font-size: 15px; font-weight: 600; color: var(--slate); }
+.faq-footer-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ── Final CTA ── */
+.final-cta { background: var(--teal); padding: 56px 0; }
+.final-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.final-cta-title { font-size: clamp(22px, 3vw, 32px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
+.final-cta-sub { font-size: 15px; color: rgba(255,255,255,0.8); }
+.final-cta-btns { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+
+/* ── Shared ── */
+.view-all { text-align: center; margin-top: 8px; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .routes-grid { grid-template-columns: repeat(2,1fr); }
+  .pkgs-grid { grid-template-columns: repeat(2,1fr); }
+  .price-table-head, .price-row { grid-template-columns: 2fr 0.8fr 0.8fr 1fr; }
+  .price-col-hide { display: none; }
+}
+
+@media (max-width: 768px) {
+  .aeo-stats { justify-content: center; gap: 8px; }
+  .aeo-stat { min-width: 80px; }
+  .final-cta-inner { flex-direction: column; text-align: center; }
+  .final-cta-btns { width: 100%; flex-direction: column; }
+  .final-cta-btns .btn { justify-content: center; }
+  .green-stats { gap: 20px; }
+}
+
+@media (max-width: 640px) {
+  .routes-grid { grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .pkgs-grid { grid-template-columns: 1fr; }
+  .price-table-head, .price-row { grid-template-columns: 1.8fr 0.8fr 1fr; }
+  .price-val:nth-child(3) { display: none; }
+  .price-table-head span:nth-child(3) { display: none; }
+  .price-ctas { flex-direction: column; }
+  .faq-footer { flex-direction: column; }
+  .faq-footer-btns { width: 100%; flex-direction: column; }
+  .aeo-stats { gap: 6px; }
+  .aeo-stat-value { font-size: 18px; }
+}
 </style>
