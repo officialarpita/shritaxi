@@ -17,7 +17,7 @@ import HaridwarImg  from '../assets/images/Haridwar.jpeg';
 import DelhiImg     from '../assets/images/Delhi.jpg';
 import CharDhamImg  from '../assets/images/CharDham1.jpeg';
 import NainitalImg  from '../assets/images/Nainital2.jpg';
-import DhanaultiImg from '../assets/images/Dhanaulti.jpeg';
+import KedarnathImg from '../assets/images/Kedarnath_hero.jpeg';
 import ChoptaImg    from '../assets/images/Chopta.jpeg';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
@@ -33,7 +33,7 @@ const topRoutes = [
 const topPackages = [
   { name: 'Char Dham Yatra 2026',  price: '₹35,999', duration: '10 Days', tag: 'Most Popular',     color: '#f59e0b', img: CharDhamImg,  href: '/char-dham-yatra' },
   { name: 'Nainital Tour Package', price: '₹10,999', duration: '3 Days',  tag: 'Family Favourite', color: '#0d9488', img: NainitalImg,  href: '/packages/nainital' },
-  { name: 'Chopta Tungnath Trek',  price: '₹7,199',  duration: '2 Days',  tag: 'Adventure',        color: '#10b981', img: ChoptaImg,    href: '/packages/chopta' },
+  { name: 'Kedarnath Yatra 2026',  price: '₹10,999', duration: '3 Days',  tag: 'Pilgrimage',       color: '#f59e0b', img: KedarnathImg, href: '/packages/kedarnath' },
 ];
 
 const aeoStats = [
@@ -411,7 +411,7 @@ const priceSchema = {
 
 /* ── Price Table ── */
 .price-section { background: var(--white); }
-.routes-section { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-top: 1px solid #99f6e4; border-bottom: 1px solid #99f6e4; }
+.routes-section { background: var(--mint); }
 .price-table { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
 .price-table-head { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 11px 16px; background: var(--teal); color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 .price-row { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 13px 16px; border-top: 1px solid var(--border); align-items: center; transition: background 0.15s; }
