@@ -11,13 +11,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     <!-- Left: Headline + CTAs -->
     <div class="hero-content">
       <h1 class="hero-title">Pahadi Roots. Trusted Routes.</h1>
-      <p class="hero-sub">Journey through Uttarakhand with trusted local pahadi drivers.</p>
+      <p class="hero-sub">Ride the Himalayan Roads of Devbhoomi with Experienced Local Pahadi Drivers.</p>
       <p class="hero-trust-line">
-        <span>24/7 support</span>
+        <span>Uttarakhand's most loved cab</span>
         <span class="hero-dot">•</span>
         <span>Transparent fares</span>
         <span class="hero-dot">•</span>
-        <span>Airport &amp; Char Dham specialists</span>
+        <span>Char Dham specialists</span>
       </p>
 
       <!-- SEO: crawlable service area — visually hidden but indexed by Google -->
@@ -434,29 +434,33 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 }
 
 .hero-sub {
+  font-family: var(--font-body);
   font-size: clamp(16px, 2vw, 19px);
   font-weight: 400;
-  color: rgba(255,255,255,0.82);
-  line-height: 1.7;
-  margin-bottom: 16px;
-  max-width: 520px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.85;
+  margin-bottom: 20px;
+  max-width: 540px;
+  letter-spacing: 0.01em;
 }
 
 .hero-trust-line {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.6);
-  margin-bottom: 28px;
-  letter-spacing: 0.01em;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--teal-light);
+  margin-bottom: 32px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .hero-dot {
-  color: var(--teal-light);
-  font-size: 10px;
+  color: var(--teal);
+  font-size: 8px;
+  opacity: 0.8;
 }
 
 .hero-ctas {
@@ -749,7 +753,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   .hero-inner { padding-top: 32px; padding-bottom: 32px; }
   .hero-title { font-size: 2.4rem; letter-spacing: -0.02em; }
   .hero-sub { font-size: 15px; max-width: 100%; }
-  .hero-trust-line { font-size: 12px; gap: 6px; }
+  .hero-trust-line { font-size: 10px; gap: 6px; letter-spacing: 0.08em; }
   .hero-ctas { flex-direction: column; }
   .hero-btn { width: 100%; justify-content: center; }
   .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
