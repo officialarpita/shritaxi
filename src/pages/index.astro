@@ -204,7 +204,7 @@ const priceSchema = {
     </section>
 
     <!-- 6. Most Booked Routes -->
-    <section class="section section--mint">
+    <section class="section routes-section">
       <div class="container">
         <div class="section-header">
           <p class="section-label">Popular Routes</p>
@@ -359,9 +359,9 @@ const priceSchema = {
 <style>
 /* ── AEO Block ── */
 .aeo-block {
-  background: var(--mint);
-  border-top: 3px solid var(--teal);
-  border-bottom: 1px solid var(--mint-dark);
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  border-top: 1px solid #99f6e4;
+  border-bottom: 1px solid #99f6e4;
   padding: 32px 0;
 }
 
@@ -411,6 +411,7 @@ const priceSchema = {
 
 /* ── Price Table ── */
 .price-section { background: var(--white); }
+.routes-section { background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-top: 1px solid #99f6e4; border-bottom: 1px solid #99f6e4; }
 .price-table { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
 .price-table-head { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 11px 16px; background: var(--teal); color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 .price-row { display: grid; grid-template-columns: 2.2fr 0.8fr 0.8fr 0.8fr 1fr; padding: 13px 16px; border-top: 1px solid var(--border); align-items: center; transition: background 0.15s; }
