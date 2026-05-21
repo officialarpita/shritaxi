@@ -17,8 +17,9 @@ import HaridwarImg  from '../assets/images/Haridwar.jpeg';
 import DelhiImg     from '../assets/images/Delhi.jpg';
 import CharDhamImg  from '../assets/images/CharDham1.jpeg';
 import NainitalImg  from '../assets/images/Nainital2.jpg';
-import KedarnathImg from '../assets/images/Kedarnath_hero.jpeg';
-import ChoptaImg    from '../assets/images/Chopta.jpeg';
+import ChoptaImg      from '../assets/images/Chopta.jpeg';
+import NeemKaroliImg  from '../assets/images/NeemKaroliDham.jpg';
+import ChoptaImg      from '../assets/images/Chopta.jpeg';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
@@ -31,9 +32,10 @@ const topRoutes = [
 ];
 
 const topPackages = [
-  { name: 'Char Dham Yatra 2026',  price: '₹35,999', duration: '10 Days', tag: 'Most Popular',     color: '#f59e0b', img: CharDhamImg,  href: '/char-dham-yatra' },
-  { name: 'Nainital Tour Package', price: '₹10,999', duration: '3 Days',  tag: 'Family Favourite', color: '#0d9488', img: NainitalImg,  href: '/packages/nainital' },
-  { name: 'Kedarnath Yatra 2026',  price: '₹10,999', duration: '3 Days',  tag: 'Pilgrimage',       color: '#f59e0b', img: KedarnathImg, href: '/packages/kedarnath' },
+  { name: 'Chopta Tungnath Trek',         price: '₹7,199',  duration: '2 Days',  tag: 'Adventure',        color: '#10b981', img: ChoptaImg,      href: '/packages/chopta' },
+  { name: 'Kainchi Dham Trip',            price: '₹7,199',  duration: '1N 2D',   tag: 'Spiritual',        color: '#8b5cf6', img: NeemKaroliImg,  href: '/packages/neem-karoli' },
+  { name: 'Nainital Tour Package',        price: '₹10,999', duration: '3 Days',  tag: 'Family Favourite', color: '#0d9488', img: NainitalImg,    href: '/packages/nainital' },
+  { name: 'Char Dham Yatra 2026',         price: '₹35,999', duration: '10 Days', tag: 'Most Popular',     color: '#f59e0b', img: CharDhamImg,    href: '/char-dham-yatra' },
 ];
 
 const aeoStats = [
@@ -466,7 +468,7 @@ const priceSchema = {
 .green-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
 /* ── Packages ── */
-.pkgs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 24px; }
+.pkgs-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
 .pkg-card { display: flex; flex-direction: column; text-decoration: none; }
 .pkg-img-wrap { position: relative; height: 200px; overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
 .pkg-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
@@ -501,7 +503,7 @@ const priceSchema = {
 /* ── Responsive ── */
 @media (max-width: 1024px) {
   .routes-grid { grid-template-columns: repeat(2,1fr); }
-  .pkgs-grid { grid-template-columns: repeat(2,1fr); }
+  .pkgs-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
   .price-table-head, .price-row { grid-template-columns: 2fr 0.8fr 0.8fr 1fr; }
   .price-col-hide { display: none; }
 }
