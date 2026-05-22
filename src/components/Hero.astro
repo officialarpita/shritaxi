@@ -64,7 +64,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
             Pickup Location
           </label>
-          <input type="text" id="pickup" name="pickup" placeholder="e.g. Jolly Grant Airport" class="form-input" required autocomplete="off" list="locations-list" />
+          <div class="autocomplete-wrap" id="pickup-wrap">
+            <input type="text" id="pickup" name="pickup" placeholder="Type or select location" class="form-input autocomplete-input" required autocomplete="off" />
+            <button type="button" class="ac-clear" id="pickup-clear" aria-label="Clear pickup">✕</button>
+            <div class="ac-dropdown" id="pickup-dropdown"></div>
+          </div>
         </div>
 
         <!-- Drop -->
@@ -73,77 +77,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Drop Location
           </label>
-          <input type="text" id="drop" name="drop" placeholder="e.g. Mussoorie" class="form-input" required autocomplete="off" list="locations-list" />
+          <div class="autocomplete-wrap" id="drop-wrap">
+            <input type="text" id="drop" name="drop" placeholder="Type or select destination" class="form-input autocomplete-input" required autocomplete="off" />
+            <button type="button" class="ac-clear" id="drop-clear" aria-label="Clear drop">✕</button>
+            <div class="ac-dropdown" id="drop-dropdown"></div>
+          </div>
         </div>
-
-        <!-- Shared datalist for both pickup and drop -->
-        <datalist id="locations-list">
-          <option value="Dehradun" />
-          <option value="Clock Tower, Dehradun" />
-          <option value="Rajpur Road, Dehradun" />
-          <option value="Sahastradhara, Dehradun" />
-          <option value="ISBT Dehradun" />
-          <option value="Dehradun Railway Station" />
-          <option value="Jolly Grant Airport (DED)" />
-          <option value="FRI (Forest Research Institute), Dehradun" />
-          <option value="Mindrolling Monastery, Dehradun" />
-          <option value="Robber's Cave, Dehradun" />
-          <option value="Mussoorie" />
-          <option value="Mall Road, Mussoorie" />
-          <option value="Kempty Falls" />
-          <option value="Dhanaulti" />
-          <option value="Landour" />
-          <option value="Haridwar" />
-          <option value="Har Ki Pauri, Haridwar" />
-          <option value="Haridwar Railway Station" />
-          <option value="Chandi Devi Temple" />
-          <option value="Mansa Devi Temple" />
-          <option value="Rishikesh" />
-          <option value="Laxman Jhula, Rishikesh" />
-          <option value="Ram Jhula, Rishikesh" />
-          <option value="Triveni Ghat, Rishikesh" />
-          <option value="Tapovan, Rishikesh" />
-          <option value="Shivpuri (rafting)" />
-          <option value="Yamunotri" />
-          <option value="Gangotri" />
-          <option value="Kedarnath" />
-          <option value="Sonprayag" />
-          <option value="Gaurikund" />
-          <option value="Badrinath" />
-          <option value="Joshimath" />
-          <option value="Chopta" />
-          <option value="Tungnath" />
-          <option value="Auli" />
-          <option value="Guptkashi" />
-          <option value="Uttarkashi" />
-          <option value="Chamba" />
-          <option value="Tehri" />
-          <option value="New Tehri" />
-          <option value="Pauri" />
-          <option value="Lansdowne" />
-          <option value="Kanatal" />
-          <option value="Nainital" />
-          <option value="Mall Road, Nainital" />
-          <option value="Bhimtal" />
-          <option value="Sattal" />
-          <option value="Naukuchiatal" />
-          <option value="Kausani" />
-          <option value="Ranikhet" />
-          <option value="Almora" />
-          <option value="Mukteshwar" />
-          <option value="Binsar" />
-          <option value="Jim Corbett National Park" />
-          <option value="Ramnagar" />
-          <option value="Delhi Airport (IGI)" />
-          <option value="New Delhi Railway Station" />
-          <option value="Chandigarh" />
-          <option value="Chandigarh Airport" />
-          <option value="Shimla" />
-          <option value="Manali" />
-          <option value="Agra" />
-          <option value="Jaipur" />
-          <option value="Lucknow" />
-        </datalist>
 
         <!-- Date + Time -->
         <div class="form-row">
@@ -190,7 +129,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
             <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="innova" checked />
+              <input type="radio" name="vehicle" value="innova" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚙</span>
                 <span class="vehicle-name">Innova Crysta</span>
@@ -299,6 +238,237 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     });
   });
 
+
+
+  // ── CUSTOM AUTOCOMPLETE ─────────────────────────────────
+
+  const locations: Array<{ name: string; category: string; icon: string }> = [
+    // Dehradun
+    { name: 'Dehradun',                          category: 'Dehradun',     icon: '🏙️' },
+    { name: 'Clock Tower, Dehradun',             category: 'Dehradun',     icon: '🕐' },
+    { name: 'Rajpur Road, Dehradun',             category: 'Dehradun',     icon: '🏙️' },
+    { name: 'Sahastradhara, Dehradun',           category: 'Dehradun',     icon: '💧' },
+    { name: 'ISBT Dehradun',                     category: 'Dehradun',     icon: '🚌' },
+    { name: 'Dehradun Railway Station',          category: 'Dehradun',     icon: '🚂' },
+    { name: 'Jolly Grant Airport (DED)',         category: 'Airport',      icon: '✈️' },
+    { name: 'FRI (Forest Research Institute)',   category: 'Dehradun',     icon: '🌲' },
+    { name: 'Mindrolling Monastery, Dehradun',   category: 'Dehradun',     icon: '🛕' },
+    { name: "Robber's Cave, Dehradun",           category: 'Dehradun',     icon: '🗻' },
+    // Hill Stations
+    { name: 'Mussoorie',                         category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Mall Road, Mussoorie',              category: 'Hill Stations', icon: '🛍️' },
+    { name: 'Kempty Falls',                      category: 'Hill Stations', icon: '💧' },
+    { name: 'Dhanaulti',                         category: 'Hill Stations', icon: '🌲' },
+    { name: 'Landour',                           category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Kanatal',                           category: 'Hill Stations', icon: '🏕️' },
+    { name: 'Chamba',                            category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Tehri',                             category: 'Hill Stations', icon: '💧' },
+    { name: 'New Tehri',                         category: 'Hill Stations', icon: '💧' },
+    { name: 'Lansdowne',                         category: 'Hill Stations', icon: '🏔️' },
+    // Spiritual
+    { name: 'Haridwar',                          category: 'Spiritual',    icon: '🛕' },
+    { name: 'Har Ki Pauri, Haridwar',            category: 'Spiritual',    icon: '🛕' },
+    { name: 'Haridwar Railway Station',          category: 'Spiritual',    icon: '🚂' },
+    { name: 'Chandi Devi Temple',                category: 'Spiritual',    icon: '🛕' },
+    { name: 'Mansa Devi Temple',                 category: 'Spiritual',    icon: '🛕' },
+    { name: 'Rishikesh',                         category: 'Spiritual',    icon: '🙏' },
+    { name: 'Laxman Jhula, Rishikesh',           category: 'Spiritual',    icon: '🌉' },
+    { name: 'Ram Jhula, Rishikesh',              category: 'Spiritual',    icon: '🌉' },
+    { name: 'Triveni Ghat, Rishikesh',           category: 'Spiritual',    icon: '🛕' },
+    { name: 'Tapovan, Rishikesh',                category: 'Spiritual',    icon: '🙏' },
+    { name: 'Shivpuri (rafting)',                category: 'Spiritual',    icon: '🌊' },
+    // Char Dham
+    { name: 'Yamunotri',                         category: 'Char Dham',   icon: '🙏' },
+    { name: 'Gangotri',                          category: 'Char Dham',   icon: '🙏' },
+    { name: 'Kedarnath',                         category: 'Char Dham',   icon: '🛕' },
+    { name: 'Sonprayag',                         category: 'Char Dham',   icon: '🛕' },
+    { name: 'Gaurikund',                         category: 'Char Dham',   icon: '🛕' },
+    { name: 'Guptkashi',                         category: 'Char Dham',   icon: '🛕' },
+    { name: 'Badrinath',                         category: 'Char Dham',   icon: '🛕' },
+    { name: 'Joshimath',                         category: 'Char Dham',   icon: '🏔️' },
+    { name: 'Uttarkashi',                        category: 'Char Dham',   icon: '🛕' },
+    // Adventure
+    { name: 'Auli',                              category: 'Adventure',   icon: '⛷️' },
+    { name: 'Chopta',                            category: 'Adventure',   icon: '🌲' },
+    { name: 'Tungnath',                          category: 'Adventure',   icon: '🛕' },
+    { name: 'Pauri',                             category: 'Adventure',   icon: '🏔️' },
+    // Kumaon
+    { name: 'Nainital',                          category: 'Kumaon',      icon: '🏔️' },
+    { name: 'Mall Road, Nainital',               category: 'Kumaon',      icon: '🛍️' },
+    { name: 'Bhimtal',                           category: 'Kumaon',      icon: '💧' },
+    { name: 'Sattal',                            category: 'Kumaon',      icon: '💧' },
+    { name: 'Naukuchiatal',                      category: 'Kumaon',      icon: '💧' },
+    { name: 'Kausani',                           category: 'Kumaon',      icon: '🏔️' },
+    { name: 'Ranikhet',                          category: 'Kumaon',      icon: '🏕️' },
+    { name: 'Almora',                            category: 'Kumaon',      icon: '🏔️' },
+    { name: 'Mukteshwar',                        category: 'Kumaon',      icon: '🌸' },
+    { name: 'Binsar',                            category: 'Kumaon',      icon: '🌲' },
+    { name: 'Jim Corbett National Park',         category: 'Kumaon',      icon: '🐯' },
+    { name: 'Ramnagar',                          category: 'Kumaon',      icon: '🌿' },
+    // Other Cities
+    { name: 'Delhi Airport (IGI)',               category: 'Other Cities', icon: '✈️' },
+    { name: 'New Delhi Railway Station',         category: 'Other Cities', icon: '🚂' },
+    { name: 'Chandigarh',                        category: 'Other Cities', icon: '🏙️' },
+    { name: 'Chandigarh Airport',               category: 'Other Cities', icon: '✈️' },
+    { name: 'Shimla',                            category: 'Other Cities', icon: '🏔️' },
+    { name: 'Manali',                            category: 'Other Cities', icon: '❄️' },
+    { name: 'Agra',                              category: 'Other Cities', icon: '🕌' },
+    { name: 'Jaipur',                            category: 'Other Cities', icon: '🏯' },
+    { name: 'Lucknow',                           category: 'Other Cities', icon: '🏙️' },
+  ];
+
+  function fuzzyMatch(str: string, query: string): boolean {
+    if (!query) return true;
+    const s = str.toLowerCase();
+    const q = query.toLowerCase().trim();
+    // Contains match (more forgiving than prefix)
+    if (s.includes(q)) return true;
+    // Fuzzy: all chars of query appear in order in str
+    let si = 0;
+    for (let i = 0; i < q.length; i++) {
+      si = s.indexOf(q[i], si);
+      if (si === -1) return false;
+      si++;
+    }
+    return true;
+  }
+
+  function buildDropdown(dropdown: HTMLElement, query: string, onSelect: (val: string) => void) {
+    const filtered = locations.filter(l => fuzzyMatch(l.name, query));
+    dropdown.innerHTML = '';
+
+    if (filtered.length === 0) {
+      dropdown.innerHTML = '<div class="ac-no-results">No locations found — try a different spelling</div>';
+      return;
+    }
+
+    // Group by category
+    const grouped: Record<string, typeof locations> = {};
+    filtered.forEach(l => {
+      if (!grouped[l.category]) grouped[l.category] = [];
+      grouped[l.category].push(l);
+    });
+
+    let highlightIndex = -1;
+    const allOptions: HTMLElement[] = [];
+
+    Object.entries(grouped).forEach(([cat, items]) => {
+      const catEl = document.createElement('div');
+      catEl.className = 'ac-category';
+      catEl.textContent = cat;
+      dropdown.appendChild(catEl);
+
+      items.forEach(item => {
+        const opt = document.createElement('div');
+        opt.className = 'ac-option';
+        opt.innerHTML = `<span class="ac-option-icon">${item.icon}</span><span class="ac-option-text">${item.name}</span>`;
+        opt.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          onSelect(item.name);
+        });
+        dropdown.appendChild(opt);
+        allOptions.push(opt);
+      });
+    });
+
+    // Store for keyboard nav
+    (dropdown as any)._options = allOptions;
+    (dropdown as any)._highlight = highlightIndex;
+  }
+
+  function initAutocomplete(inputId: string, dropdownId: string, clearId: string) {
+    const input = document.getElementById(inputId) as HTMLInputElement;
+    const dropdown = document.getElementById(dropdownId) as HTMLElement;
+    const clearBtn = document.getElementById(clearId) as HTMLButtonElement;
+    const wrap = input?.parentElement as HTMLElement;
+
+    if (!input || !dropdown || !clearBtn) return;
+
+    function openDropdown() {
+      buildDropdown(dropdown, input.value, selectValue);
+      dropdown.classList.add('open');
+    }
+
+    function closeDropdown() {
+      dropdown.classList.remove('open');
+    }
+
+    function selectValue(val: string) {
+      input.value = val;
+      wrap.classList.add('has-value');
+      closeDropdown();
+      input.dispatchEvent(new Event('locationSelected'));
+      calculatePrice();
+    }
+
+    function updateClear() {
+      if (input.value.trim()) {
+        wrap.classList.add('has-value');
+      } else {
+        wrap.classList.remove('has-value');
+      }
+    }
+
+    // Open on focus — always
+    input.addEventListener('focus', () => {
+      openDropdown();
+    });
+
+    // Filter as typing
+    input.addEventListener('input', () => {
+      updateClear();
+      buildDropdown(dropdown, input.value, selectValue);
+      dropdown.classList.add('open');
+      calculatePrice();
+    });
+
+    // Keyboard navigation
+    input.addEventListener('keydown', (e: KeyboardEvent) => {
+      const opts = (dropdown as any)._options as HTMLElement[] || [];
+      let idx = (dropdown as any)._highlight ?? -1;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        idx = Math.min(idx + 1, opts.length - 1);
+        opts.forEach((o, i) => o.classList.toggle('highlighted', i === idx));
+        (dropdown as any)._highlight = idx;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        idx = Math.max(idx - 1, 0);
+        opts.forEach((o, i) => o.classList.toggle('highlighted', i === idx));
+        (dropdown as any)._highlight = idx;
+      } else if (e.key === 'Enter' && idx >= 0) {
+        e.preventDefault();
+        opts[idx]?.click();
+      } else if (e.key === 'Escape') {
+        closeDropdown();
+      }
+    });
+
+    // Clear button
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      wrap.classList.remove('has-value');
+      input.focus();
+      openDropdown();
+      hidePrice();
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target as Node)) {
+        closeDropdown();
+      }
+    });
+
+    updateClear();
+  }
+
+  // Initialise both fields
+  initAutocomplete('pickup', 'pickup-dropdown', 'pickup-clear');
+  initAutocomplete('drop', 'drop-dropdown', 'drop-clear');
+
+  // ── END CUSTOM AUTOCOMPLETE ──────────────────────────────
 
   // ── PRICE CALCULATOR ──────────────────────────────────────
 
@@ -464,6 +634,33 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const tripType   = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
     const isRound    = tripType === 'round-trip';
 
+    // Local tab shows per-day rates without needing From/To
+    if (tripType === 'local') {
+      const resultEl  = document.getElementById('price-result')!;
+      const innerEl   = resultEl.querySelector('.price-result-inner')!;
+      const iconEl    = document.getElementById('price-result-icon')!;
+      const labelEl   = document.getElementById('price-result-label')!;
+      const vehiclesEl = document.getElementById('price-result-vehicles')!;
+      const noteEl    = document.getElementById('price-result-note')!;
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '🕐';
+      labelEl.textContent = 'Local Package — Per Day Rate';
+      vehiclesEl.innerHTML = [
+        { v: '🚗 Sedan',    p: 3599 },
+        { v: '🚐 Ertiga',   p: 4499 },
+        { v: '🚙 Innova',   p: 5670 },
+        { v: '🚌 Traveller',p: 8000 },
+      ].map(({ v, p }) =>
+        `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${v}</span>
+          <span class="price-vehicle-amt">${formatPrice(p)}/day</span>
+        </div>`
+      ).join('');
+      noteEl.innerHTML = '📍 Includes up to 100km per day · Extra km at ₹12/km · Driver + Fuel included';
+      resultEl.style.display = 'block';
+      return;
+    }
+
     if (!pickupRaw.trim() || !dropRaw.trim()) {
       hidePrice();
       return;
@@ -486,6 +683,33 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const labelEl   = document.getElementById('price-result-label')!;
     const vehiclesEl = document.getElementById('price-result-vehicles')!;
     const noteEl    = document.getElementById('price-result-note')!;
+
+    // LOCAL TAB — show per day rates regardless of route
+    if (tripType === 'local') {
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '🕐';
+      labelEl.textContent = 'Local Package — Per Day Rate';
+      vehiclesEl.innerHTML = [
+        { v: '🚗 Sedan',    p: 3599 },
+        { v: '🚐 Ertiga',   p: 4499 },
+        { v: '🚙 Innova',   p: 5670 },
+        { v: '🚌 Traveller',p: 8000 },
+      ].map(({ v, p }) =>
+        `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${v}</span>
+          <span class="price-vehicle-amt">${formatPrice(p)}/day</span>
+        </div>`
+      ).join('');
+      noteEl.innerHTML = '📍 Includes up to 100km per day · Extra km at ₹12/km · Driver + Fuel included';
+      resultEl.style.display = 'block';
+      return;
+    }
+
+    // AIRPORT TAB — only show if route is in our data, else hide
+    if (tripType === 'airport' && !prices) {
+      hidePrice();
+      return;
+    }
 
     if (prices) {
       // FIXED PRICE ROUTE
@@ -555,17 +779,29 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // Recalculate when trip type changes
   document.querySelectorAll('.trip-tab').forEach(tab => {
-    tab.addEventListener('click', () => setTimeout(calculatePrice, 50));
+    tab.addEventListener('click', () => setTimeout(calculatePrice, 100));
   });
 
   // ── END PRICE CALCULATOR ──────────────────────────────────
 
-  // Set min date to today
+  // Time picker — auto dismiss on desktop after selection
+  const timeInput = document.getElementById('time') as HTMLInputElement;
+  timeInput?.addEventListener('change', () => {
+    // Only blur on non-touch devices (desktop)
+    if (!navigator.maxTouchPoints || navigator.maxTouchPoints === 0) {
+      timeInput.blur();
+    }
+  });
+
+  // Set min date to today — using LOCAL date to avoid timezone offset bug
   const dateInput = document.getElementById('date') as HTMLInputElement;
   if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
-    dateInput.value = today;
+    const now = new Date();
+    const localDate = now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0');
+    dateInput.min = localDate;
+    dateInput.value = localDate;
   }
 
   // Form submit — matches original BookingForm logic with Turnstile
@@ -1030,6 +1266,82 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   margin-top: -6px;
 }
 
+
+
+/* ── Custom Autocomplete ── */
+.autocomplete-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.autocomplete-input { padding-right: 32px !important; }
+
+.ac-clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 4px;
+  line-height: 1;
+  display: none;
+  z-index: 2;
+}
+.ac-clear:hover { color: var(--slate); }
+.autocomplete-wrap.has-value .ac-clear { display: block; }
+
+.ac-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 100;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+  scrollbar-width: thin;
+}
+.ac-dropdown.open { display: block; }
+
+.ac-category {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  padding: 8px 12px 4px;
+  background: var(--light);
+  border-bottom: 1px solid var(--border);
+}
+.ac-category:not(:first-child) { border-top: 1px solid var(--border); }
+
+.ac-option {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--slate);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.1s;
+  border-bottom: 1px solid #f8fafc;
+}
+.ac-option:hover, .ac-option.highlighted { background: var(--mint); color: var(--teal); }
+.ac-option-icon { font-size: 14px; flex-shrink: 0; }
+.ac-option-text { flex: 1; }
+.ac-no-results {
+  padding: 16px 12px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+}
 
 /* ── Price Result Box ── */
 .price-result {
