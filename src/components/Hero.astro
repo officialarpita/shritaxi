@@ -157,6 +157,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           </div>
         </div>
 
+        <!-- Return Date (Round Trip only) -->
+        <div class="form-row" id="return-date-row" style="display:none;">
+          <div class="form-group">
+            <label for="return_date" class="form-label">Return Date</label>
+            <input type="date" id="return_date" name="return_date" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label for="return_time" class="form-label">Return Time</label>
+            <input type="time" id="return_time" name="return_time" class="form-input" />
+          </div>
+        </div>
+
         <!-- Vehicle picker -->
         <div class="form-group">
           <label class="form-label">Vehicle Type</label>
@@ -193,6 +205,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
                 <span class="vehicle-seats">12+1</span>
               </span>
             </label>
+          </div>
+        </div>
+
+        <!-- Price Result Box -->
+        <div class="price-result" id="price-result" style="display:none;">
+          <div class="price-result-inner">
+            <div class="price-result-header">
+              <span class="price-result-icon" id="price-result-icon">✅</span>
+              <span class="price-result-label" id="price-result-label">Fixed Price</span>
+            </div>
+            <div class="price-result-vehicles" id="price-result-vehicles"></div>
+            <p class="price-result-note" id="price-result-note">Driver + Fuel + Toll + Parking included · No hidden costs</p>
           </div>
         </div>
 
@@ -260,14 +284,281 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   // Trip tabs
   const tabs = document.querySelectorAll('.trip-tab');
   const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
+  const returnDateRow = document.getElementById('return-date-row') as HTMLElement;
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
       tab.classList.add('active');
       tab.setAttribute('aria-selected','true');
-      if (tripInput) tripInput.value = tab.getAttribute('data-trip') || '';
+      const tripType = tab.getAttribute('data-trip') || '';
+      if (tripInput) tripInput.value = tripType;
+      // Show/hide return date for round trip
+      if (returnDateRow) {
+        returnDateRow.style.display = tripType === 'round-trip' ? 'grid' : 'none';
+      }
     });
   });
+
+
+  // ── PRICE CALCULATOR ──────────────────────────────────────
+
+  // Location alias map — normalises all datalist entries to route keys
+  const locationMap: Record<string, string> = {
+    // Dehradun — no surcharge
+    'dehradun': 'dehradun',
+    'rajpur road, dehradun': 'dehradun',
+    'sahastradhara, dehradun': 'dehradun',
+    'fri (forest research institute), dehradun': 'dehradun',
+    'mindrolling monastery, dehradun': 'dehradun',
+    "robber's cave, dehradun": 'dehradun',
+    'clock tower, dehradun': 'dehradun',
+
+    // Dehradun — surcharge locations (handled separately)
+    'dehradun railway station': 'dehradun_station',
+    'isbt dehradun': 'dehradun_isbt',
+
+    // Airport — own pricing
+    'jolly grant airport (ded)': 'airport',
+    'jolly grant airport': 'airport',
+
+    // Mussoorie
+    'mussoorie': 'mussoorie',
+    'mall road, mussoorie': 'mussoorie',
+    'kempty falls': 'mussoorie',
+    'dhanaulti': 'mussoorie',
+    'landour': 'mussoorie',
+    'kanatal': 'mussoorie',
+    'chamba': 'mussoorie',
+
+    // Haridwar
+    'haridwar': 'haridwar',
+    'har ki pauri, haridwar': 'haridwar',
+    'haridwar railway station': 'haridwar',
+    'chandi devi temple': 'haridwar',
+    'mansa devi temple': 'haridwar',
+    'pauri': 'haridwar',
+    'uttarkashi': 'haridwar',
+
+    // Rishikesh
+    'rishikesh': 'rishikesh',
+    'laxman jhula, rishikesh': 'rishikesh',
+    'ram jhula, rishikesh': 'rishikesh',
+    'triveni ghat, rishikesh': 'rishikesh',
+    'tapovan, rishikesh': 'rishikesh',
+    'shivpuri (rafting)': 'rishikesh',
+
+    // Delhi
+    'delhi airport (igi)': 'delhi',
+    'new delhi railway station': 'delhi',
+
+    // Chandigarh
+    'chandigarh': 'chandigarh',
+    'chandigarh airport': 'chandigarh',
+
+    // Char Dham
+    'kedarnath': 'kedarnath',
+    'sonprayag': 'kedarnath',
+    'gaurikund': 'kedarnath',
+    'badrinath': 'badrinath',
+    'joshimath': 'badrinath',
+    'yamunotri': 'yamunotri',
+    'gangotri': 'gangotri',
+    'guptkashi': 'kedarnath',
+
+    // Hill stations
+    'nainital': 'nainital',
+    'mall road, nainital': 'nainital',
+    'bhimtal': 'nainital',
+    'sattal': 'nainital',
+    'naukuchiatal': 'nainital',
+    'mukteshwar': 'nainital',
+    'binsar': 'nainital',
+    'kausani': 'nainital',
+    'ranikhet': 'nainital',
+    'almora': 'nainital',
+
+    // Adventure
+    'auli': 'auli',
+    'chopta': 'chopta',
+    'tungnath': 'chopta',
+
+    // Others
+    'tehri': 'tehri',
+    'new tehri': 'tehri',
+    'lansdowne': 'lansdowne',
+    'jim corbett national park': 'corbett',
+    'ramnagar': 'corbett',
+    'shimla': 'shimla',
+    'manali': 'manali',
+  };
+
+  // Surcharge locations
+  const surchargeLocations: Record<string, number> = {
+    'dehradun_station': 300,
+    'dehradun_isbt': 300,
+  };
+
+  // Pricing data — matches pricing.ts fixed routes
+  // Format: 'from_to': { sedan, ertiga, innova, traveller }
+  const routePrices: Record<string, Record<string, number>> = {
+    'airport_dehradun':   { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
+    'dehradun_airport':   { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
+    'dehradun_mussoorie': { sedan: 1500, ertiga: 2000, innova: 2500, traveller: 4000 },
+    'mussoorie_dehradun': { sedan: 1500, ertiga: 2000, innova: 2500, traveller: 4000 },
+    'dehradun_haridwar':  { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
+    'haridwar_dehradun':  { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
+    'dehradun_rishikesh': { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
+    'rishikesh_dehradun': { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
+    'delhi_dehradun':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'dehradun_delhi':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'delhi_haridwar':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'haridwar_delhi':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'delhi_rishikesh':    { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'rishikesh_delhi':    { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'delhi_mussoorie':    { sedan: 4500, ertiga: 5500, innova: 6670, traveller: 0 },
+    'mussoorie_delhi':    { sedan: 4500, ertiga: 5500, innova: 6670, traveller: 0 },
+    'chandigarh_dehradun':{ sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'dehradun_chandigarh':{ sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
+    'haridwar_rishikesh': { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
+    'rishikesh_haridwar': { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
+  };
+
+  // Estimated range per km (hill routes)
+  const perKmRanges: Record<string, [number, number]> = {
+    sedan:     [15, 18],
+    ertiga:    [18, 22],
+    innova:    [22, 28],
+    traveller: [28, 35],
+  };
+
+  // Approximate distances for unknown routes (km from Dehradun)
+  const approxDistances: Record<string, number> = {
+    'nainital': 300, 'auli': 280, 'chopta': 220, 'tehri': 75,
+    'lansdowne': 170, 'corbett': 300, 'kedarnath': 250,
+    'badrinath': 320, 'yamunotri': 220, 'gangotri': 250,
+    'shimla': 230, 'manali': 460,
+  };
+
+  const vehicleNames: Record<string, string> = {
+    sedan: '🚗 Sedan', ertiga: '🚐 Ertiga',
+    innova: '🚙 Innova', traveller: '🚌 Tempo'
+  };
+
+  function normaliseLocation(input: string): string {
+    return locationMap[input.toLowerCase().trim()] || input.toLowerCase().trim();
+  }
+
+  function getSurcharge(rawLocation: string): number {
+    const key = rawLocation.toLowerCase().trim();
+    const mapped = locationMap[key];
+    return surchargeLocations[mapped || ''] || 0;
+  }
+
+  function formatPrice(n: number): string {
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  function calculatePrice() {
+    const pickupRaw  = (document.getElementById('pickup') as HTMLInputElement)?.value || '';
+    const dropRaw    = (document.getElementById('drop') as HTMLInputElement)?.value || '';
+    const tripType   = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
+    const isRound    = tripType === 'round-trip';
+
+    if (!pickupRaw.trim() || !dropRaw.trim()) {
+      hidePrice();
+      return;
+    }
+
+    const fromKey = normaliseLocation(pickupRaw);
+    const toKey   = normaliseLocation(dropRaw);
+
+    // Surcharges
+    const pickupSurcharge = getSurcharge(pickupRaw);
+    const dropSurcharge   = isRound ? 0 : getSurcharge(dropRaw); // waived on return
+
+    const routeKey = `${fromKey}_${toKey}`;
+    const prices   = routePrices[routeKey];
+    const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
+
+    const resultEl  = document.getElementById('price-result')!;
+    const innerEl   = resultEl.querySelector('.price-result-inner')!;
+    const iconEl    = document.getElementById('price-result-icon')!;
+    const labelEl   = document.getElementById('price-result-label')!;
+    const vehiclesEl = document.getElementById('price-result-vehicles')!;
+    const noteEl    = document.getElementById('price-result-note')!;
+
+    if (prices) {
+      // FIXED PRICE ROUTE
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '✅';
+      labelEl.textContent = 'Fixed Price — All Inclusive';
+
+      const multiplier = isRound ? 2 : 1;
+      const surchargeTotal = pickupSurcharge + dropSurcharge;
+
+      vehiclesEl.innerHTML = vehicles.map(v => {
+        if (prices[v] === 0) return '';
+        const base  = prices[v] * multiplier;
+        const total = base + surchargeTotal;
+        const surchargeNote = surchargeTotal > 0
+          ? `<span class="price-vehicle-surcharge">${formatPrice(base)} + ${formatPrice(surchargeTotal)} pickup${isRound ? ' (drop waived)' : ''} = ${formatPrice(total)}</span>`
+          : '';
+        return `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${vehicleNames[v]}</span>
+          <span class="price-vehicle-amt">${formatPrice(total)}</span>
+          ${surchargeNote}
+        </div>`;
+      }).join('');
+
+      noteEl.textContent = 'Driver + Fuel + Toll + Parking included · No hidden costs';
+      resultEl.style.display = 'block';
+
+    } else {
+      // ESTIMATED — unknown route
+      innerEl.classList.add('estimated');
+      iconEl.textContent  = '📍';
+      labelEl.textContent = 'Estimated Price';
+
+      // Try to get approximate distance
+      const distKey = approxDistances[toKey] || approxDistances[fromKey];
+      const dist    = distKey || 150; // default 150km if unknown
+      const multiplier = isRound ? 2 : 1;
+
+      vehiclesEl.innerHTML = vehicles.map(v => {
+        const [low, high] = perKmRanges[v];
+        const base_low  = Math.round(dist * low  * multiplier / 100) * 100;
+        const base_high = Math.round(dist * high * multiplier / 100) * 100;
+        return `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${vehicleNames[v]}</span>
+          <span class="price-vehicle-amt">${formatPrice(base_low)}–${formatPrice(base_high)}</span>
+        </div>`;
+      }).join('');
+
+      noteEl.innerHTML = 'Estimated range · Exact fare confirmed on WhatsApp &nbsp;<a href="https://wa.me/' + (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20quote%20from%20' + encodeURIComponent(pickupRaw) + '%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">Get WhatsApp Quote →</a>';
+      resultEl.style.display = 'block';
+    }
+  }
+
+  function hidePrice() {
+    const resultEl = document.getElementById('price-result');
+    if (resultEl) resultEl.style.display = 'none';
+  }
+
+  // Watch pickup, drop inputs
+  const pickupInput = document.getElementById('pickup') as HTMLInputElement;
+  const dropInput   = document.getElementById('drop') as HTMLInputElement;
+
+  pickupInput?.addEventListener('change', calculatePrice);
+  pickupInput?.addEventListener('blur', calculatePrice);
+  dropInput?.addEventListener('change', calculatePrice);
+  dropInput?.addEventListener('blur', calculatePrice);
+
+  // Recalculate when trip type changes
+  document.querySelectorAll('.trip-tab').forEach(tab => {
+    tab.addEventListener('click', () => setTimeout(calculatePrice, 50));
+  });
+
+  // ── END PRICE CALCULATOR ──────────────────────────────────
 
   // Set min date to today
   const dateInput = document.getElementById('date') as HTMLInputElement;
@@ -739,6 +1030,80 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   margin-top: -6px;
 }
 
+
+/* ── Price Result Box ── */
+.price-result {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin: 0;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.price-result-inner {
+  padding: 12px 14px;
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  border-radius: var(--radius-sm);
+}
+
+.price-result-inner.estimated {
+  background: #fffbeb;
+  border-color: #fcd34d;
+}
+
+.price-result-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.price-result-icon { font-size: 14px; }
+
+.price-result-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #16a34a;
+}
+
+.price-result-inner.estimated .price-result-label { color: #d97706; }
+
+.price-result-vehicles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.price-vehicle-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.price-vehicle-name { color: var(--slate); font-weight: 600; }
+.price-vehicle-amt  { color: var(--teal); font-weight: 800; font-family: var(--font-display); }
+.price-vehicle-surcharge { font-size: 10px; color: var(--muted); grid-column: 1/-1; }
+
+.price-result-inner.estimated .price-vehicle-amt { color: #d97706; }
+
+.price-result-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.4;
+}
 /* ── Mobile ── */
 @media (max-width: 960px) {
   .hero-inner {
