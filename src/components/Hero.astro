@@ -507,7 +507,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     'chandi devi temple': 'haridwar',
     'mansa devi temple': 'haridwar',
     'pauri': 'haridwar',
-    'uttarkashi': 'haridwar',
+    'uttarkashi': 'uttarkashi',
 
     // Rishikesh
     'rishikesh': 'rishikesh',
@@ -570,27 +570,43 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // Pricing data — matches pricing.ts fixed routes
   // Format: 'from_to': { sedan, ertiga, innova, traveller }
-  const routePrices: Record<string, Record<string, number>> = {
-    'airport_dehradun':   { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
-    'dehradun_airport':   { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
-    'dehradun_mussoorie': { sedan: 1500, ertiga: 2000, innova: 2500, traveller: 4000 },
-    'mussoorie_dehradun': { sedan: 1500, ertiga: 2000, innova: 2500, traveller: 4000 },
-    'dehradun_haridwar':  { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
-    'haridwar_dehradun':  { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
-    'dehradun_rishikesh': { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
-    'rishikesh_dehradun': { sedan: 2000, ertiga: 2500, innova: 3200, traveller: 5000 },
-    'delhi_dehradun':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'dehradun_delhi':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'delhi_haridwar':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'haridwar_delhi':     { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'delhi_rishikesh':    { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'rishikesh_delhi':    { sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'delhi_mussoorie':    { sedan: 4500, ertiga: 5500, innova: 6670, traveller: 0 },
-    'mussoorie_delhi':    { sedan: 4500, ertiga: 5500, innova: 6670, traveller: 0 },
-    'chandigarh_dehradun':{ sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'dehradun_chandigarh':{ sedan: 3500, ertiga: 4500, innova: 5670, traveller: 8000 },
-    'haridwar_rishikesh': { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
-    'rishikesh_haridwar': { sedan: 1000, ertiga: 1200, innova: 1500, traveller: 0 },
+  // Route prices — format: { sedan_ow, sedan_rt, ertiga_ow, ertiga_rt, innova_ow, innova_rt }
+  // ow = one way, rt = round trip
+  // 'tempo' = 'best' means show "Call for best price"
+  const routePrices: Record<string, { sedan_ow:number, sedan_rt:number, ertiga_ow:number, ertiga_rt:number, innova_ow:number, innova_rt:number, tempo?:string }> = {
+    // Airport
+    'airport_dehradun':    { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800  },
+    'dehradun_airport':    { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800  },
+    // Local routes
+    'dehradun_mussoorie':  { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+    'mussoorie_dehradun':  { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+    'dehradun_haridwar':   { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'haridwar_dehradun':   { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'dehradun_rishikesh':  { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'rishikesh_dehradun':  { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'haridwar_rishikesh':  { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
+    'rishikesh_haridwar':  { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
+    // New specific routes with custom round trip prices
+    'dehradun_uttarkashi': { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'uttarkashi_dehradun': { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dehradun_dhanaulti':  { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dhanaulti_dehradun':  { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dehradun_tehri':      { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'tehri_dehradun':      { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    // Delhi routes
+    'delhi_dehradun':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'dehradun_delhi':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_haridwar':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'haridwar_delhi':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_rishikesh':     { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'rishikesh_delhi':     { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_mussoorie':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'mussoorie_delhi':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'delhi_uttarkashi':    { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
+    'uttarkashi_delhi':    { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
+    // Chandigarh
+    'chandigarh_dehradun': { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'dehradun_chandigarh': { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
   };
 
   // Estimated range per km (hill routes)
@@ -1412,6 +1428,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 .price-vehicle-surcharge { font-size: 10px; color: var(--muted); grid-column: 1/-1; }
 
 .price-result-inner.estimated .price-vehicle-amt { color: #d97706; }
+.price-vehicle-best { color: var(--teal) !important; font-size: 11px !important; font-weight: 600 !important; }
 
 .price-result-note {
   font-size: 11px;
