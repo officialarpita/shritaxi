@@ -560,6 +560,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     'ramnagar': 'corbett',
     'shimla': 'shimla',
     'manali': 'manali',
+    'lansdowne': 'lansdowne',
+    'nainital': 'nainital',
+    'corbett': 'corbett',
+    'auli': 'auli',
+    'jim corbett national park': 'corbett',
+    'ramnagar': 'corbett',
+    'manali': 'manali',
   };
 
   // Surcharge locations
@@ -570,43 +577,112 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // Pricing data — matches pricing.ts fixed routes
   // Format: 'from_to': { sedan, ertiga, innova, traveller }
-  // Route prices — format: { sedan_ow, sedan_rt, ertiga_ow, ertiga_rt, innova_ow, innova_rt }
-  // ow = one way, rt = round trip
-  // 'tempo' = 'best' means show "Call for best price"
+  // Route prices — OW = one way, RT = round trip, tempo = 'best' means call for price
   const routePrices: Record<string, { sedan_ow:number, sedan_rt:number, ertiga_ow:number, ertiga_rt:number, innova_ow:number, innova_rt:number, tempo?:string }> = {
-    // Airport
-    'airport_dehradun':    { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800  },
-    'dehradun_airport':    { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800  },
-    // Local routes
-    'dehradun_mussoorie':  { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
-    'mussoorie_dehradun':  { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
-    'dehradun_haridwar':   { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
-    'haridwar_dehradun':   { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
-    'dehradun_rishikesh':  { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
-    'rishikesh_dehradun':  { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
-    'haridwar_rishikesh':  { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
-    'rishikesh_haridwar':  { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
-    // New specific routes with custom round trip prices
-    'dehradun_uttarkashi': { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    'uttarkashi_dehradun': { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    'dehradun_dhanaulti':  { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    'dhanaulti_dehradun':  { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    'dehradun_tehri':      { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    'tehri_dehradun':      { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
-    // Delhi routes
-    'delhi_dehradun':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'dehradun_delhi':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'delhi_haridwar':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'haridwar_delhi':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'delhi_rishikesh':     { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'rishikesh_delhi':     { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'delhi_mussoorie':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
-    'mussoorie_delhi':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
-    'delhi_uttarkashi':    { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
-    'uttarkashi_delhi':    { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
-    // Chandigarh
-    'chandigarh_dehradun': { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
-    'dehradun_chandigarh': { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+
+    // ── AIRPORT ──────────────────────────────────────────
+    'airport_dehradun':      { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800,  tempo:'best' },
+    'dehradun_airport':      { sedan_ow:1000,  sedan_rt:1800,  ertiga_ow:1200,  ertiga_rt:2200,  innova_ow:1500,  innova_rt:2800,  tempo:'best' },
+    'airport_haridwar':      { sedan_ow:2500,  sedan_rt:4500,  ertiga_ow:3200,  ertiga_rt:5800,  innova_ow:4000,  innova_rt:7200,  tempo:'best' },
+    'haridwar_airport':      { sedan_ow:2500,  sedan_rt:4500,  ertiga_ow:3200,  ertiga_rt:5800,  innova_ow:4000,  innova_rt:7200,  tempo:'best' },
+    'airport_rishikesh':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
+    'rishikesh_airport':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
+    'airport_mussoorie':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
+    'mussoorie_airport':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
+
+    // ── FROM DEHRADUN ─────────────────────────────────────
+    'dehradun_mussoorie':    { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+    'mussoorie_dehradun':    { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+    'dehradun_haridwar':     { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'haridwar_dehradun':     { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'dehradun_rishikesh':    { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'rishikesh_dehradun':    { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2500,  ertiga_rt:4000,  innova_ow:3200,  innova_rt:5200,  tempo:'best' },
+    'dehradun_dhanaulti':    { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dhanaulti_dehradun':    { sedan_ow:3000,  sedan_rt:4000,  ertiga_ow:5200,  ertiga_rt:6200,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dehradun_tehri':        { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'tehri_dehradun':        { sedan_ow:3500,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dehradun_uttarkashi':   { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'uttarkashi_dehradun':   { sedan_ow:4000,  sedan_rt:6000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+    'dehradun_lansdowne':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:9000,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'lansdowne_dehradun':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:9000,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'dehradun_shimla':       { sedan_ow:5000,  sedan_rt:8500,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:14000, tempo:'best' },
+    'shimla_dehradun':       { sedan_ow:5000,  sedan_rt:8500,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:14000, tempo:'best' },
+    'dehradun_nainital':     { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'nainital_dehradun':     { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'dehradun_kedarnath':    { sedan_ow:5000,  sedan_rt:8500,  ertiga_ow:7000,  ertiga_rt:11000, innova_ow:8500,  innova_rt:14000, tempo:'best' },
+    'kedarnath_dehradun':    { sedan_ow:5000,  sedan_rt:8500,  ertiga_ow:7000,  ertiga_rt:11000, innova_ow:8500,  innova_rt:14000, tempo:'best' },
+    'dehradun_badrinath':    { sedan_ow:6000,  sedan_rt:10000, ertiga_ow:8000,  ertiga_rt:13000, innova_ow:10000, innova_rt:16000, tempo:'best' },
+    'badrinath_dehradun':    { sedan_ow:6000,  sedan_rt:10000, ertiga_ow:8000,  ertiga_rt:13000, innova_ow:10000, innova_rt:16000, tempo:'best' },
+    'dehradun_auli':         { sedan_ow:6000,  sedan_rt:10000, ertiga_ow:8000,  ertiga_rt:13000, innova_ow:10000, innova_rt:16000, tempo:'best' },
+    'auli_dehradun':         { sedan_ow:6000,  sedan_rt:10000, ertiga_ow:8000,  ertiga_rt:13000, innova_ow:10000, innova_rt:16000, tempo:'best' },
+    'dehradun_corbett':      { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'corbett_dehradun':      { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'dehradun_manali':       { sedan_ow:9000,  sedan_rt:15000, ertiga_ow:12000, ertiga_rt:19000, innova_ow:15000, innova_rt:24000, tempo:'best' },
+    'manali_dehradun':       { sedan_ow:9000,  sedan_rt:15000, ertiga_ow:12000, ertiga_rt:19000, innova_ow:15000, innova_rt:24000, tempo:'best' },
+
+    // ── FROM DELHI ────────────────────────────────────────
+    'delhi_dehradun':        { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'dehradun_delhi':        { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_haridwar':        { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'haridwar_delhi':        { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_rishikesh':       { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'rishikesh_delhi':       { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_mussoorie':       { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'mussoorie_delhi':       { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'delhi_chandigarh':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'chandigarh_delhi':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'delhi_nainital':        { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'nainital_delhi':        { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'delhi_uttarkashi':      { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
+    'uttarkashi_delhi':      { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
+    'delhi_corbett':         { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'corbett_delhi':         { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'delhi_kedarnath':       { sedan_ow:9500,  sedan_rt:15000, ertiga_ow:13000, ertiga_rt:19000, innova_ow:16000, innova_rt:24000, tempo:'best' },
+    'kedarnath_delhi':       { sedan_ow:9500,  sedan_rt:15000, ertiga_ow:13000, ertiga_rt:19000, innova_ow:16000, innova_rt:24000, tempo:'best' },
+    'delhi_badrinath':       { sedan_ow:10500, sedan_rt:17000, ertiga_ow:14000, ertiga_rt:21000, innova_ow:18000, innova_rt:27000, tempo:'best' },
+    'badrinath_delhi':       { sedan_ow:10500, sedan_rt:17000, ertiga_ow:14000, ertiga_rt:21000, innova_ow:18000, innova_rt:27000, tempo:'best' },
+    'delhi_auli':            { sedan_ow:10000, sedan_rt:16000, ertiga_ow:13500, ertiga_rt:21000, innova_ow:17000, innova_rt:26000, tempo:'best' },
+    'auli_delhi':            { sedan_ow:10000, sedan_rt:16000, ertiga_ow:13500, ertiga_rt:21000, innova_ow:17000, innova_rt:26000, tempo:'best' },
+
+    // ── FROM HARIDWAR ─────────────────────────────────────
+    'haridwar_rishikesh':    { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
+    'rishikesh_haridwar':    { sedan_ow:1000,  sedan_rt:1600,  ertiga_ow:1200,  ertiga_rt:1900,  innova_ow:1500,  innova_rt:2400  },
+    'haridwar_mussoorie':    { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+    'mussoorie_haridwar':    { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+    'haridwar_kedarnath':    { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'kedarnath_haridwar':    { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'haridwar_badrinath':    { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'badrinath_haridwar':    { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'haridwar_nainital':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'nainital_haridwar':     { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:6000,  ertiga_rt:9500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+    'haridwar_corbett':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'corbett_haridwar':      { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+
+    // ── FROM RISHIKESH ────────────────────────────────────
+    'rishikesh_mussoorie':   { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+    'mussoorie_rishikesh':   { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+    'rishikesh_kedarnath':   { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'kedarnath_rishikesh':   { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'rishikesh_badrinath':   { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'badrinath_rishikesh':   { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'rishikesh_nainital':    { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'nainital_rishikesh':    { sedan_ow:4000,  sedan_rt:7000,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:7000,  innova_rt:11500, tempo:'best' },
+    'rishikesh_uttarkashi':  { sedan_ow:3500,  sedan_rt:5500,  ertiga_ow:5000,  ertiga_rt:7500,  innova_ow:6000,  innova_rt:9500,  tempo:'best' },
+    'uttarkashi_rishikesh':  { sedan_ow:3500,  sedan_rt:5500,  ertiga_ow:5000,  ertiga_rt:7500,  innova_ow:6000,  innova_rt:9500,  tempo:'best' },
+
+    // ── FROM CHANDIGARH ───────────────────────────────────
+    'chandigarh_dehradun':   { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'dehradun_chandigarh':   { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'chandigarh_haridwar':   { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'haridwar_chandigarh':   { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'chandigarh_rishikesh':  { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'rishikesh_chandigarh':  { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+    'chandigarh_mussoorie':  { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'mussoorie_chandigarh':  { sedan_ow:4500,  sedan_rt:7500,  ertiga_ow:5500,  ertiga_rt:9000,  innova_ow:6670,  innova_rt:11000, tempo:'best' },
+    'chandigarh_manali':     { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'manali_chandigarh':     { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+    'chandigarh_nainital':   { sedan_ow:6500,  sedan_rt:10500, ertiga_ow:8500,  ertiga_rt:13500, innova_ow:11000, innova_rt:17500, tempo:'best' },
+    'nainital_chandigarh':   { sedan_ow:6500,  sedan_rt:10500, ertiga_ow:8500,  ertiga_rt:13500, innova_ow:11000, innova_rt:17500, tempo:'best' },
   };
 
   // Estimated range per km (hill routes)
@@ -721,6 +797,24 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       return;
     }
 
+    // Same location check
+    if (fromKey === toKey) {
+      hidePrice();
+      const resultEl = document.getElementById('price-result')!;
+      const innerEl  = resultEl.querySelector('.price-result-inner')!;
+      const iconEl   = document.getElementById('price-result-icon')!;
+      const labelEl  = document.getElementById('price-result-label')!;
+      const vehiclesEl = document.getElementById('price-result-vehicles')!;
+      const noteEl   = document.getElementById('price-result-note')!;
+      innerEl.classList.add('estimated');
+      iconEl.textContent  = '⚠️';
+      labelEl.textContent = 'Same pickup & drop location';
+      vehiclesEl.innerHTML = '';
+      noteEl.textContent  = 'Please select different pickup and drop locations.';
+      resultEl.style.display = 'block';
+      return;
+    }
+
     // AIRPORT TAB — only show if route is in our data, else hide
     if (tripType === 'airport' && !prices) {
       hidePrice();
@@ -728,23 +822,33 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     }
 
     if (prices) {
-      // FIXED PRICE ROUTE
+      // FIXED PRICE ROUTE — uses separate one-way and round-trip prices
       innerEl.classList.remove('estimated');
       iconEl.textContent  = '✅';
-      labelEl.textContent = 'Fixed Price — All Inclusive';
+      labelEl.textContent = isRound ? 'Round Trip Price — All Inclusive' : 'Fixed Price — All Inclusive';
 
-      const multiplier = isRound ? 2 : 1;
       const surchargeTotal = pickupSurcharge + dropSurcharge;
 
-      vehiclesEl.innerHTML = vehicles.map(v => {
-        if (prices[v] === 0) return '';
-        const base  = prices[v] * multiplier;
+      vehiclesEl.innerHTML = [
+        { label: vehicleNames['sedan'],     ow: prices.sedan_ow,  rt: prices.sedan_rt,  tempo: undefined },
+        { label: vehicleNames['ertiga'],    ow: prices.ertiga_ow, rt: prices.ertiga_rt, tempo: undefined },
+        { label: vehicleNames['innova'],    ow: prices.innova_ow, rt: prices.innova_rt, tempo: undefined },
+        { label: vehicleNames['traveller'], ow: 0,                rt: 0,                tempo: prices.tempo },
+      ].map(({ label, ow, rt, tempo }) => {
+        if (tempo === 'best') {
+          return `<div class="price-vehicle-item">
+            <span class="price-vehicle-name">${label}</span>
+            <span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span>
+          </div>`;
+        }
+        if (!ow || ow === 0) return '';
+        const base  = isRound ? rt : ow;
         const total = base + surchargeTotal;
         const surchargeNote = surchargeTotal > 0
-          ? `<span class="price-vehicle-surcharge">${formatPrice(base)} + ${formatPrice(surchargeTotal)} pickup${isRound ? ' (drop waived)' : ''} = ${formatPrice(total)}</span>`
+          ? `<span class="price-vehicle-surcharge">${formatPrice(base)} + ${formatPrice(surchargeTotal)} pickup surcharge${isRound ? ' (drop waived ✓)' : ''} = ${formatPrice(total)}</span>`
           : '';
         return `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${vehicleNames[v]}</span>
+          <span class="price-vehicle-name">${label}</span>
           <span class="price-vehicle-amt">${formatPrice(total)}</span>
           ${surchargeNote}
         </div>`;
