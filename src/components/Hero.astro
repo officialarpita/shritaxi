@@ -784,13 +784,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // ── END PRICE CALCULATOR ──────────────────────────────────
 
-  // Time picker — auto dismiss on desktop after selection
+  // Time picker — auto dismiss after selection on all devices
   const timeInput = document.getElementById('time') as HTMLInputElement;
   timeInput?.addEventListener('change', () => {
-    // Only blur on non-touch devices (desktop)
-    if (!navigator.maxTouchPoints || navigator.maxTouchPoints === 0) {
+    setTimeout(() => {
       timeInput.blur();
-    }
+      // Move focus to next field (name) so picker fully dismisses
+      const nameInput = document.getElementById('name') as HTMLInputElement;
+      nameInput?.focus();
+      nameInput?.blur();
+    }, 150);
   });
 
   // Set min date to today — using LOCAL date to avoid timezone offset bug
