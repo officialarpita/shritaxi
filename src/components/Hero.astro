@@ -590,6 +590,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     'airport_mussoorie':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
     'mussoorie_airport':     { sedan_ow:2200,  sedan_rt:4000,  ertiga_ow:2800,  ertiga_rt:5200,  innova_ow:3500,  innova_rt:6500,  tempo:'best' },
 
+    // ── AIRPORT ↔ ISBT (specific route — surcharge skipped) ──
+    'airport_dehradun_isbt': { sedan_ow:1500, sedan_rt:2800, ertiga_ow:2000, ertiga_rt:3700, innova_ow:3500, innova_rt:6500, tempo:'best' },
+    'dehradun_isbt_airport': { sedan_ow:1500, sedan_rt:2800, ertiga_ow:2000, ertiga_rt:3700, innova_ow:3500, innova_rt:6500, tempo:'best' },
+
     // ── FROM DEHRADUN ─────────────────────────────────────
     'dehradun_mussoorie':    { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
     'mussoorie_dehradun':    { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
@@ -761,12 +765,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const fromKey = normaliseLocation(pickupRaw);
     const toKey   = normaliseLocation(dropRaw);
 
-    // Surcharges
-    const pickupSurcharge = getSurcharge(pickupRaw);
-    const dropSurcharge   = isRound ? 0 : getSurcharge(dropRaw); // waived on return
-
     const routeKey = `${fromKey}_${toKey}`;
     const prices   = routePrices[routeKey];
+
+    // Surcharges — skipped when route is an exact match (price already factors it in)
+    const hasExactMatch = !!prices;
+    const pickupSurcharge = hasExactMatch ? 0 : getSurcharge(pickupRaw);
+    const dropSurcharge   = hasExactMatch ? 0 : (isRound ? 0 : getSurcharge(dropRaw));
     const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
 
     const resultEl  = document.getElementById('price-result')!;
