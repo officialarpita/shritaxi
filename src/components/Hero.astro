@@ -200,7 +200,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 <script>
   // Pre-select vehicle if coming from fleet page
   // Read pricing data injected at build time from routePrices.ts
-  const { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances } =
+  const { routePrices, locationMap, surchargeMap, localRates,
+    estimatedRates: perKmRanges, approxDistances } =
     (window as any).__SHRI_TAXI__ || {};
 
   document.addEventListener('DOMContentLoaded', () => {
