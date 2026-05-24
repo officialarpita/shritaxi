@@ -677,12 +677,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const dropSurcharge   = hasExactMatch ? 0 : (isRound ? 0 : getSurcharge(dropRaw));
     const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
 
-    const resultEl  = document.getElementById('price-result')!;
-    const innerEl   = resultEl.querySelector('.price-result-inner')!;
-    const iconEl    = document.getElementById('price-result-icon')!;
-    const labelEl   = document.getElementById('price-result-label')!;
-    const vehiclesEl = document.getElementById('price-result-vehicles')!;
-    const noteEl    = document.getElementById('price-result-note')!;
+    //const resultEl  = document.getElementById('price-result')!;
+    //const innerEl   = resultEl.querySelector('.price-result-inner')!;
+    //const iconEl    = document.getElementById('price-result-icon')!;
+    //const labelEl   = document.getElementById('price-result-label')!;
+    //const vehiclesEl = document.getElementById('price-result-vehicles')!;
+    //const noteEl    = document.getElementById('price-result-note')!;
 
     // LOCAL TAB — show per day rates regardless of route
     if (tripType === 'local') {
@@ -708,12 +708,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     // Same location check
     if (fromKey === toKey) {
       hidePrice();
-      const resultEl = document.getElementById('price-result')!;
-      const innerEl  = resultEl.querySelector('.price-result-inner')!;
-      const iconEl   = document.getElementById('price-result-icon')!;
-      const labelEl  = document.getElementById('price-result-label')!;
-      const vehiclesEl = document.getElementById('price-result-vehicles')!;
-      const noteEl   = document.getElementById('price-result-note')!;
+     // const resultEl = document.getElementById('price-result')!;
+     // const innerEl  = resultEl.querySelector('.price-result-inner')!;
+     // const iconEl   = document.getElementById('price-result-icon')!;
+      //const labelEl  = document.getElementById('price-result-label')!;
+      //const vehiclesEl = document.getElementById('price-result-vehicles')!;
+      //const noteEl   = document.getElementById('price-result-note')!;
       innerEl.classList.add('estimated');
       iconEl.textContent  = '⚠️';
       labelEl.textContent = 'Same pickup & drop location';
