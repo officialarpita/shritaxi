@@ -137,6 +137,14 @@ export const routePrices: Record<string, VehiclePrice> = {
 // ─────────────────────────────────────────────────────────────────
 
 export const locationMap: Record<string, string> = {
+  // Airport — extra aliases for common input variations
+  'jolly grant airport ded':                     'airport',
+  'jolly grant airport, dehradun':               'airport',
+  'dehradun airport':                            'airport',
+  'airport dehradun':                            'airport',
+  'ded airport':                                 'airport',
+  'jolly grant':                                 'airport',
+
   // Dehradun — standard (no surcharge)
   'dehradun':                                    'dehradun',
   'clock tower, dehradun':                       'dehradun',
@@ -148,6 +156,8 @@ export const locationMap: Record<string, string> = {
 
   // Dehradun — surcharge locations
   'dehradun railway station':                    'dehradun_station',
+  'railway station dehradun':                    'dehradun_station',
+  'ddn railway station':                         'dehradun_station',
   'isbt dehradun':                               'dehradun_isbt',
 
   // Airport
