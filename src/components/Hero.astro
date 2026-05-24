@@ -1,5 +1,14 @@
 ---
 import { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances } from '../data/routePrices.ts';
+// Serialize at BUILD TIME — injected as plain JSON string, no serialization issues
+const priceDataJson = JSON.stringify({
+  routePrices,
+  locationMap,
+  surchargeMap,
+  localRates,
+  perKmRanges: estimatedRates,
+  approxDistances
+});
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x00000000000000000000AA';
@@ -192,10 +201,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   </div>
 </section>
 
-<!-- Inject pricing data from routePrices.ts — zero network cost, inlined at build time -->
-<script is:inline define:vars={{ routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances }}>
-  window.__SHRI_TAXI__ = { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances };
-</script>
+<!-- Inject pricing data from routePrices.ts — serialized at build time, zero network cost -->
+<script is:inline set:html={`window.__SHRI_TAXI__ = ${priceDataJson};`}></script>
 
 <script>
   // Pre-select vehicle if coming from fleet page
