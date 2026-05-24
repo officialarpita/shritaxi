@@ -192,8 +192,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   </div>
 </section>
 
-<script define:vars={{ routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances }}>
+<!-- Inject pricing data from routePrices.ts — zero network cost, inlined at build time -->
+<script is:inline define:vars={{ routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances }}>
+  window.__SHRI_TAXI__ = { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances };
+</script>
+
+<script>
   // Pre-select vehicle if coming from fleet page
+  // Read pricing data injected at build time from routePrices.ts
+  const { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances } =
+    (window as any).__SHRI_TAXI__ || {};
+
   document.addEventListener('DOMContentLoaded', () => {
     const selectedVehicle = sessionStorage.getItem('selectedVehicle');
     if (selectedVehicle) {
