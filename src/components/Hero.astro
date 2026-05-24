@@ -1,5 +1,5 @@
 ---
-import { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances } from '../data/routePrices.ts';
+import { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances, longRouteDestinations, withinCityKeys, customQuoteOnly, airportPerDayRoutes } from '../data/routePrices.ts';
 // Serialize at BUILD TIME — injected as plain JSON string, no serialization issues
 const priceDataJson = JSON.stringify({
   routePrices,
@@ -7,7 +7,11 @@ const priceDataJson = JSON.stringify({
   surchargeMap,
   localRates,
   perKmRanges: estimatedRates,
-  approxDistances
+  approxDistances,
+  longRouteDestinations: [...longRouteDestinations],
+  withinCityKeys: [...withinCityKeys],
+  customQuoteOnly: [...customQuoteOnly],
+  airportPerDayRoutes: [...airportPerDayRoutes],
 });
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
@@ -207,9 +211,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 <script>
   // Pre-select vehicle if coming from fleet page
   // Read pricing data injected at build time from routePrices.ts
-  const { routePrices, locationMap, surchargeMap, localRates,
-    estimatedRates: perKmRanges, approxDistances } =
-    (window as any).__SHRI_TAXI__ || {};
+  const {
+    routePrices, locationMap, surchargeMap, localRates,
+    estimatedRates: perKmRanges, approxDistances,
+    longRouteDestinations: longRouteDests,
+    withinCityKeys: cityKeys,
+    customQuoteOnly: customQuote,
+    airportPerDayRoutes: airportPerDay,
+  } = (window as any).__SHRI_TAXI__ || {};
+
+  const longRouteSet    = new Set(longRouteDests   || []);
+  const citySet         = new Set(cityKeys         || []);
+  const customSet       = new Set(customQuote      || []);
+  const airportPerDaySet = new Set(airportPerDay   || []);
 
   // Vehicle display names — module level so all functions can access
   const vehicleNames: Record<string, string> = {
@@ -347,20 +361,28 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     if (!query) return true;
     const s = str.toLowerCase();
     const q = query.toLowerCase().trim();
-    // Contains match (more forgiving than prefix)
-    if (s.includes(q)) return true;
-    // Fuzzy: all chars of query appear in order in str
-    let si = 0;
-    for (let i = 0; i < q.length; i++) {
-      si = s.indexOf(q[i], si);
-      if (si === -1) return false;
-      si++;
-    }
-    return true;
+    if (q.length < 2) return s.startsWith(q);  // single char — prefix only
+    return s.startsWith(q) || s.includes(q);    // starts-with first, then contains
+  }
+
+  function matchScore(str: string, query: string): number {
+    if (!query) return 0;
+    const s = str.toLowerCase();
+    const q = query.toLowerCase().trim();
+    if (s.startsWith(q)) return 3;   // highest priority
+    if (s.includes(' ' + q)) return 2; // word boundary match
+    if (s.includes(q)) return 1;     // contains
+    return 0;
   }
 
   function buildDropdown(dropdown: HTMLElement, query: string, onSelect: (val: string) => void) {
-    const filtered = locations.filter(l => fuzzyMatch(l.name, query));
+    // Show all locations when empty, filter when typing
+    const filtered = !query.trim()
+      ? locations
+      : locations
+          .filter(l => fuzzyMatch(l.name, query))
+          .sort((a, b) => matchScore(b.name, query) - matchScore(a.name, query));
+
     dropdown.innerHTML = '';
 
     if (filtered.length === 0) {
@@ -543,12 +565,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
     // Local tab shows per-day rates without needing From/To
     if (tripType === 'local') {
-      const resultEl  = document.getElementById('price-result')!;
-      const innerEl   = resultEl.querySelector('.price-result-inner')!;
-      const iconEl    = document.getElementById('price-result-icon')!;
-      const labelEl   = document.getElementById('price-result-label')!;
-      const vehiclesEl = document.getElementById('price-result-vehicles')!;
-      const noteEl    = document.getElementById('price-result-note')!;
+      // result elements declared above
       innerEl.classList.remove('estimated');
       iconEl.textContent  = '🕐';
       labelEl.textContent = 'Local Package — Per Day Rate';
@@ -576,10 +593,83 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const fromKey = normaliseLocation(pickupRaw);
     const toKey   = normaliseLocation(dropRaw);
 
+    const resultEl   = document.getElementById('price-result')!;
+    const innerEl    = resultEl.querySelector('.price-result-inner')!;
+    const iconEl     = document.getElementById('price-result-icon')!;
+    const labelEl    = document.getElementById('price-result-label')!;
+    const vehiclesEl = document.getElementById('price-result-vehicles')!;
+    const noteEl     = document.getElementById('price-result-note')!;
+    const waNum      = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
+
+    // ── WITHIN CITY CHECK ─────────────────────────────────────
+    if (citySet && citySet.has(fromKey) && citySet.has(toKey) && fromKey !== toKey) {
+      innerEl.classList.add('estimated');
+      iconEl.textContent  = '📞';
+      labelEl.textContent = 'City Ride — Contact Us';
+      vehiclesEl.innerHTML = '';
+      noteEl.innerHTML    = 'For local Dehradun rides (Airport, ISBT, Railway Station, Clock Tower) please contact us for current fare. <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20city%20ride%20in%20Dehradun" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp Us →</a>';
+      resultEl.style.display = 'block';
+      return;
+    }
+
+    // ── CUSTOM QUOTE ONLY (Agra/Jaipur/Lucknow) ──────────────
+    if (customSet && (customSet.has(fromKey) || customSet.has(toKey))) {
+      innerEl.classList.add('estimated');
+      iconEl.textContent  = '📞';
+      labelEl.textContent = 'Custom Quote Required';
+      vehiclesEl.innerHTML = '';
+      noteEl.innerHTML    = 'This route requires a custom quote. <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20quote%20from%20' + encodeURIComponent(pickupRaw) + '%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">💬 Get WhatsApp Quote →</a>';
+      resultEl.style.display = 'block';
+      return;
+    }
+
+    // ── DELHI/CHANDIGARH AIRPORT → DEHRADUN (per-day + parking) 
+    const isAirportPerDay = fromKey === 'delhi_airport' || fromKey === 'chandigarh_airport' ||
+                            toKey   === 'delhi_airport' || toKey   === 'chandigarh_airport';
+    if (isAirportPerDay) {
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '✈️';
+      labelEl.textContent = 'Per Day Rate + Airport Parking';
+      vehiclesEl.innerHTML = [
+        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
+        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
+        { v: vehicleNames['traveller'], p: 'best' as const },
+      ].map(({ v, p }) =>
+        `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${v}</span>
+          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
+        </div>`
+      ).join('');
+      noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km · <strong>+ Airport parking charges applicable on pickup</strong>';
+      resultEl.style.display = 'block';
+      return;
+    }
+
+    // ── LONG ROUTE (per-day rate) ─────────────────────────────
+    if (longRouteSet && (longRouteSet.has(toKey) || longRouteSet.has(fromKey))) {
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '📅';
+      labelEl.textContent = 'Per Day Package Rate';
+      vehiclesEl.innerHTML = [
+        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
+        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
+        { v: vehicleNames['traveller'], p: 'best' as const },
+      ].map(({ v, p }) =>
+        `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${v}</span>
+          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
+        </div>`
+      ).join('');
+      noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km (Sedan) · Need one-way drop? <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20one%20way%20drop%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">WhatsApp us →</a>';
+      resultEl.style.display = 'block';
+      return;
+    }
+
     const routeKey = `${fromKey}_${toKey}`;
     const prices   = routePrices[routeKey];
-    // Debug: remove after testing
-    console.log('[ShriTaxi Price]', { pickupRaw, dropRaw, fromKey, toKey, routeKey, found: !!prices });
+
 
     // Surcharges — skipped when route is an exact match (price already factors it in)
     const hasExactMatch = !!prices;
@@ -668,7 +758,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         </div>`;
       }).join('');
 
-      noteEl.textContent = 'Driver + Fuel + Toll + Parking included · No hidden costs';
+      const isAirportPickupRoute = prices.airportPickup === true;
+      noteEl.innerHTML = 'Driver + Fuel + Toll + Parking included · No hidden costs' + (isAirportPickupRoute ? ' · <strong>+ Airport parking charges applicable</strong>' : '');
       resultEl.style.display = 'block';
 
     } else {
