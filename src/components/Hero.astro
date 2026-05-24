@@ -415,7 +415,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       input.value = val;
       wrap.classList.add('has-value');
       closeDropdown();
-      input.dispatchEvent(new Event('locationSelected'));
+      // price calculated directly below
       calculatePrice();
     }
 
@@ -502,7 +502,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 
   function normaliseLocation(input: string): string {
-    return locationMap[input.toLowerCase().trim()] || input.toLowerCase().trim();
+    const cleaned = input
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, ' ');           // collapse multiple spaces
+    // Try exact match first
+    if (locationMap[cleaned]) return locationMap[cleaned];
+    // Try without parentheses content e.g. "jolly grant airport (ded)" → "jolly grant airport"
+    const withoutParens = cleaned.replace(/\s*\(.*?\)/g, '').trim();
+    if (locationMap[withoutParens]) return locationMap[withoutParens];
+    // Try first word/phrase match for long inputs
+    const firstPart = cleaned.split(',')[0].trim();
+    if (locationMap[firstPart]) return locationMap[firstPart];
+    return cleaned;
   }
 
   function getSurcharge(rawLocation: string): number {
@@ -558,6 +570,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
     const routeKey = `${fromKey}_${toKey}`;
     const prices   = routePrices[routeKey];
+    // Debug: remove after testing
+    console.log('[ShriTaxi Price]', { pickupRaw, dropRaw, fromKey, toKey, routeKey, found: !!prices });
 
     // Surcharges — skipped when route is an exact match (price already factors it in)
     const hasExactMatch = !!prices;
@@ -611,11 +625,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       return;
     }
 
-    // AIRPORT TAB — only show if route is in our data, else hide
-    if (tripType === 'airport' && !prices) {
-      hidePrice();
-      return;
-    }
+    // AIRPORT TAB — show estimated if route not found, don't hide
 
     if (prices) {
       // FIXED PRICE ROUTE — uses separate one-way and round-trip prices
