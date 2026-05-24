@@ -211,6 +211,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     estimatedRates: perKmRanges, approxDistances } =
     (window as any).__SHRI_TAXI__ || {};
 
+  // Vehicle display names — module level so all functions can access
+  const vehicleNames: Record<string, string> = {
+    sedan:     '🚗 Sedan',
+    ertiga:    '🚐 Ertiga',
+    innova:    '🚙 Innova',
+    traveller: '🚌 Tempo',
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
     const selectedVehicle = sessionStorage.getItem('selectedVehicle');
     if (selectedVehicle) {
@@ -769,7 +777,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       };
       const trip = tripLabels[payload.trip_type] || payload.trip_type || 'One Way';
 
-      const vehicleNames: Record<string, string> = {
+      // Descriptive vehicle names for WhatsApp message
+      const vehicleFullNames: Record<string, string> = {
         sedan: 'Sedan (Dzire/Baleno)',
         ertiga: 'Maruti Ertiga',
         innova: 'Toyota Innova Crysta',
@@ -783,7 +792,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       const bookingId = `SHRI-${yymmdd}-${rand}`;
       payload.booking_id = bookingId;
 
-      const msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
+      const msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
 
       const wa = form.dataset.wa || '';
       const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
@@ -797,7 +806,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         details.innerHTML = `
           <div><strong>Booking ID:</strong> ${bookingId}</div>
           <div><strong>${pickup}</strong> → <strong>${drop}</strong></div>
-          ${vehicleNames[vehicle] ? `<div>Vehicle: ${vehicleNames[vehicle]}</div>` : ''}
+          ${vehicleFullNames[vehicle] ? `<div>Vehicle: ${vehicleFullNames[vehicle]}</div>` : ''}
           ${date ? `<div>${date}${time ? ' · ' + time : ''}</div>` : ''}
           ${name ? `<div>${name}</div>` : ''}
         `;
