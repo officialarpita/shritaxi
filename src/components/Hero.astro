@@ -1,5 +1,5 @@
 ---
-import { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances, longRouteDestinations, withinCityKeys, customQuoteOnly, airportPerDayRoutes } from '../data/routePrices.ts';
+import { routePrices, locationMap, surchargeMap, localRates, estimatedRates, approxDistances, longRouteDestinations, cityGroups, customQuoteOnly, airportPerDayRoutes } from '../data/routePrices.ts';
 // Serialize at BUILD TIME — injected as plain JSON string, no serialization issues
 const priceDataJson = JSON.stringify({
   routePrices,
@@ -9,7 +9,7 @@ const priceDataJson = JSON.stringify({
   perKmRanges: estimatedRates,
   approxDistances,
   longRouteDestinations: [...longRouteDestinations],
-  withinCityKeys: [...withinCityKeys],
+  cityGroups: cityGroups,
   customQuoteOnly: [...customQuoteOnly],
   airportPerDayRoutes: [...airportPerDayRoutes],
 });
@@ -221,13 +221,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     routePrices, locationMap, surchargeMap, localRates,
     estimatedRates: perKmRanges, approxDistances,
     longRouteDestinations: longRouteDests,
-    withinCityKeys: cityKeys,
+    cityGroups: cityGroupsData,
     customQuoteOnly: customQuote,
     airportPerDayRoutes: airportPerDay,
   } = (window as any).__SHRI_TAXI__ || {};
 
   const longRouteSet    = new Set(longRouteDests   || []);
-  const citySet         = new Set(cityKeys         || []);
+  const cityGroupsArr   = cityGroupsData || [];
+  function isSameCityGroup(fk: string, tk: string): boolean {
+    return cityGroupsArr.some((g: string[]) => g.includes(fk) && g.includes(tk));
+  }
   const customSet       = new Set(customQuote      || []);
   const airportPerDaySet = new Set(airportPerDay   || []);
 
@@ -622,7 +625,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     // ── WITHIN CITY CHECK ─────────────────────────────────────
     // Uses raw input to detect different Dehradun locations even if they share the same key
     const isDifferentPlace = pickupRaw.trim().toLowerCase() !== dropRaw.trim().toLowerCase();
-    if (citySet && citySet.has(fromKey) && citySet.has(toKey) && isDifferentPlace) {
+    if (isSameCityGroup(fromKey, toKey) && isDifferentPlace) {
       innerEl.classList.add('estimated');
       iconEl.textContent  = '📞';
       labelEl.textContent = 'City Ride — Contact Us';
