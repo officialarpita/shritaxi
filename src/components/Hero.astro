@@ -620,7 +620,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const toRouteKey   = normaliseForRoute(dropRaw);
 
     // ── WITHIN CITY CHECK ─────────────────────────────────────
-    if (citySet && citySet.has(fromKey) && citySet.has(toKey) && fromKey !== toKey) {
+    // Uses raw input to detect different Dehradun locations even if they share the same key
+    const isDifferentPlace = pickupRaw.trim().toLowerCase() !== dropRaw.trim().toLowerCase();
+    if (citySet && citySet.has(fromKey) && citySet.has(toKey) && isDifferentPlace) {
       innerEl.classList.add('estimated');
       iconEl.textContent  = '📞';
       labelEl.textContent = 'City Ride — Contact Us';
