@@ -563,9 +563,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const tripType   = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
     const isRound    = tripType === 'round-trip';
 
+    // Element references — declared once at top, used throughout
+    const resultEl   = document.getElementById('price-result')!;
+    const innerEl    = resultEl?.querySelector('.price-result-inner')!;
+    const iconEl     = document.getElementById('price-result-icon')!;
+    const labelEl    = document.getElementById('price-result-label')!;
+    const vehiclesEl = document.getElementById('price-result-vehicles')!;
+    const noteEl     = document.getElementById('price-result-note')!;
+    const waNum      = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
+
     // Local tab shows per-day rates without needing From/To
     if (tripType === 'local') {
-      // result elements declared above
+      // uses elements declared above ✅
       innerEl.classList.remove('estimated');
       iconEl.textContent  = '🕐';
       labelEl.textContent = 'Local Package — Per Day Rate';
@@ -592,14 +601,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
     const fromKey = normaliseLocation(pickupRaw);
     const toKey   = normaliseLocation(dropRaw);
-
-    const resultEl   = document.getElementById('price-result')!;
-    const innerEl    = resultEl.querySelector('.price-result-inner')!;
-    const iconEl     = document.getElementById('price-result-icon')!;
-    const labelEl    = document.getElementById('price-result-label')!;
-    const vehiclesEl = document.getElementById('price-result-vehicles')!;
-    const noteEl     = document.getElementById('price-result-note')!;
-    const waNum      = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
 
     // ── WITHIN CITY CHECK ─────────────────────────────────────
     if (citySet && citySet.has(fromKey) && citySet.has(toKey) && fromKey !== toKey) {
@@ -677,43 +678,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const dropSurcharge   = hasExactMatch ? 0 : (isRound ? 0 : getSurcharge(dropRaw));
     const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
 
-    //const resultEl  = document.getElementById('price-result')!;
-    //const innerEl   = resultEl.querySelector('.price-result-inner')!;
-    //const iconEl    = document.getElementById('price-result-icon')!;
-    //const labelEl   = document.getElementById('price-result-label')!;
-    //const vehiclesEl = document.getElementById('price-result-vehicles')!;
-    //const noteEl    = document.getElementById('price-result-note')!;
-
-    // LOCAL TAB — show per day rates regardless of route
-    if (tripType === 'local') {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '🕐';
-      labelEl.textContent = 'Local Package — Per Day Rate';
-      vehiclesEl.innerHTML = [
-        { v: '🚗 Sedan',    p: localRates.sedan.perDay,     extra: localRates.sedan.extraKmRate },
-        { v: '🚐 Ertiga',   p: localRates.ertiga.perDay,    extra: localRates.ertiga.extraKmRate },
-        { v: '🚙 Innova',   p: localRates.innova.perDay,    extra: localRates.innova.extraKmRate },
-        { v: '🚌 Traveller',p: 'best',                      extra: 0 },
-      ].map(({ v, p, extra }) =>
-        `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${v}</span>
-          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : formatPrice(p) + '/day'}</span>
-        </div>`
-      ).join('');
-      noteEl.innerHTML = '📍 Includes up to ' + localRates.limitKm + 'km per day · Extra km at Rs.' + localRates.sedan.extraKmRate + '/km · Driver + Fuel included';
-      resultEl.style.display = 'block';
-      return;
-    }
+    const resultEl  = document.getElementById('price-result')!;
+    const innerEl   = resultEl.querySelector('.price-result-inner')!;
+    const iconEl    = document.getElementById('price-result-icon')!;
+    const labelEl   = document.getElementById('price-result-label')!;
+    const vehiclesEl = document.getElementById('price-result-vehicles')!;
+    const noteEl    = document.getElementById('price-result-note')!;
 
     // Same location check
     if (fromKey === toKey) {
       hidePrice();
-     // const resultEl = document.getElementById('price-result')!;
-     // const innerEl  = resultEl.querySelector('.price-result-inner')!;
-     // const iconEl   = document.getElementById('price-result-icon')!;
-      //const labelEl  = document.getElementById('price-result-label')!;
-      //const vehiclesEl = document.getElementById('price-result-vehicles')!;
-      //const noteEl   = document.getElementById('price-result-note')!;
+      const resultEl = document.getElementById('price-result')!;
+      const innerEl  = resultEl.querySelector('.price-result-inner')!;
+      const iconEl   = document.getElementById('price-result-icon')!;
+      const labelEl  = document.getElementById('price-result-label')!;
+      const vehiclesEl = document.getElementById('price-result-vehicles')!;
+      const noteEl   = document.getElementById('price-result-note')!;
       innerEl.classList.add('estimated');
       iconEl.textContent  = '⚠️';
       labelEl.textContent = 'Same pickup & drop location';
