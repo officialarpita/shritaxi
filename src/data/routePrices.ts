@@ -96,6 +96,7 @@ export const routePrices: Record<string, VehiclePrice> = {
   'tehri_airport':         { sedan_ow:3800,  sedan_rt:5000,  ertiga_ow:6000,  ertiga_rt:7500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
   'airport_uttarkashi':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:8000,  innova_ow:7500,  innova_rt:12000, tempo:'best', airportPickup:true },
   'uttarkashi_airport':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:8000,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+  'chandigarh_airport':    { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
   'airport_chandigarh':    { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best', airportPickup:true },
   'chandigarh_airport':    { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
   'airport_delhi':         { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best', airportPickup:true },
