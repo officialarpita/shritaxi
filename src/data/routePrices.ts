@@ -89,6 +89,66 @@ export const routePrices: Record<string, VehiclePrice> = {
   'rishikesh_uttarkashi':  { sedan_ow:3500,  sedan_rt:5500,  ertiga_ow:5000,  ertiga_rt:7500,  innova_ow:6000,  innova_rt:9500,  tempo:'best' },
   'delhi_uttarkashi':      { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
   'uttarkashi_delhi':      { sedan_ow:8000,  sedan_rt:12000, ertiga_ow:12000, ertiga_rt:17000, innova_ow:15000, innova_rt:21000, tempo:'best' },
+  // ── AIRPORT ↔ HILL STATIONS ──────────────────────────────────
+  'airport_dhanaulti':     { sedan_ow:3200,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:6800,  innova_ow:7000,  innova_rt:11000, tempo:'best', airportPickup:true },
+  'dhanaulti_airport':     { sedan_ow:3200,  sedan_rt:4500,  ertiga_ow:5500,  ertiga_rt:6800,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'airport_tehri':         { sedan_ow:3800,  sedan_rt:5000,  ertiga_ow:6000,  ertiga_rt:7500,  innova_ow:7500,  innova_rt:12000, tempo:'best', airportPickup:true },
+  'tehri_airport':         { sedan_ow:3800,  sedan_rt:5000,  ertiga_ow:6000,  ertiga_rt:7500,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+  'airport_uttarkashi':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:8000,  innova_ow:7500,  innova_rt:12000, tempo:'best', airportPickup:true },
+  'uttarkashi_airport':    { sedan_ow:4500,  sedan_rt:7000,  ertiga_ow:6000,  ertiga_rt:8000,  innova_ow:7500,  innova_rt:12000, tempo:'best' },
+  'airport_chandigarh':    { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best', airportPickup:true },
+  'chandigarh_airport':    { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+  'airport_delhi':         { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best', airportPickup:true },
+  'delhi_airport_route':   { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+
+  // ── MUSSOORIE ↔ DHANAULTI / TEHRI ────────────────────────────
+  'mussoorie_dhanaulti':   { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+  'dhanaulti_mussoorie':   { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+  'mussoorie_tehri':       { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2800,  ertiga_rt:4200,  innova_ow:3500,  innova_rt:5500,  tempo:'best' },
+  'tehri_mussoorie':       { sedan_ow:2000,  sedan_rt:3200,  ertiga_ow:2800,  ertiga_rt:4200,  innova_ow:3500,  innova_rt:5500,  tempo:'best' },
+  'mussoorie_uttarkashi':  { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+  'uttarkashi_mussoorie':  { sedan_ow:3000,  sedan_rt:5000,  ertiga_ow:4000,  ertiga_rt:6500,  innova_ow:5000,  innova_rt:8000,  tempo:'best' },
+
+  // ── DHANAULTI ↔ HARIDWAR / RISHIKESH / TEHRI / UTTARKASHI ────
+  'dhanaulti_haridwar':    { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'haridwar_dhanaulti':    { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'dhanaulti_rishikesh':   { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'rishikesh_dhanaulti':   { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'dhanaulti_tehri':       { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+  'tehri_dhanaulti':       { sedan_ow:1500,  sedan_rt:2500,  ertiga_ow:2000,  ertiga_rt:3200,  innova_ow:2500,  innova_rt:4000,  tempo:'best' },
+  'dhanaulti_uttarkashi':  { sedan_ow:3500,  sedan_rt:5500,  ertiga_ow:5000,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+  'uttarkashi_dhanaulti':  { sedan_ow:3500,  sedan_rt:5500,  ertiga_ow:5000,  ertiga_rt:7000,  innova_ow:6500,  innova_rt:10000, tempo:'best' },
+
+  // ── TEHRI ↔ HARIDWAR / RISHIKESH / UTTARKASHI ────────────────
+  'tehri_haridwar':        { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'haridwar_tehri':        { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'tehri_rishikesh':       { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'rishikesh_tehri':       { sedan_ow:3500,  sedan_rt:5000,  ertiga_ow:5500,  ertiga_rt:7000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'tehri_uttarkashi':      { sedan_ow:2500,  sedan_rt:4000,  ertiga_ow:3500,  ertiga_rt:5500,  innova_ow:4500,  innova_rt:7000,  tempo:'best' },
+  'uttarkashi_tehri':      { sedan_ow:2500,  sedan_rt:4000,  ertiga_ow:3500,  ertiga_rt:5500,  innova_ow:4500,  innova_rt:7000,  tempo:'best' },
+
+  // ── UTTARKASHI ↔ HARIDWAR / CHANDIGARH ───────────────────────
+  'uttarkashi_haridwar':   { sedan_ow:4000,  sedan_rt:6500,  ertiga_ow:5500,  ertiga_rt:8000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'haridwar_uttarkashi':   { sedan_ow:4000,  sedan_rt:6500,  ertiga_ow:5500,  ertiga_rt:8000,  innova_ow:7000,  innova_rt:11000, tempo:'best' },
+  'uttarkashi_chandigarh': { sedan_ow:6500,  sedan_rt:10000, ertiga_ow:8500,  ertiga_rt:13000, innova_ow:11000, innova_rt:17000, tempo:'best' },
+  'chandigarh_uttarkashi': { sedan_ow:6500,  sedan_rt:10000, ertiga_ow:8500,  ertiga_rt:13000, innova_ow:11000, innova_rt:17000, tempo:'best' },
+
+  // ── DHANAULTI / TEHRI ↔ DELHI / CHANDIGARH ──────────────────
+  'dhanaulti_delhi':       { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+  'delhi_dhanaulti':       { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+  'dhanaulti_chandigarh':  { sedan_ow:5000,  sedan_rt:8000,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:13500, tempo:'best' },
+  'chandigarh_dhanaulti':  { sedan_ow:5000,  sedan_rt:8000,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:13500, tempo:'best' },
+  'tehri_delhi':           { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+  'delhi_tehri':           { sedan_ow:5500,  sedan_rt:9000,  ertiga_ow:7000,  ertiga_rt:11500, innova_ow:9000,  innova_rt:14500, tempo:'best' },
+  'tehri_chandigarh':      { sedan_ow:5000,  sedan_rt:8000,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:13500, tempo:'best' },
+  'chandigarh_tehri':      { sedan_ow:5000,  sedan_rt:8000,  ertiga_ow:6500,  ertiga_rt:10500, innova_ow:8500,  innova_rt:13500, tempo:'best' },
+  // Delhi → Airport (Jolly Grant) — fixed intercity price
+  'delhi_airport':         { sedan_ow:3500,  sedan_rt:6000,  ertiga_ow:4500,  ertiga_rt:7500,  innova_ow:5670,  innova_rt:9000,  tempo:'best' },
+
+  // ── ISBT / RAILWAY STATION SURCHARGE ROUTES ──────────────────
+  // These use dehradun base price + ₹300 surcharge applied in Hero.astro
+  // No separate entries needed — handled by normalization fix in Hero.astro
+
 };
 
 // ── LONG ROUTE KEYS (per-day rate shown instead of fixed price) ──
