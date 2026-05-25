@@ -695,8 +695,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const dropSurcharge   = hasExactMatch ? 0 : (isRound ? 0 : getSurcharge(dropRaw));
     const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
 
-    // Same location check — uses elements declared at top of calculatePrice
-    if (fromKey === toKey) {
+    // Same location check — compare raw input so Clock Tower→Rajpur Road is NOT flagged
+    if (pickupRaw.trim().toLowerCase() === dropRaw.trim().toLowerCase()) {
       hidePrice();
       innerEl.classList.add('estimated');
       iconEl.textContent  = '⚠️';
