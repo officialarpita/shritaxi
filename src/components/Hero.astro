@@ -122,9 +122,44 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           </div>
         </div>
 
-        <!-- Vehicle picker -->
-        <div class="form-group">
-          <label class="form-label">Vehicle Type</label>
+        <!-- Price Result Box -->
+        <div class="price-result" id="price-result" style="display:none;">
+          <div class="price-result-inner">
+            <div class="price-result-header">
+              <span class="price-result-icon" id="price-result-icon">✅</span>
+              <span class="price-result-label" id="price-result-label">Fixed Price</span>
+            </div>
+            <div class="price-result-vehicles" id="price-result-vehicles"></div>
+            <p class="price-result-note" id="price-result-note">Driver + Fuel + Toll + Parking included · No hidden costs</p>
+          </div>
+        </div>
+
+        <!-- Name + Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Full name" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="tel" id="phone_no" name="phone" placeholder="+91 XXXXXXXXXX" class="form-input" required />
+          </div>
+        </div>
+
+        {/* Honeypot — hidden from humans, bots fill it */}
+        <label class="honeypot" aria-hidden="true" tabindex="-1">
+          <input type="text" name="company" autocomplete="off" tabindex="-1" />
+        </label>
+
+        <!-- Cloudflare Turnstile -->
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible"></div>
+
+        <!-- Vehicle Selector -->
+        <div class="vehicle-select-section">
+          <div class="vehicle-select-label">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3m-3 9h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4zM9 17V9"/></svg>
+            Select Vehicle
+          </div>
           <div class="vehicle-grid">
             <label class="vehicle-opt">
               <input type="radio" name="vehicle" value="sedan" />
@@ -159,39 +194,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               </span>
             </label>
           </div>
+          <p class="vehicle-required-msg" id="vehicle-required-msg" style="display:none;">
+            ⚠️ Please select a vehicle type to continue
+          </p>
         </div>
-
-        <!-- Price Result Box -->
-        <div class="price-result" id="price-result" style="display:none;">
-          <div class="price-result-inner">
-            <div class="price-result-header">
-              <span class="price-result-icon" id="price-result-icon">✅</span>
-              <span class="price-result-label" id="price-result-label">Fixed Price</span>
-            </div>
-            <div class="price-result-vehicles" id="price-result-vehicles"></div>
-            <p class="price-result-note" id="price-result-note">Driver + Fuel + Toll + Parking included · No hidden costs</p>
-          </div>
-        </div>
-
-        <!-- Name + Phone -->
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name" class="form-label">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Full name" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label for="phone" class="form-label">Phone</label>
-            <input type="tel" id="phone_no" name="phone" placeholder="+91 XXXXXXXXXX" class="form-input" required />
-          </div>
-        </div>
-
-        {/* Honeypot — hidden from humans, bots fill it */}
-        <label class="honeypot" aria-hidden="true" tabindex="-1">
-          <input type="text" name="company" autocomplete="off" tabindex="-1" />
-        </label>
-
-        <!-- Cloudflare Turnstile -->
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible"></div>
 
         <button type="submit" class="btn btn-teal booking-submit">
           Book Now →
@@ -531,20 +537,29 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   // Route prices — OW = one way, RT = round trip, tempo = 'best' means call for price
 
 
+  // Maps surcharge keys back to base city for route lookup
+  const routeKeyMap: Record<string, string> = {
+    'dehradun_station': 'dehradun',
+    'dehradun_isbt':    'dehradun',
+  };
+
   function normaliseLocation(input: string): string {
     const cleaned = input
       .toLowerCase()
       .trim()
-      .replace(/\s+/g, ' ');           // collapse multiple spaces
-    // Try exact match first
+      .replace(/\s+/g, ' ');
     if (locationMap[cleaned]) return locationMap[cleaned];
-    // Try without parentheses content e.g. "jolly grant airport (ded)" → "jolly grant airport"
     const withoutParens = cleaned.replace(/\s*\(.*?\)/g, '').trim();
     if (locationMap[withoutParens]) return locationMap[withoutParens];
-    // Try first word/phrase match for long inputs
     const firstPart = cleaned.split(',')[0].trim();
     if (locationMap[firstPart]) return locationMap[firstPart];
     return cleaned;
+  }
+
+  // For route key lookup — maps surcharge locations to base city
+  function normaliseForRoute(input: string): string {
+    const key = normaliseLocation(input);
+    return routeKeyMap[key] || key;
   }
 
   function getSurcharge(rawLocation: string): number {
@@ -599,8 +614,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       return;
     }
 
-    const fromKey = normaliseLocation(pickupRaw);
-    const toKey   = normaliseLocation(dropRaw);
+    const fromKey     = normaliseLocation(pickupRaw);   // for city/long route checks
+    const toKey       = normaliseLocation(dropRaw);
+    const fromRouteKey = normaliseForRoute(pickupRaw);  // for fixed price lookup
+    const toRouteKey   = normaliseForRoute(dropRaw);
 
     // ── WITHIN CITY CHECK ─────────────────────────────────────
     if (citySet && citySet.has(fromKey) && citySet.has(toKey) && fromKey !== toKey) {
@@ -642,7 +659,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
           <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
         </div>`
       ).join('');
-      noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km · <strong>+ Airport parking charges applicable on pickup</strong>';
+      noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km · (* Airport parking charges applicable on pickup)';
       resultEl.style.display = 'block';
       return;
     }
@@ -668,7 +685,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       return;
     }
 
-    const routeKey = `${fromKey}_${toKey}`;
+    const routeKey = `${fromRouteKey}_${toRouteKey}`;
     const prices   = routePrices[routeKey];
 
 
@@ -739,7 +756,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       }).join('');
 
       const isAirportPickupRoute = prices.airportPickup === true;
-      noteEl.innerHTML = 'Driver + Fuel + Toll + Parking included · No hidden costs' + (isAirportPickupRoute ? ' · <strong>+ Airport parking charges applicable</strong>' : '');
+      noteEl.innerHTML = 'Driver + Fuel + Toll + Parking included · No hidden costs' + (isAirportPickupRoute ? ' · (* Airport parking charges applicable on pickup)' : '');
       resultEl.style.display = 'block';
 
     } else {
@@ -822,6 +839,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       form.reportValidity();
       return;
     }
+
+    // Vehicle required check
+    const vehicleSelected = form.querySelector('input[name="vehicle"]:checked') as HTMLInputElement;
+    const vehicleMsg = document.getElementById('vehicle-required-msg') as HTMLElement;
+    if (!vehicleSelected) {
+      if (vehicleMsg) { vehicleMsg.style.display = 'block'; }
+      // Scroll to vehicle section
+      document.querySelector('.vehicle-select-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      btn.disabled = false;
+      btn.textContent = 'Book Now →';
+      return;
+    }
+    if (vehicleMsg) vehicleMsg.style.display = 'none';
 
     const fd = new FormData(form);
 
@@ -1426,6 +1456,30 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   margin: 0;
   line-height: 1.4;
 }
+/* ── Vehicle Select Section ── */
+.vehicle-select-section {
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+  margin-top: -4px;
+}
+.vehicle-select-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.vehicle-required-msg {
+  font-size: 12px;
+  color: #dc2626;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
 /* ── Mobile ── */
 @media (max-width: 960px) {
   .hero-inner {
