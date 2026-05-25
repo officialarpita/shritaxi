@@ -168,9 +168,20 @@ export const airportPerDayRoutes = new Set([
 ]);
 
 // ── WITHIN CITY KEYS (show contact us message) ───────────────────
-export const withinCityKeys = new Set([
-  'dehradun', 'dehradun_station', 'dehradun_isbt',
-]);
+// City groups — sub-locations within the same city show "city ride" message
+// Each array = one city's sub-location keys
+export const cityGroups: string[][] = [
+  ['dehradun', 'dehradun_station', 'dehradun_isbt'],  // Dehradun city
+  ['haridwar'],                                         // Haridwar city
+  ['rishikesh'],                                        // Rishikesh city
+  ['mussoorie'],                                        // Mussoorie & nearby
+  ['dhanaulti'],                                        // Dhanaulti & Kanatal
+  ['tehri'],                                            // Tehri & New Tehri
+];
+// Keep withinCityKeys for backward compat — flat set of all city keys
+export const withinCityKeys = new Set(
+  ['dehradun','dehradun_station','dehradun_isbt','haridwar','rishikesh','mussoorie','dhanaulti','tehri']
+);
 
 // ── CUSTOM QUOTE ONLY ─────────────────────────────────────────────
 export const customQuoteOnly = new Set(['agra', 'jaipur', 'lucknow']);
