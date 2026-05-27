@@ -324,6 +324,39 @@ export const surchargeMap: Record<string, number> = {
 };
 
 // ── LOCAL PACKAGE RATES ───────────────────────────────────────────
+export const localPackages = [
+  {
+    id:      'half-day',
+    label:   'Half Day',
+    hours:   4,
+    km:      40,
+    sedan:   1200,
+    ertiga:  1500,
+    innova:  1900,
+    tempo:   'best' as const,
+  },
+  {
+    id:      'full-day',
+    label:   'Full Day',
+    hours:   8,
+    km:      80,
+    sedan:   2400,
+    ertiga:  3000,
+    innova:  3800,
+    tempo:   'best' as const,
+  },
+  {
+    id:      'full-day-extended',
+    label:   'Full Day Extended',
+    hours:   10,
+    km:      150,
+    sedan:   3599,
+    ertiga:  4499,
+    innova:  5670,
+    tempo:   'best' as const,
+  },
+];
+
 export const localRates = {
   sedan:     { perDay: 3599, extraKmRate: 12  },
   ertiga:    { perDay: 4499, extraKmRate: 14  },
@@ -331,6 +364,15 @@ export const localRates = {
   traveller: { perDay: 'best' as const, extraKmRate: 0 },
   limitKm:   150,
 };
+
+export const localCities = [
+  { name: 'Dehradun',          icon: '🏙️' },
+  { name: 'Mussoorie',         icon: '🏔️' },
+  { name: 'Haridwar',          icon: '🛕' },
+  { name: 'Rishikesh',         icon: '🙏' },
+  { name: 'Dhanaulti / Kanatal', icon: '🌲' },
+  { name: 'Tehri',             icon: '💧' },
+];
 
 // ── ESTIMATED RANGE PER KM (unknown routes) ───────────────────────
 export const estimatedRates: Record<string, [number, number]> = {
