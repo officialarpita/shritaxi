@@ -157,25 +157,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             </select>
           </div>
 
-          <!-- Direction toggle -->
-          <div class="form-group">
-            <label class="form-label">Trip Direction</label>
-            <div class="airport-direction" id="airport-direction">
-              <button type="button" class="dir-btn active" data-dir="pickup" id="dir-pickup">
-                📍 Pickup from Airport
-              </button>
-              <button type="button" class="dir-btn" data-dir="drop" id="dir-drop">
-                🚗 Drop to Airport
-              </button>
-            </div>
-            <input type="hidden" id="airport_direction_input" name="airport_direction" value="pickup" />
-          </div>
-
-          <!-- City destination -->
+          <!-- City -->
           <div class="form-group">
             <label class="form-label">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span id="airport-city-label">Drop City</span>
+              Your City
             </label>
             <select id="airport_city" name="airport_city" class="form-input">
               <option value="">Select City / Area</option>
@@ -192,6 +178,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               <option value="Delhi">🏙️ Delhi NCR</option>
             </select>
           </div>
+
+          <!-- Airport info note -->
+          <p class="airport-info-note">
+            ✈️ Same fare for arrival &amp; departure &nbsp;·&nbsp; (* Airport parking charges applicable on pickup)
+          </p>
 
           <!-- Airport price result -->
           <div class="price-result" id="airport-price-result" style="display:none;">
@@ -664,76 +655,77 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // ── AIRPORT TAB UI ────────────────────────────────────────────
 
-  let airportDirection = 'pickup';
-
   function calculateAirportPrice() {
     const airportVal = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
     const cityVal    = (document.getElementById('airport_city') as HTMLSelectElement)?.value;
+
     if (!airportVal || !cityVal) {
       document.getElementById('airport-price-result')!.style.display = 'none';
       return;
     }
 
-    const isPickup = airportDirection === 'pickup';
-    const fromRaw  = isPickup ? airportVal : cityVal;
-    const toRaw    = isPickup ? cityVal    : airportVal;
-    const frk      = normaliseForRoute(fromRaw);
-    const trk      = normaliseForRoute(toRaw);
-    const key      = `${frk}_${trk}`;
-    const prices   = routePrices[key];
+    // Try both directions — airport→city and city→airport
+    // Price is same for both, parking note shown for airport pickup
+    const frk1 = normaliseForRoute(airportVal);
+    const trk1 = normaliseForRoute(cityVal);
+    const key1 = `${frk1}_${trk1}`;
+    const key2 = `${trk1}_${frk1}`;
+    const prices = routePrices[key1] || routePrices[key2];
 
-    const resultEl  = document.getElementById('airport-price-result')!;
-    const innerEl   = resultEl.querySelector('.price-result-inner')!;
-    const iconEl    = document.getElementById('airport-price-icon')!;
-    const labelEl   = document.getElementById('airport-price-label')!;
+    const resultEl   = document.getElementById('airport-price-result')!;
+    const innerEl    = resultEl.querySelector('.price-result-inner')!;
+    const iconEl     = document.getElementById('airport-price-icon')!;
+    const labelEl    = document.getElementById('airport-price-label')!;
     const vehiclesEl = document.getElementById('airport-price-vehicles')!;
-    const noteEl    = document.getElementById('airport-price-note')!;
+    const noteEl     = document.getElementById('airport-price-note')!;
 
-    if (prices) {
+    // Check if Delhi/Chandigarh airport — per day rate
+    const airportKey = normalise(airportVal);
+    const isPerDay   = airportKey === 'delhi_airport' || airportKey === 'chandigarh_airport';
+
+    if (isPerDay) {
+      innerEl.classList.remove('estimated');
+      iconEl.textContent  = '✈️';
+      labelEl.textContent = 'Per Day Rate';
+      vehiclesEl.innerHTML = [
+        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
+        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
+        { v: vehicleNames['traveller'], p: 'best' },
+      ].map(({ v, p }) =>
+        `<div class="price-vehicle-item">
+          <span class="price-vehicle-name">${v}</span>
+          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
+        </div>`
+      ).join('');
+      noteEl.textContent = '📍 Up to ' + localRates.limitKm + 'km/day · Driver + Fuel included';
+      resultEl.style.display = 'block';
+
+    } else if (prices) {
       innerEl.classList.remove('estimated');
       iconEl.textContent  = '✅';
       labelEl.textContent = 'Fixed Price — All Inclusive';
       vehiclesEl.innerHTML = [
-        { label: vehicleNames['sedan'],     ow: prices.sedan_ow,  rt: prices.sedan_rt  },
-        { label: vehicleNames['ertiga'],    ow: prices.ertiga_ow, rt: prices.ertiga_rt },
-        { label: vehicleNames['innova'],    ow: prices.innova_ow, rt: prices.innova_rt },
-        { label: vehicleNames['traveller'], ow: 0,                rt: 0, tempo: 'best' },
-      ].map(({ label, ow, rt, tempo }) => {
+        { label: vehicleNames['sedan'],     p: prices.sedan_ow  },
+        { label: vehicleNames['ertiga'],    p: prices.ertiga_ow },
+        { label: vehicleNames['innova'],    p: prices.innova_ow },
+        { label: vehicleNames['traveller'], p: 0, tempo: 'best' },
+      ].map(({ label, p, tempo }) => {
         if (tempo === 'best') return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span></div>`;
-        if (!ow) return '';
-        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(ow)}</span></div>`;
+        if (!p) return '';
+        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(p)}</span></div>`;
       }).join('');
-      noteEl.innerHTML = 'Driver + Fuel + Toll + Parking included · No hidden costs'
-        + (isPickup ? ' · <em>(* Airport parking charges applicable on pickup)</em>' : '');
+      noteEl.textContent = 'Driver + Fuel + Toll included · No hidden costs';
       resultEl.style.display = 'block';
+
     } else {
-      // Check if it's a per-day route (Delhi/Chandigarh airports)
-      const fk = normalise(fromRaw);
-      const tk = normalise(toRaw);
-      if (fk === 'delhi_airport' || fk === 'chandigarh_airport' || tk === 'delhi_airport' || tk === 'chandigarh_airport') {
-        innerEl.classList.remove('estimated');
-        iconEl.textContent  = '✈️';
-        labelEl.textContent = 'Per Day Rate';
-        vehiclesEl.innerHTML = [
-          { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
-          { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
-          { v: vehicleNames['innova'],    p: localRates.innova.perDay },
-          { v: vehicleNames['traveller'], p: 'best' },
-        ].map(({ v, p }) =>
-          `<div class="price-vehicle-item"><span class="price-vehicle-name">${v}</span><span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span></div>`
-        ).join('');
-        noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day'
-          + (isPickup ? ' · <em>(* Airport parking charges applicable on pickup)</em>' : '');
-        resultEl.style.display = 'block';
-      } else {
-        innerEl.classList.add('estimated');
-        iconEl.textContent  = '📞';
-        labelEl.textContent = 'Custom Quote';
-        vehiclesEl.innerHTML = '';
-        const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
-        noteEl.innerHTML = `We'll confirm the fare for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20from%20${encodeURIComponent(fromRaw)}%20to%20${encodeURIComponent(toRaw)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
-        resultEl.style.display = 'block';
-      }
+      innerEl.classList.add('estimated');
+      iconEl.textContent  = '📞';
+      labelEl.textContent = 'Contact for Quote';
+      vehiclesEl.innerHTML = '';
+      const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
+      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20between%20${encodeURIComponent(airportVal)}%20and%20${encodeURIComponent(cityVal)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
+      resultEl.style.display = 'block';
     }
   }
 
@@ -750,24 +742,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     document.getElementById('pickup-group')!.style.display   = 'block';
     document.getElementById('drop-group')!.style.display     = 'block';
   }
-
-  // Direction toggle
-  document.getElementById('dir-pickup')?.addEventListener('click', () => {
-    airportDirection = 'pickup';
-    document.getElementById('dir-pickup')!.classList.add('active');
-    document.getElementById('dir-drop')!.classList.remove('active');
-    document.getElementById('airport_direction_input')!.setAttribute('value','pickup');
-    document.getElementById('airport-city-label')!.textContent = 'Drop City';
-    calculateAirportPrice();
-  });
-  document.getElementById('dir-drop')?.addEventListener('click', () => {
-    airportDirection = 'drop';
-    document.getElementById('dir-drop')!.classList.add('active');
-    document.getElementById('dir-pickup')!.classList.remove('active');
-    document.getElementById('airport_direction_input')!.setAttribute('value','drop');
-    document.getElementById('airport-city-label')!.textContent = 'Pickup City';
-    calculateAirportPrice();
-  });
 
   document.getElementById('airport_select')?.addEventListener('change', calculateAirportPrice);
   document.getElementById('airport_city')?.addEventListener('change', calculateAirportPrice);
@@ -1217,10 +1191,14 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       const localPackage = payload.local_package || '';
       const localPickup  = payload.local_pickup  || '';
       const localSpots   = payload.local_spots   || '';
+      const airportSel   = payload.airport_select || '';
+      const airportCity  = payload.airport_city   || '';
 
       let msg = '';
       if (payload.trip_type === 'local') {
         msg = `Hi Shri Taxi, I'd like to book a Local Hire cab.\n\n*Booking ID:* ${bookingId}\n\n*City:* ${localCity}\n*Package:* ${localPackage}\n*Pickup Point:* ${localPickup}\n${localSpots ? '*Places to visit:* ' + localSpots + '\n' : ''}*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
+      } else if (payload.trip_type === 'airport') {
+        msg = `Hi Shri Taxi, I'd like to book an Airport Transfer.\n\n*Booking ID:* ${bookingId}\n\n*Airport:* ${airportSel}\n*City:* ${airportCity}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm direction (pickup/drop) and fare. Thanks!`;
       } else {
         msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
       }
@@ -1787,26 +1765,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   line-height: 1.4;
 }
 /* ── Airport Tab UI ── */
-.airport-direction {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.dir-btn {
-  padding: 10px 8px;
-  border: 1px solid #e8edf2;
-  border-radius: var(--radius-sm);
-  background: #fff;
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
+.airport-info-note {
+  font-size: 11px;
   color: var(--muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
+  background: var(--mint);
+  border: 1px solid var(--teal-light);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  line-height: 1.5;
+  margin-top: -8px;
 }
-.dir-btn:hover { border-color: var(--teal); background: var(--mint); }
-.dir-btn.active { border-color: var(--teal); background: rgba(13,148,136,0.06); color: var(--teal); font-weight: 600; }
 
 /* ── Local Tab UI ── */
 .local-cities {
