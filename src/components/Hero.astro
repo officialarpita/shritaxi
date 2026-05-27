@@ -75,7 +75,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         <button class="trip-tab active" data-trip="one-way" role="tab" aria-selected="true">One Way</button>
         <button class="trip-tab" data-trip="round-trip" role="tab" aria-selected="false">Round Trip</button>
         <button class="trip-tab" data-trip="local" role="tab" aria-selected="false">Local Hire</button>
-        <button class="trip-tab" data-trip="airport" role="tab" aria-selected="false">Airport</button>
       </div>
 
       <form class="booking-form" id="booking-form" data-wa={wa} novalidate>
@@ -136,64 +135,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             <input type="text" id="local_spots" name="local_spots"
               placeholder="e.g. Robber's Cave, Sahastradhara, FRI"
               class="form-input" autocomplete="off" />
-          </div>
-
-        </div>
-
-        <!-- Airport Tab UI -->
-        <div class="airport-tab-ui" id="airport-tab-ui" style="display:none;">
-
-          <!-- Airport selector -->
-          <div class="form-group">
-            <label class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Airport
-            </label>
-            <select id="airport_select" name="airport_select" class="form-input">
-              <option value="">Select Airport</option>
-              <option value="Jolly Grant Airport (DED)">✈️ Jolly Grant Airport, Dehradun (DED)</option>
-              <option value="Delhi Airport (IGI)">✈️ Delhi Airport, IGI (DEL)</option>
-              <option value="Chandigarh Airport">✈️ Chandigarh Airport (IXC)</option>
-            </select>
-          </div>
-
-          <!-- City -->
-          <div class="form-group">
-            <label class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Your City
-            </label>
-            <select id="airport_city" name="airport_city" class="form-input">
-              <option value="">Select City / Area</option>
-              <option value="Dehradun">🏙️ Dehradun City</option>
-              <option value="ISBT Dehradun">🚌 ISBT Dehradun</option>
-              <option value="Dehradun Railway Station">🚂 Dehradun Railway Station</option>
-              <option value="Mussoorie">🏔️ Mussoorie</option>
-              <option value="Dhanaulti">🌲 Dhanaulti / Kanatal</option>
-              <option value="Tehri">💧 Tehri</option>
-              <option value="Haridwar">🛕 Haridwar</option>
-              <option value="Rishikesh">🙏 Rishikesh</option>
-              <option value="Uttarkashi">🛕 Uttarkashi</option>
-              <option value="Chandigarh">🏙️ Chandigarh</option>
-              <option value="Delhi">🏙️ Delhi NCR</option>
-            </select>
-          </div>
-
-          <!-- Airport info note -->
-          <p class="airport-info-note">
-            ✈️ Same fare for arrival &amp; departure &nbsp;·&nbsp; (* Airport parking charges applicable on pickup)
-          </p>
-
-          <!-- Airport price result -->
-          <div class="price-result" id="airport-price-result" style="display:none;">
-            <div class="price-result-inner">
-              <div class="price-result-header">
-                <span class="price-result-icon" id="airport-price-icon">✅</span>
-                <span class="price-result-label" id="airport-price-label">Fixed Price</span>
-              </div>
-              <div class="price-result-vehicles" id="airport-price-vehicles"></div>
-              <p class="price-result-note" id="airport-price-note"></p>
-            </div>
           </div>
 
         </div>
@@ -412,9 +353,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         returnDateRow.style.display = tripType === 'round-trip' ? 'grid' : 'none';
       }
       // Show/hide local tab UI
-      if (tripType === 'local') { showLocalTab(); hideAirportTab(); }
-      else if (tripType === 'airport') { showAirportTab(); hideLocalTab(); }
-      else { hideLocalTab(); hideAirportTab(); }
+      if (tripType === 'local') { showLocalTab(); }
+      else { hideLocalTab(); }
     });
   });
 
@@ -654,97 +594,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 
   // ── AIRPORT TAB UI ────────────────────────────────────────────
-
-  function calculateAirportPrice() {
-    const airportVal = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
-    const cityVal    = (document.getElementById('airport_city') as HTMLSelectElement)?.value;
-
-    if (!airportVal || !cityVal) {
-      document.getElementById('airport-price-result')!.style.display = 'none';
-      return;
-    }
-
-    // Try both directions — airport→city and city→airport
-    // Price is same for both, parking note shown for airport pickup
-    const frk1 = normaliseForRoute(airportVal);
-    const trk1 = normaliseForRoute(cityVal);
-    const key1 = `${frk1}_${trk1}`;
-    const key2 = `${trk1}_${frk1}`;
-    const prices = routePrices[key1] || routePrices[key2];
-
-    const resultEl   = document.getElementById('airport-price-result')!;
-    const innerEl    = resultEl.querySelector('.price-result-inner')!;
-    const iconEl     = document.getElementById('airport-price-icon')!;
-    const labelEl    = document.getElementById('airport-price-label')!;
-    const vehiclesEl = document.getElementById('airport-price-vehicles')!;
-    const noteEl     = document.getElementById('airport-price-note')!;
-
-    // Check if Delhi/Chandigarh airport — per day rate
-    const airportKey = normalise(airportVal);
-    const isPerDay   = airportKey === 'delhi_airport' || airportKey === 'chandigarh_airport';
-
-    if (isPerDay) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✈️';
-      labelEl.textContent = 'Per Day Rate';
-      vehiclesEl.innerHTML = [
-        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
-        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
-        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
-        { v: vehicleNames['traveller'], p: 'best' },
-      ].map(({ v, p }) =>
-        `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${v}</span>
-          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
-        </div>`
-      ).join('');
-      noteEl.textContent = '📍 Up to ' + localRates.limitKm + 'km/day · Driver + Fuel included';
-      resultEl.style.display = 'block';
-
-    } else if (prices) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✅';
-      labelEl.textContent = 'Fixed Price — All Inclusive';
-      vehiclesEl.innerHTML = [
-        { label: vehicleNames['sedan'],     p: prices.sedan_ow  },
-        { label: vehicleNames['ertiga'],    p: prices.ertiga_ow },
-        { label: vehicleNames['innova'],    p: prices.innova_ow },
-        { label: vehicleNames['traveller'], p: 0, tempo: 'best' },
-      ].map(({ label, p, tempo }) => {
-        if (tempo === 'best') return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span></div>`;
-        if (!p) return '';
-        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(p)}</span></div>`;
-      }).join('');
-      noteEl.textContent = 'Driver + Fuel + Toll included · No hidden costs';
-      resultEl.style.display = 'block';
-
-    } else {
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '📞';
-      labelEl.textContent = 'Contact for Quote';
-      vehiclesEl.innerHTML = '';
-      const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
-      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20between%20${encodeURIComponent(airportVal)}%20and%20${encodeURIComponent(cityVal)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
-      resultEl.style.display = 'block';
-    }
-  }
-
-  function showAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display = 'block';
-    document.getElementById('pickup-group')!.style.display   = 'none';
-    document.getElementById('drop-group')!.style.display     = 'none';
-    document.getElementById('return-date-row')!.style.display = 'none';
-  }
-
-  function hideAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display = 'none';
-    document.getElementById('airport-price-result')!.style.display = 'none';
-    document.getElementById('pickup-group')!.style.display   = 'block';
-    document.getElementById('drop-group')!.style.display     = 'block';
-  }
-
-  document.getElementById('airport_select')?.addEventListener('change', calculateAirportPrice);
-  document.getElementById('airport_city')?.addEventListener('change', calculateAirportPrice);
 
   // ── END AIRPORT TAB UI ─────────────────────────────────────────
 
@@ -1764,18 +1613,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   margin: 0;
   line-height: 1.4;
 }
-/* ── Airport Tab UI ── */
-.airport-info-note {
-  font-size: 11px;
-  color: var(--muted);
-  background: var(--mint);
-  border: 1px solid var(--teal-light);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  line-height: 1.5;
-  margin-top: -8px;
-}
-
 /* ── Local Tab UI ── */
 .local-cities {
   display: grid;
