@@ -143,9 +143,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         <!-- Airport Tab UI -->
         <div class="airport-tab-ui" id="airport-tab-ui" style="display:none;">
 
-          <!-- Airport selector -->
+          <!-- Step 1: Journey type -->
           <div class="form-group">
             <label class="form-label">
+              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Journey Type
+            </label>
+            <select id="airport_journey" name="airport_journey" class="form-input">
+              <option value="">Select Journey Type</option>
+              <option value="pickup">📍 Pickup from Airport</option>
+              <option value="drop">🚗 Drop to Airport</option>
+            </select>
+          </div>
+
+          <!-- Step 2: Airport (shown after journey type selected) -->
+          <div class="form-group" id="airport-select-group" style="display:none;">
+            <label class="form-label" id="airport-select-label">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
               Airport
             </label>
@@ -157,34 +170,27 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             </select>
           </div>
 
-          <!-- City -->
-          <div class="form-group">
-            <label class="form-label">
+          <!-- Step 3: Your location (shown after airport selected) -->
+          <div class="form-group" id="airport-location-group" style="display:none;">
+            <label for="airport_location" class="form-label" id="airport-location-label">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Your City
+              Your Location
             </label>
-            <select id="airport_city" name="airport_city" class="form-input">
-              <option value="">Select City / Area</option>
-              <option value="Dehradun">🏙️ Dehradun City</option>
-              <option value="ISBT Dehradun">🚌 ISBT Dehradun</option>
-              <option value="Dehradun Railway Station">🚂 Dehradun Railway Station</option>
-              <option value="Mussoorie">🏔️ Mussoorie</option>
-              <option value="Dhanaulti">🌲 Dhanaulti / Kanatal</option>
-              <option value="Tehri">💧 Tehri</option>
-              <option value="Haridwar">🛕 Haridwar</option>
-              <option value="Rishikesh">🙏 Rishikesh</option>
-              <option value="Uttarkashi">🛕 Uttarkashi</option>
-              <option value="Chandigarh">🏙️ Chandigarh</option>
-              <option value="Delhi">🏙️ Delhi NCR</option>
-            </select>
+            <div class="autocomplete-wrap" id="airport-location-wrap">
+              <input type="text" id="airport_location" name="airport_location"
+                placeholder="Type your hotel, area or landmark"
+                class="form-input autocomplete-input" autocomplete="off" />
+              <button type="button" class="ac-clear" id="airport-location-clear" aria-label="Clear">✕</button>
+              <div class="ac-dropdown" id="airport-location-dropdown"></div>
+            </div>
           </div>
 
-          <!-- Info note -->
-          <p class="airport-info-note">
-            ✈️ Same fare for arrival &amp; departure &nbsp;·&nbsp; (* Airport parking charges applicable on pickup)
+          <!-- Parking note (pickup only) -->
+          <p class="airport-info-note" id="airport-parking-note" style="display:none;">
+            (* Airport parking charges applicable on pickup)
           </p>
 
-          <!-- Airport price result -->
+          <!-- Price result -->
           <div class="price-result" id="airport-price-result" style="display:none;">
             <div class="price-result-inner">
               <div class="price-result-header">
@@ -659,20 +665,58 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // ── AIRPORT TAB UI ────────────────────────────────────────────
 
-  function calculateAirportPrice() {
-    const airportVal = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
-    const cityVal    = (document.getElementById('airport_city') as HTMLSelectElement)?.value;
+  // Airport tab state
+  let airportJourneyType = ''; // 'pickup' or 'drop'
 
-    if (!airportVal || !cityVal) {
-      document.getElementById('airport-price-result')!.style.display = 'none';
-      return;
+  // Journey type dropdown — shows airport selector
+  document.getElementById('airport_journey')?.addEventListener('change', (e) => {
+    airportJourneyType = (e.target as HTMLSelectElement).value;
+    const selectGroup  = document.getElementById('airport-select-group')!;
+    const parkingNote  = document.getElementById('airport-parking-note')!;
+    const locationGrp  = document.getElementById('airport-location-group')!;
+    const locLabel     = document.getElementById('airport-location-label')!;
+    const priceResult  = document.getElementById('airport-price-result')!;
+
+    if (airportJourneyType) {
+      selectGroup.style.display  = 'block';
+      // Update location label based on journey type
+      locLabel.innerHTML = airportJourneyType === 'pickup'
+        ? '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Drop Location'
+        : '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg> Pickup Location';
+      // Show/hide parking note
+      parkingNote.style.display = airportJourneyType === 'pickup' ? 'block' : 'none';
+    } else {
+      selectGroup.style.display  = 'none';
+      locationGrp.style.display  = 'none';
+      parkingNote.style.display  = 'none';
+      priceResult.style.display  = 'none';
     }
+    // Reset airport select and location
+    (document.getElementById('airport_select') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_location') as HTMLInputElement).value = '';
+    document.getElementById('airport-location-group')!.style.display = 'none';
+    priceResult.style.display = 'none';
+  });
 
-    const frk1   = normaliseForRoute(airportVal);
-    const trk1   = normaliseForRoute(cityVal);
-    const key1   = `${frk1}_${trk1}`;
-    const key2   = `${trk1}_${frk1}`;
-    const prices = routePrices[key1] || routePrices[key2];
+  // Airport selected — show location field
+  document.getElementById('airport_select')?.addEventListener('change', () => {
+    const airportVal = (document.getElementById('airport_select') as HTMLSelectElement).value;
+    document.getElementById('airport-location-group')!.style.display = airportVal ? 'block' : 'none';
+    document.getElementById('airport-price-result')!.style.display   = 'none';
+    (document.getElementById('airport_location') as HTMLInputElement).value = '';
+  });
+
+  function calculateAirportPrice() {
+    const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
+    const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value;
+    if (!airportVal || !locationVal.trim() || !airportJourneyType) return;
+
+    // Build from/to based on journey type
+    const fromRaw = airportJourneyType === 'pickup' ? airportVal : locationVal;
+    const toRaw   = airportJourneyType === 'pickup' ? locationVal : airportVal;
+    const frk     = normaliseForRoute(fromRaw);
+    const trk     = normaliseForRoute(toRaw);
+    const prices  = routePrices[`${frk}_${trk}`] || routePrices[`${trk}_${frk}`];
 
     const resultEl   = document.getElementById('airport-price-result')!;
     const innerEl    = resultEl.querySelector('.price-result-inner')!;
@@ -700,7 +744,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         </div>`
       ).join('');
       noteEl.textContent = '📍 Up to ' + localRates.limitKm + 'km/day · Driver + Fuel included';
-      resultEl.style.display = 'block';
 
     } else if (prices) {
       innerEl.classList.remove('estimated');
@@ -716,8 +759,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         if (!p) return '';
         return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(p)}</span></div>`;
       }).join('');
-      noteEl.textContent = 'Driver + Fuel + Toll included · No hidden costs';
-      resultEl.style.display = 'block';
+      noteEl.textContent = 'Driver + Fuel + Toll + Parking included · No hidden costs';
 
     } else {
       innerEl.classList.add('estimated');
@@ -725,27 +767,34 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       labelEl.textContent = 'Contact for Quote';
       vehiclesEl.innerHTML = '';
       const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
-      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20between%20${encodeURIComponent(airportVal)}%20and%20${encodeURIComponent(cityVal)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
-      resultEl.style.display = 'block';
+      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20from%20${encodeURIComponent(fromRaw)}%20to%20${encodeURIComponent(toRaw)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
     }
+    resultEl.style.display = 'block';
   }
 
+  // Init autocomplete for airport location field
+  initAutocomplete('airport_location', 'airport-location-dropdown', 'airport-location-clear');
+
   function showAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display = 'block';
-    document.getElementById('pickup-group')!.style.display   = 'none';
-    document.getElementById('drop-group')!.style.display     = 'none';
-    document.getElementById('return-date-row')!.style.display = 'none';
+    document.getElementById('airport-tab-ui')!.style.display   = 'block';
+    document.getElementById('pickup-group')!.style.display     = 'none';
+    document.getElementById('drop-group')!.style.display       = 'none';
+    document.getElementById('return-date-row')!.style.display  = 'none';
   }
 
   function hideAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display = 'none';
+    document.getElementById('airport-tab-ui')!.style.display   = 'none';
     document.getElementById('airport-price-result')!.style.display = 'none';
-    document.getElementById('pickup-group')!.style.display   = 'block';
-    document.getElementById('drop-group')!.style.display     = 'block';
+    document.getElementById('airport-select-group')!.style.display = 'none';
+    document.getElementById('airport-location-group')!.style.display = 'none';
+    document.getElementById('airport-parking-note')!.style.display = 'none';
+    document.getElementById('pickup-group')!.style.display     = 'block';
+    document.getElementById('drop-group')!.style.display       = 'block';
+    airportJourneyType = '';
+    (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_select') as HTMLSelectElement).value  = '';
+    (document.getElementById('airport_location') as HTMLInputElement).value = '';
   }
-
-  document.getElementById('airport_select')?.addEventListener('change', calculateAirportPrice);
-  document.getElementById('airport_city')?.addEventListener('change', calculateAirportPrice);
 
   // ── END AIRPORT TAB UI ─────────────────────────────────────────
 
