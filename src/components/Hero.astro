@@ -608,12 +608,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       openDropdown();
     });
 
-    // Filter as typing
+    // Filter as typing — skip price calc during typing (wait for selection)
     input.addEventListener('input', () => {
       updateClear();
       buildDropdown(dropdown, input.value, selectValue);
       dropdown.classList.add('open');
-      calculatePrice();
+      // Only recalculate price for pickup/drop fields, not airport location
+      if (inputId !== 'airport_location') calculatePrice();
     });
 
     // Keyboard navigation
