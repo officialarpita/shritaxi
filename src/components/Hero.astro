@@ -417,10 +417,23 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       if (returnDateRow) {
         returnDateRow.style.display = tripType === 'round-trip' ? 'grid' : 'none';
       }
-      // Show/hide local/airport tab UI
-      if (tripType === 'local') { showLocalTab(); hideAirportTab(); }
-      else if (tripType === 'airport') { showAirportTab(); hideLocalTab(); }
-      else { hideLocalTab(); hideAirportTab(); }
+      // Show/hide local/airport tab UI and clear price boxes
+      if (tripType === 'local') {
+        showLocalTab();
+        hideAirportTab();
+        hidePrice(); // hide One Way price box
+      } else if (tripType === 'airport') {
+        showAirportTab();
+        hideLocalTab();
+        hidePrice(); // hide One Way price box
+      } else {
+        hideLocalTab();
+        hideAirportTab();
+        // Hide Local and Airport price boxes
+        document.getElementById('local-price-result')!.style.display   = 'none';
+        document.getElementById('airport-price-result')!.style.display = 'none';
+        hidePrice();
+      }
     });
   });
 
