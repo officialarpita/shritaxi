@@ -706,6 +706,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     (document.getElementById('airport_location') as HTMLInputElement).value = '';
   });
 
+  // Airport location — trigger price on change/blur
+  document.getElementById('airport_location')?.addEventListener('change', calculateAirportPrice);
+  document.getElementById('airport_location')?.addEventListener('blur', calculateAirportPrice);
+
   function calculateAirportPrice() {
     const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
     const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value;
@@ -942,6 +946,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   }
 
   function calculatePrice() {
+    // Delegate to airport calculator when airport tab is active
+    const form = document.getElementById('booking-form');
+    if (form?.classList.contains('airport-active')) {
+      calculateAirportPrice();
+      return;
+    }
     const pickupRaw  = (document.getElementById('pickup') as HTMLInputElement)?.value || '';
     const dropRaw    = (document.getElementById('drop') as HTMLInputElement)?.value || '';
     const tripType   = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
