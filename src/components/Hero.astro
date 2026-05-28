@@ -1,6 +1,20 @@
 ---
 import { routePrices, locationMap, surchargeMap, localRates, localPackages, localCities, estimatedRates, approxDistances, longRouteDestinations, customQuoteOnly, airportPerDayRoutes } from '../data/routePrices.ts';
 // Serialize at BUILD TIME — injected as plain JSON string, no serialization issues
+// Hardcoded local data — no import dependency issues
+const localCitiesData = [
+  { name: 'Dehradun',           icon: '🏙️' },
+  { name: 'Mussoorie',          icon: '🏔️' },
+  { name: 'Haridwar',           icon: '🛕' },
+  { name: 'Rishikesh',          icon: '🙏' },
+  { name: 'Dhanaulti / Kanatal', icon: '🌲' },
+  { name: 'Tehri',              icon: '💧' },
+];
+const localPackagesData = [
+  { id: 'half-day',          label: 'Half Day',         hours: 4,  km: 40,  sedan: 1200, ertiga: 1500, innova: 1900 },
+  { id: 'full-day',          label: 'Full Day',         hours: 8,  km: 80,  sedan: 2400, ertiga: 3000, innova: 3800 },
+  { id: 'full-day-extended', label: 'Full Day Extended', hours: 10, km: 150, sedan: 3599, ertiga: 4499, innova: 5670 },
+];
 const priceDataJson = JSON.stringify({
   routePrices,
   locationMap,
@@ -8,8 +22,8 @@ const priceDataJson = JSON.stringify({
   localRates,
   perKmRanges: estimatedRates,
   approxDistances,
-  localPackages,
-  localCities,
+  localPackages: localPackagesData,
+  localCities: localCitiesData,
   longRouteDestinations: [...longRouteDestinations],
   cityGroups: [
     ['dehradun','dehradun_station','dehradun_isbt'],
@@ -116,15 +130,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             </div>
           </div>
 
-          <!-- Pickup point -->
+          <!-- Pickup point with autocomplete -->
           <div class="form-group">
             <label for="local_pickup" class="form-label">
               <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
               Pickup Point
             </label>
-            <input type="text" id="local_pickup" name="local_pickup"
-              placeholder="Your hotel, address or landmark"
-              class="form-input" autocomplete="off" />
+            <div class="autocomplete-wrap" id="local-pickup-wrap">
+              <input type="text" id="local_pickup" name="local_pickup"
+                placeholder="Your hotel, area or landmark"
+                class="form-input autocomplete-input" autocomplete="off" />
+              <button type="button" class="ac-clear" id="local-pickup-clear" aria-label="Clear">✕</button>
+              <div class="ac-dropdown" id="local-pickup-dropdown"></div>
+            </div>
           </div>
 
           <!-- Sightseeing spots (optional) -->
@@ -908,6 +926,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   // Initialise both fields
   initAutocomplete('pickup', 'pickup-dropdown', 'pickup-clear');
   initAutocomplete('drop', 'drop-dropdown', 'drop-clear');
+  initAutocomplete('local_pickup', 'local-pickup-dropdown', 'local-pickup-clear');
 
   // ── END CUSTOM AUTOCOMPLETE ──────────────────────────────
 
