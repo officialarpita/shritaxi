@@ -82,7 +82,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         <input type="hidden" name="trip_type" id="trip_type_input" value="one-way" />
 
         <!-- Local Hire Tab UI (shown only when Local Hire tab active) -->
-        <div class="local-tab-ui" id="local-tab-ui" style="display:none;">
+        <div class="local-tab-ui" id="local-tab-ui">
 
           <!-- City selector -->
           <div class="form-group">
@@ -141,7 +141,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         </div>
 
         <!-- Airport Tab UI -->
-        <div class="airport-tab-ui" id="airport-tab-ui" style="display:none;">
+        <div class="airport-tab-ui" id="airport-tab-ui">
 
           <!-- Step 1: Journey type -->
           <div class="form-group">
@@ -776,20 +776,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   initAutocomplete('airport_location', 'airport-location-dropdown', 'airport-location-clear');
 
   function showAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display = 'block';
-    document.getElementById('pickup')?.closest('.form-group')!.setAttribute('style','display:none');
-    document.getElementById('drop')?.closest('.form-group')!.setAttribute('style','display:none');
-    document.getElementById('return-date-row')!.setAttribute('style','display:none');
+    const form = document.getElementById('booking-form')!;
+    form.classList.remove('local-active');
+    form.classList.add('airport-active');
   }
 
   function hideAirportTab() {
-    document.getElementById('airport-tab-ui')!.style.display   = 'none';
-    document.getElementById('airport-price-result')!.style.display = 'none';
-    document.getElementById('airport-select-group')!.style.display = 'none';
+    const form = document.getElementById('booking-form')!;
+    form.classList.remove('airport-active');
+    // Reset airport fields
+    document.getElementById('airport-price-result')!.style.display  = 'none';
+    document.getElementById('airport-select-group')!.style.display  = 'none';
     document.getElementById('airport-location-group')!.style.display = 'none';
-    document.getElementById('airport-parking-note')!.style.display = 'none';
-    document.getElementById('pickup')?.closest('.form-group')!.setAttribute('style','display:block');
-    document.getElementById('drop')?.closest('.form-group')!.setAttribute('style','display:block');
+    document.getElementById('airport-parking-note')!.style.display  = 'none';
     airportJourneyType = '';
     (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
     (document.getElementById('airport_select') as HTMLSelectElement).value  = '';
@@ -871,20 +870,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   }
 
   function showLocalTab() {
-    document.getElementById('local-tab-ui')!.style.display = 'block';
-    // Hide route fields
-    const routeFields = document.querySelectorAll('#pickup-wrap, #drop-wrap, .form-group:has(#date), .form-group:has(#drop)');
-    document.getElementById('pickup')?.closest('.form-group')!.setAttribute('style','display:none');
-    document.getElementById('drop')?.closest('.form-group')!.setAttribute('style','display:none');
+    const form = document.getElementById('booking-form')!;
+    form.classList.remove('airport-active');
+    form.classList.add('local-active');
     renderLocalCities();
     renderLocalPackages();
   }
 
   function hideLocalTab() {
-    document.getElementById('local-tab-ui')!.style.display = 'none';
+    const form = document.getElementById('booking-form')!;
+    form.classList.remove('local-active');
     document.getElementById('local-price-result')!.style.display = 'none';
-    document.getElementById('pickup')?.closest('.form-group')!.setAttribute('style','display:block');
-    document.getElementById('drop')?.closest('.form-group')!.setAttribute('style','display:block');
     selectedLocalCity = '';
     selectedLocalPackage = '';
   }
@@ -1814,6 +1810,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   margin: 0;
   line-height: 1.4;
 }
+
+/* ── Tab State Classes ── */
+.booking-form.airport-active #pickup-group,
+.booking-form.airport-active #drop-group,
+.booking-form.airport-active #return-date-row,
+.booking-form.local-active #pickup-group,
+.booking-form.local-active #drop-group,
+.booking-form.local-active #return-date-row { display: none !important; }
+
+.booking-form.airport-active .airport-tab-ui { display: block !important; }
+.airport-tab-ui, .local-tab-ui { display: none; }
+.booking-form.local-active .local-tab-ui     { display: block !important; }
+
 /* ── Airport Tab UI ── */
 .airport-info-note {
   font-size: 11px;
