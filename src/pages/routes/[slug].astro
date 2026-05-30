@@ -31,6 +31,7 @@ const routeFaqs = [
   { q: `Is the taxi fare from ${route.from} to ${route.to} all inclusive?`, a: `Yes. Our taxi fare of ₹${route.oneWay.toLocaleString('en-IN')} includes driver charges, fuel, toll and parking. No hidden costs — what we quote is what you pay.` },
   { q: `Can I book a round trip from ${route.from} to ${route.to}?`, a: route.roundTrip ? `Yes. Round trip from ${route.from} to ${route.to} costs ₹${route.roundTrip.toLocaleString('en-IN')} for Sedan. Driver waits and returns with you. All inclusive.` : `Please contact us for round trip pricing on this route.` },
   { q: `How do I book a taxi from ${route.from} to ${route.to}?`, a: `Book via WhatsApp at +91 6397321825 or call us directly. We confirm within 15 minutes and share driver details 2 hours before your trip.` },
+  ...(route.faqs || []),
 ];
 
 const schema = {
