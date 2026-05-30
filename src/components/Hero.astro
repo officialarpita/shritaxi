@@ -1949,6 +1949,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 @media (max-width: 600px) {
   .local-cities { grid-template-columns: repeat(2, 1fr); }
+  .local-pkg-btn {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+  .local-pkg-label { grid-column: 1; }
+  .local-pkg-detail { grid-column: 1; font-size: 10px; }
+  .local-pkg-price { grid-column: 2; grid-row: 1 / 3; font-size: 12px; }
+  .price-result-vehicles { grid-template-columns: 1fr 1fr; }
+  .price-vehicle-item { padding: 5px 8px; }
+  .price-vehicle-name { font-size: 11px; }
+  .price-vehicle-amt { font-size: 11px; }
 }
 
 /* ── Vehicle Select Section ── */
