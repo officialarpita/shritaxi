@@ -56,6 +56,9 @@ const schema = {
             { num: '50+', label: 'Eco Trips Completed', icon: '🌿' },
             { num: '55', label: 'Green Warriors', icon: '👥' },
             { num: '15', label: 'Mountain Routes Cleaned', icon: '🏔️' },
+            { num: '120+', label: 'Eco Trips Completed', icon: '🌿' },
+            { num: '85', label: 'Green Warriors', icon: '👥' },
+            { num: '15', label: 'Mountain Routes Cleaned', icon: '🏔️' },
           ].map(s => (
             <div class="impact-card">
               <div class="impact-icon">{s.icon}</div>
@@ -102,9 +105,9 @@ const schema = {
         </div>
         <div class="rewards-grid">
           {[
-            { amount: 'Small Bag (~250g)', points: '+100 Points', worth: '₹100 off next booking', color: '#0d9488' },
-            { amount: 'Medium Bag (~500kg)', points: '+200 Points', worth: '₹200 off next booking', color: '#f59e0b' },
-            { amount: 'Large Bag (1kg+)', points: '+500 Points + 🎁', worth: 'Gift Hamper + ₹500 off', color: '#10b981' },
+            { amount: 'Small Bag (~500g)', points: '+100 Points', worth: '₹100 off next booking', color: '#0d9488' },
+            { amount: 'Medium Bag (~1kg)', points: '+200 Points', worth: '₹200 off next booking', color: '#f59e0b' },
+            { amount: 'Large Bag (2kg+)', points: '+500 Points', worth: '₹500 off next booking', color: '#10b981' },
             { amount: 'Share Photo on Social', points: '+50 Points', worth: '₹50 off next booking', color: '#3b82f6' },
           ].map(r => (
             <div class="reward-card" style={`border-top: 4px solid ${r.color}`}>
