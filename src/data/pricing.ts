@@ -362,9 +362,9 @@ export const transfers: Transfer[] = [
 
 // Haridwar + Rishikesh same day combo
 export const haridwarRishikeshCombo = {
-  sedan:      { price: 3499, mrp: 3999 },
-  ertiga:     { price: 4499, mrp: 4999 },
-  innova:     { price: 5800, mrp: 6300 },
+  sedan:      { price: 3999, mrp: 4499 },
+  ertiga:     { price: 4999, mrp: 5499 },
+  innova:     { price: 5999, mrp: 6499 },
   traveller:  { price: 8000, mrp: 8999 },
 };
 
