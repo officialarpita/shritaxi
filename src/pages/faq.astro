@@ -15,7 +15,7 @@ const faqCategories = [
     faqs: [
       { q: 'What is the taxi fare from Delhi to Dehradun?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 one way for Sedan, ₹4,500 for Ertiga, ₹5,670 for Innova Crysta and ₹8,000 for Tempo Traveller. All prices include driver, fuel, toll and parking. No hidden charges.' },
       { q: 'What is the taxi fare from Dehradun to Mussoorie?', a: 'Dehradun to Mussoorie taxi costs ₹1,500 one way or ₹3,500 round trip for Sedan. Ertiga costs ₹2,000 one way. All inclusive — driver, fuel and toll included.' },
-      { q: 'What is the Jolly Grant Airport taxi fare?', a: 'Jolly Grant Airport to Dehradun city is ₹1,000 fixed fare for Sedan, ₹1,200 for Ertiga and ₹1,500 for Innova Crysta. No extra charge for late night or early morning pickups.' },
+      { q: 'What is the Jolly Grant Airport taxi fare?', a: 'Jolly Grant Airport to Dehradun city is ₹1,000 fixed fare for Sedan, ₹1,400 for Ertiga and ₹1,800 for Innova Crysta. Airport parking charges applicable on pickup. No extra charge for late night or early morning pickups.' },
       { q: 'What is the Char Dham Yatra taxi fare from Dehradun?', a: 'Char Dham Yatra package from Dehradun starts at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga, ₹56,699 for Innova Crysta and ₹80,999 for Tempo Traveller. 10% discount applied.' },
       { q: 'Is the taxi fare from Chandigarh same as Delhi?', a: 'Yes. Taxi fare from Chandigarh to Dehradun is ₹3,500 — same as Delhi NCR rate. All inclusive, fixed price, no hidden charges.' },
       { q: 'Do you charge extra for late night pickups?', a: 'No extra charge for late night or early morning pickups. Our fare is fixed 24/7, 365 days. What we quote is what you pay.' },
@@ -43,6 +43,8 @@ const faqCategories = [
       { q: 'Is the cab AC?', a: 'Yes. All our vehicles — Sedan, Ertiga, Innova Crysta and Tempo Traveller — are fully air conditioned.' },
       { q: 'Can we make stops during the journey?', a: 'Yes. You can make stops during the journey for food, sightseeing or rest. For outstation trips, additional stops on the planned route are accommodated at no extra charge.' },
       { q: 'Do you provide 24/7 service?', a: 'Yes. We are available 24 hours, 7 days a week, 365 days a year. Early morning airport pickups, late night arrivals — we are always available.' },
+      { q: 'Does AC work on mountain roads in Uttarakhand?', a: 'Air conditioning does not function efficiently on steep mountain gradients and high altitudes — this is standard across all vehicles and operators in Uttarakhand. On plains and lower altitudes, AC works normally. We always inform customers of this upfront.' },
+      { q: 'How do I travel from Delhi to Dehradun comfortably?', a: 'The most comfortable and flexible option is a private taxi. A taxi offers door-to-door service, no fixed schedule, freedom to stop for food or sightseeing. Shri Taxi offers fixed-fare Delhi to Dehradun transfers from ₹3,500 — journey takes 5–6 hours. All inclusive.' },
     ],
   },
   {
@@ -64,6 +66,9 @@ const faqCategories = [
       { q: 'Can senior citizens do Char Dham Yatra by taxi?', a: 'Yes. Taxi is the most comfortable mode for senior citizens. Our drivers assist with luggage and know the best accessible routes. For Kedarnath, helicopter or pony service is available separately.' },
       { q: 'What should I carry for Char Dham Yatra?', a: 'Carry warm clothes (even in summer — cold at high altitude), comfortable walking shoes, medicines, ID proof, Yatra registration and some cash. Our drivers will guide you with local advice.' },
       { q: 'Is helicopter booking available for Kedarnath?', a: 'Helicopter booking for Kedarnath is a separate service managed by the government. Our taxi will drop you at the helipad. We can guide you on helicopter booking process.' },
+      { q: 'How many days are required for Char Dham Yatra?', a: 'A minimum of 10 days is required for a comfortable Char Dham Yatra from Haridwar or Rishikesh. From Delhi or Chandigarh, plan for 12 days. Rushing into fewer days is not recommended for seniors or families. The circuit covers Yamunotri, Gangotri, Kedarnath and Badrinath.' },
+      { q: 'Is Char Dham Yatra registration mandatory in 2026?', a: 'Yes. Char Dham Yatra registration is compulsory for all pilgrims. Registration is completely free at registrationandtouristcare.uk.gov.in. Without valid registration, entry to temples like Kedarnath and Badrinath may not be permitted. More than 1.26 lakh pilgrims registered on the first day of 2026 registration.' },
+      { q: 'What is included in the Char Dham taxi package?', a: 'Shri Taxi Char Dham packages include vehicle (Sedan/Ertiga/Innova), experienced local pahadi driver, fuel, toll, parking and driver night stay allowance. Hotel accommodation arranged on request. Packages start from ₹35,999.' },
     ],
   },
   {
@@ -101,8 +106,8 @@ const breadcrumbSchema = {
 ---
 
 <Base
-  title="Frequently Asked Questions | Shri Taxi — Taxi Service Uttarakhand"
-  description="All your taxi booking questions answered — pricing, booking, vehicles, Char Dham Yatra, service areas and more. Shri Taxi FAQ page."
+  title="Taxi FAQ – Fares, Booking, Char Dham & Airport Transfers | Shri Taxi Uttarakhand"
+  description="Get answers on taxi fares, airport transfers, Delhi to Dehradun cabs, Char Dham Yatra 2026 packages, vehicle options, booking process and local taxi services across Uttarakhand."
   canonicalUrl="https://shritaxi.com/faq"
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} slot="head" />
@@ -118,6 +123,7 @@ const breadcrumbSchema = {
       <div class="container">
         <nav class="breadcrumb"><a href="/">Home</a> › <span>FAQs</span></nav>
         <h1 class="faq-hero-title">Frequently Asked Questions</h1>
+        <p class="faq-hero-sub">Find answers about taxi fares, airport transfers, Delhi to Dehradun cabs, Char Dham Yatra packages, vehicle options, booking process and local taxi services across Uttarakhand.</p>
         <p class="faq-hero-sub">All your taxi booking questions answered in one place</p>
         <!-- Category pills -->
         <div class="faq-cats">
@@ -184,6 +190,7 @@ const breadcrumbSchema = {
 <style>
 .faq-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
 .faq-hero-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+.faq-hero-sub { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 680px; margin: 0 auto; }
 .faq-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
 .faq-cats { display: flex; flex-wrap: wrap; gap: 8px; }
 .faq-cat-btn { padding: 8px 16px; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
