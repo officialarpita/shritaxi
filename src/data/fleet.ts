@@ -24,7 +24,7 @@ export const fleet: Vehicle[] = [
     segment: 'Sedan',
     seats: 4,
     luggage: '2 large bags',
-    bestFor: 'City rides, airport transfers and short hill trips',
+    bestFor: 'City rides, day trips and short hill station tours',
     mrpPerDay: 3999,
     perDay: 3599,
     image: dzireImg,
