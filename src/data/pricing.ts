@@ -168,7 +168,7 @@ export const transfers: Transfer[] = [
     faqs: [
       { q: 'What is the best time to visit Haridwar from Dehradun?', a: 'Haridwar is beautiful year-round. For Ganga Aarti at Har Ki Pauri, evening visits (6-7 PM) are best. Avoid Kanwar Mela and Kumbh Mela dates if you want a peaceful visit.' },
       { q: 'Can I visit both Haridwar and Rishikesh in one day?', a: 'Yes. Haridwar and Rishikesh are 20 km apart. Shri Taxi offers a Haridwar-Rishikesh same-day combo starting at ₹3,499 for Sedan — covering both cities in one trip.' },
-      { q: 'Is there a toll on the Dehradun to Haridwar route?', a: 'Yes, there are toll plazas on the Dehradun-Haridwar route. All toll charges are included in Shri Taxi's quoted fare.' },
+      { q: 'Is there a toll on the Dehradun to Haridwar route?', a: 'Yes, there are toll plazas on the Dehradun-Haridwar route. All toll charges are included in Shri Taxi fare.' },
     ],
   },
   {
@@ -278,7 +278,7 @@ export const transfers: Transfer[] = [
     group: 'delhi',
     faqs: [
       { q: 'What is the best road route from Delhi to Dehradun?', a: 'The best route is via NH58 through Meerut, Muzaffarnagar and Roorkee — approximately 310 km taking 5-6 hours. Shri Taxi drivers take the most efficient route based on traffic conditions.' },
-      { q: 'How many toll plazas are there from Delhi to Dehradun?', a: 'There are 4-5 toll plazas on the Delhi to Dehradun route. All toll charges are included in Shri Taxi's fixed fare of ₹3,500.' },
+      { q: 'How many toll plazas are there from Delhi to Dehradun?', a: 'There are 4-5 toll plazas on the Delhi to Dehradun route. All toll charges are included in Shri Taxi fixed fare of ₹3,500.' },
       { q: 'Can I stop at Haridwar or Rishikesh on the way from Delhi to Dehradun?', a: 'Yes. Stops at Haridwar or Rishikesh can be accommodated on request. Additional sightseeing stops may attract extra charges — please confirm when booking.' },
       { q: 'What is the best time to travel from Delhi to Dehradun by taxi?', a: 'Early morning (5-6 AM) departures from Delhi avoid city traffic and reach Dehradun before afternoon. Night travel is also popular — depart after 11 PM to reach Dehradun by morning.' },
     ],
