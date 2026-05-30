@@ -124,6 +124,12 @@ export const transfers: Transfer[] = [
     seoTitle: 'Jolly Grant Airport Taxi to Dehradun | ₹1,000 Fixed Fare',
     seoDesc: 'Book reliable airport taxi from Jolly Grant Airport (DED) to Dehradun at ₹1,000 fixed fare. 24/7 available, flight tracking, no hidden charges.',
     group: 'dehradun',
+    faqs: [
+      { q: 'How far is Jolly Grant Airport from Dehradun city?', a: 'Jolly Grant Airport (DED) is 27 km from Dehradun city centre. The taxi journey takes approximately 45 minutes depending on traffic.' },
+      { q: 'Is pre-booking required for airport taxi from Jolly Grant Airport?', a: 'Pre-booking is recommended for guaranteed pickup. Shri Taxi tracks your flight and adjusts pickup time automatically. Book via WhatsApp for instant confirmation.' },
+      { q: 'Are airport parking charges included in the fare?', a: 'Airport parking charges apply on pickup from Jolly Grant Airport as per airport policy. These are not included in the base fare and are paid at the parking barrier.' },
+      { q: 'Does Shri Taxi offer late night airport pickup?', a: 'Yes. Shri Taxi provides 24/7 airport pickup from Jolly Grant Airport including late night and early morning arrivals. No extra charge for odd hours.' },
+    ],
   },
   {
     id: 'dehradun-mussoorie',
@@ -139,6 +145,11 @@ export const transfers: Transfer[] = [
     seoTitle: 'Dehradun to Mussoorie Taxi | ₹1,500 One Way | ₹3,500 Round Trip',
     seoDesc: 'Book taxi from Dehradun to Mussoorie at ₹1,500 one way or ₹3,500 round trip. Fixed price, experienced hill drivers, all inclusive.',
     group: 'dehradun',
+    faqs: [
+      { q: 'Which route does the taxi take from Dehradun to Mussoorie?', a: 'Shri Taxi takes the Library Road route via Rajpur for Dehradun to Mussoorie — the most direct and scenic route. The Malsi route is used during peak season when Library Road has heavy traffic.' },
+      { q: 'Is Mussoorie accessible in winter by taxi?', a: 'Yes. Mussoorie is accessible throughout the year. In winter (December-February), roads may have snow — our experienced pahadi drivers are fully equipped for winter driving.' },
+      { q: 'Can I make stops at Kempty Falls on the way to Mussoorie?', a: 'Yes. Kempty Falls is on the Dehradun-Mussoorie route. We can stop there at no extra charge on round trip bookings.' },
+    ],
   },
   {
     id: 'dehradun-haridwar',
@@ -154,6 +165,11 @@ export const transfers: Transfer[] = [
     seoTitle: 'Dehradun to Haridwar Taxi | ₹2,000 One Way | ₹3,500 Round Trip',
     seoDesc: 'Book taxi from Dehradun to Haridwar at ₹2,000 one way. Fixed price cab for Har Ki Pauri, Ganga Aarti. All inclusive, no hidden charges.',
     group: 'dehradun',
+    faqs: [
+      { q: 'What is the best time to visit Haridwar from Dehradun?', a: 'Haridwar is beautiful year-round. For Ganga Aarti at Har Ki Pauri, evening visits (6-7 PM) are best. Avoid Kanwar Mela and Kumbh Mela dates if you want a peaceful visit.' },
+      { q: 'Can I visit both Haridwar and Rishikesh in one day?', a: 'Yes. Haridwar and Rishikesh are 20 km apart. Shri Taxi offers a Haridwar-Rishikesh same-day combo starting at ₹3,499 for Sedan — covering both cities in one trip.' },
+      { q: 'Is there a toll on the Dehradun to Haridwar route?', a: 'Yes, there are toll plazas on the Dehradun-Haridwar route. All toll charges are included in Shri Taxi's quoted fare.' },
+    ],
   },
   {
     id: 'dehradun-rishikesh',
@@ -169,6 +185,11 @@ export const transfers: Transfer[] = [
     seoTitle: 'Dehradun to Rishikesh Taxi | ₹2,000 One Way | ₹3,500 Round Trip',
     seoDesc: 'Book taxi from Dehradun to Rishikesh at ₹2,000 one way. Fixed price for Laxman Jhula, Ram Jhula, rafting. All inclusive.',
     group: 'dehradun',
+    faqs: [
+      { q: 'Can I go river rafting in Rishikesh and return to Dehradun same day?', a: 'Yes. Shri Taxi offers round trips from Dehradun to Rishikesh at ₹3,500 for Sedan. Ideal for a day trip covering Laxman Jhula, Ram Jhula and river rafting at Shivpuri.' },
+      { q: 'How far is Laxman Jhula from Dehradun?', a: 'Laxman Jhula in Rishikesh is approximately 48 km from Dehradun, taking about 1 hour 20 minutes by taxi.' },
+      { q: 'Is the Dehradun to Rishikesh road good?', a: 'Yes. The Dehradun-Rishikesh route via NH7 is a well-maintained highway with minimal traffic. Our drivers know the best timings to avoid congestion.' },
+    ],
   },
   {
     id: 'dehradun-dhanaulti',
@@ -255,6 +276,12 @@ export const transfers: Transfer[] = [
     seoTitle: 'Delhi to Dehradun Taxi | ₹3,500 One Way | Fixed Price',
     seoDesc: 'Book taxi from Delhi to Dehradun at ₹3,500 one way. Fixed price, toll included, experienced drivers. Book online or WhatsApp.',
     group: 'delhi',
+    faqs: [
+      { q: 'What is the best road route from Delhi to Dehradun?', a: 'The best route is via NH58 through Meerut, Muzaffarnagar and Roorkee — approximately 310 km taking 5-6 hours. Shri Taxi drivers take the most efficient route based on traffic conditions.' },
+      { q: 'How many toll plazas are there from Delhi to Dehradun?', a: 'There are 4-5 toll plazas on the Delhi to Dehradun route. All toll charges are included in Shri Taxi's fixed fare of ₹3,500.' },
+      { q: 'Can I stop at Haridwar or Rishikesh on the way from Delhi to Dehradun?', a: 'Yes. Stops at Haridwar or Rishikesh can be accommodated on request. Additional sightseeing stops may attract extra charges — please confirm when booking.' },
+      { q: 'What is the best time to travel from Delhi to Dehradun by taxi?', a: 'Early morning (5-6 AM) departures from Delhi avoid city traffic and reach Dehradun before afternoon. Night travel is also popular — depart after 11 PM to reach Dehradun by morning.' },
+    ],
   },
   {
     id: 'delhi-haridwar',
@@ -269,6 +296,11 @@ export const transfers: Transfer[] = [
     seoTitle: 'Delhi to Haridwar Taxi | ₹3,500 One Way | Fixed Price',
     seoDesc: 'Book taxi from Delhi to Haridwar at ₹3,500 one way. Fixed price cab for Har Ki Pauri, Ganga Aarti. All inclusive.',
     group: 'delhi',
+    faqs: [
+      { q: 'How long does the Delhi to Haridwar taxi journey take?', a: 'Delhi to Haridwar taxi takes approximately 5 hours covering 230 km via NH58. Departing early morning (5-6 AM) avoids Delhi traffic and ensures a smooth journey.' },
+      { q: 'Is the taxi from Delhi to Haridwar safe for families?', a: 'Yes. Shri Taxi provides verified, experienced drivers for the Delhi-Haridwar route. Driver details are shared before the trip and support is available 24/7.' },
+      { q: 'Can I book a one-way taxi from Delhi to Haridwar?', a: 'Yes. One-way taxi from Delhi to Haridwar is ₹3,500 for Sedan — all inclusive. No return trip required. Ideal for pilgrims taking the train back.' },
+    ],
   },
   {
     id: 'delhi-rishikesh',
@@ -283,6 +315,10 @@ export const transfers: Transfer[] = [
     seoTitle: 'Delhi to Rishikesh Taxi | ₹3,500 One Way | Fixed Price',
     seoDesc: 'Book taxi from Delhi to Rishikesh at ₹3,500 one way. Fixed price for Laxman Jhula, rafting, yoga. All inclusive.',
     group: 'delhi',
+    faqs: [
+      { q: 'Is there a direct taxi from Delhi to Rishikesh?', a: 'Yes. Shri Taxi offers direct Delhi to Rishikesh taxi at ₹3,500 one way for Sedan. Journey takes 5 hours 30 minutes covering 260 km. All toll included.' },
+      { q: 'Which is better — Delhi to Rishikesh by taxi or train?', a: 'Taxi is more comfortable and flexible — door-to-door service, freedom to stop, no luggage restrictions. Train to Haridwar and then taxi to Rishikesh is cheaper but takes longer.' },
+    ],
   },
   {
     id: 'delhi-mussoorie',
@@ -297,6 +333,10 @@ export const transfers: Transfer[] = [
     seoTitle: 'Delhi to Mussoorie Taxi | ₹4,500 One Way | Fixed Price',
     seoDesc: 'Book taxi from Delhi to Mussoorie at ₹4,500 one way. Queen of Hills, Mall Road, Kempty Falls. All inclusive fixed price.',
     group: 'delhi',
+    faqs: [
+      { q: 'How long does Delhi to Mussoorie take by taxi?', a: 'Delhi to Mussoorie by taxi takes approximately 6 hours covering 290 km. The route passes through Meerut, Muzaffarnagar and Dehradun before ascending to Mussoorie.' },
+      { q: 'Can I visit Kempty Falls and Mall Road Mussoorie in one day from Delhi?', a: 'Yes, it is possible for a day trip but not recommended. Mussoorie deserves at least one overnight stay. A round trip from Delhi covers Mussoorie, Mall Road and Kempty Falls comfortably.' },
+    ],
   },
 
   // ── From Chandigarh ──
@@ -313,6 +353,10 @@ export const transfers: Transfer[] = [
     seoTitle: 'Chandigarh to Dehradun Taxi | ₹3,500 One Way | Fixed Price',
     seoDesc: 'Book taxi from Chandigarh to Dehradun at ₹3,500 one way. Fixed price, toll included, experienced drivers.',
     group: 'chandigarh',
+    faqs: [
+      { q: 'Is there a direct taxi from Chandigarh to Dehradun?', a: 'Yes. Shri Taxi offers direct Chandigarh to Dehradun taxi at ₹3,500 one way for Sedan. Journey takes 5 hours covering 280 km. All toll included.' },
+      { q: 'Does Shri Taxi pick up from Chandigarh Airport?', a: 'Yes. We pick up from Chandigarh Airport (IXC) at the same ₹3,500 rate to Dehradun.' },
+    ],
   },
 ];
 
