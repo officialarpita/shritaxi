@@ -11,7 +11,7 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 const faqCategories = [
   {
     id: 'pricing',
-    label: '💰 Pricing',
+    label: '💰 Taxi Fares',
     faqs: [
       { q: 'What is the taxi fare from Delhi to Dehradun?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 one way for Sedan, ₹4,500 for Ertiga, ₹5,670 for Innova Crysta and ₹8,000 for Tempo Traveller. All prices include driver, fuel, toll and parking. No hidden charges.' },
       { q: 'What is the taxi fare from Dehradun to Mussoorie?', a: 'Dehradun to Mussoorie taxi costs ₹1,500 one way or ₹3,500 round trip for Sedan. Ertiga costs ₹2,000 one way. All inclusive — driver, fuel and toll included.' },
@@ -19,11 +19,14 @@ const faqCategories = [
       { q: 'What is the Char Dham Yatra taxi fare from Dehradun?', a: 'Char Dham Yatra package from Dehradun starts at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga, ₹56,699 for Innova Crysta and ₹80,999 for Tempo Traveller. 10% discount applied.' },
       { q: 'Is the taxi fare from Chandigarh same as Delhi?', a: 'Yes. Taxi fare from Chandigarh to Dehradun is ₹3,500 — same as Delhi NCR rate. All inclusive, fixed price, no hidden charges.' },
       { q: 'Do you charge extra for late night pickups?', a: 'No extra charge for late night or early morning pickups. Our fare is fixed 24/7, 365 days. What we quote is what you pay.' },
+      { q: 'What is the taxi fare from Dehradun to Rishikesh?', a: 'Dehradun to Rishikesh taxi fare is ₹2,000 one way or ₹3,500 round trip for Sedan. Distance is 46 km, takes 1 hour 15 minutes. All inclusive — driver, fuel and toll.' },
+      { q: 'What is the taxi fare from Dehradun to Haridwar?', a: 'Dehradun to Haridwar taxi fare is ₹2,000 one way or ₹3,500 round trip for Sedan. Distance is 54 km, takes 1 hour 30 minutes. All inclusive — driver, fuel and toll.' },
+      { q: 'What is the taxi fare from Jolly Grant Airport to Mussoorie?', a: 'Jolly Grant Airport to Mussoorie taxi fare is ₹2,200 for Sedan one way. Distance is approximately 60 km, takes about 2 hours. All inclusive.' },
     ],
   },
   {
     id: 'booking',
-    label: '🚗 Booking',
+    label: '🚗 Booking & Payments',
     faqs: [
       { q: 'How do I book a taxi with Shri Taxi?', a: 'Book via WhatsApp at +91 6397321825 or call us directly. Share your pickup location, drop location, date and vehicle preference. We confirm within 15 minutes.' },
       { q: 'How much advance booking is required?', a: 'We recommend booking at least 2-3 hours in advance for local trips and 24 hours for outstation trips. For Char Dham Yatra, book as early as possible as cabs fill up fast during peak season.' },
@@ -35,7 +38,7 @@ const faqCategories = [
   },
   {
     id: 'service',
-    label: '✓ Service',
+    label: '🏔️ Services',
     faqs: [
       { q: 'Do you pick up from Delhi NCR?', a: 'Yes. We pick up from all Delhi NCR locations — IGI Airport, New Delhi Railway Station, Noida, Gurgaon, Faridabad and Ghaziabad at ₹3,500 fixed price to Dehradun.' },
       { q: 'Do you pick up from Chandigarh?', a: 'Yes. We pick up from Chandigarh city and Chandigarh Airport at ₹3,500 fixed price to Dehradun — same as Delhi NCR rate.' },
@@ -49,7 +52,7 @@ const faqCategories = [
   },
   {
     id: 'vehicles',
-    label: '🚙 Vehicles',
+    label: '🚙 Vehicles & Safety',
     faqs: [
       { q: 'What vehicles are available at Shri Taxi?', a: 'We offer Sedan (Dzire/Baleno — 4+1), Ertiga (6+1), Innova Crysta (6+1) and Tempo Traveller (12+1). All vehicles are well maintained, AC and GPS equipped.' },
       { q: 'Which vehicle is best for Char Dham Yatra?', a: 'Innova Crysta is most popular for Char Dham Yatra — comfortable seats, good ground clearance for mountain roads and reliable AC. For groups of 7-12, Tempo Traveller is recommended.' },
@@ -59,7 +62,7 @@ const faqCategories = [
   },
   {
     id: 'chardham',
-    label: '🙏 Char Dham',
+    label: '🙏 Char Dham Yatra',
     faqs: [
       { q: 'When does Char Dham Yatra 2026 open?', a: 'Char Dham Yatra 2026 opens in April-May. Yamunotri and Gangotri open on Akshaya Tritiya. Kedarnath and Badrinath open a few days later. Season closes in October-November.' },
       { q: 'What is the best time for Char Dham Yatra?', a: 'May-June and September-October are the best months for Char Dham Yatra. July-August has monsoon which can cause road disruptions. April-May and October-November have pleasant weather.' },
@@ -73,12 +76,15 @@ const faqCategories = [
   },
   {
     id: 'uniqueness',
-    label: '🎁 Our Promise',
+    label: '🎁 Why Shri Taxi',
     faqs: [
       { q: 'What is the Shri Taxi gift hamper?', a: 'Every Shri Taxi passenger receives a special Uttarakhand welcome hamper — local snacks, a branded water bottle and a handwritten safe journey card. Our way of saying welcome to the mountains.' },
       { q: 'What are Shri Taxi Wallet Points?', a: 'Earn points on every booking — 50 to 1000 points depending on trip value. 100 points = ₹100 off on next booking. Extra points for Google reviews, photo sharing and referrals.' },
       { q: 'What is the Shri Taxi Green Mission?', a: 'Our eco initiative to keep Uttarakhand mountains clean. Collect plastic during your journey and hand it to the driver. Earn extra Wallet Points and help keep our mountains beautiful.' },
       { q: 'What is the No Hidden Cost Guarantee?', a: 'The price we quote includes driver, fuel, toll and parking — nothing extra. No fuel surcharge, no night charge, no waiting charge. What we quote is what you pay. Always.' },
+      { q: 'Which taxi service is best in Uttarakhand?', a: 'Shri Taxi is trusted by travellers across Uttarakhand for airport transfers, Char Dham Yatra, local sightseeing and outstation travel. With 7+ years experience, local pahadi drivers, transparent fares and 24/7 support, we provide a reliable and comfortable travel experience.' },
+      { q: 'Is Shri Taxi safe for families and solo travellers?', a: 'Yes. All drivers are verified, experienced local pahadi drivers. Driver name, contact number and vehicle number are shared before the trip. Our support team is available 24/7. Female passengers travelling solo are welcome — our drivers maintain professional conduct at all times.' },
+      { q: 'Do you provide taxi service near me in Uttarakhand?', a: 'Yes. Shri Taxi operates across Dehradun, Mussoorie, Haridwar, Rishikesh, Jolly Grant Airport, Dhanaulti, Tehri, Uttarkashi and Delhi NCR and Chandigarh with 24/7 availability. Call or WhatsApp +91 6397321825 for nearest driver.' },
     ],
   },
 ];
@@ -130,6 +136,31 @@ const breadcrumbSchema = {
           {faqCategories.map((c, i) => (
             <button class={`faq-cat-btn${i === 0 ? ' faq-cat-btn--active' : ''}`} data-cat={c.id}>{c.label}</button>
           ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Most Asked Questions — AI citation hub -->
+    <section class="most-asked">
+      <div class="container">
+        <h2 class="section-title" style="text-align:center;margin-bottom:24px;">Most Asked Questions</h2>
+        <div class="ma-grid">
+          <div class="ma-item">
+            <p class="ma-q">What is the taxi fare from Delhi to Dehradun?</p>
+            <p class="ma-a">Starting ₹3,500 for Sedan — all inclusive. Driver, fuel, toll and parking included.</p>
+          </div>
+          <div class="ma-item">
+            <p class="ma-q">How much is a taxi from Jolly Grant Airport?</p>
+            <p class="ma-a">Airport to Dehradun city starts at ₹1,000 for Sedan. Fixed price, 24/7 available.</p>
+          </div>
+          <div class="ma-item">
+            <p class="ma-q">What is the Char Dham Yatra taxi package cost?</p>
+            <p class="ma-a">Char Dham packages start at ₹35,999 for Sedan (10 days) — all inclusive.</p>
+          </div>
+          <div class="ma-item">
+            <p class="ma-q">Are local pahadi drivers available?</p>
+            <p class="ma-a">Yes. All Shri Taxi drivers are experienced local Uttarakhand pahadi drivers who know every mountain route.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -189,9 +220,15 @@ const breadcrumbSchema = {
 
 <style>
 .faq-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
+.most-asked { background: var(--mint); padding: 48px 0; }
+.ma-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+.ma-item { background: var(--white); border-radius: var(--radius-md); padding: 20px 24px; border: 1px solid var(--border); }
+.ma-q { font-size: 14px; font-weight: 700; color: var(--teal); margin-bottom: 8px; line-height: 1.4; }
+.ma-a { font-size: 13px; color: var(--muted); line-height: 1.7; margin: 0; }
+@media (max-width: 600px) { .ma-grid { grid-template-columns: 1fr; } }
+
 .faq-hero-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 10px; }
 .faq-hero-sub { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; max-width: 680px; margin: 0 auto; }
-.faq-hero-sub { font-size: 16px; color: rgba(255,255,255,0.8); margin-bottom: 24px; }
 .faq-cats { display: flex; flex-wrap: wrap; gap: 8px; }
 .faq-cat-btn { padding: 8px 16px; border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); border-radius: 30px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
 .faq-cat-btn:hover, .faq-cat-btn--active { background: #fff; color: #0d9488; border-color: #fff; }
