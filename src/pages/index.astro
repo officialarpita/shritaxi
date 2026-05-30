@@ -257,23 +257,26 @@ const priceSchema = {
             <span class="combo-fire">🔥</span>
             <div>
               <h2 class="combo-banner-title">Special Combo — Haridwar + Rishikesh Same Day</h2>
-              <p class="combo-banner-sub">Visit both spiritual cities in one comfortable day trip from Dehradun · Ganga Aarti + Laxman Jhula</p>
+              <p class="combo-banner-sub">Visit both spiritual cities in one comfortable day trip · Ganga Aarti + Laxman Jhula</p>
             </div>
           </div>
           <div class="combo-banner-prices">
             <div class="combo-banner-card">
               <span class="combo-banner-vehicle">🚗 Sedan</span>
               <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.sedan.price)}</span>
+              <span class="combo-banner-from">From Dehradun</span>
               <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Sedan`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
             </div>
             <div class="combo-banner-card">
               <span class="combo-banner-vehicle">🚐 Ertiga</span>
               <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.ertiga.price)}</span>
+              <span class="combo-banner-from">From Dehradun</span>
               <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Ertiga`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
             </div>
             <div class="combo-banner-card">
               <span class="combo-banner-vehicle">🚙 Innova</span>
               <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.innova.price)}</span>
+              <span class="combo-banner-from">From Dehradun</span>
               <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Innova`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
             </div>
           </div>
@@ -487,6 +490,7 @@ const priceSchema = {
 .combo-banner-price { font-size: 18px; font-weight: 800; color: #fff; font-family: var(--font-display); }
 .combo-banner-card .btn-sm { font-size: 12px; padding: 6px 14px; background: #fff; color: var(--teal); }
 .combo-banner-card .btn-sm:hover { background: var(--mint); }
+.combo-banner-from { font-size: 10px; color: rgba(255,255,255,0.7); letter-spacing: 0.03em; }
 
 @media (max-width: 768px) {
   .combo-banner { flex-direction: column; align-items: flex-start; padding: 20px; }
