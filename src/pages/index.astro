@@ -248,6 +248,38 @@ const priceSchema = {
       </div>
     </section>
 
+    <!-- 5b. Special Combo — Haridwar + Rishikesh Same Day -->
+    <section class="section combo-homepage">
+      <div class="container">
+        <div class="combo-banner">
+          <div class="combo-banner-left">
+            <span class="combo-fire">🔥</span>
+            <div>
+              <h2 class="combo-banner-title">Special Combo — Haridwar + Rishikesh Same Day</h2>
+              <p class="combo-banner-sub">Visit both spiritual cities in one comfortable day trip from Dehradun · Ganga Aarti + Laxman Jhula</p>
+            </div>
+          </div>
+          <div class="combo-banner-prices">
+            <div class="combo-banner-card">
+              <span class="combo-banner-vehicle">🚗 Sedan</span>
+              <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.sedan.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Sedan`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+            <div class="combo-banner-card">
+              <span class="combo-banner-vehicle">🚐 Ertiga</span>
+              <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.ertiga.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Ertiga`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+            <div class="combo-banner-card">
+              <span class="combo-banner-vehicle">🚙 Innova</span>
+              <span class="combo-banner-price">{fmt(haridwarRishikeshCombo.innova.price)}</span>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20Haridwar%20%2B%20Rishikesh%20same%20day%20combo%20in%20Innova`} target="_blank" rel="noopener" class="btn btn-teal btn-sm">Book</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 6. Most Booked Routes -->
     <section class="section routes-section">
       <div class="container">
@@ -402,6 +434,69 @@ const priceSchema = {
 </Base>
 
 <style>
+
+/* ── Homepage Combo Banner ── */
+.combo-homepage { padding: 0 0 48px; }
+.combo-banner {
+  background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.combo-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+.combo-fire { font-size: 32px; flex-shrink: 0; }
+.combo-banner-title {
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--font-body);
+  margin-bottom: 4px;
+}
+.combo-banner-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.5;
+}
+.combo-banner-prices {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.combo-banner-card {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 110px;
+}
+.combo-banner-vehicle { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
+.combo-banner-price { font-size: 18px; font-weight: 800; color: #fff; font-family: var(--font-display); }
+.combo-banner-card .btn-sm { font-size: 12px; padding: 6px 14px; background: #fff; color: var(--teal); }
+.combo-banner-card .btn-sm:hover { background: var(--mint); }
+
+@media (max-width: 768px) {
+  .combo-banner { flex-direction: column; align-items: flex-start; padding: 20px; }
+  .combo-banner-prices { width: 100%; justify-content: space-between; }
+  .combo-banner-card { flex: 1; min-width: 80px; }
+}
+@media (max-width: 480px) {
+  .combo-banner-prices { flex-direction: column; }
+  .combo-banner-card { flex-direction: row; justify-content: space-between; align-items: center; }
+}
+
 /* ── Homepage FAQ ── */
 .homepage-faq {
   background: var(--light);
