@@ -6,7 +6,7 @@ import Footer from '../../components/Footer.astro';
 import StickyBar from '../../components/StickyBar.astro';
 import SeasonBanner from '../../components/SeasonBanner.astro';
 import { Image } from 'astro:assets';
-import { tourPackages, fmt } from '../../data/pricing';
+import { tourPackages, fmt, delhiCharDhamTiers } from '../../data/pricing';
 
 import CharDhamImg   from '../../assets/images/CharDham1.jpeg';
 import NainitalImg   from '../../assets/images/Nainital2.jpg';
@@ -89,6 +89,11 @@ const imgMap: Record<string, ImageMetadata> = {
   'mukteshwar': NainitalImg,  // Nainital & Mukteshwar combined
 };
 const img = imgMap[pkg.id] || CharDhamImg;
+
+// Pickup city tiers — Delhi/Chandigarh adds ₹6,000 transfer surcharge
+const dehradunTiers  = pkg.tiers;
+const delhiTiers     = delhiCharDhamTiers(pkg.tiers);
+const chandigarhTiers = delhiCharDhamTiers(pkg.tiers); // same differential as Delhi
 
 const vehicleEmojis: Record<string, string> = {
   sedan: '🚗', ertiga: '🚐', innova: '🚙', traveller: '🚌',
@@ -208,8 +213,25 @@ const breadcrumbSchema = {
           <h2 class="section-title">Choose Your Vehicle</h2>
           <p class="section-sub">All prices include 10% discount. All inclusive — no hidden costs.</p>
         </div>
-        <div class="tiers-grid">
-          {pkg.tiers.map((t, i) => (
+
+        <!-- Pickup City Selector -->
+        <div class="pickup-tabs" id="pickup-tabs" role="tablist">
+          <button class="pickup-tab active" data-city="dehradun" role="tab" aria-selected="true">
+            📍 From Dehradun
+          </button>
+          <button class="pickup-tab" data-city="delhi" role="tab" aria-selected="false">
+            🏙️ From Delhi NCR
+          </button>
+          <button class="pickup-tab" data-city="chandigarh" role="tab" aria-selected="false">
+            🏙️ From Chandigarh
+          </button>
+        </div>
+        <p class="pickup-note" id="pickup-note" style="display:none;">
+          ✈️ Includes pickup from your city to Dehradun + return transfer
+        </p>
+
+        <div class="tiers-grid" id="tiers-dehradun">
+          {dehradunTiers.map((t, i) => (
             <div class={`tier-card${i === 2 ? ' tier-card--popular' : ''}`}>
               {i === 2 && <div class="tier-popular">Most Popular</div>}
               <div class="tier-emoji">{vehicleEmojis[t.vehicleId] || '🚗'}</div>
@@ -225,6 +247,45 @@ const breadcrumbSchema = {
             </div>
           ))}
         </div>
+
+        <!-- Delhi NCR tiers -->
+        <div class="tiers-grid" id="tiers-delhi" style="display:none;">
+          {delhiTiers.map((t, i) => (
+            <div class={`tier-card${i === 2 ? ' tier-card--popular' : ''}`}>
+              {i === 2 && <div class="tier-popular">Most Popular</div>}
+              <div class="tier-emoji">{vehicleEmojis[t.vehicleId] || '🚗'}</div>
+              <h3 class="tier-name">{t.vehicleName}</h3>
+              <p class="tier-seats">{t.seats}+1 passengers</p>
+              <div class="tier-price-block">
+                <span class="tier-mrp">{fmt(t.mrp)}</span>
+                <span class="tier-price">{fmt(t.discounted)}</span>
+              </div>
+              <span class="tier-save">Save {fmt(t.saving)}</span>
+              <p class="tier-duration">{pkg.nights > 0 ? `${pkg.nights}N ` : ''}{pkg.days}D · All inclusive</p>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20${encodeURIComponent(pkg.name)}%20from%20Delhi%20NCR%20in%20${encodeURIComponent(t.vehicleName)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 Book {t.vehicleName}</a>
+            </div>
+          ))}
+        </div>
+
+        <!-- Chandigarh tiers -->
+        <div class="tiers-grid" id="tiers-chandigarh" style="display:none;">
+          {chandigarhTiers.map((t, i) => (
+            <div class={`tier-card${i === 2 ? ' tier-card--popular' : ''}`}>
+              {i === 2 && <div class="tier-popular">Most Popular</div>}
+              <div class="tier-emoji">{vehicleEmojis[t.vehicleId] || '🚗'}</div>
+              <h3 class="tier-name">{t.vehicleName}</h3>
+              <p class="tier-seats">{t.seats}+1 passengers</p>
+              <div class="tier-price-block">
+                <span class="tier-mrp">{fmt(t.mrp)}</span>
+                <span class="tier-price">{fmt(t.discounted)}</span>
+              </div>
+              <span class="tier-save">Save {fmt(t.saving)}</span>
+              <p class="tier-duration">{pkg.nights > 0 ? `${pkg.nights}N ` : ''}{pkg.days}D · All inclusive</p>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20${encodeURIComponent(pkg.name)}%20from%20Chandigarh%20in%20${encodeURIComponent(t.vehicleName)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 Book {t.vehicleName}</a>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
 
@@ -470,4 +531,62 @@ const breadcrumbSchema = {
   .pkg-cta-btns { flex-direction: column; width: 100%; }
   .pkg-cta-btns .btn { justify-content: center; }
 }
+
+/* ── Pickup City Tabs ── */
+.pickup-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.pickup-tab {
+  padding: 10px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pickup-tab:hover { border-color: var(--teal); color: var(--teal); }
+.pickup-tab.active { border-color: var(--teal); background: rgba(13,148,136,0.08); color: var(--teal); font-weight: 700; }
+.pickup-note {
+  font-size: 13px;
+  color: var(--teal);
+  background: var(--mint);
+  border: 1px solid rgba(13,148,136,0.2);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  margin-bottom: 16px;
+}
+
 </style>
+
+<script>
+  // Pickup city tab switcher
+  const tabs = document.querySelectorAll('.pickup-tab');
+  const note = document.getElementById('pickup-note');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Update tab states
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected','true');
+
+      const city = tab.getAttribute('data-city');
+
+      // Show/hide tiers grids
+      ['dehradun','delhi','chandigarh'].forEach(c => {
+        const grid = document.getElementById(`tiers-${c}`);
+        if (grid) grid.style.display = c === city ? 'grid' : 'none';
+      });
+
+      // Show transfer note for non-Dehradun
+      if (note) note.style.display = city !== 'dehradun' ? 'block' : 'none';
+    });
+  });
+</script>
