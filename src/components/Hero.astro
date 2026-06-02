@@ -216,7 +216,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             Pickup Location
           </label>
           <div class="autocomplete-wrap" id="pickup-wrap">
-            <input type="text" id="pickup" name="pickup" placeholder="Type or select location" class="form-input autocomplete-input" required autocomplete="off" />
+            <input type="text" id="pickup" name="pickup" placeholder="Type or select location" class="form-input autocomplete-input" autocomplete="off" />
             <button type="button" class="ac-clear" id="pickup-clear" aria-label="Clear pickup">✕</button>
             <div class="ac-dropdown" id="pickup-dropdown"></div>
           </div>
@@ -229,7 +229,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
             Drop Location
           </label>
           <div class="autocomplete-wrap" id="drop-wrap">
-            <input type="text" id="drop" name="drop" placeholder="Type or select destination" class="form-input autocomplete-input" required autocomplete="off" />
+            <input type="text" id="drop" name="drop" placeholder="Type or select destination" class="form-input autocomplete-input" autocomplete="off" />
             <button type="button" class="ac-clear" id="drop-clear" aria-label="Clear drop">✕</button>
             <div class="ac-dropdown" id="drop-dropdown"></div>
           </div>
@@ -1191,6 +1191,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
   // Set min date to today — using LOCAL date to avoid timezone offset bug
   const dateInput = document.getElementById('date') as HTMLInputElement;
+  const returnDateInput = document.getElementById('return_date') as HTMLInputElement;
   if (dateInput) {
     const now = new Date();
     const localDate = now.getFullYear() + '-' +
@@ -1198,7 +1199,22 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       String(now.getDate()).padStart(2, '0');
     dateInput.min = localDate;
     dateInput.value = localDate;
+    // Set return date min = pickup date
+    if (returnDateInput) {
+      returnDateInput.min = localDate;
+    }
   }
+
+  // Update return date min whenever pickup date changes
+  dateInput?.addEventListener('change', () => {
+    if (returnDateInput) {
+      returnDateInput.min = dateInput.value;
+      // If return date is before new pickup date — reset it
+      if (returnDateInput.value && returnDateInput.value < dateInput.value) {
+        returnDateInput.value = dateInput.value;
+      }
+    }
+  });
 
   // Form submit — matches original BookingForm logic with Turnstile
   const form = document.getElementById('booking-form') as HTMLFormElement;
@@ -1209,6 +1225,46 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
+    }
+
+    // For One Way / Round Trip — validate pickup and drop
+    const tripTypeVal = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || '';
+    if (tripTypeVal === 'one-way' || tripTypeVal === 'round-trip') {
+      const pickupVal = (document.getElementById('pickup') as HTMLInputElement)?.value?.trim();
+      const dropVal   = (document.getElementById('drop') as HTMLInputElement)?.value?.trim();
+      if (!pickupVal) {
+        (document.getElementById('pickup') as HTMLInputElement)?.focus();
+        alert('Please enter a pickup location.');
+        btn.disabled = false;
+        btn.textContent = 'Book Now →';
+        return;
+      }
+      if (!dropVal) {
+        (document.getElementById('drop') as HTMLInputElement)?.focus();
+        alert('Please enter a drop location.');
+        btn.disabled = false;
+        btn.textContent = 'Book Now →';
+        return;
+      }
+    }
+
+    // For Local Hire — validate pickup location and package
+    if (tripTypeVal === 'local') {
+      const localPkgVal    = (document.getElementById('local_package_input') as HTMLInputElement)?.value?.trim();
+      const localPickupVal = (document.getElementById('local_pickup') as HTMLInputElement)?.value?.trim();
+      if (!localPkgVal) {
+        alert('Please select a package.');
+        btn.disabled = false;
+        btn.textContent = 'Book Now →';
+        return;
+      }
+      if (!localPickupVal) {
+        (document.getElementById('local_pickup') as HTMLInputElement)?.focus();
+        alert('Please enter your pickup location.');
+        btn.disabled = false;
+        btn.textContent = 'Book Now →';
+        return;
+      }
     }
 
     // Vehicle required check
