@@ -13,7 +13,15 @@ import { transfers, haridwarRishikeshCombo, fmt } from '../data/pricing';
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-
+// Services data — used for JSON-LD schema only (not rendered in HTML)
+const services = [
+  { id:'local',      name:'Dehradun Local Taxi',    desc:'Hourly and full-day rentals inside Dehradun.' },
+  { id:'airport',    name:'Airport Transfer',        desc:'Jolly Grant Airport pickups and drops, 24/7.' },
+  { id:'outstation', name:'Outstation Cab',          desc:'One-way and round-trip cabs across North India.' },
+  { id:'hill',       name:'Hill Station Taxi',       desc:'Mussoorie, Dhanaulti, Chopta, Auli and more.' },
+  { id:'chardham',   name:'Char Dham Yatra',         desc:'Complete packages from Dehradun, Haridwar, Delhi.' },
+  { id:'corporate',  name:'Corporate Travel',        desc:'Employee transfers and corporate event transport.' },
+];
 
 // Service navigation cards — link to relevant pages
 const serviceNav = [
