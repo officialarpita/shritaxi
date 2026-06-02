@@ -404,6 +404,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       }
       sessionStorage.removeItem('selectedVehicle');
     }
+
+    // Pre-select tab from URL query param e.g. /#booking?tab=airport or ?tab=local
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam) {
+      const tabBtn = document.querySelector(`.trip-tab[data-trip="${tabParam}"]`) as HTMLElement;
+      if (tabBtn) {
+        tabBtn.click();
+        setTimeout(() => {
+          document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+      }
+    }
   });
 
   // Close popup
