@@ -9,74 +9,62 @@ import { Image } from 'astro:assets';
 import { fleet } from '../data/fleet';
 import { transfers, haridwarRishikeshCombo, fmt } from '../data/pricing';
 
-import LocalCabImg      from '../assets/images/LocalCab.jpeg';
-import AirportImg       from '../assets/images/airportTransfer1.jpeg';
-import OutstationImg    from '../assets/images/outstationCab.jpeg';
-import HillStationImg   from '../assets/images/HillStation.jpeg';
-import CharDhamImg      from '../assets/images/CharDham1.jpeg';
-import RishikeshImg     from '../assets/images/Hrisikesh1.jpeg';
-import CorporateImg     from '../assets/images/Corporate1.jpeg';
-import PackagesImg      from '../assets/images/Mussori1.jpeg';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-const services = [
+
+
+// Service navigation cards — link to relevant pages
+const serviceNav = [
   {
     id: 'local',
-    name: 'Dehradun Local Taxi',
-    desc: 'Hourly and full-day rentals inside Dehradun — shopping, meetings, hospital visits.',
-    img: LocalCabImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20local%20cab%20in%20Dehradun`,
+    icon: '🏙️',
+    name: 'Local Taxi',
+    desc: 'Hourly and full-day rentals inside Dehradun and nearby cities',
+    href: '/?tab=local#booking',
+    cta: 'Book Local →',
   },
   {
     id: 'airport',
+    icon: '✈️',
     name: 'Airport Transfer',
-    desc: 'Jolly Grant Airport (DED) pickups and drops, 24/7 with flight tracking.',
-    img: AirportImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20an%20airport%20transfer`,
+    desc: 'Jolly Grant, Delhi IGI and Chandigarh Airport — pickup & drop 24/7',
+    href: '/?tab=airport#booking',
+    cta: 'Book Airport →',
   },
   {
     id: 'outstation',
+    icon: '🛣️',
     name: 'Outstation Cab',
-    desc: 'One-way and round-trip outstation cabs across North India.',
-    img: OutstationImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20an%20outstation%20cab`,
+    desc: 'One-way and round-trip cabs across Uttarakhand and North India',
+    href: '/popular-routes',
+    cta: 'View Routes →',
   },
   {
-    id: 'hill-station',
-    name: 'Hill Station Taxi',
-    desc: 'Experienced hill drivers for Mussoorie, Dhanaulti, Chakrata, Chopta, Auli.',
-    img: HillStationImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20hill%20station%20taxi`,
+    id: 'hill',
+    icon: '🏔️',
+    name: 'Hill Station',
+    desc: 'Mussoorie, Dhanaulti, Kanatal, Chopta, Auli and more',
+    href: '/packages',
+    cta: 'View Packages →',
   },
   {
-    id: 'char-dham',
-    name: 'Char Dham Yatra Taxi',
-    desc: 'Multi-day packages covering Kedarnath, Badrinath, Gangotri, Yamunotri.',
-    img: CharDhamImg,
+    id: 'chardham',
+    icon: '🛕',
+    name: 'Char Dham Yatra',
+    desc: 'Complete Char Dham packages from Dehradun, Haridwar and Delhi',
     href: '/char-dham-yatra',
-  },
-  {
-    id: 'rishikesh',
-    name: 'Haridwar & Rishikesh Cabs',
-    desc: 'Direct cabs to Har Ki Pauri, Laxman Jhula, rafting camps, Beatles Ashram.',
-    img: RishikeshImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20cab%20to%20Haridwar%20or%20Rishikesh`,
+    cta: 'View Packages →',
   },
   {
     id: 'corporate',
+    icon: '🏢',
     name: 'Corporate Travel',
-    desc: 'Monthly billing for regular corporate pickups, site visits, staff transport.',
-    img: CorporateImg,
-    href: `https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20corporate%20travel%20services`,
-  },
-  {
-    id: 'packages',
-    name: 'Tourist Packages',
-    desc: 'Curated weekend and multi-day tour packages with driver-cum-guide.',
-    img: PackagesImg,
-    href: '/packages',
+    desc: 'Employee transfers, airport runs and corporate event transport',
+    href: `https://wa.me/916397321825?text=Hi%20Shri%20Taxi%2C%20I%20need%20corporate%20travel%20services`,
+    cta: 'WhatsApp Us →',
+    external: true,
   },
 ];
 
@@ -133,38 +121,6 @@ const vehicleSchema = {
           <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
           <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20know%20about%20your%20services`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
           <a href="/#booking" class="btn btn-outline-white">Book Online →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Fleet Section — FIRST for conversion focus -->
-    <section class="section section--mint" id="fleet">
-      <div class="container">
-        <p class="section-label">Our Fleet</p>
-        <h2 class="section-title">Choose the Right Vehicle for Your Journey</h2>
-        <p class="section-sub">Our taxi fleet includes Hatchbacks, Sedans, SUVs, Innova Crysta and Tempo Travellers suitable for solo travellers, families and large groups</p>
-
-        <div class="services-grid">
-          {services.map(s => (
-            <a href={s.href} class="service-card" id={s.id} target={s.href.startsWith('http') ? '_blank' : '_self'} rel={s.href.startsWith('http') ? 'noopener' : ''}>
-              <div class="service-img-wrap">
-                <Image
-                  src={s.img}
-                  alt={`${s.name} in Dehradun`}
-                  width={300}
-                  height={200}
-                  class="service-img"
-                  loading="lazy"
-                />
-                <div class="service-overlay" aria-hidden="true"></div>
-              </div>
-              <div class="service-body">
-                <h3 class="service-name">{s.name}</h3>
-                <p class="service-desc">{s.desc}</p>
-                <span class="service-cta">Enquire Now →</span>
-              </div>
-            </a>
-          ))}
         </div>
       </div>
     </section>
@@ -378,6 +334,34 @@ const vehicleSchema = {
       </div>
     </section>
 
+    <!-- Service Navigation Cards -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label">What We Offer</p>
+          <h2 class="section-title">Our Taxi Services</h2>
+          <p class="section-sub">Choose your service — we'll take you there</p>
+        </div>
+        <div class="service-nav-grid">
+          {serviceNav.map(s => (
+            <a
+              href={s.href}
+              class="service-nav-card"
+              target={s.external ? '_blank' : '_self'}
+              rel={s.external ? 'noopener' : ''}
+            >
+              <span class="service-nav-icon">{s.icon}</span>
+              <div class="service-nav-body">
+                <h3 class="service-nav-name">{s.name}</h3>
+                <p class="service-nav-desc">{s.desc}</p>
+              </div>
+              <span class="service-nav-cta">{s.cta}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <!-- Final CTA -->
     <section class="section services-cta">
       <div class="container services-cta-inner">
@@ -545,6 +529,70 @@ const vehicleSchema = {
   border-radius: 50px;
   border: 1px solid rgba(13,148,136,0.15);
   white-space: nowrap;
+}
+
+
+/* ── Service Navigation Cards ── */
+.service-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.service-nav-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.service-nav-card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 4px 16px rgba(13,148,136,0.12);
+  transform: translateY(-2px);
+}
+.service-nav-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mint);
+  border-radius: var(--radius-md);
+}
+.service-nav-body { flex: 1; }
+.service-nav-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--slate);
+  margin-bottom: 3px;
+  font-family: var(--font-body);
+}
+.service-nav-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0;
+}
+.service-nav-cta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--teal);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+@media (max-width: 900px) {
+  .service-nav-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .service-nav-grid { grid-template-columns: 1fr; }
+  .service-nav-card { padding: 14px 16px; }
 }
 
 .fleet-card {
