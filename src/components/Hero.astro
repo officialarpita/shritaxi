@@ -815,6 +815,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const form = document.getElementById('booking-form')!;
     form.classList.remove('local-active');
     form.classList.add('airport-active');
+    // Hide local price result
+    document.getElementById('local-price-result')!.style.display = 'none';
   }
 
   function hideAirportTab() {
@@ -1247,6 +1249,70 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   document.getElementById('return_time')?.addEventListener('change', validateReturnTime);
 
   // Form submit — matches original BookingForm logic with Turnstile
+  // ── Partial Reset After Booking ────────────────────────────────
+  // Keeps: date, time, vehicle, name, phone
+  // Clears: trip-specific fields, tab state, price results
+  function partialResetForm() {
+    const form = document.getElementById('booking-form')!;
+
+    // 1. Reset tab to One Way
+    document.querySelectorAll('.trip-tab').forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected','false');
+    });
+    const oneWayTab = document.querySelector('.trip-tab[data-trip="one-way"]') as HTMLElement;
+    if (oneWayTab) {
+      oneWayTab.classList.add('active');
+      oneWayTab.setAttribute('aria-selected','true');
+    }
+    (document.getElementById('trip_type_input') as HTMLInputElement).value = 'one-way';
+
+    // 2. Remove CSS state classes
+    form.classList.remove('airport-active');
+    form.classList.remove('local-active');
+
+    // 3. Hide return date row
+    (document.getElementById('return-date-row') as HTMLElement).style.display = 'none';
+
+    // 4. Clear route fields
+    (document.getElementById('pickup') as HTMLInputElement).value = '';
+    (document.getElementById('drop') as HTMLInputElement).value = '';
+    document.getElementById('pickup-wrap')?.classList.remove('has-value');
+    document.getElementById('drop-wrap')?.classList.remove('has-value');
+
+    // 5. Clear local hire fields
+    (document.getElementById('local_package_input') as HTMLInputElement).value = '';
+    (document.getElementById('local_pickup') as HTMLInputElement).value = '';
+    (document.getElementById('local_spots') as HTMLInputElement).value = '';
+    selectedLocalPackage = '';
+    renderLocalPackages();
+
+    // 6. Clear airport fields
+    (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_select') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_location') as HTMLInputElement).value = '';
+    (document.getElementById('airport-select-group') as HTMLElement).style.display   = 'none';
+    (document.getElementById('airport-location-group') as HTMLElement).style.display = 'none';
+    (document.getElementById('airport-parking-note') as HTMLElement).style.display   = 'none';
+    airportJourneyType = '';
+
+    // 7. Hide all price result boxes
+    const pr = document.getElementById('price-result');
+    if (pr) pr.style.display = 'none';
+    const lp = document.getElementById('local-price-result');
+    if (lp) lp.style.display = 'none';
+    const ap = document.getElementById('airport-price-result');
+    if (ap) ap.style.display = 'none';
+
+    // 8. Reset submit button
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    if (btn) {
+      btn.textContent = 'Book Now →';
+      btn.style.background = '';
+      btn.disabled = false;
+    }
+  }
+
   const form = document.getElementById('booking-form') as HTMLFormElement;
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1399,6 +1465,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
+
+      // Partial reset after 2 seconds — keep date/time/vehicle/name/phone
+      setTimeout(partialResetForm, 2000);
 
     } catch (err) {
       console.error('Booking handler error:', err);
