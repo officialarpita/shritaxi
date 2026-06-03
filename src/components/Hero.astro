@@ -1466,8 +1466,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
 
-      // Partial reset after 2 seconds — keep date/time/vehicle/name/phone
-      setTimeout(partialResetForm, 2000);
+      // Partial reset IMMEDIATELY — removes stale CSS state so tabs work right away
+      partialResetForm();
 
     } catch (err) {
       console.error('Booking handler error:', err);
@@ -1477,12 +1477,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       btn.disabled = false;
     }
 
-    // Reset form and Turnstile after 4 seconds
+    // Reset only Turnstile after 4 seconds — NOT form.reset() which clears all fields
     setTimeout(() => {
-      btn.textContent = 'Book Now →';
-      btn.style.background = '';
-      form.reset();
-      // Just reset Turnstile — never re-render manually (causes postMessage error)
       // @ts-ignore
       if (window.turnstile) window.turnstile.reset();
     }, 4000);
