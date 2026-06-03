@@ -413,6 +413,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   function closePopup() {
     popup?.classList.remove('active');
     popup?.setAttribute('aria-hidden', 'true');
+    partialResetForm();
   }
 
   closeBtn?.addEventListener('click', closePopup);
@@ -1253,41 +1254,24 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   // Keeps: date, time, vehicle, name, phone
   // Clears: trip-specific fields, tab state, price results
   function partialResetForm() {
-    const form = document.getElementById('booking-form')!;
-
-    // 1. Reset tab to One Way
-    document.querySelectorAll('.trip-tab').forEach(t => {
-      t.classList.remove('active');
-      t.setAttribute('aria-selected','false');
-    });
+    // 1. Trigger One Way tab click — this handles all CSS class changes correctly
     const oneWayTab = document.querySelector('.trip-tab[data-trip="one-way"]') as HTMLElement;
-    if (oneWayTab) {
-      oneWayTab.classList.add('active');
-      oneWayTab.setAttribute('aria-selected','true');
-    }
-    (document.getElementById('trip_type_input') as HTMLInputElement).value = 'one-way';
+    if (oneWayTab) oneWayTab.click();
 
-    // 2. Remove CSS state classes
-    form.classList.remove('airport-active');
-    form.classList.remove('local-active');
-
-    // 3. Hide return date row
-    (document.getElementById('return-date-row') as HTMLElement).style.display = 'none';
-
-    // 4. Clear route fields
+    // 2. Clear route fields
     (document.getElementById('pickup') as HTMLInputElement).value = '';
     (document.getElementById('drop') as HTMLInputElement).value = '';
     document.getElementById('pickup-wrap')?.classList.remove('has-value');
     document.getElementById('drop-wrap')?.classList.remove('has-value');
 
-    // 5. Clear local hire fields
+    // 3. Clear local hire fields
     (document.getElementById('local_package_input') as HTMLInputElement).value = '';
     (document.getElementById('local_pickup') as HTMLInputElement).value = '';
     (document.getElementById('local_spots') as HTMLInputElement).value = '';
     selectedLocalPackage = '';
     renderLocalPackages();
 
-    // 6. Clear airport fields
+    // 4. Clear airport fields
     (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
     (document.getElementById('airport_select') as HTMLSelectElement).value = '';
     (document.getElementById('airport_location') as HTMLInputElement).value = '';
@@ -1296,21 +1280,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     (document.getElementById('airport-parking-note') as HTMLElement).style.display   = 'none';
     airportJourneyType = '';
 
-    // 7. Hide all price result boxes
+    // 5. Hide all price result boxes
     const pr = document.getElementById('price-result');
     if (pr) pr.style.display = 'none';
     const lp = document.getElementById('local-price-result');
     if (lp) lp.style.display = 'none';
     const ap = document.getElementById('airport-price-result');
     if (ap) ap.style.display = 'none';
-
-    // 8. Reset submit button
-    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    if (btn) {
-      btn.textContent = 'Book Now →';
-      btn.style.background = '';
-      btn.disabled = false;
-    }
   }
 
   const form = document.getElementById('booking-form') as HTMLFormElement;
@@ -1465,9 +1441,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
       btn.textContent = '✓ Booking Confirmed!';
       btn.style.background = 'var(--whatsapp)';
+      btn.disabled = false;
 
-      // Partial reset IMMEDIATELY — removes stale CSS state so tabs work right away
-      partialResetForm();
+      // Reset trip-specific fields only AFTER popup is closed
+      // so customer can still see their booking details in the popup
 
     } catch (err) {
       console.error('Booking handler error:', err);
