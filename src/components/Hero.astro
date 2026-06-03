@@ -1214,7 +1214,37 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         returnDateInput.value = dateInput.value;
       }
     }
+    // Re-validate return time if same day
+    validateReturnTime();
   });
+
+  // Validate return time — must be after pickup time if same day
+  function validateReturnTime() {
+    const returnTimeInput = document.getElementById('return_time') as HTMLInputElement;
+    if (!returnDateInput || !returnTimeInput) return;
+    const timeInput = document.getElementById('time') as HTMLInputElement;
+    if (!timeInput) return;
+
+    if (returnDateInput.value && returnDateInput.value === dateInput.value) {
+      // Same day — return time must be after pickup time
+      returnTimeInput.min = timeInput.value;
+      if (returnTimeInput.value && returnTimeInput.value <= timeInput.value) {
+        returnTimeInput.value = '';
+        returnTimeInput.setCustomValidity('Return time must be after pickup time on the same day.');
+      } else {
+        returnTimeInput.setCustomValidity('');
+      }
+    } else {
+      // Different day — any time valid
+      returnTimeInput.min = '';
+      returnTimeInput.setCustomValidity('');
+    }
+  }
+
+  // Trigger validation when return date or pickup time changes
+  document.getElementById('return_date')?.addEventListener('change', validateReturnTime);
+  document.getElementById('time')?.addEventListener('change', validateReturnTime);
+  document.getElementById('return_time')?.addEventListener('change', validateReturnTime);
 
   // Form submit — matches original BookingForm logic with Turnstile
   const form = document.getElementById('booking-form') as HTMLFormElement;
