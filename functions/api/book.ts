@@ -21,6 +21,14 @@ interface BookingPayload {
   booking_id?: string;
   company?: string;
   turnstile_token?: string;
+  // Local Hire fields
+  local_package?: string;
+  local_pickup?: string;
+  local_spots?: string;
+  // Airport fields
+  airport_journey?: string;
+  airport_select?: string;
+  airport_location?: string;
 }
 
 const sanitizeReferralCode = (raw: string): string =>
@@ -69,11 +77,30 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   const verified = await verifyTurnstile(token, ctx.env.TURNSTILE_SECRET_KEY, ip);
   if (!verified) return json({ ok: false, error: 'Security check failed. Please reload and try again.' }, 400);
 
-  // Validate
-  const required = ['name', 'phone', 'pickup', 'drop', 'date', 'time', 'trip_type', 'vehicle'] as const;
-  for (const k of required) {
+  // Validate — base fields required for all trip types
+  const baseRequired = ['name', 'phone', 'date', 'time', 'trip_type', 'vehicle'] as const;
+  for (const k of baseRequired) {
     const v = (payload[k] || '').toString().trim();
     if (!v) return json({ ok: false, error: `Please fill in ${k.replace('_', ' ')}.` }, 400);
+  }
+
+  // Pickup/drop required only for one-way and round-trip
+  if (payload.trip_type === 'one-way' || payload.trip_type === 'round-trip') {
+    if (!(payload.pickup || '').trim()) return json({ ok: false, error: 'Please fill in pickup.' }, 400);
+    if (!(payload.drop || '').trim()) return json({ ok: false, error: 'Please fill in drop.' }, 400);
+  }
+
+  // Local hire — package and pickup location required
+  if (payload.trip_type === 'local') {
+    if (!(payload.local_package || '').trim()) return json({ ok: false, error: 'Please select a package.' }, 400);
+    if (!(payload.local_pickup || '').trim()) return json({ ok: false, error: 'Please enter your pickup location.' }, 400);
+  }
+
+  // Airport — journey type, airport and location required
+  if (payload.trip_type === 'airport') {
+    if (!(payload.airport_journey || '').trim()) return json({ ok: false, error: 'Please select journey type.' }, 400);
+    if (!(payload.airport_select || '').trim()) return json({ ok: false, error: 'Please select an airport.' }, 400);
+    if (!(payload.airport_location || '').trim()) return json({ ok: false, error: 'Please enter your location.' }, 400);
   }
   if (!/^[+0-9 \-]{7,15}$/.test(payload.phone!.trim())) {
     return json({ ok: false, error: 'Please enter a valid phone number.' }, 400);
@@ -103,19 +130,34 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   const bookingId = (payload.booking_id || '').trim().replace(/[^A-Z0-9-]/gi, '').slice(0, 32)
     || `SHRI-${new Date().toISOString().slice(2,10).replace(/-/g,'')}-${Math.random().toString(36).slice(2,6).toUpperCase()}`;
 
+  // Build Telegram message based on trip type
   const lines = [
     '<b>New booking request</b>',
     `<b>Booking ID:</b> ${escapeHtml(bookingId)}`,
+    `<b>Trip:</b> ${tripLabel}`,
     `<b>Name:</b> ${escapeHtml(payload.name!)}`,
     `<b>Phone:</b> ${escapeHtml(payload.phone!)}`,
-    `<b>Pickup:</b> ${escapeHtml(payload.pickup!)}`,
-    `<b>Drop:</b> ${escapeHtml(payload.drop!)}`,
+  ];
+
+  if (payload.trip_type === 'local') {
+    lines.push(`<b>Package:</b> ${escapeHtml(payload.local_package || '-')}`);
+    lines.push(`<b>Pickup Location:</b> ${escapeHtml(payload.local_pickup || '-')}`);
+    if (payload.local_spots) lines.push(`<b>Places to visit:</b> ${escapeHtml(payload.local_spots)}`);
+  } else if (payload.trip_type === 'airport') {
+    lines.push(`<b>Journey Type:</b> ${escapeHtml(payload.airport_journey || '-')}`);
+    lines.push(`<b>Airport:</b> ${escapeHtml(payload.airport_select || '-')}`);
+    lines.push(`<b>Location:</b> ${escapeHtml(payload.airport_location || '-')}`);
+  } else {
+    lines.push(`<b>Pickup:</b> ${escapeHtml(payload.pickup || '-')}`);
+    lines.push(`<b>Drop:</b> ${escapeHtml(payload.drop || '-')}`);
+  }
+
+  lines.push(
     `<b>Date:</b> ${escapeHtml(payload.date!)}`,
     `<b>Time:</b> ${escapeHtml(payload.time!)}`,
-    `<b>Trip:</b> ${tripLabel}`,
     `<b>Vehicle:</b> ${escapeHtml(payload.vehicle!)}`,
     `<b>Notes:</b> ${escapeHtml(payload.notes?.trim() || '-')}`,
-  ];
+  );
   if (referralLine) lines.push(referralLine);
   const text = lines.join('\n');
 
@@ -150,11 +192,21 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           booking_id: bookingId,
           name: payload.name,
           phone: payload.phone,
-          pickup: payload.pickup,
-          drop: payload.drop,
+          trip_type: tripLabel,
+          // One Way / Round Trip
+          pickup: payload.pickup || '',
+          drop: payload.drop || '',
+          // Local Hire
+          local_package: payload.local_package || '',
+          local_pickup: payload.local_pickup || '',
+          local_spots: payload.local_spots || '',
+          // Airport
+          airport_journey: payload.airport_journey || '',
+          airport_select: payload.airport_select || '',
+          airport_location: payload.airport_location || '',
+          // Common
           date: payload.date,
           time: payload.time,
-          trip_type: tripLabel,
           vehicle: payload.vehicle,
           notes: payload.notes || '',
           ip: ip || '',
