@@ -922,6 +922,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     resultEl.style.display = 'block';
   }
 
+  // Named function for city ride redirect link
+  function switchToLocalHireTab() {
+    const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
+    if (localTab) {
+      localTab.click();
+      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   function showLocalTab() {
     const form = document.getElementById('booking-form')!;
     form.classList.remove('airport-active');
@@ -1034,7 +1043,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       iconEl.textContent  = '🏙️';
       labelEl.textContent = 'City Ride — Use Local Hire Tab';
       vehiclesEl.innerHTML = '';
-      noteEl.innerHTML    = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200. &nbsp;<a href="#booking" onclick="document.querySelector(\'.trip-tab[data-trip=\\\"local\\\"]\').click();return false;" style="color:var(--teal);font-weight:700;">Switch to Local Hire →</a>';
+      noteEl.innerHTML    = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200. &nbsp;<a href="#booking" onclick="switchToLocalHireTab();return false;" style="color:var(--teal);font-weight:700;">Switch to Local Hire →</a>';
       resultEl.style.display = 'block';
       return;
     }
@@ -1669,6 +1678,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   align-items: flex-start;
   overflow: hidden;
 }
+@media (max-width: 768px) {
+  .hero { overflow: visible; }
+  .booking-card { overflow: visible; }
+}
 .hero-bg {
   position: absolute !important;
   inset: 0 !important;
@@ -1772,7 +1785,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   background: #fff;
   border-radius: var(--radius-lg);
   box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06);
-  overflow: hidden;
+  /* overflow:hidden removed — it clips position:fixed children on mobile */
 }
 
 .booking-card-header {
