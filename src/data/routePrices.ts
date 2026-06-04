@@ -156,7 +156,7 @@ export const routePrices: Record<string, VehiclePrice> = {
 export const longRouteDestinations = new Set([
   'nainital', 'kedarnath', 'badrinath', 'auli', 'corbett',
   'munsiyari', 'shimla', 'manali', 'yamunotri', 'gangotri',
-  'chopta', 'lansdowne',
+  'chopta', 'lansdowne', 'haldwani',
 ]);
 
 // ── AIRPORT PICKUP ORIGINS (per-day + parking note) ──────────────
@@ -305,6 +305,9 @@ export const locationMap: Record<string, string> = {
   // Munsiyari
   'munsiyari':                          'munsiyari',
   'pithoragarh':                        'munsiyari',
+  'haldwani':                           'haldwani',
+  'kainchi dham':                       'nainital',
+  'patal bhuvaneshwar':                 'munsiyari',
 
   // Other Cities
   'new delhi railway station':          'delhi',

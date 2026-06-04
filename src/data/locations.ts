@@ -71,6 +71,11 @@ export const locations: string[] = [
   'Binsar',
   'Jim Corbett National Park',
   'Ramnagar',
+  'Pithoragarh',
+  'Munsiyari',
+  'Patal Bhuvaneshwar',
+  'Haldwani',
+  'Kainchi Dham',
 
   // Nearby metro hubs
   'Delhi Airport (IGI)',
