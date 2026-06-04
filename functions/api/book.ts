@@ -71,11 +71,20 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
   }
 
   const token = (payload.turnstile_token || '').trim();
-  if (!token) return json({ ok: false, error: 'Missing security check.' }, 400);
-
   const ip = ctx.request.headers.get('CF-Connecting-IP');
-  const verified = await verifyTurnstile(token, ctx.env.TURNSTILE_SECRET_KEY, ip);
-  if (!verified) return json({ ok: false, error: 'Security check failed. Please reload and try again.' }, 400);
+
+  // Turnstile — non-blocking. Verify but don't reject on failure.
+  // Mobile browsers sometimes don't complete Turnstile before submit.
+  // We still log all bookings — flag unverified ones for review.
+  let turnstileVerified = false;
+  if (token) {
+    try {
+      turnstileVerified = await verifyTurnstile(token, ctx.env.TURNSTILE_SECRET_KEY, ip);
+    } catch {
+      // Turnstile API failure — don't block booking
+      turnstileVerified = false;
+    }
+  }
 
   // Validate — base fields required for all trip types
   const baseRequired = ['name', 'phone', 'date', 'time', 'trip_type', 'vehicle'] as const;
@@ -193,6 +202,7 @@ export const onRequestPost: PagesFunction<Env> = async (ctx) => {
           name: payload.name,
           phone: payload.phone,
           trip_type: tripLabel,
+          turnstile_verified: turnstileVerified,
           // One Way / Round Trip
           pickup: payload.pickup || '',
           drop: payload.drop || '',
