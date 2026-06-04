@@ -1496,6 +1496,31 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       }
     }
 
+    // For Airport — validate journey type, airport and location
+    if (tripTypeVal === 'airport') {
+      const journeyVal  = (document.getElementById('airport_journey') as HTMLSelectElement)?.value?.trim();
+      const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value?.trim();
+      const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value?.trim();
+      if (!journeyVal) {
+        (document.getElementById('airport_journey') as HTMLSelectElement)?.focus();
+        btn.disabled = false; btn.textContent = 'Book Now →';
+        alert('Please select a journey type (Pickup or Drop).');
+        return;
+      }
+      if (!airportVal) {
+        (document.getElementById('airport_select') as HTMLSelectElement)?.focus();
+        btn.disabled = false; btn.textContent = 'Book Now →';
+        alert('Please select an airport.');
+        return;
+      }
+      if (!locationVal) {
+        (document.getElementById('airport_location') as HTMLInputElement)?.focus();
+        btn.disabled = false; btn.textContent = 'Book Now →';
+        alert('Please enter your pickup/drop location.');
+        return;
+      }
+    }
+
     // For Local Hire — validate pickup location and package
     if (tripTypeVal === 'local') {
       const localPkgVal    = (document.getElementById('local_package_input') as HTMLInputElement)?.value?.trim();
@@ -1503,6 +1528,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       const localPickupErr = document.getElementById('local-pickup-error-msg');
       if (!localPkgVal) {
         document.querySelector('.local-pkg-btn')?.parentElement?.scrollIntoView({ behavior:'smooth', block:'center' });
+        // Show visual error on package buttons
+        const pkgContainer = document.getElementById('local-packages');
+        if (pkgContainer) {
+          pkgContainer.style.outline = '2px solid #dc2626';
+          pkgContainer.style.borderRadius = '6px';
+          setTimeout(() => { pkgContainer.style.outline = ''; }, 2000);
+        }
         btn.disabled = false; btn.textContent = 'Book Now →'; return;
       }
       if (!localPickupVal) {
@@ -1602,14 +1634,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       const localPackage = payload.local_package || '';
       const localPickup  = payload.local_pickup  || '';
       const localSpots   = payload.local_spots   || '';
-      const airportSel   = payload.airport_select || '';
-      const airportCity  = payload.airport_city   || '';
+      const airportSel     = payload.airport_select  || '';
+      const airportJourney = payload.airport_journey || '';
+      const airportLocation = payload.airport_location || '';
 
       let msg = '';
       if (payload.trip_type === 'local') {
         msg = `Hi Shri Taxi, I'd like to book a Local Hire cab.\n\n*Booking ID:* ${bookingId}\n\n*Package:* ${localPackage}\n*Pickup Location:* ${localPickup}\n${localSpots ? '*Places to visit:* ' + localSpots + '\n' : ''}*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
       } else if (payload.trip_type === 'airport') {
-        msg = `Hi Shri Taxi, I'd like to book an Airport Transfer.\n\n*Booking ID:* ${bookingId}\n\n*Airport:* ${airportSel}\n*City:* ${airportCity}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm direction (pickup/drop) and fare. Thanks!`;
+        const journeyLabel = airportJourney === 'pickup' ? 'Pickup from Airport' : airportJourney === 'drop' ? 'Drop to Airport' : airportJourney;
+        msg = `Hi Shri Taxi, I'd like to book an Airport Transfer.\n\n*Booking ID:* ${bookingId}\n\n*Journey:* ${journeyLabel}\n*Airport:* ${airportSel}\n*My Location:* ${airportLocation}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm and share fare. Thanks!`;
       } else {
         msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
       }
