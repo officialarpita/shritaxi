@@ -920,14 +920,24 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     resultEl.style.display = 'block';
   }
 
-  // Named function for city ride redirect — exposed globally for onclick in innerHTML
-  (window as any).switchToLocalHireTab = function() {
-    const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
-    if (localTab) {
-      localTab.click();
-      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Event delegation for city ride → Local Hire switch
+  // More reliable than inline onclick — works regardless of script load timing
+  document.getElementById('price-result')?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('city-ride-switch') || target.closest('.city-ride-switch')) {
+      e.preventDefault();
+      const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
+      if (localTab) {
+        // Small delay so click event completes before tab switches
+        setTimeout(() => {
+          localTab.click();
+          setTimeout(() => {
+            document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 150);
+        }, 50);
+      }
     }
-  };
+  });
 
   function showLocalTab() {
     const form = document.getElementById('booking-form')!;
@@ -1039,7 +1049,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     if (isSameCityGroup(fromKey, toKey) && isDifferentPlace) {
       innerEl.classList.add('estimated');
       iconEl.textContent  = '🏙️';
-      labelEl.innerHTML = 'City Ride — <a href="#booking" onclick="window.switchToLocalHireTab();return false;" style="color:var(--teal);font-weight:700;text-decoration:underline;">Switch to Local Hire →</a>';
+      labelEl.innerHTML = 'City Ride — <a href="#booking" class="city-ride-switch" style="color:var(--teal);font-weight:700;text-decoration:underline;">Switch to Local Hire →</a>';
       vehiclesEl.innerHTML = '';
       noteEl.innerHTML    = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200.';
       resultEl.style.display = 'block';
