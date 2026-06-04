@@ -2013,21 +2013,20 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 /* ── Sticky Submit — Mobile Only ── */
 @media (max-width: 768px) {
   .booking-submit-wrap {
-    position: sticky;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     background: #fff;
-    padding: 12px 0 8px;
+    padding: 10px 18px 14px;
     border-top: 1px solid var(--border);
-    margin: 0 -18px -16px;
-    padding-left: 18px;
-    padding-right: 18px;
-    z-index: 10;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+    z-index: 999;
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
   }
   .booking-submit-wrap .booking-submit { margin-top: 0; }
   .booking-submit-wrap .booking-secure { margin-top: 4px; font-size: 10px; }
+  /* Add padding to form so content doesn't hide behind fixed button */
+  .booking-form { padding-bottom: 90px; }
 }
 
 .booking-submit {
