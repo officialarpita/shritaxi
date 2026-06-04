@@ -1049,7 +1049,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     if (isSameCityGroup(fromKey, toKey) && isDifferentPlace) {
       innerEl.classList.add('estimated');
       iconEl.textContent  = '🏙️';
-      labelEl.innerHTML = 'City Ride — <a href="#booking" class="city-ride-switch" style="color:var(--teal);font-weight:700;text-decoration:underline;">Switch to Local Hire →</a>';
+      labelEl.innerHTML = 'City Ride — <button type="button" class="city-ride-switch" style="background:none;border:none;padding:0;color:var(--teal);font-weight:700;text-decoration:underline;cursor:pointer;font-size:inherit;text-transform:inherit;letter-spacing:inherit;font-family:inherit;">Switch to Local Hire →</button>';
       vehiclesEl.innerHTML = '';
       noteEl.innerHTML    = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200.';
       resultEl.style.display = 'block';
