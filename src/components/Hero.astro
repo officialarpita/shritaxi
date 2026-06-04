@@ -329,7 +329,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
               <input type="radio" name="vehicle" value="innova" />
               <span class="vehicle-card">
                 <span class="vehicle-icon">🚙</span>
-                <span class="vehicle-name">Innova Crysta</span>
+                <span class="vehicle-name" data-short="Innova">Innova Crysta</span>
                 <span class="vehicle-seats">6+1</span>
               </span>
             </label>
@@ -2342,12 +2342,17 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   .hero-trust-line { font-size: 10px; gap: 6px; letter-spacing: 0.08em; }
   .hero-ctas { flex-direction: column; }
   .hero-btn { width: 100%; justify-content: center; }
-  .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
+  .vehicle-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .form-row { grid-template-columns: 1fr; }
-  .booking-form { padding: 16px 18px; gap: 12px; }
+  .vehicle-seats { display: none; }
+  .vehicle-name[data-short]::before { content: attr(data-short); }
+  .vehicle-name[data-short] { font-size: 0; }
+  .vehicle-name[data-short]::before { font-size: 11px; font-weight: 600; color: var(--slate); }
+  .booking-form { padding: 16px 18px; gap: 8px; }
   .booking-card-header { padding: 14px 18px; }
+  .vehicle-icon { font-size: 18px; }
   .trip-tab { padding: 11px 6px; }
-  .vehicle-card { padding: 8px 4px; }
+  .vehicle-card { padding: 6px 3px; height: 60px; }
   .form-input { padding: 11px 12px; }
 }
 </style>
