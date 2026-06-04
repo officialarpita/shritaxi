@@ -920,6 +920,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     resultEl.style.display = 'block';
   }
 
+  // Named function for city ride redirect — exposed globally for onclick in innerHTML
+  (window as any).switchToLocalHireTab = function() {
+    const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
+    if (localTab) {
+      localTab.click();
+      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   function showLocalTab() {
     const form = document.getElementById('booking-form')!;
     form.classList.remove('airport-active');
@@ -1032,7 +1041,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       iconEl.textContent  = '🏙️';
       labelEl.textContent = 'City Ride — Use Local Hire Tab';
       vehiclesEl.innerHTML = '';
-      noteEl.innerHTML    = 'For rides within Dehradun, please use the <strong>Local Hire</strong> tab above for hourly packages from ₹1,200.';
+      noteEl.innerHTML    = 'For rides within Dehradun, please use the <strong>Local Hire</strong> tab for hourly packages from ₹1,200. &nbsp;<a href="#booking" onclick="window.switchToLocalHireTab();return false;" style="color:var(--teal);font-weight:700;">Switch to Local Hire →</a>';
       resultEl.style.display = 'block';
       return;
     }
