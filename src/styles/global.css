@@ -69,6 +69,12 @@ img    { max-width: 100%; display: block; }
 button { cursor: pointer; font-family: inherit; }
 ul, ol { list-style: none; }
 
+
+/* ── Rupee symbol consistency ── */
+.price, .price-amt, .price-vehicle-amt, [class*="price"] {
+  font-feature-settings: "tnum";
+}
+
 /* ── Layout ── */
 .container    { max-width: 1160px; margin: 0 auto; padding: 0 20px; }
 .section      { padding: 72px 0; }
