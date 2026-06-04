@@ -1239,23 +1239,19 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     }
 
     if (dateInput.value === localDate) {
-      // Same day — must be at least 30 min from now
-      timeInputEl.min = getLocalTime();
-      if (timeInputEl.value && timeInputEl.value < timeInputEl.min) {
+      // Same day — JS enforced (NOT relying on min attr — iOS Safari ignores it)
+      const minTime = getLocalTime();
+      if (timeInputEl.value && timeInputEl.value < minTime) {
         if (timeMsg) timeMsg.style.display = 'block';
         timeInputEl.classList.add('input-error');
-        timeInputEl.setCustomValidity('Please select a time at least 30 minutes from now.');
       } else {
         if (timeMsg) timeMsg.style.display = 'none';
         timeInputEl.classList.remove('input-error');
-        timeInputEl.setCustomValidity('');
       }
     } else {
       // Future date — any time valid
-      timeInputEl.min = '';
       if (timeMsg) timeMsg.style.display = 'none';
       timeInputEl.classList.remove('input-error');
-      timeInputEl.setCustomValidity('');
     }
   }
 
@@ -1297,7 +1293,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     const returnDateMsg = document.getElementById('return-date-error-msg');
     const returnTimeMsg = document.getElementById('return-time-error-msg');
 
-    // Validate return date vs pickup date
+    // Validate return date vs pickup date — JS enforced (not just min attr)
     if (returnDateInput.value && returnDateInput.value < dateInput.value) {
       if (returnDateMsg) returnDateMsg.style.display = 'block';
       returnDateInput.classList.add('input-error');
@@ -1307,23 +1303,18 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     }
 
     if (returnDateInput.value && returnDateInput.value === dateInput.value) {
-      // Same day — return time must be after pickup time
-      returnTimeInput.min = timeInput.value;
+      // Same day — JS enforced comparison (NOT relying on min attr — iOS ignores it)
       if (returnTimeInput.value && returnTimeInput.value <= timeInput.value) {
         if (returnTimeMsg) returnTimeMsg.style.display = 'block';
         returnTimeInput.classList.add('input-error');
-        returnTimeInput.setCustomValidity('Return time must be after pickup time on the same day.');
       } else {
         if (returnTimeMsg) returnTimeMsg.style.display = 'none';
         returnTimeInput.classList.remove('input-error');
-        returnTimeInput.setCustomValidity('');
       }
     } else {
       // Different day — any time valid
-      returnTimeInput.min = '';
       if (returnTimeMsg) returnTimeMsg.style.display = 'none';
       returnTimeInput.classList.remove('input-error');
-      returnTimeInput.setCustomValidity('');
     }
   }
 
@@ -1442,6 +1433,43 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         (document.getElementById('drop') as HTMLInputElement)?.focus();
         btn.disabled = false; btn.textContent = 'Book Now →'; return;
       } else { if (dropErr) dropErr.style.display = 'none'; }
+
+      // Round trip — return date and time required + JS enforced comparison (mobile safe)
+      if (tripTypeVal === 'round-trip') {
+        const retDate    = (document.getElementById('return_date') as HTMLInputElement)?.value?.trim();
+        const retTime    = (document.getElementById('return_time') as HTMLInputElement)?.value?.trim();
+        const pickDate   = (document.getElementById('date') as HTMLInputElement)?.value?.trim();
+        const pickTime   = (document.getElementById('time') as HTMLInputElement)?.value?.trim();
+        const retDateReq = document.getElementById('return-date-required-msg');
+        const retTimeReq = document.getElementById('return-time-required-msg');
+        const retDateErr = document.getElementById('return-date-error-msg');
+        const retTimeErr = document.getElementById('return-time-error-msg');
+
+        if (!retDate) {
+          if (retDateReq) retDateReq.style.display = 'block';
+          (document.getElementById('return_date') as HTMLInputElement)?.focus();
+          btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        } else { if (retDateReq) retDateReq.style.display = 'none'; }
+
+        if (retDate < pickDate) {
+          if (retDateErr) retDateErr.style.display = 'block';
+          (document.getElementById('return_date') as HTMLInputElement)?.focus();
+          btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        } else { if (retDateErr) retDateErr.style.display = 'none'; }
+
+        if (!retTime) {
+          if (retTimeReq) retTimeReq.style.display = 'block';
+          (document.getElementById('return_time') as HTMLInputElement)?.focus();
+          btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        } else { if (retTimeReq) retTimeReq.style.display = 'none'; }
+
+        // Same day — return time must be AFTER pickup time — JS enforced (iOS ignores min attr)
+        if (retDate === pickDate && retTime <= pickTime) {
+          if (retTimeErr) retTimeErr.style.display = 'block';
+          (document.getElementById('return_time') as HTMLInputElement)?.focus();
+          btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        } else { if (retTimeErr) retTimeErr.style.display = 'none'; }
+      }
     }
 
     // For Local Hire — validate pickup location and package
@@ -1458,6 +1486,23 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         (document.getElementById('local_pickup') as HTMLInputElement)?.focus();
         btn.disabled = false; btn.textContent = 'Book Now →'; return;
       } else { if (localPickupErr) localPickupErr.style.display = 'none'; }
+    }
+
+    // Pickup time validation — JS enforced at submit for mobile (iOS ignores min attr)
+    if (tripTypeVal !== 'local' && tripTypeVal !== 'airport') {
+      const pickDateVal = (document.getElementById('date') as HTMLInputElement)?.value?.trim();
+      const pickTimeVal = (document.getElementById('time') as HTMLInputElement)?.value?.trim();
+      const timeErr = document.getElementById('time-error-msg');
+      const now = new Date();
+      const localDate = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+      if (pickDateVal === localDate && pickTimeVal) {
+        const minTime = getLocalTime();
+        if (pickTimeVal < minTime) {
+          if (timeErr) timeErr.style.display = 'block';
+          (document.getElementById('time') as HTMLInputElement)?.focus();
+          btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        } else { if (timeErr) timeErr.style.display = 'none'; }
+      }
     }
 
     // Phone validation
