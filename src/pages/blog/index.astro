@@ -1,1 +1,181 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import StickyBar from '../../components/StickyBar.astro';
+import SeasonBanner from '../../components/SeasonBanner.astro';
+import { blogPosts } from '../../data/blog';
 
+const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
+const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
+
+const sortedPosts = [...blogPosts].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+---
+
+<Base
+  title="Travel Blog — Uttarakhand Travel Guides, Tips & Routes | Shri Taxi"
+  description="Read Shri Taxi's travel blog for Uttarakhand — Delhi to Dehradun guide, Char Dham Yatra tips, weekend getaways, route fares and local travel advice from pahadi drivers."
+>
+  <TopBar />
+  <Header />
+  <SeasonBanner />
+
+  <main>
+    <section class="blog-hero">
+      <div class="container">
+        <p class="section-label">Shri Taxi Blog</p>
+        <h1 class="blog-hero-title">Travel Stories & Guides</h1>
+        <p class="blog-hero-sub">Local travel advice from pahadi drivers who know every mountain road in Uttarakhand</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="blog-grid">
+          {sortedPosts.map(post => (
+            <a href={`/blog/${post.slug}`} class="blog-card">
+              <div class="blog-card-body">
+                <div class="blog-card-meta">
+                  <span class="blog-card-category">{post.category}</span>
+                  <span class="blog-card-date">{new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                </div>
+                <h2 class="blog-card-title">{post.title}</h2>
+                <p class="blog-card-desc">{post.description}</p>
+                <div class="blog-card-footer">
+                  <span class="blog-card-read">{post.readTime}</span>
+                  <span class="blog-card-arrow">Read more →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-cta">
+      <div class="container blog-cta-inner">
+        <div class="blog-cta-text">
+          <h2 class="blog-cta-title">Ready to Explore Uttarakhand?</h2>
+          <p class="blog-cta-sub">Book your taxi with experienced local pahadi drivers. Fixed fares, no hidden charges.</p>
+        </div>
+        <div class="blog-cta-btns">
+          <a href={`tel:${phone}`} class="btn btn-call">📞 Call Now</a>
+          <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <StickyBar />
+</Base>
+
+<style>
+.blog-hero {
+  background: var(--teal);
+  padding: 56px 0 48px;
+  text-align: center;
+}
+.blog-hero .section-label { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+.blog-hero-title {
+  font-size: clamp(28px, 4vw, 42px);
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 12px;
+}
+.blog-hero-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.blog-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.blog-card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 8px 24px rgba(13,148,136,0.1);
+  transform: translateY(-3px);
+}
+.blog-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.blog-card-category {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--teal);
+  background: var(--mint);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.blog-card-date {
+  font-size: 12px;
+  color: var(--muted);
+}
+.blog-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--slate);
+  font-family: 'Playfair Display', serif;
+  line-height: 1.3;
+}
+.blog-card-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+.blog-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.blog-card-read {
+  font-size: 12px;
+  color: var(--muted);
+}
+.blog-card-arrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+}
+.blog-cta { background: var(--teal); padding: 48px 0; }
+.blog-cta-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.blog-cta-title { font-size: clamp(20px, 3vw, 28px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
+.blog-cta-sub { font-size: 15px; color: rgba(255,255,255,0.8); }
+.blog-cta-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 600px) {
+  .blog-hero { padding: 36px 0 32px; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .blog-cta-inner { flex-direction: column; text-align: center; }
+  .blog-cta-btns { width: 100%; flex-direction: column; }
+  .blog-cta-btns .btn { justify-content: center; }
+}
+</style>
