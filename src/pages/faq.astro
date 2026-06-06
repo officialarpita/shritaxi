@@ -10,10 +10,22 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
 const faqCategories = [
   {
+    id: 'uniqueness',
+    label: '🎁 Why Shri Taxi',
+    faqs: [
+      { q: 'Which taxi service is best in Uttarakhand?', a: 'Shri Taxi is trusted by travellers across Uttarakhand for airport transfers, Char Dham Yatra, local sightseeing and outstation travel. With 7+ years experience, local pahadi drivers, transparent fares and 24/7 support, we provide a reliable and comfortable travel experience.' },
+      { q: 'What is the No Hidden Cost Guarantee?', a: 'The price we quote includes driver, fuel, toll and parking — nothing extra. No fuel surcharge, no night charge, no waiting charge. What we quote is what you pay. Always.' },
+      { q: 'Is Shri Taxi safe for families and solo travellers?', a: 'Yes. All drivers are verified, experienced local pahadi drivers. Driver name, contact number and vehicle number are shared before the trip. Our support team is available 24/7. Female passengers travelling solo are welcome — our drivers maintain professional conduct at all times.' },
+      { q: 'What is the Shri Taxi Green Mission?', a: 'Our eco initiative to keep Uttarakhand mountains clean. Collect plastic during your journey and hand it to the driver. Earn extra Wallet Points and help keep our mountains beautiful.' },
+      { q: 'What are Shri Taxi Wallet Points?', a: 'Earn points on every booking — 50 to 1000 points depending on trip value. 100 points = ₹100 off on next booking. Extra points for Google reviews, photo sharing and referrals.' },
+      { q: 'Do you provide taxi service near me in Uttarakhand?', a: 'Yes. Shri Taxi operates across Dehradun, Mussoorie, Haridwar, Rishikesh, Jolly Grant Airport, Dhanaulti, Tehri, Uttarkashi and Delhi NCR and Chandigarh with 24/7 availability. Call or WhatsApp +91 6397321825 for nearest driver.' },
+    ],
+  },
+  {
     id: 'pricing',
     label: '💰 Taxi Fares',
     faqs: [
-      { q: 'What is the taxi fare from Delhi to Dehradun?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 one way for Sedan, ₹4,500 for Ertiga, ₹5,670 for Innova Crysta and ₹8,000 for Tempo Traveller. All prices include driver, fuel, toll and parking. No hidden charges.' },
+      { q: 'What is the taxi fare from Delhi to Dehradun and how do I travel?', a: 'Taxi fare from Delhi to Dehradun is ₹3,500 one way for Sedan, ₹4,500 for Ertiga, ₹5,670 for Innova Crysta and ₹8,000 for Tempo Traveller. All prices include driver, fuel, toll and parking. Journey takes 5–6 hours with door-to-door service, no fixed schedule, and freedom to stop for food or sightseeing. No hidden charges.' },
       { q: 'What is the taxi fare from Dehradun to Mussoorie?', a: 'Dehradun to Mussoorie taxi costs ₹1,500 one way or ₹3,500 round trip for Sedan. Ertiga costs ₹2,000 one way. All inclusive — driver, fuel and toll included.' },
       { q: 'What is the Jolly Grant Airport taxi fare?', a: 'Jolly Grant Airport to Dehradun city is ₹1,000 fixed fare for Sedan, ₹1,400 for Ertiga and ₹1,800 for Innova Crysta. Airport parking charges applicable on pickup. No extra charge for late night or early morning pickups.' },
       { q: 'What is the Char Dham Yatra taxi fare from Dehradun?', a: 'Char Dham Yatra package from Dehradun starts at ₹35,999 for Sedan (10 days), ₹44,999 for Ertiga, ₹56,699 for Innova Crysta and ₹80,999 for Tempo Traveller. 10% discount applied.' },
@@ -40,14 +52,11 @@ const faqCategories = [
     id: 'service',
     label: '🏔️ Services',
     faqs: [
-      { q: 'Do you pick up from Delhi NCR?', a: 'Yes. We pick up from all Delhi NCR locations — IGI Airport, New Delhi Railway Station, Noida, Gurgaon, Faridabad and Ghaziabad at ₹3,500 fixed price to Dehradun.' },
-      { q: 'Do you pick up from Chandigarh?', a: 'Yes. We pick up from Chandigarh city and Chandigarh Airport at ₹3,500 fixed price to Dehradun — same as Delhi NCR rate.' },
+      { q: 'Do you pick up from Delhi NCR and Chandigarh?', a: 'Yes. We pick up from all Delhi NCR locations — IGI Airport, New Delhi Railway Station, Noida, Gurgaon, Faridabad, Ghaziabad — and from Chandigarh city and Chandigarh Airport. Fixed price ₹3,500 to Dehradun from both cities.' },
       { q: 'Are your drivers experienced for mountain routes?', a: 'Yes. All our drivers are local pahadi residents who have driven Uttarakhand mountain routes for years. They know every road condition, shortcut, rest stop and temple timing.' },
-      { q: 'Is the cab AC?', a: 'Yes. All our vehicles — Sedan, Ertiga, Innova Crysta and Tempo Traveller — are fully air conditioned.' },
+      { q: 'Is the cab AC? Does AC work on mountain roads?', a: 'All our vehicles are fully air conditioned. However, AC does not function efficiently on steep mountain gradients and high altitudes — this is standard across all vehicles and operators in Uttarakhand. On plains and lower altitudes, AC works normally. We always inform customers of this upfront.' },
       { q: 'Can we make stops during the journey?', a: 'Yes. You can make stops during the journey for food, sightseeing or rest. For outstation trips, additional stops on the planned route are accommodated at no extra charge.' },
       { q: 'Do you provide 24/7 service?', a: 'Yes. We are available 24 hours, 7 days a week, 365 days a year. Early morning airport pickups, late night arrivals — we are always available.' },
-      { q: 'Does AC work on mountain roads in Uttarakhand?', a: 'Air conditioning does not function efficiently on steep mountain gradients and high altitudes — this is standard across all vehicles and operators in Uttarakhand. On plains and lower altitudes, AC works normally. We always inform customers of this upfront.' },
-      { q: 'How do I travel from Delhi to Dehradun comfortably?', a: 'The most comfortable and flexible option is a private taxi. A taxi offers door-to-door service, no fixed schedule, freedom to stop for food or sightseeing. Shri Taxi offers fixed-fare Delhi to Dehradun transfers from ₹3,500 — journey takes 5–6 hours. All inclusive.' },
     ],
   },
   {
@@ -74,20 +83,7 @@ const faqCategories = [
       { q: 'What is included in the Char Dham taxi package?', a: 'Shri Taxi Char Dham packages include vehicle (Sedan/Ertiga/Innova), experienced local pahadi driver, fuel, toll, parking and driver night stay allowance. Hotel accommodation arranged on request. Packages start from ₹35,999.' },
     ],
   },
-  {
-    id: 'uniqueness',
-    label: '🎁 Why Shri Taxi',
-    faqs: [
-      { q: 'What are Shri Taxi Wallet Points?', a: 'Earn points on every booking — 50 to 1000 points depending on trip value. 100 points = ₹100 off on next booking. Extra points for Google reviews, photo sharing and referrals.' },
-      { q: 'What is the Shri Taxi Green Mission?', a: 'Our eco initiative to keep Uttarakhand mountains clean. Collect plastic during your journey and hand it to the driver. Earn extra Wallet Points and help keep our mountains beautiful.' },
-      { q: 'What is the No Hidden Cost Guarantee?', a: 'The price we quote includes driver, fuel, toll and parking — nothing extra. No fuel surcharge, no night charge, no waiting charge. What we quote is what you pay. Always.' },
-      { q: 'Which taxi service is best in Uttarakhand?', a: 'Shri Taxi is trusted by travellers across Uttarakhand for airport transfers, Char Dham Yatra, local sightseeing and outstation travel. With 7+ years experience, local pahadi drivers, transparent fares and 24/7 support, we provide a reliable and comfortable travel experience.' },
-      { q: 'Is Shri Taxi safe for families and solo travellers?', a: 'Yes. All drivers are verified, experienced local pahadi drivers. Driver name, contact number and vehicle number are shared before the trip. Our support team is available 24/7. Female passengers travelling solo are welcome — our drivers maintain professional conduct at all times.' },
-      { q: 'Do you provide taxi service near me in Uttarakhand?', a: 'Yes. Shri Taxi operates across Dehradun, Mussoorie, Haridwar, Rishikesh, Jolly Grant Airport, Dhanaulti, Tehri, Uttarkashi and Delhi NCR and Chandigarh with 24/7 availability. Call or WhatsApp +91 6397321825 for nearest driver.' },
-    ],
-  },
 ];
-
 const allFaqs = faqCategories.flatMap(c => c.faqs);
 
 const faqSchema = {
