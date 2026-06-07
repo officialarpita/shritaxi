@@ -1208,9 +1208,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   const dropInput   = document.getElementById('drop') as HTMLInputElement;
 
   pickupInput?.addEventListener('change', calculatePrice);
-  pickupInput?.addEventListener('blur', calculatePrice);
   dropInput?.addEventListener('change', calculatePrice);
-  dropInput?.addEventListener('blur', calculatePrice);
+  // Note: blur listeners removed — they caused calculatePrice to re-render labelEl.innerHTML
+  // mid-click, destroying the Switch to Local Hire button before click event completed.
 
   // Recalculate when trip type changes
   document.querySelectorAll('.trip-tab').forEach(tab => {
@@ -2057,6 +2057,10 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 .cf-turnstile {
   margin-top: 4px;
+  max-height: 40px;
+  overflow: hidden;
+  transform: scale(0.85);
+  transform-origin: left center;
 }
 
 /* Submit */
@@ -2388,10 +2392,11 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   .hero-btn { width: 100%; justify-content: center; }
   .vehicle-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
   .form-row { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .vehicle-seats { display: none; }
-  .vehicle-name[data-short]::before { content: attr(data-short); }
+  .vehicle-seats { display: inline; font-size: 10px; color: var(--muted); font-weight: 500; margin-left: 2px; }
+  .vehicle-name { display: inline; min-height: unset; }
+  .vehicle-icon { display: block; margin-bottom: 3px; }
   .vehicle-name[data-short] { font-size: 0; }
-  .vehicle-name[data-short]::before { font-size: 11px; font-weight: 600; color: var(--slate); }
+  .vehicle-name[data-short]::before { content: attr(data-short) "\00a0"; font-size: 11px; font-weight: 600; color: var(--slate); }
   .booking-form { padding: 16px 18px; gap: 8px; }
   .booking-card-header { padding: 14px 18px; }
   .vehicle-icon { font-size: 18px; }
