@@ -25,7 +25,7 @@ function parseMarkdown(md: string): string {
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   return blogPosts.map(post => ({
     params: { slug: post.slug },
     props: { post },
