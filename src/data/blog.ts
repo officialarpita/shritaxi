@@ -252,7 +252,7 @@ All fares are one way, fixed prices with no hidden charges. Driver, fuel, toll a
 
 Shri Taxi provides experienced local pahadi drivers who know every mountain road, the best viewpoints, and the safest routes — so you can relax and enjoy the journey.
     `.trim(),
-  },,
+  },
   {
     slug: 'dehradun-to-mussoorie-taxi-guide',
     title: 'Dehradun to Mussoorie by Taxi — Route, Fare & Travel Tips',
