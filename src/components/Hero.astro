@@ -300,7 +300,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         </label>
 
         <!-- Cloudflare Turnstile -->
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="compact"></div>
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible"></div>
 
         <!-- Vehicle Selector -->
         <div class="vehicle-select-section">
@@ -2057,10 +2057,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
 
 .cf-turnstile {
   margin-top: 4px;
-  max-height: 40px;
-  overflow: hidden;
-  transform: scale(0.85);
-  transform-origin: left center;
 }
 
 /* Submit */
