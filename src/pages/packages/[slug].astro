@@ -528,9 +528,13 @@ const breadcrumbSchema = {
 .pkg-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
 /* Responsive */
-@media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; gap: 16px; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
+  .pkg-hero { padding: 20px 0; }
   .pkg-hero-img { height: 240px; }
+  .pkg-highlights { margin-bottom: 12px; }
+  .pkg-price-block { padding: 12px; margin-bottom: 10px; }
+  .pkg-price { font-size: 28px; }
   .tiers-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .tier-card { padding: 16px 10px; }
   .pkg-cta-inner { flex-direction: column; }
