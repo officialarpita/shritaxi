@@ -530,16 +530,69 @@ const breadcrumbSchema = {
 /* Responsive */
 @media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; gap: 16px; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
-  .pkg-hero { padding: 20px 0; }
-  .pkg-hero-img { height: 240px; }
-  .pkg-highlights { margin-bottom: 12px; }
-  .pkg-price-block { padding: 12px; margin-bottom: 10px; }
-  .pkg-price { font-size: 28px; }
-  .tiers-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .tier-card { padding: 16px 10px; }
-  .pkg-cta-inner { flex-direction: column; }
+  /* ── Hero ── */
+  .pkg-hero { padding: 12px 0 20px; }
+  .pkg-hero-img { height: 220px; }
+  .pkg-hero-title { font-size: 20px; margin-bottom: 10px; }
+  .pkg-highlights { gap: 4px; margin-bottom: 10px; }
+  .pkg-chip { font-size: 11px; padding: 3px 8px; }
+  .pkg-price-block { padding: 10px 12px; margin-bottom: 8px; }
+  .pkg-price { font-size: 26px; }
+  .pkg-mrp { font-size: 14px; }
+  .pkg-save { font-size: 11px; padding: 2px 8px; }
+  .pkg-price-note { font-size: 11px; }
+  .pkg-incl { font-size: 12px; margin-bottom: 10px; }
+  .pkg-ctas { gap: 8px; margin-bottom: 10px; }
+  .pkg-ctas .btn { font-size: 14px; padding: 10px 16px; }
+  .pkg-trust-row { gap: 10px; font-size: 11px; }
+
+  /* ── AEO block ── */
+  .aeo-block { padding: 12px 0; }
+  .route-answer { font-size: 14px; line-height: 1.6; }
+
+  /* ── All sections ── */
+  .section { padding: 24px 0 !important; }
+  .section-header { margin-bottom: 16px !important; }
+  .section-title { font-size: 20px !important; margin-bottom: 6px !important; }
+  .section-sub { font-size: 13px !important; }
+  .section-label { font-size: 10px !important; margin-bottom: 6px !important; }
+
+  /* ── Vehicle tiers ── */
+  .tiers-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tier-card { padding: 12px 8px; gap: 4px; }
+  .tier-emoji { font-size: 24px; }
+  .tier-name { font-size: 13px; }
+  .tier-price { font-size: 20px; }
+  .tier-mrp { font-size: 12px; }
+  .tier-save { font-size: 10px; padding: 2px 6px; }
+  .tier-duration { font-size: 10px; }
+
+  /* ── Itinerary ── */
+  .itinerary-list { gap: 8px; }
+  .itinerary-item { padding: 10px 12px; gap: 10px; }
+  .itinerary-day { font-size: 10px; padding: 3px 8px; }
+  .itinerary-text { font-size: 13px; }
+
+  /* ── Includes ── */
+  .includes-grid { grid-template-columns: 1fr; gap: 6px; }
+  .include-item { padding: 8px 12px; font-size: 13px; }
+
+  /* ── Related packages ── */
+  .related-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .related-body { padding: 10px 12px; gap: 6px; }
+  .related-name { font-size: 13px; }
+  .related-price { font-size: 16px; }
+  .related-header { min-height: 70px; padding: 12px; }
+
+  /* ── Final CTA ── */
+  .pkg-cta-inner { flex-direction: column; gap: 16px; padding: 20px 0; }
+  .pkg-cta h2 { font-size: 18px; }
   .pkg-cta-btns { flex-direction: column; width: 100%; }
   .pkg-cta-btns .btn { justify-content: center; }
+
+  /* ── Pickup tabs ── */
+  .pickup-tabs { gap: 6px; margin-bottom: 14px; }
+  .pickup-tab { font-size: 12px; padding: 7px 12px; }
 }
 
 /* ── Pickup City Tabs ── */
