@@ -19,6 +19,8 @@ import MunsiyariImg  from '../assets/images/Munsyari.jpeg';
 import ChoptaImg     from '../assets/images/Chopta.jpeg';
 import ChakrataImg   from '../assets/images/Chakrata.jpg';
 import TehriImg      from '../assets/images/Tehri.jpg';
+import CorbettImg    from '../assets/images/Corbett.jpg';
+import MussoorieImg  from '../assets/images/Mussori1.jpeg';
 
 const phone = import.meta.env.PUBLIC_BUSINESS_PHONE || '+916397321825';
 const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
@@ -39,6 +41,10 @@ const imgMap: Record<string, ImageMetadata> = {
   'char-dham':   CharDhamImg,
   'lansdowne':   ChoptaImg,
   'mukteshwar':  NainitalImg,
+  'nainital-corbett':                    CorbettImg,
+  'mussoorie-corbett-nainital-ranikhet': MussoorieImg,
+  'nainital-ranikhet-corbett':           NainitalImg,
+  'almora-kausani':                      NainitalImg,
 };
 
 const dayPackages = tourPackages.filter(p =>
