@@ -435,7 +435,7 @@ const breadcrumbSchema = {
   <StickyBar />
 </Base>
 
-<style>
+<style is:global>
 /* Hero */
 .pkg-hero { background: #0f172a; padding: 40px 0; }
 
@@ -531,68 +531,68 @@ const breadcrumbSchema = {
 @media (max-width: 1024px) { .pkg-hero-content { grid-template-columns: 1fr; gap: 16px; } .tiers-grid { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
   /* ── Hero ── */
-  .pkg-hero { padding: 12px 0 20px; }
-  .pkg-hero-img { height: 220px; }
-  .pkg-hero-title { font-size: 20px; margin-bottom: 10px; }
-  .pkg-highlights { gap: 4px; margin-bottom: 10px; }
-  .pkg-chip { font-size: 11px; padding: 3px 8px; }
-  .pkg-price-block { padding: 10px 12px; margin-bottom: 8px; }
-  .pkg-price { font-size: 26px; }
-  .pkg-mrp { font-size: 14px; }
-  .pkg-save { font-size: 11px; padding: 2px 8px; }
-  .pkg-price-note { font-size: 11px; }
-  .pkg-incl { font-size: 12px; margin-bottom: 10px; }
-  .pkg-ctas { gap: 8px; margin-bottom: 10px; }
-  .pkg-ctas .btn { font-size: 14px; padding: 10px 16px; }
-  .pkg-trust-row { gap: 10px; font-size: 11px; }
+  #main-content .pkg-hero { padding: 12px 0 20px; }
+  #main-content .pkg-hero-img { height: 220px; }
+  #main-content .pkg-hero-title { font-size: 20px; margin-bottom: 10px; }
+  #main-content .pkg-highlights { gap: 4px; margin-bottom: 10px; }
+  #main-content .pkg-chip { font-size: 11px; padding: 3px 8px; }
+  #main-content .pkg-price-block { padding: 10px 12px; margin-bottom: 8px; }
+  #main-content .pkg-price { font-size: 26px; }
+  #main-content .pkg-mrp { font-size: 14px; }
+  #main-content .pkg-save { font-size: 11px; padding: 2px 8px; }
+  #main-content .pkg-price-note { font-size: 11px; }
+  #main-content .pkg-incl { font-size: 12px; margin-bottom: 10px; }
+  #main-content .pkg-ctas { gap: 8px; margin-bottom: 10px; }
+  #main-content .pkg-ctas .btn { font-size: 14px; padding: 10px 16px; }
+  #main-content .pkg-trust-row { gap: 10px; font-size: 11px; }
 
   /* ── AEO block ── */
-  .aeo-block { padding: 12px 0; }
-  .route-answer { font-size: 14px; line-height: 1.6; }
+  #main-content .aeo-block { padding: 12px 0; }
+  #main-content .route-answer { font-size: 14px; line-height: 1.6; }
 
   /* ── All sections ── */
-  .section { padding: 24px 0 !important; }
-  .section-header { margin-bottom: 16px !important; }
-  .section-title { font-size: 20px !important; margin-bottom: 6px !important; }
-  .section-sub { font-size: 13px !important; }
-  .section-label { font-size: 10px !important; margin-bottom: 6px !important; }
+  #main-content .section { padding: 24px 0; }
+  #main-content .section-header { margin-bottom: 16px; }
+  #main-content .section-title { font-size: 20px; margin-bottom: 6px; }
+  #main-content .section-sub { font-size: 13px; }
+  #main-content .section-label { font-size: 10px; margin-bottom: 6px; }
 
   /* ── Vehicle tiers ── */
-  .tiers-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .tier-card { padding: 12px 8px; gap: 4px; }
-  .tier-emoji { font-size: 24px; }
-  .tier-name { font-size: 13px; }
-  .tier-price { font-size: 20px; }
-  .tier-mrp { font-size: 12px; }
-  .tier-save { font-size: 10px; padding: 2px 6px; }
-  .tier-duration { font-size: 10px; }
+  #main-content .tiers-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  #main-content .tier-card { padding: 12px 8px; gap: 4px; }
+  #main-content .tier-emoji { font-size: 24px; }
+  #main-content .tier-name { font-size: 13px; }
+  #main-content .tier-price { font-size: 20px; }
+  #main-content .tier-mrp { font-size: 12px; }
+  #main-content .tier-save { font-size: 10px; padding: 2px 6px; }
+  #main-content .tier-duration { font-size: 10px; }
 
   /* ── Itinerary ── */
-  .itinerary-list { gap: 8px; }
-  .itinerary-item { padding: 10px 12px; gap: 10px; }
-  .itinerary-day { font-size: 10px; padding: 3px 8px; }
-  .itinerary-text { font-size: 13px; }
+  #main-content .itinerary-list { gap: 8px; }
+  #main-content .itinerary-item { padding: 10px 12px; gap: 10px; }
+  #main-content .itinerary-day { font-size: 10px; padding: 3px 8px; }
+  #main-content .itinerary-text { font-size: 13px; }
 
   /* ── Includes ── */
-  .includes-grid { grid-template-columns: 1fr; gap: 6px; }
-  .include-item { padding: 8px 12px; font-size: 13px; }
+  #main-content .includes-grid { grid-template-columns: 1fr; gap: 6px; }
+  #main-content .include-item { padding: 8px 12px; font-size: 13px; }
 
   /* ── Related packages ── */
-  .related-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-  .related-body { padding: 10px 12px; gap: 6px; }
-  .related-name { font-size: 13px; }
-  .related-price { font-size: 16px; }
-  .related-header { min-height: 70px; padding: 12px; }
+  #main-content .related-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  #main-content .related-body { padding: 10px 12px; gap: 6px; }
+  #main-content .related-name { font-size: 13px; }
+  #main-content .related-price { font-size: 16px; }
+  #main-content .related-header { min-height: 70px; padding: 12px; }
 
   /* ── Final CTA ── */
-  .pkg-cta-inner { flex-direction: column; gap: 16px; padding: 20px 0; }
-  .pkg-cta h2 { font-size: 18px; }
-  .pkg-cta-btns { flex-direction: column; width: 100%; }
-  .pkg-cta-btns .btn { justify-content: center; }
+  #main-content .pkg-cta-inner { flex-direction: column; gap: 16px; padding: 20px 0; }
+  #main-content .pkg-cta h2 { font-size: 18px; }
+  #main-content .pkg-cta-btns { flex-direction: column; width: 100%; }
+  #main-content .pkg-cta-btns .btn { justify-content: center; }
 
   /* ── Pickup tabs ── */
-  .pickup-tabs { gap: 6px; margin-bottom: 14px; }
-  .pickup-tab { font-size: 12px; padding: 7px 12px; }
+  #main-content .pickup-tabs { gap: 6px; margin-bottom: 14px; }
+  #main-content .pickup-tab { font-size: 12px; padding: 7px 12px; }
 }
 
 /* ── Pickup City Tabs ── */
