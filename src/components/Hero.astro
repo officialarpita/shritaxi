@@ -300,7 +300,16 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
         </label>
 
         <!-- Cloudflare Turnstile -->
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible" data-appearance="always"></div>
+        <!-- Turnstile — hidden, token still generated for API security -->
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible" data-appearance="interaction-only" style="display:none;"></div>
+
+        <!-- Human confirmation checkbox — consistent on all devices -->
+        <label class="human-confirm">
+          <input type="checkbox" id="human-confirm-check" class="human-confirm-input" />
+          <span class="human-confirm-box"></span>
+          <span class="human-confirm-label">I confirm I am human</span>
+        </label>
+        <p class="human-confirm-error" id="human-confirm-error" style="display:none;">⚠️ Please confirm you are human.</p>
 
         <!-- Vehicle Selector -->
         <div class="vehicle-select-section">
@@ -1390,6 +1399,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
     (document.getElementById('airport-parking-note') as HTMLElement).style.display   = 'none';
     airportJourneyType = '';
 
+    // 4b. Reset human confirm checkbox
+    const hc = document.getElementById('human-confirm-check') as HTMLInputElement;
+    if (hc) hc.checked = false;
+    const he = document.getElementById('human-confirm-error');
+    if (he) he.style.display = 'none';
+
     // 5. Clear all validation error messages
     ['date-error-msg','time-error-msg','pickup-error-msg','drop-error-msg',
      'name-error-msg','phone-error-msg','local-pickup-error-msg',
@@ -1576,6 +1591,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
       (document.getElementById('phone_no') as HTMLInputElement)?.focus();
       btn.disabled = false; btn.textContent = 'Book Now →'; return;
     } else { if (phoneErr) phoneErr.style.display = 'none'; }
+
+    // Human confirmation check
+    const humanCheck = document.getElementById('human-confirm-check') as HTMLInputElement;
+    const humanError = document.getElementById('human-confirm-error');
+    if (!humanCheck?.checked) {
+      if (humanError) humanError.style.display = 'block';
+      humanCheck?.focus();
+      btn.disabled = false; btn.textContent = 'Book Now →'; return;
+    } else { if (humanError) humanError.style.display = 'none'; }
 
     // Vehicle required check
     const vehicleSelected = form.querySelector('input[name="vehicle"]:checked') as HTMLInputElement;
@@ -2362,6 +2386,63 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '1x0000000
   box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
   border-color: #dc2626;
 }
+
+/* ── Human Confirm Checkbox ── */
+.human-confirm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 14px;
+  background: var(--mint);
+  border: 1px solid var(--teal-light);
+  border-radius: var(--radius-sm);
+  user-select: none;
+}
+.human-confirm-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.human-confirm-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--teal);
+  border-radius: 4px;
+  background: #fff;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.human-confirm-input:checked + .human-confirm-box {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+.human-confirm-input:checked + .human-confirm-box::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg) translateY(-1px);
+  display: block;
+}
+.human-confirm-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--slate);
+}
+.human-confirm-error {
+  font-size: 11px;
+  color: #dc2626;
+  margin-top: -8px;
+  font-weight: 500;
+}
+
 .vehicle-required-msg {
   font-size: 12px;
   color: #dc2626;
