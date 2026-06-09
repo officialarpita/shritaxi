@@ -491,8 +491,8 @@ const breadcrumbSchema = {
 /* ── Price block ── */
 .pkg-price-block { background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-md); padding: 10px 12px; margin-bottom: 8px; }
 .pkg-price-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-.pkg-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; flex-wrap: wrap; }
-.pkg-mrp { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+.pkg-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; flex-wrap: nowrap; }
+.pkg-mrp { font-size: 12px; color: #ef4444; text-decoration: line-through; opacity: 0.7; white-space: nowrap; }
 .pkg-price { font-size: 26px; font-weight: 700; color: var(--saffron); font-family: 'Playfair Display', serif; }
 .pkg-save { font-size: 11px; color: #16a34a; font-weight: 700; background: #f0fdf4; padding: 2px 8px; border-radius: 20px; }
 .pkg-price-note { font-size: 11px; color: var(--muted); }
@@ -531,8 +531,8 @@ const breadcrumbSchema = {
 .tier-emoji { font-size: 22px; }
 .tier-name { font-size: 12px; font-weight: 700; color: var(--slate); }
 .tier-seats { font-size: 10px; color: var(--muted); }
-.tier-price-block { display: flex; align-items: baseline; gap: 4px; justify-content: center; flex-wrap: wrap; }
-.tier-mrp { font-size: 11px; color: var(--muted); text-decoration: line-through; }
+.tier-price-block { display: flex; align-items: baseline; gap: 4px; justify-content: center; flex-wrap: nowrap; }
+.tier-mrp { font-size: 11px; color: #ef4444; text-decoration: line-through; opacity: 0.7; white-space: nowrap; }
 .tier-price { font-size: 18px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
 .tier-save { font-size: 10px; color: #16a34a; font-weight: 700; background: #f0fdf4; padding: 2px 6px; border-radius: 20px; display: inline-block; }
 .tier-duration { font-size: 10px; color: var(--muted); }
