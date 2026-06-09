@@ -180,7 +180,19 @@ const faqSchema = {
       </div>
     </section>
 
-    <RelatedRoutes currentPage="/delhi-to-char-dham-taxi" />
+    <RelatedRoutes
+      currentPage="/delhi-to-char-dham-taxi"
+      routes={[
+    { title: 'Delhi to Dehradun Taxi',       href: '/delhi-to-dehradun-taxi',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'  },
+    { title: 'Haridwar to Char Dham Taxi',   href: '/haridwar-to-char-dham-taxi', price: '₹35,999', duration: '10 Days',    tag: 'Pilgrimage'  },
+    { title: 'Chandigarh to Dehradun Taxi',  href: '/chandigarh-to-dehradun-taxi',price: '₹3,500', duration: '5 hrs',       tag: 'Outstation'  },
+    { title: 'Delhi to Haridwar Taxi',       href: '/delhi-to-haridwar-taxi',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'   },
+  ]}
+      packages={[
+    { title: 'Char Dham Yatra Package',      href: '/char-dham-yatra',            price: '₹35,999', duration: '10 Days',    tag: 'Pilgrimage'  },
+    { title: 'Char Dham by Taxi',            href: '/packages/char-dham',         price: '₹35,999', duration: '10 Days',    tag: 'Pilgrimage'  },
+  ]}
+    />
 
   </main>
   <Footer />

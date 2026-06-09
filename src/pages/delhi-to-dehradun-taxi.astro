@@ -241,7 +241,19 @@ const faqSchema = {
       </div>
     </section>
 
-    <RelatedRoutes currentPage="/delhi-to-dehradun-taxi" />
+    <RelatedRoutes
+      currentPage="/delhi-to-dehradun-taxi"
+      routes={[
+    { title: 'Delhi to Mussoorie Taxi',      href: '/delhi-to-mussoorie-taxi',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station'},
+    { title: 'Delhi to Haridwar Taxi',       href: '/delhi-to-haridwar-taxi',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'   },
+    { title: 'Delhi to Rishikesh Taxi',      href: '/delhi-to-rishikesh-taxi',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'   },
+    { title: 'Chandigarh to Dehradun Taxi',  href: '/chandigarh-to-dehradun-taxi',price: '₹3,500', duration: '5 hrs',       tag: 'Outstation'  },
+  ]}
+      packages={[
+    { title: 'Dhanaulti Day Trip',           href: '/packages/dhanaulti',         price: '₹3,599', duration: '1 Day',       tag: 'Nature'      },
+    { title: 'Mussoorie Corbett Nainital',   href: '/packages/mussoorie-corbett-nainital-ranikhet', price: '₹28,999', duration: '5 Days', tag: 'Packages' },
+  ]}
+    />
 
   </main>
 

@@ -255,7 +255,19 @@ const faqSchema = {
       </div>
     </div>
 
-    <RelatedRoutes currentPage="/dehradun-to-rishikesh-taxi" />
+    <RelatedRoutes
+      currentPage="/dehradun-to-rishikesh-taxi"
+      routes={[
+    { title: 'Dehradun to Mussoorie Taxi',   href: '/dehradun-to-mussoorie-taxi', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station'},
+    { title: 'Dehradun to Haridwar Taxi',    href: '/dehradun-to-haridwar-taxi',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'   },
+    { title: 'Jolly Grant Airport Taxi',     href: '/jolly-grant-airport-taxi',   price: '₹1,000', duration: '45 min',      tag: 'Airport'     },
+    { title: 'Delhi to Rishikesh Taxi',      href: '/delhi-to-rishikesh-taxi',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'   },
+  ]}
+      packages={[
+    { title: 'Chopta Tungnath Trek',         href: '/packages/chopta',            price: '₹7,199', duration: '2 Days',      tag: 'Adventure'   },
+    { title: 'Dhanaulti Day Trip',           href: '/packages/dhanaulti',         price: '₹3,599', duration: '1 Day',       tag: 'Nature'      },
+  ]}
+    />
 
   </main>
 

@@ -210,7 +210,19 @@ const faqSchema = {
       </div>
     </section>
 
-    <RelatedRoutes currentPage="/delhi-to-haridwar-taxi" />
+    <RelatedRoutes
+      currentPage="/delhi-to-haridwar-taxi"
+      routes={[
+    { title: 'Delhi to Dehradun Taxi',       href: '/delhi-to-dehradun-taxi',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'  },
+    { title: 'Delhi to Rishikesh Taxi',      href: '/delhi-to-rishikesh-taxi',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'   },
+    { title: 'Delhi to Mussoorie Taxi',      href: '/delhi-to-mussoorie-taxi',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station'},
+    { title: 'Haridwar to Char Dham Taxi',   href: '/haridwar-to-char-dham-taxi', price: '₹35,999', duration: '10 Days',    tag: 'Pilgrimage'  },
+  ]}
+      packages={[
+    { title: 'Char Dham Yatra Package',      href: '/char-dham-yatra',            price: '₹35,999', duration: '10 Days',    tag: 'Pilgrimage'  },
+    { title: 'Ek Dham Kedarnath',            href: '/packages/ek-dham',           price: '₹12,999', duration: '3 Days',     tag: 'Pilgrimage'  },
+  ]}
+    />
 
   </main>
   <Footer />
