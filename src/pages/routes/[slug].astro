@@ -341,47 +341,27 @@ const speakableSchema = {
     </section>
 
     <!-- Route Details -->
-    <section class="section section--mint">
+    <section class="section section--mint route-about">
       <div class="container">
-        <div class="route-details-grid">
-          <div class="route-details-text">
-            <h2>About {route.from} to {route.to} Route</h2>
-            <p>{route.note}</p>
-            <div class="route-info-cards">
-              <div class="route-info-card">
-                <span class="route-info-icon">📍</span>
-                <div><strong>Distance</strong><p>{route.distance}</p></div>
-              </div>
-              <div class="route-info-card">
-                <span class="route-info-icon">⏱</span>
-                <div><strong>Duration</strong><p>{route.duration}</p></div>
-              </div>
-              <div class="route-info-card">
-                <span class="route-info-icon">💰</span>
-                <div><strong>Starting Fare</strong><p>₹{route.oneWay.toLocaleString('en-IN')} (Sedan)</p></div>
-              </div>
-              <div class="route-info-card">
-                <span class="route-info-icon">📞</span>
-                <div><strong>Available</strong><p>24/7 — 365 days</p></div>
-              </div>
-            </div>
-          </div>
-          <div class="route-booking-card">
-            <h3>Book This Route</h3>
-            <p>Confirm your booking in 15 minutes</p>
-            <div class="route-booking-btns">
-              <a href={`tel:${phone}`} class="btn btn-saffron btn-full">📞 {phone}</a>
-              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20taxi%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-full">💬 WhatsApp Booking</a>
-            </div>
-            <div class="route-booking-trust">
-              
-              <p>🏆 Earn Wallet Points on this trip</p>
-              <p>🌿 Green Mission participant</p>
-            </div>
-          </div>
+        <h2 class="route-about-title">About {route.from} to {route.to} Route</h2>
+        <p class="route-about-note">{route.note}</p>
+        <div class="route-info-strip">
+          <span class="route-info-item"><span class="route-info-icon">📍</span><strong>Distance:</strong> {route.distance}</span>
+          <span class="route-info-sep">·</span>
+          <span class="route-info-item"><span class="route-info-icon">⏱</span><strong>Duration:</strong> {route.duration}</span>
+          <span class="route-info-sep">·</span>
+          <span class="route-info-item"><span class="route-info-icon">💰</span><strong>Fare:</strong> ₹{route.oneWay.toLocaleString('en-IN')} (Sedan)</span>
+          <span class="route-info-sep">·</span>
+          <span class="route-info-item"><span class="route-info-icon">📞</span><strong>Available:</strong> 24/7</span>
         </div>
       </div>
     </section>
+
+    <RelatedRoutes
+      currentPage={`/routes/${route.id}`}
+      routes={related.routes}
+      packages={related.packages}
+    />
 
     <!-- FAQ -->
     <section class="section">
@@ -414,12 +394,6 @@ const speakableSchema = {
         </div>
       </div>
     </section>
-
-    <RelatedRoutes
-      currentPage={`/routes/${route.id}`}
-      routes={related.routes}
-      packages={related.packages}
-    />
 
   </main>
 
@@ -492,6 +466,14 @@ const speakableSchema = {
 .route-cta h2 { font-size: 22px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 6px; }
 .route-cta p { font-size: 14px; color: rgba(255,255,255,0.75); }
 .route-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.route-about { padding: 20px 0; }
+.route-about-title { font-size: 18px; font-family: 'Playfair Display', serif; color: var(--slate); margin-bottom: 6px; }
+.route-about-note { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 12px; max-width: 860px; }
+.route-info-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; color: var(--slate); }
+.route-info-item { display: flex; align-items: center; gap: 5px; }
+.route-info-icon { font-size: 15px; }
+.route-info-sep { color: var(--muted); font-weight: 300; }
 
 /* Responsive */
 @media (max-width: 1024px) { .vehicle-grid { grid-template-columns: repeat(2, 1fr); } .route-details-grid { grid-template-columns: 1fr; } }
