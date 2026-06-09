@@ -6,6 +6,7 @@ import Footer from '../../components/Footer.astro';
 import StickyBar from '../../components/StickyBar.astro';
 import SeasonBanner from '../../components/SeasonBanner.astro';
 import { transfers, fmt } from '../../data/pricing';
+import RelatedRoutes from '../../components/RelatedRoutes.astro';
 
 export async function getStaticPaths() {
   return transfers.map(t => ({
@@ -33,6 +34,180 @@ const routeFaqs = [
   { q: `How do I book a taxi from ${route.from} to ${route.to}?`, a: `Book via WhatsApp at +91 6397321825 or call us directly. We confirm within 15 minutes and share driver details 2 hours before your trip.` },
   ...(route.faqs || []),
 ];
+// ── Related content per route ─────────────────────────────────────
+const relatedMap: Record<string, { routes: any[]; packages: any[] }> = {
+  'dehradun-mussoorie': {
+    routes: [
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+      { title: 'Delhi to Mussoorie Taxi',     href: '/routes/delhi-mussoorie',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station' },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+    ],
+  },
+  'dehradun-haridwar': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+      { title: 'Delhi to Haridwar Taxi',      href: '/routes/delhi-haridwar',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'    },
+    ],
+    packages: [
+      { title: 'Char Dham Yatra Package',     href: '/char-dham-yatra',           price: '₹35,999', duration: '10 Days',   tag: 'Pilgrimage'   },
+      { title: 'Ek Dham Kedarnath',           href: '/packages/ek-dham',          price: '₹12,999', duration: '3 Days',    tag: 'Pilgrimage'   },
+    ],
+  },
+  'dehradun-rishikesh': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+      { title: 'Delhi to Rishikesh Taxi',     href: '/routes/delhi-rishikesh',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'    },
+    ],
+    packages: [
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+    ],
+  },
+  'jolly-grant-airport': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+    ],
+    packages: [
+      { title: 'Char Dham Yatra Package',     href: '/char-dham-yatra',           price: '₹35,999', duration: '10 Days',   tag: 'Pilgrimage'   },
+      { title: 'Char Dham by Taxi',           href: '/packages/char-dham',        price: '₹35,999', duration: '10 Days',   tag: 'Pilgrimage'   },
+    ],
+  },
+  'delhi-dehradun': {
+    routes: [
+      { title: 'Delhi to Mussoorie Taxi',     href: '/routes/delhi-mussoorie',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station' },
+      { title: 'Delhi to Haridwar Taxi',      href: '/routes/delhi-haridwar',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'    },
+      { title: 'Delhi to Rishikesh Taxi',     href: '/routes/delhi-rishikesh',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'    },
+      { title: 'Chandigarh to Dehradun Taxi', href: '/routes/chandigarh-dehradun',price: '₹3,500', duration: '5 hrs',       tag: 'Outstation'   },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Mussoorie Corbett Nainital',  href: '/packages/mussoorie-corbett-nainital-ranikhet', price: '₹28,999', duration: '5 Days', tag: 'Packages' },
+    ],
+  },
+  'delhi-haridwar': {
+    routes: [
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Delhi to Rishikesh Taxi',     href: '/routes/delhi-rishikesh',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'    },
+      { title: 'Delhi to Mussoorie Taxi',     href: '/routes/delhi-mussoorie',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+    ],
+    packages: [
+      { title: 'Char Dham Yatra Package',     href: '/char-dham-yatra',           price: '₹35,999', duration: '10 Days',   tag: 'Pilgrimage'   },
+      { title: 'Ek Dham Kedarnath',           href: '/packages/ek-dham',          price: '₹12,999', duration: '3 Days',    tag: 'Pilgrimage'   },
+    ],
+  },
+  'delhi-rishikesh': {
+    routes: [
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Delhi to Haridwar Taxi',      href: '/routes/delhi-haridwar',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'    },
+      { title: 'Delhi to Mussoorie Taxi',     href: '/routes/delhi-mussoorie',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station' },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+    ],
+    packages: [
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+    ],
+  },
+  'delhi-mussoorie': {
+    routes: [
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Delhi to Haridwar Taxi',      href: '/routes/delhi-haridwar',     price: '₹3,500', duration: '5 hrs',       tag: 'Spiritual'    },
+      { title: 'Delhi to Rishikesh Taxi',     href: '/routes/delhi-rishikesh',    price: '₹3,500', duration: '5 hrs 30 min',tag: 'Adventure'    },
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+    ],
+    packages: [
+      { title: 'Mussoorie Corbett Nainital',  href: '/packages/mussoorie-corbett-nainital-ranikhet', price: '₹28,999', duration: '5 Days', tag: 'Packages' },
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+    ],
+  },
+  'chandigarh-dehradun': {
+    routes: [
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Delhi to Mussoorie Taxi',     href: '/routes/delhi-mussoorie',    price: '₹4,500', duration: '6 hrs',       tag: 'Hill Station' },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+    ],
+  },
+  'dehradun-dhanaulti': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip Package',  href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+    ],
+  },
+  'dehradun-tehri': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+    ],
+    packages: [
+      { title: 'Tehri Lake Package',          href: '/packages/tehri',            price: '₹4,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+    ],
+  },
+  'dehradun-chakrata': {
+    routes: [
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Rishikesh Taxi',  href: '/routes/dehradun-rishikesh', price: '₹2,000', duration: '1 hr 15 min', tag: 'Adventure'    },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Jolly Grant Airport Taxi',    href: '/routes/jolly-grant-airport',price: '₹1,000', duration: '45 min',      tag: 'Airport'      },
+    ],
+    packages: [
+      { title: 'Chakrata Day Trip',           href: '/packages/chakrata',         price: '₹4,599', duration: '1 Day',       tag: 'Adventure'    },
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+    ],
+  },
+  'dehradun-delhi': {
+    routes: [
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+      { title: 'Chandigarh to Dehradun Taxi', href: '/routes/chandigarh-dehradun',price: '₹3,500', duration: '5 hrs',       tag: 'Outstation'   },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Char Dham Yatra Package',     href: '/char-dham-yatra',           price: '₹35,999', duration: '10 Days',   tag: 'Pilgrimage'   },
+    ],
+  },
+  'dehradun-chandigarh': {
+    routes: [
+      { title: 'Chandigarh to Dehradun Taxi', href: '/routes/chandigarh-dehradun',price: '₹3,500', duration: '5 hrs',       tag: 'Outstation'   },
+      { title: 'Delhi to Dehradun Taxi',      href: '/routes/delhi-dehradun',     price: '₹3,500', duration: '6 hrs',       tag: 'Outstation'   },
+      { title: 'Dehradun to Mussoorie Taxi',  href: '/routes/dehradun-mussoorie', price: '₹1,500', duration: '1 hr 30 min', tag: 'Hill Station' },
+      { title: 'Dehradun to Haridwar Taxi',   href: '/routes/dehradun-haridwar',  price: '₹2,000', duration: '1 hr 30 min', tag: 'Spiritual'    },
+    ],
+    packages: [
+      { title: 'Dhanaulti Day Trip',          href: '/packages/dhanaulti',        price: '₹3,599', duration: '1 Day',       tag: 'Nature'       },
+      { title: 'Chopta Tungnath Trek',        href: '/packages/chopta',           price: '₹7,199', duration: '2 Days',      tag: 'Adventure'    },
+    ],
+  },
+};
+
+const related = relatedMap[route.id] || { routes: [], packages: [] };
+
 
 const schema = {
   '@context': 'https://schema.org',
@@ -239,6 +414,12 @@ const speakableSchema = {
         </div>
       </div>
     </section>
+
+    <RelatedRoutes
+      currentPage={`/routes/${route.id}`}
+      routes={related.routes}
+      packages={related.packages}
+    />
 
   </main>
 
