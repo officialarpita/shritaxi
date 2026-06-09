@@ -549,9 +549,9 @@ const breadcrumbSchema = {
 .include-check { color: var(--teal); font-weight: 700; font-size: 14px; flex-shrink: 0; }
 
 /* ── Related — horizontal scroll on mobile ── */
-.pkg-related-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.pkg-related-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; -ms-overflow-style: none; }
 .pkg-related-scroll::-webkit-scrollbar { display: none; }
-.pkg-related-scroll .related-card { min-width: 200px; flex-shrink: 0; }
+.pkg-related-scroll .related-card { min-width: 160px; max-width: 200px; flex: 0 0 160px; flex-shrink: 0; }
 .related-card { display: flex; flex-direction: column; text-decoration: none; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border); }
 .related-header { padding: 14px 12px; position: relative; display: flex; align-items: center; justify-content: center; min-height: 70px; }
 .related-tag { position: absolute; top: 8px; left: 8px; color: #fff; font-size: 9px; font-weight: 700; background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 20px; }
