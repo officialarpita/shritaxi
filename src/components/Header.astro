@@ -1,6 +1,7 @@
 ---
 interface Props { currentPath?: string; }
 const { currentPath = '/' } = Astro.props;
+import SearchOverlay from './SearchOverlay.astro';
 
 const navLinks = [
   { label: 'Home',            href: '/' },
@@ -20,7 +21,6 @@ function isActive(href: string) {
   return currentPath.startsWith(href);
 }
 ---
-import SearchOverlay from './SearchOverlay.astro';
 
 <header class="header" id="site-header">
   <div class="container header-inner">
