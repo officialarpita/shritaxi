@@ -1,0 +1,311 @@
+---
+// SearchOverlay.astro — Site-wide search, all pages, zero dependencies
+---
+
+<div id="search-overlay" class="search-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Site search">
+  <div class="search-backdrop" id="search-backdrop"></div>
+  <div class="search-modal">
+    <div class="search-header">
+      <div class="search-input-wrap">
+        <svg class="search-icon-inner" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="Search routes, packages, destinations..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search"
+        />
+      </div>
+      <button id="search-close" class="search-close" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty" id="search-empty">
+        <p class="search-hint">Try: <span onclick="document.getElementById('search-input').value='mussoorie';window.shriSearch()">Mussoorie</span>, <span onclick="document.getElementById('search-input').value='char dham';window.shriSearch()">Char Dham</span>, <span onclick="document.getElementById('search-input').value='delhi';window.shriSearch()">Delhi</span>, <span onclick="document.getElementById('search-input').value='airport';window.shriSearch()">Airport</span></p>
+      </div>
+      <div id="search-output" class="search-output" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+// ── Static search index ───────────────────────────────────────
+const ROUTES = [
+  {id:'jolly-grant-airport',from:'Jolly Grant Airport',to:'Dehradun',price:'₹1,000',href:'/routes/jolly-grant-airport',search:'Jolly Grant Airport Dehradun jolly-grant-airport'.toLowerCase()},
+    {id:'dehradun-mussoorie',from:'Dehradun',to:'Mussoorie',price:'₹1,500',href:'/routes/dehradun-mussoorie',search:'Dehradun Mussoorie dehradun-mussoorie'.toLowerCase()},
+    {id:'dehradun-haridwar',from:'Dehradun',to:'Haridwar',price:'₹2,000',href:'/routes/dehradun-haridwar',search:'Dehradun Haridwar dehradun-haridwar'.toLowerCase()},
+    {id:'dehradun-rishikesh',from:'Dehradun',to:'Rishikesh',price:'₹2,000',href:'/routes/dehradun-rishikesh',search:'Dehradun Rishikesh dehradun-rishikesh'.toLowerCase()},
+    {id:'dehradun-dhanaulti',from:'Dehradun',to:'Dhanaulti & Kanatal',price:'₹3,599',href:'/routes/dehradun-dhanaulti',search:'Dehradun Dhanaulti & Kanatal dehradun-dhanaulti'.toLowerCase()},
+    {id:'dehradun-tehri',from:'Dehradun',to:'Tehri',price:'₹3,599',href:'/routes/dehradun-tehri',search:'Dehradun Tehri dehradun-tehri'.toLowerCase()},
+    {id:'dehradun-chakrata',from:'Dehradun',to:'Chakrata',price:'₹3,599',href:'/routes/dehradun-chakrata',search:'Dehradun Chakrata dehradun-chakrata'.toLowerCase()},
+    {id:'dehradun-delhi',from:'Dehradun',to:'Delhi NCR',price:'₹3,500',href:'/routes/dehradun-delhi',search:'Dehradun Delhi NCR dehradun-delhi'.toLowerCase()},
+    {id:'dehradun-chandigarh',from:'Dehradun',to:'Chandigarh',price:'₹3,500',href:'/routes/dehradun-chandigarh',search:'Dehradun Chandigarh dehradun-chandigarh'.toLowerCase()},
+    {id:'delhi-dehradun',from:'Delhi NCR',to:'Dehradun',price:'₹3,500',href:'/routes/delhi-dehradun',search:'Delhi NCR Dehradun delhi-dehradun'.toLowerCase()},
+    {id:'delhi-haridwar',from:'Delhi NCR',to:'Haridwar',price:'₹3,500',href:'/routes/delhi-haridwar',search:'Delhi NCR Haridwar delhi-haridwar'.toLowerCase()},
+    {id:'delhi-rishikesh',from:'Delhi NCR',to:'Rishikesh',price:'₹3,500',href:'/routes/delhi-rishikesh',search:'Delhi NCR Rishikesh delhi-rishikesh'.toLowerCase()},
+    {id:'delhi-mussoorie',from:'Delhi NCR',to:'Mussoorie',price:'₹4,500',href:'/routes/delhi-mussoorie',search:'Delhi NCR Mussoorie delhi-mussoorie'.toLowerCase()},
+    {id:'chandigarh-dehradun',from:'Chandigarh',to:'Dehradun',price:'₹3,500',href:'/routes/chandigarh-dehradun',search:'Chandigarh Dehradun chandigarh-dehradun'.toLowerCase()}
+];
+const PACKAGES = [
+  {id:'dhanaulti',name:`Dhanaulti & Kanatal Day Trip`,price:'₹3,599',href:'/packages/dhanaulti',search:'Dhanaulti & Kanatal Day Trip dhanaulti'.toLowerCase()},
+    {id:'chakrata',name:`Chakrata Day Trip`,price:'₹3,599',href:'/packages/chakrata',search:'Chakrata Day Trip chakrata'.toLowerCase()},
+    {id:'tehri',name:`Tehri Lake Day Trip`,price:'₹3,599',href:'/packages/tehri',search:'Tehri Lake Day Trip tehri'.toLowerCase()},
+    {id:'lansdowne',name:`Lansdowne Tour Package`,price:'₹7,199',href:'/packages/lansdowne',search:'Lansdowne Tour Package lansdowne'.toLowerCase()},
+    {id:'mukteshwar',name:`Nainital & Mukteshwar Tour Package`,price:'₹13,999',href:'/packages/mukteshwar',search:'Nainital & Mukteshwar Tour Package mukteshwar'.toLowerCase()},
+    {id:'neem-karoli',name:`Neem Karoli Baba Ashram Trip`,price:'₹3,599',href:'/packages/neem-karoli',search:'Neem Karoli Baba Ashram Trip neem-karoli'.toLowerCase()},
+    {id:'nainital',name:`Nainital Tour Package`,price:'₹10,999',href:'/packages/nainital',search:'Nainital Tour Package nainital'.toLowerCase()},
+    {id:'auli',name:`Auli Snow Trip Package`,price:'₹10,999',href:'/packages/auli',search:'Auli Snow Trip Package auli'.toLowerCase()},
+    {id:'munsiyari',name:`Pithoragarh & Munsiyari Tour Package`,price:'₹10,999',href:'/packages/munsiyari',search:'Pithoragarh & Munsiyari Tour Package munsiyari'.toLowerCase()},
+    {id:'chopta',name:`Chopta Tungnath Package`,price:'₹7,199',href:'/packages/chopta',search:'Chopta Tungnath Package chopta'.toLowerCase()},
+    {id:'kedarnath',name:`Kedarnath Yatra Package`,price:'₹10,999',href:'/packages/kedarnath',search:'Kedarnath Yatra Package kedarnath'.toLowerCase()},
+    {id:'badrinath',name:`Badrinath Yatra Package`,price:'₹10,999',href:'/packages/badrinath',search:'Badrinath Yatra Package badrinath'.toLowerCase()},
+    {id:'ek-dham',name:`Ek Dham Yatra`,price:'₹10,999',href:'/packages/ek-dham',search:'Ek Dham Yatra ek-dham'.toLowerCase()},
+    {id:'do-dham',name:`Do Dham Yatra`,price:'₹17,999',href:'/packages/do-dham',search:'Do Dham Yatra do-dham'.toLowerCase()},
+    {id:'char-dham',name:`Char Dham Yatra 2026`,price:'₹35,999',href:'/packages/char-dham',search:'Char Dham Yatra 2026 char-dham'.toLowerCase()},
+    {id:'nainital-corbett',name:`Nainital & Jim Corbett Package`,price:'₹17,999',href:'/packages/nainital-corbett',search:'Nainital & Jim Corbett Package nainital-corbett'.toLowerCase()},
+    {id:'mussoorie-corbett-nainital-ranikhet',name:`Mussoorie Corbett Nainital Ranikhet Tour`,price:'₹28,799',href:'/packages/mussoorie-corbett-nainital-ranikhet',search:'Mussoorie Corbett Nainital Ranikhet Tour mussoorie-corbett-nainital-ranikhet'.toLowerCase()},
+    {id:'nainital-ranikhet-corbett',name:`Nainital Ranikhet Corbett Tour`,price:'₹21,599',href:'/packages/nainital-ranikhet-corbett',search:'Nainital Ranikhet Corbett Tour nainital-ranikhet-corbett'.toLowerCase()},
+    {id:'almora-kausani',name:`Nainital Almora Kausani Ranikhet Corbett Tour`,price:'₹28,799',href:'/packages/almora-kausani',search:'Nainital Almora Kausani Ranikhet Corbett Tour almora-kausani'.toLowerCase()}
+];
+const BLOGS = [
+  {slug:'delhi-to-dehradun-by-taxi-complete-guide',title:`Delhi to Dehradun by Taxi — Complete Travel Guide 2026`,href:'/blog/delhi-to-dehradun-by-taxi-complete-guide',search:`Delhi to Dehradun by Taxi — Complete Travel Guide 2026 delhi-to-dehradun-by-taxi-complete-guide`.toLowerCase()},
+    {slug:'char-dham-yatra-road-trip-guide',title:`Char Dham Yatra 2026 — Complete Road Trip Guide from Dehradun`,href:'/blog/char-dham-yatra-road-trip-guide',search:`Char Dham Yatra 2026 — Complete Road Trip Guide from Dehradun char-dham-yatra-road-trip-guide`.toLowerCase()},
+    {slug:'weekend-getaways-from-dehradun-by-taxi',title:`Top 10 Weekend Getaways from Dehradun by Taxi`,href:'/blog/weekend-getaways-from-dehradun-by-taxi',search:`Top 10 Weekend Getaways from Dehradun by Taxi weekend-getaways-from-dehradun-by-taxi`.toLowerCase()},
+    {slug:'dehradun-to-mussoorie-taxi-guide',title:`Dehradun to Mussoorie by Taxi — Route, Fare & Travel Tips`,href:'/blog/dehradun-to-mussoorie-taxi-guide',search:`Dehradun to Mussoorie by Taxi — Route, Fare & Travel Tips dehradun-to-mussoorie-taxi-guide`.toLowerCase()},
+    {slug:'jolly-grant-airport-taxi-complete-guide',title:`Jolly Grant Airport Taxi — Fares, Pickup Tips & Route Guide`,href:'/blog/jolly-grant-airport-taxi-complete-guide',search:`Jolly Grant Airport Taxi — Fares, Pickup Tips & Route Guide jolly-grant-airport-taxi-complete-guide`.toLowerCase()},
+    {slug:'best-time-to-visit-uttarakhand',title:`Best Time to Visit Uttarakhand — Month-by-Month Travel Guide`,href:'/blog/best-time-to-visit-uttarakhand',search:`Best Time to Visit Uttarakhand — Month-by-Month Travel Guide best-time-to-visit-uttarakhand`.toLowerCase()},
+    {slug:'kedarnath-yatra-by-road-complete-guide',title:`Kedarnath Yatra by Road 2026 — Trek, Helicopter & Taxi Guide`,href:'/blog/kedarnath-yatra-by-road-complete-guide',search:`Kedarnath Yatra by Road 2026 — Trek, Helicopter & Taxi Guide kedarnath-yatra-by-road-complete-guide`.toLowerCase()},
+    {slug:'family-trip-to-uttarakhand-planning-guide',title:`Planning a Family Trip to Uttarakhand — Complete Guide`,href:'/blog/family-trip-to-uttarakhand-planning-guide',search:`Planning a Family Trip to Uttarakhand — Complete Guide family-trip-to-uttarakhand-planning-guide`.toLowerCase()},
+    {slug:'dehradun-to-rishikesh-haridwar-day-trip',title:`Dehradun to Rishikesh & Haridwar — Perfect Day Trip by Taxi`,href:'/blog/dehradun-to-rishikesh-haridwar-day-trip',search:`Dehradun to Rishikesh & Haridwar — Perfect Day Trip by Taxi dehradun-to-rishikesh-haridwar-day-trip`.toLowerCase()},
+    {slug:'uttarakhand-road-trip-safety-tips',title:`Mountain Driving Safety — Tips for Road Trips in Uttarakhand`,href:'/blog/uttarakhand-road-trip-safety-tips',search:`Mountain Driving Safety — Tips for Road Trips in Uttarakhand uttarakhand-road-trip-safety-tips`.toLowerCase()}
+];
+
+// ── Fuzzy search ──────────────────────────────────────────────
+function shriSearch() {
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase().trim();
+  const output  = document.getElementById('search-output');
+  const empty   = document.getElementById('search-empty');
+  if (!output || !empty) return;
+
+  if (!q || q.length < 2) {
+    output.style.display = 'none';
+    empty.style.display  = 'block';
+    return;
+  }
+
+  const routes   = ROUTES.filter(r => r.search.includes(q)).slice(0, 4);
+  const packages = PACKAGES.filter(p => p.search.includes(q)).slice(0, 3);
+  const blogs    = BLOGS.filter(b => b.search.includes(q)).slice(0, 2);
+  const total    = routes.length + packages.length + blogs.length;
+
+  if (total === 0) {
+    output.innerHTML = `<p class="search-no-result">No results for "<strong>${q}</strong>" — try another destination</p>`;
+    output.style.display = 'block';
+    empty.style.display  = 'none';
+    return;
+  }
+
+  let html = '';
+
+  if (routes.length) {
+    html += `<div class="search-group"><p class="search-group-label">🚗 Routes</p>`;
+    routes.forEach(r => {
+      html += `<a href="${r.href}" class="search-item" onclick="closeSearch()">
+        <span class="search-item-main">${r.from} → ${r.to}</span>
+        <span class="search-item-price">${r.price} <span class="search-item-note">one way</span></span>
+      </a>`;
+    });
+    html += '</div>';
+  }
+
+  if (packages.length) {
+    html += `<div class="search-group"><p class="search-group-label">📦 Packages</p>`;
+    packages.forEach(p => {
+      html += `<a href="${p.href}" class="search-item" onclick="closeSearch()">
+        <span class="search-item-main">${p.name}</span>
+        <span class="search-item-price">${p.price} <span class="search-item-note">from</span></span>
+      </a>`;
+    });
+    html += '</div>';
+  }
+
+  if (blogs.length) {
+    html += `<div class="search-group"><p class="search-group-label">📝 Guides</p>`;
+    blogs.forEach(b => {
+      html += `<a href="${b.href}" class="search-item" onclick="closeSearch()">
+        <span class="search-item-main">${b.title}</span>
+        <span class="search-item-badge">Blog</span>
+      </a>`;
+    });
+    html += '</div>';
+  }
+
+  output.innerHTML = html;
+  output.style.display = 'block';
+  empty.style.display  = 'none';
+}
+window.shriSearch = shriSearch;
+
+// ── Open / Close ──────────────────────────────────────────────
+function openSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const input   = document.getElementById('search-input');
+  if (!overlay) return;
+  overlay.classList.add('open');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => input?.focus(), 50);
+}
+
+function closeSearch() {
+  const overlay = document.getElementById('search-overlay');
+  const input   = document.getElementById('search-input');
+  const output  = document.getElementById('search-output');
+  const empty   = document.getElementById('search-empty');
+  if (!overlay) return;
+  overlay.classList.remove('open');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  if (input)  input.value = '';
+  if (output) { output.innerHTML = ''; output.style.display = 'none'; }
+  if (empty)  empty.style.display = 'block';
+}
+window.openSearch  = openSearch;
+window.closeSearch = closeSearch;
+
+// ── Event listeners ───────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('search-input')  ?.addEventListener('input', shriSearch);
+  document.getElementById('search-close')  ?.addEventListener('click', closeSearch);
+  document.getElementById('search-backdrop')?.addEventListener('click', closeSearch);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeSearch();
+    if ((e.key === '/' || (e.metaKey && e.key === 'k')) && !e.target.closest('input,textarea')) {
+      e.preventDefault(); openSearch();
+    }
+  });
+
+  // Wire all search trigger buttons
+  document.querySelectorAll('[data-search-trigger]').forEach(btn => {
+    btn.addEventListener('click', openSearch);
+  });
+});
+</script>
+
+<style>
+/* ── Overlay backdrop ── */
+.search-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  display: none; align-items: flex-start; justify-content: center;
+  padding-top: 60px;
+}
+.search-overlay.open { display: flex; }
+.search-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(15,23,42,0.7);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+
+/* ── Modal ── */
+.search-modal {
+  position: relative; z-index: 1;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%; max-width: 640px;
+  margin: 0 16px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  animation: slideDown 0.2s ease;
+  overflow: hidden;
+}
+@keyframes slideDown { from { transform:translateY(-16px); opacity:0 } to { transform:translateY(0); opacity:1 } }
+
+/* ── Header ── */
+.search-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  background: #fff;
+}
+.search-input-wrap {
+  flex: 1; display: flex; align-items: center; gap: 10px;
+  background: var(--mint);
+  border: 1.5px solid var(--teal-light);
+  border-radius: var(--radius-md);
+  padding: 8px 14px;
+}
+.search-icon-inner { color: var(--teal); flex-shrink: 0; }
+.search-input {
+  flex: 1; border: none; background: transparent;
+  font-size: 15px; color: var(--slate);
+  outline: none; font-family: inherit;
+}
+.search-input::placeholder { color: var(--muted); }
+.search-close {
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--border); border-radius: var(--radius-md);
+  background: #fff; color: var(--muted);
+  font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+.search-close:hover { background: var(--slate); color: #fff; border-color: var(--slate); }
+
+/* ── Results ── */
+.search-results { max-height: 420px; overflow-y: auto; }
+.search-empty {
+  padding: 24px 20px; text-align: center;
+}
+.search-hint {
+  font-size: 13px; color: var(--muted);
+}
+.search-hint span {
+  color: var(--teal); font-weight: 600; cursor: pointer;
+  padding: 2px 8px; background: var(--mint); border-radius: 20px;
+  margin: 0 3px;
+}
+.search-hint span:hover { background: var(--teal); color: #fff; }
+.search-output { padding: 8px 0; }
+.search-no-result {
+  padding: 20px; font-size: 14px; color: var(--muted); text-align: center;
+}
+.search-group { padding: 4px 0; }
+.search-group-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+  padding: 8px 20px 4px;
+}
+.search-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px; text-decoration: none; gap: 12px;
+  transition: background 0.1s;
+  border-left: 3px solid transparent;
+}
+.search-item:hover {
+  background: var(--mint);
+  border-left-color: var(--teal);
+}
+.search-item-main {
+  font-size: 14px; font-weight: 600; color: var(--slate); flex: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.search-item-price {
+  font-size: 14px; font-weight: 700; color: var(--teal);
+  font-family: 'Playfair Display', serif; white-space: nowrap;
+}
+.search-item-note { font-size: 11px; color: var(--muted); font-family: inherit; font-weight: 400; }
+.search-item-badge {
+  font-size: 10px; font-weight: 700; color: var(--teal);
+  background: var(--mint); padding: 2px 8px; border-radius: 20px;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .search-overlay { padding-top: 0; align-items: flex-end; }
+  .search-modal { margin: 0; border-radius: var(--radius-lg) var(--radius-lg) 0 0; max-width: 100%; }
+  .search-results { max-height: 60vh; }
+}
+</style>
