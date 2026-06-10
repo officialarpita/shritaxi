@@ -100,13 +100,17 @@ function shriSearch() {
   const total    = routes.length + packages.length + blogs.length;
 
   if (total === 0) {
-    // Check if query matches a known Uttarakhand destination
-    const UTTARAKHAND = ['agra', 'almora', 'auli', 'badrinath', 'bageshwar', 'bhimtal', 'binsar', 'chakrata', 'chamba', 'champawat', 'chandi devi temple', 'chandigarh', 'chandigarh airport', 'chopta', 'clock tower', 'corbett', 'dehradun', 'dehradun railway station', 'delhi', 'delhi airport (igi)', 'devprayag', 'dhanaulti', 'dhanaulti & kanatal', 'doiwala', 'dwarahat', 'fri (forest research institute)', 'gangotri', 'gaurikund', 'guptkashi', 'gwaldam', 'haldwani', 'har ki pauri', 'haridwar', 'haridwar railway station', 'isbt dehradun', 'jaipur', 'jim corbett national park', 'jolly grant airport', 'jolly grant airport (ded)', 'joshimath', 'kainchi', 'kainchi dham', 'kanatal', 'kausani', 'kedarnath', 'kempty falls', 'kotdwar', 'landour', 'lansdowne', 'laxman jhula', 'lucknow', 'mall road', 'manali', 'mansa devi temple', 'mindrolling monastery', 'mukteshwar', 'munsiyari', 'mussoorie', 'nainbagh', 'nainital', 'naukuchiatal', 'new delhi railway station', 'new tehri', 'patal bhuvaneshwar', 'pauri', 'pithoragarh', 'rajpur road', 'ram jhula', 'ramnagar', 'ranikhet', 'rishikesh', 'roorkee', 'rudraprayag', 'sahastradhara', 'sattal', 'shimla', 'shivpuri (rafting)', 'sonprayag', 'srinagar', 'tapovan', 'tehri', 'triveni ghat', 'tungnath', 'uttarkashi', 'vikasnagar', 'yamunotri'];
-    const isUttarakhand = UTTARAKHAND.some(p => p.includes(q) || q.includes(p.substring(0,4)));
-    const displayQ = q.charAt(0).toUpperCase() + q.slice(1);
-    const waText = encodeURIComponent(`Hi Shri Taxi, I'm looking for a taxi to ${displayQ}. Can you help plan my trip?`);
-    const waNum = '916397321825';
-
+    // Default: assume Uttarakhand (small villages won't be in any list)
+    // Only show "outside UK" for known major non-Uttarakhand cities
+    const NON_UTTARAKHAND = [
+      'mumbai','delhi','goa','chennai','bangalore','bengaluru','kolkata','hyderabad',
+      'pune','ahmedabad','jaipur','lucknow','agra','varanasi','amritsar','surat',
+      'bhopal','indore','nagpur','patna','ranchi','bhubaneswar','kochi','coimbatore',
+      'chandigarh','shimla','manali','dharamsala','amritsar','jammu','srinagar',
+      'leh','ladakh','spiti','gurgaon','noida','faridabad','ghaziabad'
+    ];
+    const isOutsideUK = NON_UTTARAKHAND.some(p => q.includes(p) || p.includes(q));
+    const isUttarakhand = !isOutsideUK;
     if (isUttarakhand) {
       output.innerHTML = `
         <div class="search-unlisted">
