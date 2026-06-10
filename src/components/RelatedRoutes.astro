@@ -23,11 +23,35 @@ const tagColors: Record<string, string> = {
   'Spiritual':    '#8b5cf6',
   'Adventure':    '#3b82f6',
   'Airport':      '#fb923c',
-  'Outstation':   '#fb923c',
+  'Outstation':   '#f59e0b',
   'Pilgrimage':   '#f59e0b',
   'Packages':     '#0d9488',
   'Wildlife':     '#16a34a',
   'Nature':       '#16a34a',
+};
+
+const tagColorsDark: Record<string, string> = {
+  'Hill Station': '#0f766e',
+  'Spiritual':    '#7c3aed',
+  'Adventure':    '#2563eb',
+  'Airport':      '#ea580c',
+  'Outstation':   '#d97706',
+  'Pilgrimage':   '#d97706',
+  'Packages':     '#0f766e',
+  'Wildlife':     '#15803d',
+  'Nature':       '#15803d',
+};
+
+const tagIcons: Record<string, string> = {
+  'Hill Station': '🏔️',
+  'Spiritual':    '🙏',
+  'Adventure':    '🏄',
+  'Airport':      '✈️',
+  'Outstation':   '🚗',
+  'Pilgrimage':   '🕉️',
+  'Packages':     '📦',
+  'Wildlife':     '🐯',
+  'Nature':       '🌿',
 };
 ---
 
@@ -39,8 +63,11 @@ const tagColors: Record<string, string> = {
     <div class="related-scroll">
       {allItems.map(r => (
         <a href={r.href} class="related-card">
-          <div class="related-card-inner">
-            <span class="related-tag" style={`background:${tagColors[r.tag] || '#0d9488'}`}>{r.tag}</span>
+          <div class="related-card-header" style={`background:linear-gradient(135deg,${tagColors[r.tag] || '#0d9488'},${tagColorsDark[r.tag] || '#0f766e'})`}>
+            <span class="related-card-icon">{tagIcons[r.tag] || '🚗'}</span>
+            <span class="related-tag-label">{r.tag}</span>
+          </div>
+          <div class="related-card-body">
             <h3 class="related-name">{r.title}</h3>
             <div class="related-meta">
               <span class="related-price">{r.price}</span>
@@ -76,19 +103,28 @@ const tagColors: Record<string, string> = {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   text-decoration: none;
-  flex: 0 0 230px;
-  min-width: 230px;
-  transition: box-shadow 0.2s, transform 0.2s;
+  flex: 0 0 200px;
+  min-width: 200px;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
 }
-.related-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.related-card-inner { padding: 18px 16px; display: flex; flex-direction: column; gap: 8px; }
-.related-tag { display: inline-block; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; width: fit-content; }
-.related-name { font-size: 14px; font-weight: 700; color: var(--slate); line-height: 1.3; }
+.related-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.12); transform: translateY(-4px); }
+.related-card-header {
+  padding: 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 80px;
+}
+.related-card-icon { font-size: 28px; line-height: 1; }
+.related-tag-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.9); text-transform: uppercase; letter-spacing: 0.06em; }
+.related-card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.related-name { font-size: 13px; font-weight: 700; color: var(--slate); line-height: 1.3; }
 .related-meta { display: flex; align-items: center; gap: 6px; }
 .related-price { font-size: 16px; font-weight: 700; color: var(--teal); font-family: 'Playfair Display', serif; }
 .related-sep { color: var(--muted); font-size: 12px; }
 .related-duration { font-size: 11px; color: var(--muted); }
-.related-cta { font-size: 12px; font-weight: 600; color: var(--saffron); margin-top: 4px; }
+.related-cta { font-size: 12px; font-weight: 600; color: var(--saffron); margin-top: 2px; }
 
 /* Desktop — grid layout */
 @media (min-width: 768px) {
