@@ -100,7 +100,28 @@ function shriSearch() {
   const total    = routes.length + packages.length + blogs.length;
 
   if (total === 0) {
-    output.innerHTML = `<p class="search-no-result">No results for "<strong>${q}</strong>" — try another destination</p>`;
+    // Check if query matches a known Uttarakhand destination
+    const UTTARAKHAND = ['agra', 'almora', 'auli', 'badrinath', 'bageshwar', 'bhimtal', 'binsar', 'chakrata', 'chamba', 'champawat', 'chandi devi temple', 'chandigarh', 'chandigarh airport', 'chopta', 'clock tower', 'corbett', 'dehradun', 'dehradun railway station', 'delhi', 'delhi airport (igi)', 'devprayag', 'dhanaulti', 'dhanaulti & kanatal', 'doiwala', 'dwarahat', 'fri (forest research institute)', 'gangotri', 'gaurikund', 'guptkashi', 'gwaldam', 'haldwani', 'har ki pauri', 'haridwar', 'haridwar railway station', 'isbt dehradun', 'jaipur', 'jim corbett national park', 'jolly grant airport', 'jolly grant airport (ded)', 'joshimath', 'kainchi', 'kainchi dham', 'kanatal', 'kausani', 'kedarnath', 'kempty falls', 'kotdwar', 'landour', 'lansdowne', 'laxman jhula', 'lucknow', 'mall road', 'manali', 'mansa devi temple', 'mindrolling monastery', 'mukteshwar', 'munsiyari', 'mussoorie', 'nainbagh', 'nainital', 'naukuchiatal', 'new delhi railway station', 'new tehri', 'patal bhuvaneshwar', 'pauri', 'pithoragarh', 'rajpur road', 'ram jhula', 'ramnagar', 'ranikhet', 'rishikesh', 'roorkee', 'rudraprayag', 'sahastradhara', 'sattal', 'shimla', 'shivpuri (rafting)', 'sonprayag', 'srinagar', 'tapovan', 'tehri', 'triveni ghat', 'tungnath', 'uttarkashi', 'vikasnagar', 'yamunotri'];
+    const isUttarakhand = UTTARAKHAND.some(p => p.includes(q) || q.includes(p.substring(0,4)));
+    const displayQ = q.charAt(0).toUpperCase() + q.slice(1);
+    const waText = encodeURIComponent(`Hi Shri Taxi, I'm looking for a taxi to ${displayQ}. Can you help plan my trip?`);
+    const waNum = '916397321825';
+
+    if (isUttarakhand) {
+      output.innerHTML = `
+        <div class="search-unlisted">
+          <p class="search-unlisted-msg"><strong>${displayQ}</strong> isn't on our site yet — but our pahadi drivers already know the road. Let's connect and plan your trip.</p>
+          <a href="https://wa.me/${waNum}?text=${waText}" target="_blank" rel="noopener" class="search-wa-btn">
+            💬 Plan My Trip to ${displayQ} →
+          </a>
+        </div>`;
+    } else {
+      output.innerHTML = `
+        <div class="search-unlisted">
+          <p class="search-unlisted-msg">We serve Uttarakhand routes — Dehradun, Mussoorie, Haridwar, Rishikesh, Char Dham and beyond.</p>
+          <a href="/popular-routes" class="search-routes-btn">View All Routes →</a>
+        </div>`;
+    }
     output.style.display = 'block';
     empty.style.display  = 'none';
     return;
@@ -269,6 +290,28 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 .search-hint span:hover { background: var(--teal); color: #fff; }
 .search-output { padding: 8px 0; }
+
+.search-unlisted { padding: 20px; }
+.search-unlisted-msg {
+  font-size: 14px; color: var(--slate); line-height: 1.7;
+  margin-bottom: 14px;
+}
+.search-wa-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #25d366; color: #fff;
+  font-size: 14px; font-weight: 600;
+  padding: 10px 18px; border-radius: var(--radius-md);
+  text-decoration: none; transition: background 0.15s;
+}
+.search-wa-btn:hover { background: #128c7e; }
+.search-routes-btn {
+  display: inline-flex; align-items: center;
+  background: var(--teal); color: #fff;
+  font-size: 13px; font-weight: 600;
+  padding: 8px 16px; border-radius: var(--radius-md);
+  text-decoration: none; transition: background 0.15s;
+}
+.search-routes-btn:hover { background: var(--teal-dark, #0f766e); }
 .search-no-result {
   padding: 20px; font-size: 14px; color: var(--muted); text-align: center;
 }
