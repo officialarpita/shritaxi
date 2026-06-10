@@ -94,6 +94,16 @@ function isActive(href: string) {
 }
 .search-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.5); }
 
+/* Mobile: header is white — use teal styling */
+@media (max-width: 768px) {
+  .search-btn {
+    background: var(--mint);
+    border-color: var(--teal-light);
+    color: var(--teal);
+  }
+  .search-btn:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+}
+
 /* ── Mobile search trigger ── */
 .mobile-search {
   display: flex; align-items: center; gap: 10px;
