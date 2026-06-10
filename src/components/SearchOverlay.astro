@@ -111,6 +111,9 @@ function shriSearch() {
     ];
     const isOutsideUK = NON_UTTARAKHAND.some(p => q.includes(p) || p.includes(q));
     const isUttarakhand = !isOutsideUK;
+    const displayQ = q.charAt(0).toUpperCase() + q.slice(1);
+    const waNum = '916397321825';
+    const waText = encodeURIComponent(`Hi Shri Taxi, I'm looking for a taxi to ${displayQ}. Can you help plan my trip?`);
     if (isUttarakhand) {
       output.innerHTML = `
         <div class="search-unlisted">
