@@ -46,10 +46,12 @@ const relatedIds: Record<string, string[]> = {
   'char-dham':   ['ek-dham', 'do-dham', 'kedarnath'],
   'ek-dham':     ['do-dham', 'char-dham', 'kedarnath'],
   'do-dham':     ['ek-dham', 'char-dham', 'kedarnath'],
-  'nainital-corbett':                    ['nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
-  'nainital-ranikhet-corbett':           ['nainital-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
-  'mussoorie-corbett-nainital-ranikhet': ['nainital-corbett', 'nainital-ranikhet-corbett', 'almora-kausani'],
-  'almora-kausani':                      ['nainital-corbett', 'mussoorie-corbett-nainital-ranikhet', 'nainital-ranikhet-corbett'],
+  'nainital-corbett':                    ['jim-corbett-3d', 'jim-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet'],
+  'nainital-ranikhet-corbett':           ['nainital-corbett', 'jim-corbett-3d', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
+  'mussoorie-corbett-nainital-ranikhet': ['nainital-corbett', 'jim-corbett-3d', 'nainital-ranikhet-corbett', 'almora-kausani'],
+  'almora-kausani':                      ['nainital-corbett', 'jim-corbett-3d', 'mussoorie-corbett-nainital-ranikhet', 'nainital-ranikhet-corbett'],
+  'jim-corbett':                         ['jim-corbett-3d', 'nainital-corbett', 'nainital-ranikhet-corbett'],
+  'jim-corbett-3d':                      ['jim-corbett', 'nainital-corbett', 'mussoorie-corbett-nainital-ranikhet'],
 };
 const relatedPackages = (relatedIds[pkg.id] || [])
   .map(id => tourPackages.find(p => p.id === id))
