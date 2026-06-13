@@ -51,7 +51,7 @@ const relatedIds: Record<string, string[]> = {
   'mussoorie-corbett-nainital-ranikhet': ['nainital-corbett', 'jim-corbett-3d', 'nainital-ranikhet-corbett', 'almora-kausani'],
   'almora-kausani':                      ['nainital-corbett', 'jim-corbett-3d', 'mussoorie-corbett-nainital-ranikhet', 'nainital-ranikhet-corbett'],
   'jim-corbett':                         ['jim-corbett-3d', 'nainital-corbett', 'nainital-ranikhet-corbett'],
-  'jim-corbett-3d':                      ['jim-corbett', 'nainital-corbett', 'mussoorie-corbett-nainital-ranikhet'],
+  'jim-corbett-3d':                      ['jim-corbett', 'nainital-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet'],
 };
 const relatedPackages = (relatedIds[pkg.id] || [])
   .map(id => tourPackages.find(p => p.id === id))
