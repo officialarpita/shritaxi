@@ -499,7 +499,7 @@ const breadcrumbSchema = {
   background: linear-gradient(to top, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.4) 50%, transparent 100%);
 }
 .pkg-hero-tag { position: absolute; top: 12px; left: 12px; color: #fff; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-.pkg-hero-duration { position: absolute; bottom: 48px; left: 12px; color: #fff; font-size: 12px; font-weight: 700; background: rgba(15,23,42,0.6); padding: 3px 10px; border-radius: 20px; }
+.pkg-hero-duration { position: absolute; bottom: 14px; left: 12px; color: #fff; font-size: 12px; font-weight: 700; background: rgba(15,23,42,0.6); padding: 3px 10px; border-radius: 20px; }
 .pkg-hero-disc { position: absolute; top: 12px; right: 12px; background: #ef4444; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
 
 /* ── Title + price ON the image (mobile overlay) ── */
@@ -508,6 +508,18 @@ const breadcrumbSchema = {
   font-size: 17px; color: #fff;
   font-family: 'Playfair Display', serif;
   line-height: 1.2; margin: 0;
+}
+/* Mobile: title moves below image, dark text on white background */
+@media (max-width: 640px) {
+  .pkg-hero-title {
+    position: static !important;
+    color: var(--slate) !important;
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    text-shadow: none !important;
+    margin: 14px 0 6px !important;
+    line-height: 1.3 !important;
+  }
 }
 
 /* ── Info section below image ── */
@@ -610,12 +622,7 @@ details[open] .faq-chevron { transform: rotate(180deg); }
 
 /* ══ MOBILE TITLE — bold, readable on any image ══ */
 @media (max-width: 640px) {
-  .pkg-hero-title {
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.65) !important;
-    line-height: 1.25 !important;
-  }
+  /* pkg-hero-title mobile overrides handled in base CSS block above */
   .pkg-hero-meta {
     display: flex; align-items: center; gap: 6px;
     flex-wrap: wrap; margin-top: 4px;
