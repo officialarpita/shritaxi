@@ -184,6 +184,13 @@ const breadcrumbSchema = {
           </div>
           <div class="pkg-hero-info">
             <h1 class="pkg-hero-title">{pkg.name}</h1>
+            <div class="pkg-hero-meta">
+              <span class="pkg-meta-item">{pkg.nights > 0 ? `${pkg.nights}N ${pkg.days}D` : `${pkg.days}D`}</span>
+              <span class="pkg-meta-sep">·</span>
+              <span class="pkg-meta-item">⭐ 4.9</span>
+              <span class="pkg-meta-sep">·</span>
+              <span class="pkg-meta-item">🔒 All Inclusive</span>
+            </div>
             <div class="pkg-highlights">
               {pkg.highlights.map(h => <span class="pkg-chip">{h}</span>)}
             </div>
@@ -194,7 +201,7 @@ const breadcrumbSchema = {
                 <span class="pkg-price">{fmt(pkg.tiers[0].discounted)}</span>
                 <span class="pkg-save">Save {fmt(pkg.tiers[0].saving)}</span>
               </div>
-              <p class="pkg-price-note">Per cab · {pkg.tiers[0].vehicleName} · {pkg.nights}N {pkg.days}D</p>
+              <p class="pkg-price-note">Per cab · {pkg.tiers[0].vehicleName} · {pkg.nights > 0 ? `${pkg.nights}N ${pkg.days}D` : `${pkg.days}D`}</p>
             </div>
             <p class="pkg-incl">✓ Driver · Fuel · Toll · Parking · All inclusive</p>
             <div class="pkg-ctas">
@@ -220,8 +227,16 @@ const breadcrumbSchema = {
       </div>
     </section>
 
+    <!-- Mobile Tabs Nav (hidden on desktop) -->
+    <nav class="pkg-tabs" id="pkg-tabs" aria-label="Package sections">
+      <button class="pkg-tab-btn active" data-tab="vehicles">🚗 Vehicles</button>
+      <button class="pkg-tab-btn" data-tab="itinerary">🗺️ Itinerary</button>
+      <button class="pkg-tab-btn" data-tab="included">✓ Included</button>
+      <button class="pkg-tab-btn" data-tab="faq">❓ FAQ</button>
+    </nav>
+
     <!-- All Vehicle Prices -->
-    <section class="pkg-section">
+    <section class="pkg-section pkg-tab-section" id="tab-vehicles">
       <div class="container">
         <div class="section-header">
           <p class="section-label">All Vehicle Options</p>
@@ -306,7 +321,7 @@ const breadcrumbSchema = {
 
     <!-- Itinerary if available -->
     {pkg.itinerary && pkg.itinerary.length > 0 && (
-      <section class="pkg-section pkg-section--mint">
+      <section class="pkg-section pkg-section--mint pkg-tab-section" id="tab-itinerary">
         <div class="container">
           <div class="section-header">
             <p class="section-label">Day by Day</p>
@@ -392,7 +407,7 @@ const breadcrumbSchema = {
 
     <!-- What's Included -->
     {pkg.includes && pkg.includes.length > 0 && (
-      <section class="pkg-section">
+      <section class="pkg-section pkg-tab-section" id="tab-included">
         <div class="container">
           <h2 class="section-title" style="margin-bottom:20px;">What's Included</h2>
           <div class="includes-grid">
@@ -408,7 +423,7 @@ const breadcrumbSchema = {
     )}
 
     <!-- FAQ -->
-    <section class="pkg-section pkg-section--light">
+    <section class="pkg-section pkg-section--light pkg-tab-section" id="tab-faq">
       <div class="container">
         <h2 class="section-title" style="margin-bottom:24px;">{pkg.name} — FAQs</h2>
         <div class="faq-list" style="max-width:780px;">
@@ -438,6 +453,12 @@ const breadcrumbSchema = {
         </div>
       </div>
     </section>
+
+    <!-- Sticky bottom bar — mobile only -->
+    <div class="pkg-sticky-bar" id="pkg-sticky-bar">
+      <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20${encodeURIComponent(pkg.name)}`} target="_blank" rel="noopener" class="pkg-sticky-btn pkg-sticky-btn--wa">💬 Book Now</a>
+      <a href={`tel:${phone}`} class="pkg-sticky-btn pkg-sticky-btn--call">📞 Call Us</a>
+    </div>
 
   </main>
   <Footer />
@@ -586,10 +607,95 @@ details[open] .faq-chevron { transform: rotate(180deg); }
 .pkg-cta-btns { display: flex; gap: 8px; flex-direction: column; }
 .pkg-cta-btns .btn { justify-content: center; }
 
+
+/* ══ MOBILE TITLE — bold, readable on any image ══ */
+@media (max-width: 640px) {
+  .pkg-hero-title {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.65) !important;
+    line-height: 1.25 !important;
+  }
+  .pkg-hero-meta {
+    display: flex; align-items: center; gap: 6px;
+    flex-wrap: wrap; margin-top: 4px;
+    font-size: 11px; color: rgba(255,255,255,0.85);
+  }
+  .pkg-meta-item { font-weight: 600; }
+  .pkg-meta-sep { opacity: 0.5; }
+
+  /* ══ MOBILE TABS ══ */
+  .pkg-tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 0;
+    background: #fff;
+    border-bottom: 2px solid var(--border);
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .pkg-tabs::-webkit-scrollbar { display: none; }
+  .pkg-tab-btn {
+    flex: 1; min-width: max-content;
+    padding: 12px 14px;
+    font-size: 12px; font-weight: 600;
+    color: var(--muted);
+    background: #fff; border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer; white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .pkg-tab-btn.active {
+    color: var(--teal);
+    border-bottom-color: var(--teal);
+    background: var(--mint);
+  }
+
+  /* Hide all tab sections by default on mobile */
+  .pkg-tab-section { display: none !important; }
+  .pkg-tab-section.tab-active { display: block !important; }
+
+  /* ══ STICKY BOTTOM BAR ══ */
+  .pkg-sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; gap: 8px;
+    padding: 10px 16px 14px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+    z-index: 200;
+  }
+  .pkg-sticky-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    gap: 6px; padding: 12px 8px;
+    font-size: 14px; font-weight: 700;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+  }
+  .pkg-sticky-btn--wa   { background: #25d366; color: #fff; }
+  .pkg-sticky-btn--call { background: var(--saffron); color: #fff; }
+
+  /* Add bottom padding to main so sticky bar doesn't cover content */
+  #main-content { padding-bottom: 72px; }
+}
+
+/* ══ DESKTOP — hide mobile-only elements ══ */
+@media (min-width: 768px) {
+  .pkg-tabs { display: none; }
+  .pkg-sticky-bar { display: none; }
+  .pkg-tab-section { display: block !important; }
+  .pkg-hero-meta { display: none; }
+}
+
 /* ═══════════════════════════════════════════════
    DESKTOP — min-width: 768px
    ═══════════════════════════════════════════════ */
 @media (min-width: 768px) {
+  .pkg-hero-meta { display: flex; align-items: center; gap: 6px; font-size: 13px; color: rgba(255,255,255,0.75); margin-bottom: 8px; }
+  .pkg-meta-item { font-weight: 600; color: rgba(255,255,255,0.85); }
+  .pkg-meta-sep { color: rgba(255,255,255,0.4); }
   .pkg-section { padding: 60px 0; }
   .pkg-hero { padding: 40px 0; background: #0f172a; }
   .breadcrumb { color: rgba(255,255,255,0.5); }
@@ -667,4 +773,46 @@ details[open] .faq-chevron { transform: rotate(180deg); }
       if (note) note.style.display = city !== 'dehradun' ? 'block' : 'none';
     });
   });
+
+// ── Mobile Tab Switching ───────────────────────────────────────
+function initPkgTabs() {
+  const tabs = document.querySelectorAll('.pkg-tab-btn');
+  const sections = document.querySelectorAll('.pkg-tab-section');
+  if (!tabs.length) return;
+
+  // Show first tab by default on mobile
+  function isMobile() { return window.innerWidth < 768; }
+
+  function activateTab(tabName) {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+    sections.forEach(s => {
+      if (isMobile()) {
+        s.classList.toggle('tab-active', s.id === `tab-${tabName}`);
+      } else {
+        s.classList.add('tab-active'); // show all on desktop
+      }
+    });
+  }
+
+  // Init — activate first tab on mobile
+  if (isMobile()) {
+    sections.forEach(s => s.classList.remove('tab-active'));
+    const firstTab = tabs[0]?.dataset.tab;
+    if (firstTab) activateTab(firstTab);
+  }
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.dataset.tab));
+  });
+
+  // Re-check on resize
+  window.addEventListener('resize', () => {
+    if (!isMobile()) {
+      sections.forEach(s => s.classList.add('tab-active'));
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initPkgTabs);
+
 </script>
