@@ -735,6 +735,20 @@ details[open] .faq-chevron { transform: rotate(180deg); }
   .pkg-tab-section { display: none !important; }
   .pkg-tab-section.tab-active { display: block !important; }
 
+  /* ══ PREVENT HORIZONTAL OVERFLOW ══ */
+  #main-content {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  .pkg-tabs {
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .pkg-highlights {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
   /* ══ STICKY BOTTOM BAR ══ */
   .pkg-sticky-bar {
     position: fixed; bottom: 0; left: 0; right: 0;
