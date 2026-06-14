@@ -149,6 +149,7 @@ const vLabel = (id: string) =>
             const isDedicated = p.href.startsWith('/packages/');
             return (
               <div class="pkg-card" id={p.id}>
+                <a href={p.href} class="pkg-img-link" aria-label={`View ${p.name}`}>
                 <div class="pkg-img-wrap">
                   <Image src={img} alt={`${p.name} taxi package`} width={380} height={200}
                     widths={[300,380,760]} sizes="(max-width:640px) 300px, 380px"
@@ -158,6 +159,7 @@ const vLabel = (id: string) =>
                   <span class="pkg-nights">{p.nights > 0 ? `${p.nights}N ` : ''}{p.days}D</span>
                   <div class="pkg-disc"><span>10%</span><span>OFF</span></div>
                 </div>
+                </a>
                 <div class="pkg-body">
                   <h3 class="pkg-name">{p.name}</h3>
                   <div class="pkg-chips-wrap">
@@ -470,6 +472,7 @@ const vLabel = (id: string) =>
 }
 
 /* ── Package Card ── */
+.pkg-img-link { display: block; text-decoration: none; }
 .pkg-card {
   height: 100%;
   background:#fff; border:1.5px solid var(--border);
