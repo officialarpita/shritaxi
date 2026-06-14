@@ -236,14 +236,12 @@ const breadcrumbSchema = {
     </section>
 
     <!-- Mobile Tabs Nav (hidden on desktop) -->
-    <div class="container">
     <nav class="pkg-tabs" id="pkg-tabs" aria-label="Package sections">
       <button class="pkg-tab-btn active" data-tab="vehicles">🚗 Vehicles</button>
       <button class="pkg-tab-btn" data-tab="itinerary">🗺️ Itinerary</button>
       <button class="pkg-tab-btn" data-tab="included">✓ Included</button>
       <button class="pkg-tab-btn" data-tab="faq">❓ FAQ</button>
     </nav>
-    </div>
 
     <!-- All Vehicle Prices -->
     <section class="pkg-section pkg-tab-section" id="tab-vehicles">
@@ -707,10 +705,14 @@ details[open] .faq-chevron { transform: rotate(180deg); }
     gap: 0;
     background: #fff;
     border-bottom: 2px solid var(--border);
+    border-top: 1px solid var(--border);
     scrollbar-width: none;
     position: sticky;
     top: 0;
     z-index: 50;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
   .pkg-tabs::-webkit-scrollbar { display: none; }
   .pkg-tab-btn {
