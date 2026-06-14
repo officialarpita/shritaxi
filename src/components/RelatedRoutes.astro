@@ -11,9 +11,11 @@ interface Props {
   currentPage: string;
   routes?: RelatedItem[];
   packages?: RelatedItem[];
+  viewAllHref?: string;
+  viewAllLabel?: string;
 }
 
-const { currentPage, routes = [], packages = [] } = Astro.props;
+const { currentPage, routes = [], packages = [], viewAllHref = '/popular-routes', viewAllLabel = 'View All Routes' } = Astro.props;
 
 // Combine routes + packages, filter self-links, limit to 4
 const allItems = [...routes, ...packages].filter(r => r.href !== currentPage).slice(0, 6);
@@ -79,6 +81,7 @@ const tagIcons: Record<string, string> = {
         </a>
       ))}
     </div>
+    <a href={viewAllHref} class="related-view-all">{viewAllLabel} →</a>
   </div>
 </section>
 )}
@@ -126,6 +129,13 @@ const tagIcons: Record<string, string> = {
 .related-sep { color: var(--muted); font-size: 12px; }
 .related-duration { font-size: 11px; color: var(--muted); }
 .related-cta { font-size: 12px; font-weight: 600; color: var(--saffron); margin-top: 2px; }
+.related-view-all {
+  display: inline-flex; align-items: center;
+  color: var(--teal); font-size: 13px; font-weight: 600;
+  text-decoration: none; padding: 8px 0; margin-top: 12px;
+  border-bottom: 1px solid var(--teal-light);
+}
+.related-view-all:hover { color: var(--teal-dark, #0f766e); }
 
 /* Desktop — grid layout */
 @media (min-width: 768px) {
