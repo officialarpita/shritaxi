@@ -34,14 +34,14 @@ const wa    = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '916397321825';
 
 // Related packages — same destination keyword or circuit packages
 const relatedIds: Record<string, string[]> = {
-  'nainital':    ['nainital-corbett', 'nainital-ranikhet-corbett', 'mussoorie-corbett-nainital-ranikhet', 'almora-kausani'],
-  'dhanaulti':   ['chakrata', 'chopta', 'neem-karoli'],
-  'chakrata':    ['dhanaulti', 'chopta', 'neem-karoli'],
+  'nainital':    ['nainital-corbett', 'mukteshwar', 'nainital-ranikhet-corbett', 'almora-kausani'],
+  'dhanaulti':   ['chakrata', 'tehri', 'chopta', 'neem-karoli'],
+  'chakrata':    ['dhanaulti', 'tehri', 'chopta', 'neem-karoli'],
   'neem-karoli': ['kedarnath', 'chopta', 'nainital'],
   'auli':        ['munsiyari', 'chopta', 'kedarnath'],
-  'chopta':      ['auli', 'munsiyari', 'kedarnath'],
+  'chopta':      ['auli', 'munsiyari', 'dhanaulti', 'lansdowne'],
   'munsiyari':   ['auli', 'chopta', 'kedarnath'],
-  'kedarnath':   ['char-dham', 'do-dham', 'chopta'],
+  'kedarnath':   ['badrinath', 'ek-dham', 'char-dham', 'neem-karoli'],
   'badrinath':   ['char-dham', 'do-dham', 'kedarnath'],
   'char-dham':   ['ek-dham', 'do-dham', 'kedarnath'],
   'ek-dham':     ['do-dham', 'char-dham', 'kedarnath'],
