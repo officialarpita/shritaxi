@@ -263,9 +263,13 @@ const speakableSchema = {
     <section class="route-hero">
       <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
-          <a href="/">Home</a> ›
-          <a href="/popular-routes">Popular Routes</a> ›
-          <span>{route.from} to {route.to}</span>
+          <a href="/popular-routes" class="breadcrumb-back">← Popular Routes</a>
+          <span class="breadcrumb-sep">›</span>
+          <a href="/" class="breadcrumb-home">Home</a>
+          <span class="breadcrumb-sep">›</span>
+          <a href="/popular-routes" class="breadcrumb-link">Popular Routes</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-current">{route.from} to {route.to}</span>
         </nav>
         <div class="route-hero-content">
           <div class="route-hero-text">
@@ -395,6 +399,13 @@ const speakableSchema = {
       </div>
     </section>
 
+  <!-- Sticky bottom bar — mobile only -->
+  <div class="route-sticky-bar">
+    <a href="/popular-routes" class="route-sticky-btn route-sticky-btn--back">← Routes</a>
+    <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20taxi%20from%20${encodeURIComponent(route.from)}%20to%20${encodeURIComponent(route.to)}`} target="_blank" rel="noopener" class="route-sticky-btn route-sticky-btn--wa">💬 Book</a>
+    <a href={`tel:${phone}`} class="route-sticky-btn route-sticky-btn--call">📞 Call</a>
+  </div>
+
   </main>
 
   <Footer />
@@ -487,4 +498,50 @@ const speakableSchema = {
   .route-cta-btns .btn { justify-content: center; }
   .route-hero-ctas { flex-direction: column; }
 }
+
+/* ── Sticky bottom bar ── */
+.route-sticky-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  display: flex; gap: 8px;
+  padding: 10px 16px 14px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+  z-index: 200;
+}
+.route-sticky-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  gap: 4px; padding: 10px 8px;
+  font-size: 13px; font-weight: 700;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+.route-sticky-btn--back { background: var(--mint); color: var(--teal); border: 1.5px solid var(--teal-light); flex: 0 0 auto; padding: 10px 12px; }
+.route-sticky-btn--wa   { background: #25d366; color: #fff; }
+.route-sticky-btn--call { background: var(--saffron); color: #fff; }
+
+/* ── Breadcrumb back button ── */
+.breadcrumb { font-size: 12px; color: rgba(255,255,255,0.6); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.breadcrumb a { color: rgba(255,255,255,0.7); text-decoration: none; }
+.breadcrumb-back { display: none; }
+.breadcrumb-sep { opacity: 0.4; }
+
+@media (max-width: 640px) {
+  .breadcrumb-back {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.15); color: #fff;
+    font-size: 13px; font-weight: 600;
+    padding: 6px 12px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.25);
+    margin-bottom: 8px; width: fit-content;
+  }
+  .breadcrumb-home, .breadcrumb-link, .breadcrumb-sep, .breadcrumb-current { display: none; }
+  .route-sticky-bar { display: flex; }
+  #main-content { padding-bottom: 72px; }
+}
+@media (min-width: 768px) {
+  .route-sticky-bar { display: none; }
+  .breadcrumb-back { display: none; }
+}
+
 </style>
