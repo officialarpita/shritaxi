@@ -489,6 +489,27 @@ const speakableSchema = {
 /* Responsive */
 @media (max-width: 1024px) { .vehicle-grid { grid-template-columns: repeat(2, 1fr); } .route-details-grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
+  /* ── Fix 1: Title bold on mobile ── */
+  .route-hero-title {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+  }
+
+  /* ── Fix 2: Prevent horizontal scroll ── */
+  #main-content {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* ── Fix 3: Meta strip styling on mobile ── */
+  .route-meta {
+    font-size: 12px;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
   .vehicle-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .vehicle-card { padding: 16px 12px; }
   .vehicle-price-amount { font-size: 22px; }
