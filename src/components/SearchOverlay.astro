@@ -32,20 +32,20 @@
 <script is:inline>
 // ── Static search index ───────────────────────────────────────
 const ROUTES = [
-  {id:'jolly-grant-airport',from:'Jolly Grant Airport',to:'Dehradun',price:'₹1,000',href:'/routes/jolly-grant-airport',search:'Jolly Grant Airport Dehradun jolly-grant-airport'.toLowerCase()},
-    {id:'dehradun-mussoorie',from:'Dehradun',to:'Mussoorie',price:'₹1,500',href:'/routes/dehradun-mussoorie',search:'Dehradun Mussoorie dehradun-mussoorie'.toLowerCase()},
-    {id:'dehradun-haridwar',from:'Dehradun',to:'Haridwar',price:'₹2,000',href:'/routes/dehradun-haridwar',search:'Dehradun Haridwar dehradun-haridwar'.toLowerCase()},
-    {id:'dehradun-rishikesh',from:'Dehradun',to:'Rishikesh',price:'₹2,000',href:'/routes/dehradun-rishikesh',search:'Dehradun Rishikesh dehradun-rishikesh'.toLowerCase()},
+  {id:'jolly-grant-airport',from:'Jolly Grant Airport',to:'Dehradun',price:'₹1,000',href:'/jolly-grant-airport-taxi',search:'Jolly Grant Airport Dehradun jolly-grant-airport'.toLowerCase()},
+    {id:'dehradun-mussoorie',from:'Dehradun',to:'Mussoorie',price:'₹1,500',href:'/dehradun-to-mussoorie-taxi',search:'Dehradun Mussoorie dehradun-mussoorie'.toLowerCase()},
+    {id:'dehradun-haridwar',from:'Dehradun',to:'Haridwar',price:'₹2,000',href:'/dehradun-to-haridwar-taxi',search:'Dehradun Haridwar dehradun-haridwar'.toLowerCase()},
+    {id:'dehradun-rishikesh',from:'Dehradun',to:'Rishikesh',price:'₹2,000',href:'/dehradun-to-rishikesh-taxi',search:'Dehradun Rishikesh dehradun-rishikesh'.toLowerCase()},
     {id:'dehradun-dhanaulti',from:'Dehradun',to:'Dhanaulti & Kanatal',price:'₹3,599',href:'/routes/dehradun-dhanaulti',search:'Dehradun Dhanaulti & Kanatal dehradun-dhanaulti'.toLowerCase()},
     {id:'dehradun-tehri',from:'Dehradun',to:'Tehri',price:'₹3,599',href:'/routes/dehradun-tehri',search:'Dehradun Tehri dehradun-tehri'.toLowerCase()},
     {id:'dehradun-chakrata',from:'Dehradun',to:'Chakrata',price:'₹3,599',href:'/routes/dehradun-chakrata',search:'Dehradun Chakrata dehradun-chakrata'.toLowerCase()},
     {id:'dehradun-delhi',from:'Dehradun',to:'Delhi NCR',price:'₹3,500',href:'/routes/dehradun-delhi',search:'Dehradun Delhi NCR dehradun-delhi'.toLowerCase()},
     {id:'dehradun-chandigarh',from:'Dehradun',to:'Chandigarh',price:'₹3,500',href:'/routes/dehradun-chandigarh',search:'Dehradun Chandigarh dehradun-chandigarh'.toLowerCase()},
-    {id:'delhi-dehradun',from:'Delhi NCR',to:'Dehradun',price:'₹3,500',href:'/routes/delhi-dehradun',search:'Delhi NCR Dehradun delhi-dehradun'.toLowerCase()},
-    {id:'delhi-haridwar',from:'Delhi NCR',to:'Haridwar',price:'₹3,500',href:'/routes/delhi-haridwar',search:'Delhi NCR Haridwar delhi-haridwar'.toLowerCase()},
-    {id:'delhi-rishikesh',from:'Delhi NCR',to:'Rishikesh',price:'₹3,500',href:'/routes/delhi-rishikesh',search:'Delhi NCR Rishikesh delhi-rishikesh'.toLowerCase()},
-    {id:'delhi-mussoorie',from:'Delhi NCR',to:'Mussoorie',price:'₹4,500',href:'/routes/delhi-mussoorie',search:'Delhi NCR Mussoorie delhi-mussoorie'.toLowerCase()},
-    {id:'chandigarh-dehradun',from:'Chandigarh',to:'Dehradun',price:'₹3,500',href:'/routes/chandigarh-dehradun',search:'Chandigarh Dehradun chandigarh-dehradun'.toLowerCase()}
+    {id:'delhi-dehradun',from:'Delhi NCR',to:'Dehradun',price:'₹3,500',href:'/delhi-to-dehradun-taxi',search:'Delhi NCR Dehradun delhi-dehradun'.toLowerCase()},
+    {id:'delhi-haridwar',from:'Delhi NCR',to:'Haridwar',price:'₹3,500',href:'/delhi-to-haridwar-taxi',search:'Delhi NCR Haridwar delhi-haridwar'.toLowerCase()},
+    {id:'delhi-rishikesh',from:'Delhi NCR',to:'Rishikesh',price:'₹3,500',href:'/delhi-to-rishikesh-taxi',search:'Delhi NCR Rishikesh delhi-rishikesh'.toLowerCase()},
+    {id:'delhi-mussoorie',from:'Delhi NCR',to:'Mussoorie',price:'₹4,500',href:'/delhi-to-mussoorie-taxi',search:'Delhi NCR Mussoorie delhi-mussoorie'.toLowerCase()},
+    {id:'chandigarh-dehradun',from:'Chandigarh',to:'Dehradun',price:'₹3,500',href:'/chandigarh-to-dehradun-taxi',search:'Chandigarh Dehradun chandigarh-dehradun'.toLowerCase()}
 ];
 const PACKAGES = [
   {id:'dhanaulti',name:`Dhanaulti & Kanatal Day Trip`,price:'₹3,599',href:'/packages/dhanaulti',search:'Dhanaulti & Kanatal Day Trip dhanaulti'.toLowerCase()},
