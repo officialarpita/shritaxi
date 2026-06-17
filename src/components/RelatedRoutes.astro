@@ -137,6 +137,18 @@ const tagIcons: Record<string, string> = {
 }
 .related-view-all:hover { color: var(--teal-dark, #0f766e); }
 
+/* Mobile — peek effect (show 2.3 cards to signal scrollability) */
+@media (max-width: 767px) {
+  .related-scroll {
+    padding-right: 16px; /* ensures 3rd card peek is visible */
+  }
+  .related-card {
+    flex: 0 0 38vw;
+    min-width: 38vw;
+    max-width: 38vw;
+  }
+}
+
 /* Desktop — grid layout */
 @media (min-width: 768px) {
   .related-routes { padding: 48px 0; }
