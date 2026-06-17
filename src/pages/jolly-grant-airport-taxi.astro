@@ -340,6 +340,17 @@ details[open] .faq-q { color: var(--teal); }
   .destinations-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
+  /* ── Mobile fixes ── */
+  .loc-title {
+    font-size: 22px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+  }
+  #main-content {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
   .price-cards { grid-template-columns: 1fr; }
   .destinations-grid { grid-template-columns: 1fr; }
   .loc-cta-inner { flex-direction: column; }
