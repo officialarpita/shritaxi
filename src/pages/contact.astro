@@ -40,7 +40,7 @@ const contactSchema = {
       <div class="container">
         <nav class="breadcrumb"><a href="/">Home</a> › <span>Contact Us</span></nav>
         <h1 class="contact-title">Get in Touch</h1>
-        <p class="contact-sub">We respond within 15 minutes · Available 24/7</p>
+        <p class="contact-sub">Rooted in the hills. Here for every journey.</p>
       </div>
     </section>
 
@@ -178,43 +178,93 @@ const contactSchema = {
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
 </style>
 
+
 <style>
-/* ── Mobile optimisation (≤ 640px) ── */
 @media (max-width: 640px) {
 
-  /* Hero — tighter */
-  .contact-hero { padding: 28px 0 20px; }
-  .contact-title { font-size: 26px; }
-  .contact-sub { font-size: 14px; }
+  /* ── Hero — compact ── */
+  .contact-hero { padding: 24px 0 18px; }
+  .contact-title { font-size: 24px; margin-bottom: 4px; }
+  .contact-sub { font-size: 13px; }
 
-  /* Replace large cards with compact action strip */
-  .contact-card {
+  /* ── Contact options — unified grouped list ── */
+  .contact-options { gap: 20px; }
+
+  /* Group the 3 cards as one unified container */
+  .contact-card--primary {
+    border-radius: 12px 12px 0 0;
+    border-bottom: none;
+    border-top: 1px solid var(--border);
+    padding: 16px;
     flex-direction: row;
     align-items: center;
-    padding: 14px 16px;
-    gap: 12px;
+    gap: 14px;
   }
-  .contact-icon { font-size: 22px; flex-shrink: 0; }
-  .contact-card h2 { font-size: 14px; margin: 0; }
-  .contact-card > p:first-of-type { display: none; } /* hide description */
-  .contact-note { display: none; }                   /* hide note */
+  .contact-card--whatsapp {
+    border-radius: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: none;
+    padding: 16px;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-top: -1px;
+  }
+  .contact-card--email {
+    border-radius: 0 0 12px 12px;
+    border-top: 1px solid var(--border);
+    padding: 16px;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-top: -1px;
+  }
+
+  /* Remove coloured top borders on mobile — unified look */
+  .contact-card--primary  { border-top: 3px solid var(--saffron); }
+  .contact-card--whatsapp { border-top: none; }
+  .contact-card--email    { border-top: none; }
+
+  /* Icon — smaller */
+  .contact-icon { font-size: 24px; flex-shrink: 0; }
+
+  /* Title + text */
+  .contact-card h2 { font-size: 14px; font-weight: 700; margin: 0; line-height: 1.2; }
+  .contact-card > p:first-of-type { font-size: 12px; margin: 0; }
+  .contact-note { display: none; }
+
+  /* Button — right aligned, compact */
   .contact-card .btn {
     margin-left: auto;
     flex-shrink: 0;
-    font-size: 13px;
-    padding: 8px 14px;
-    width: auto;      /* override btn-full */
+    font-size: 12px;
+    padding: 8px 12px;
+    width: auto;
+    white-space: nowrap;
   }
 
-  /* Business details — more compact */
-  .contact-details { padding: 16px; }
-  .contact-detail-list { gap: 10px; }
-  .contact-detail-icon { font-size: 16px; }
-  .contact-detail-item strong { font-size: 12px; }
-  .contact-detail-item p { font-size: 12px; }
+  /* Left content group */
+  .contact-card h2,
+  .contact-card > p:first-of-type {
+    display: block;
+  }
 
-  /* Map — shorter on mobile */
-  .contact-map iframe { height: 220px; }
-  .contact-map-trust { font-size: 12px; gap: 6px; }
+  /* ── Business details — 2-col facts grid ── */
+  .contact-details { padding: 16px; }
+  .contact-details h3 { font-size: 14px; margin-bottom: 12px; }
+  .contact-detail-list { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px; 
+  }
+  .contact-detail-item { align-items: flex-start; gap: 8px; }
+  .contact-detail-icon { font-size: 16px; }
+  .contact-detail-item strong { font-size: 11px; }
+  .contact-detail-item p,
+  .contact-detail-item a { font-size: 11px; }
+
+  /* ── Map — compact ── */
+  .contact-map iframe { height: 200px; border-radius: 12px; }
+  .contact-map-trust { font-size: 11px; gap: 6px; margin-top: 8px; }
 }
 </style>
