@@ -47,30 +47,59 @@ const contactSchema = {
     <section class="section">
       <div class="container contact-grid">
 
-        <!-- Contact options -->
         <div class="contact-options">
-          <div class="contact-card contact-card--primary">
-            <div class="contact-icon">📞</div>
-            <h2>Call Us</h2>
-            <p>Direct line — fastest way to book</p>
-            <a href={`tel:${phone}`} class="btn btn-saffron btn-lg btn-full">{phone}</a>
-            <p class="contact-note">Available 24/7 · Hindi & English</p>
+
+          <!-- Mobile: grouped contact list -->
+          <div class="contact-action-group">
+            <a href={`tel:${phone}`} class="contact-action-item">
+              <span class="contact-action-icon">📞</span>
+              <div class="contact-action-text">
+                <strong>Call Us</strong>
+                <span>{phone}</span>
+              </div>
+              <span class="contact-action-arrow">›</span>
+            </a>
+            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="contact-action-item">
+              <span class="contact-action-icon">💬</span>
+              <div class="contact-action-text">
+                <strong>WhatsApp Us</strong>
+                <span>Reply in 15 mins</span>
+              </div>
+              <span class="contact-action-arrow">›</span>
+            </a>
+            <a href={`mailto:${email}`} class="contact-action-item">
+              <span class="contact-action-icon">📧</span>
+              <div class="contact-action-text">
+                <strong>Email Us</strong>
+                <span>{email}</span>
+              </div>
+              <span class="contact-action-arrow">›</span>
+            </a>
           </div>
 
-          <div class="contact-card contact-card--whatsapp">
-            <div class="contact-icon">💬</div>
-            <h2>WhatsApp Us</h2>
-            <p>Send message — reply in 15 mins</p>
-            <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg btn-full">Open WhatsApp</a>
-            <p class="contact-note">Share trip details for instant quote</p>
-          </div>
-
-          <div class="contact-card contact-card--email">
-            <div class="contact-icon">📧</div>
-            <h2>Email Us</h2>
-            <p>For queries, support & feedback</p>
-            <a href={`mailto:${email}`} class="btn btn-email btn-lg btn-full">{email}</a>
-            <p class="contact-note">We reply within 24 hours</p>
+          <!-- Desktop: original cards (hidden on mobile) -->
+          <div class="contact-cards-desktop">
+            <div class="contact-card contact-card--primary">
+              <div class="contact-icon">📞</div>
+              <h2>Call Us</h2>
+              <p>Direct line — fastest way to book</p>
+              <a href={`tel:${phone}`} class="btn btn-saffron btn-lg btn-full">{phone}</a>
+              <p class="contact-note">Available 24/7 · Hindi & English</p>
+            </div>
+            <div class="contact-card contact-card--whatsapp">
+              <div class="contact-icon">💬</div>
+              <h2>WhatsApp Us</h2>
+              <p>Send message — reply in 15 mins</p>
+              <a href={`https://wa.me/${wa}?text=Hi%20Shri%20Taxi%2C%20I%20want%20to%20book%20a%20cab`} target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg btn-full">Open WhatsApp</a>
+              <p class="contact-note">Share trip details for instant quote</p>
+            </div>
+            <div class="contact-card contact-card--email">
+              <div class="contact-icon">📧</div>
+              <h2>Email Us</h2>
+              <p>For queries, support & feedback</p>
+              <a href={`mailto:${email}`} class="btn btn-email btn-lg btn-full">{email}</a>
+              <p class="contact-note">We reply within 24 hours</p>
+            </div>
           </div>
 
           <!-- Business details -->
@@ -146,25 +175,32 @@ const contactSchema = {
 </Base>
 
 <style>
+/* ── Hero ── */
 .contact-hero { background: linear-gradient(135deg, #1e3a5f, #0d9488); padding: 48px 0 36px; }
 .contact-title { font-size: clamp(28px, 4vw, 42px); color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 8px; }
 .contact-sub { font-size: 16px; color: rgba(255,255,255,0.8); }
 
+/* ── Desktop grid ── */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
 .contact-options { display: flex; flex-direction: column; gap: 16px; }
+
+/* ── Mobile action group (hidden on desktop) ── */
+.contact-action-group { display: none; }
+
+/* ── Desktop cards ── */
+.contact-cards-desktop { display: flex; flex-direction: column; gap: 16px; }
 .contact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
 .contact-card--primary  { border-top: 4px solid var(--saffron); }
-.contact-card--whatsapp { border-top: 4px solid var(--whatsapp); }
+.contact-card--whatsapp { border-top: 4px solid var(--whatsapp, #25d366); }
 .contact-card--email    { border-top: 4px solid var(--teal); }
 .contact-icon { font-size: 32px; }
 .contact-card h2 { font-size: 20px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; }
 .contact-card > p { font-size: 14px; color: var(--muted); }
 .contact-note { font-size: 12px; color: var(--muted); text-align: center; }
-
-/* Email button */
 .btn-email { background: var(--teal); color: #fff; }
 .btn-email:hover { background: #0f766e; }
 
+/* ── Business details ── */
 .contact-details { background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-lg); padding: 24px; }
 .contact-details h3 { font-size: 16px; font-weight: 700; color: var(--slate); font-family: 'DM Sans', sans-serif; margin-bottom: 16px; }
 .contact-detail-list { display: flex; flex-direction: column; gap: 14px; }
@@ -172,99 +208,55 @@ const contactSchema = {
 .contact-detail-icon { font-size: 20px; flex-shrink: 0; }
 .contact-detail-item strong { font-size: 13px; font-weight: 700; color: var(--slate); display: block; margin-bottom: 2px; }
 .contact-detail-item p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ── Map ── */
 .contact-map-trust { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-top: 12px; flex-wrap: wrap; }
 .contact-map-trust a { color: var(--teal); font-weight: 600; }
 
+/* ── Desktop breakpoint ── */
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
-</style>
 
-
-<style>
+/* ── Mobile redesign ── */
 @media (max-width: 640px) {
-
-  /* ── Hero — compact ── */
+  /* Hero */
   .contact-hero { padding: 24px 0 18px; }
-  .contact-title { font-size: 24px; margin-bottom: 4px; }
+  .contact-title { font-size: 24px; }
   .contact-sub { font-size: 13px; }
 
-  /* ── Contact options — unified grouped list ── */
-  .contact-options { gap: 20px; }
+  /* Show mobile action group, hide desktop cards */
+  .contact-action-group { display: block; background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .contact-cards-desktop { display: none; }
 
-  /* Group the 3 cards as one unified container */
-  .contact-card--primary {
-    border-radius: 12px 12px 0 0;
-    border-bottom: none;
-    border-top: 1px solid var(--border);
-    padding: 16px;
-    flex-direction: row;
+  /* Action items — iOS settings style */
+  .contact-action-item {
+    display: flex;
     align-items: center;
     gap: 14px;
-  }
-  .contact-card--whatsapp {
-    border-radius: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: none;
     padding: 16px;
-    flex-direction: row;
-    align-items: center;
-    gap: 14px;
-    margin-top: -1px;
+    text-decoration: none;
+    color: var(--slate);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
   }
-  .contact-card--email {
-    border-radius: 0 0 12px 12px;
-    border-top: 1px solid var(--border);
-    padding: 16px;
-    flex-direction: row;
-    align-items: center;
-    gap: 14px;
-    margin-top: -1px;
-  }
+  .contact-action-item:last-child { border-bottom: none; }
+  .contact-action-item:active { background: var(--mint); }
+  .contact-action-icon { font-size: 22px; flex-shrink: 0; width: 36px; text-align: center; }
+  .contact-action-text { flex: 1; }
+  .contact-action-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--slate); margin-bottom: 2px; }
+  .contact-action-text span { font-size: 12px; color: var(--muted); }
+  .contact-action-arrow { font-size: 20px; color: var(--muted); font-weight: 300; }
 
-  /* Remove coloured top borders on mobile — unified look */
-  .contact-card--primary  { border-top: 3px solid var(--saffron); }
-  .contact-card--whatsapp { border-top: none; }
-  .contact-card--email    { border-top: none; }
-
-  /* Icon — smaller */
-  .contact-icon { font-size: 24px; flex-shrink: 0; }
-
-  /* Title + text */
-  .contact-card h2 { font-size: 14px; font-weight: 700; margin: 0; line-height: 1.2; }
-  .contact-card > p:first-of-type { font-size: 12px; margin: 0; }
-  .contact-note { display: none; }
-
-  /* Button — right aligned, compact */
-  .contact-card .btn {
-    margin-left: auto;
-    flex-shrink: 0;
-    font-size: 12px;
-    padding: 8px 12px;
-    width: auto;
-    white-space: nowrap;
-  }
-
-  /* Left content group */
-  .contact-card h2,
-  .contact-card > p:first-of-type {
-    display: block;
-  }
-
-  /* ── Business details — 2-col facts grid ── */
+  /* Business details — 2-col grid */
   .contact-details { padding: 16px; }
   .contact-details h3 { font-size: 14px; margin-bottom: 12px; }
-  .contact-detail-list { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 12px; 
-  }
-  .contact-detail-item { align-items: flex-start; gap: 8px; }
+  .contact-detail-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .contact-detail-icon { font-size: 16px; }
   .contact-detail-item strong { font-size: 11px; }
   .contact-detail-item p,
   .contact-detail-item a { font-size: 11px; }
 
-  /* ── Map — compact ── */
-  .contact-map iframe { height: 200px; border-radius: 12px; }
-  .contact-map-trust { font-size: 11px; gap: 6px; margin-top: 8px; }
+  /* Map */
+  .contact-map iframe { height: 200px; }
+  .contact-map-trust { font-size: 11px; gap: 6px; }
 }
 </style>
