@@ -177,3 +177,44 @@ const contactSchema = {
 
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
 </style>
+
+<style>
+/* ── Mobile optimisation (≤ 640px) ── */
+@media (max-width: 640px) {
+
+  /* Hero — tighter */
+  .contact-hero { padding: 28px 0 20px; }
+  .contact-title { font-size: 26px; }
+  .contact-sub { font-size: 14px; }
+
+  /* Replace large cards with compact action strip */
+  .contact-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .contact-icon { font-size: 22px; flex-shrink: 0; }
+  .contact-card h2 { font-size: 14px; margin: 0; }
+  .contact-card > p:first-of-type { display: none; } /* hide description */
+  .contact-note { display: none; }                   /* hide note */
+  .contact-card .btn {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 8px 14px;
+    width: auto;      /* override btn-full */
+  }
+
+  /* Business details — more compact */
+  .contact-details { padding: 16px; }
+  .contact-detail-list { gap: 10px; }
+  .contact-detail-icon { font-size: 16px; }
+  .contact-detail-item strong { font-size: 12px; }
+  .contact-detail-item p { font-size: 12px; }
+
+  /* Map — shorter on mobile */
+  .contact-map iframe { height: 220px; }
+  .contact-map-trust { font-size: 12px; gap: 6px; }
+}
+</style>
