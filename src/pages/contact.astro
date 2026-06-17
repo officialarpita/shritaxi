@@ -184,11 +184,11 @@ const contactSchema = {
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
 .contact-options { display: flex; flex-direction: column; gap: 16px; }
 
-/* ── Mobile action group (hidden on desktop) ── */
-.contact-action-group { display: none; }
+/* ── Action group — shown on all screens ── */
+.contact-action-group { display: block; background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
 
-/* ── Desktop cards ── */
-.contact-cards-desktop { display: flex; flex-direction: column; gap: 16px; }
+/* ── Desktop cards — hidden everywhere (replaced by action group) ── */
+.contact-cards-desktop { display: none; }
 .contact-card { background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; display: flex; flex-direction: column; gap: 10px; }
 .contact-card--primary  { border-top: 4px solid var(--saffron); }
 .contact-card--whatsapp { border-top: 4px solid var(--whatsapp, #25d366); }
@@ -216,6 +216,25 @@ const contactSchema = {
 /* ── Desktop breakpoint ── */
 @media (max-width: 1024px) { .contact-grid { grid-template-columns: 1fr; } }
 
+/* ── Desktop action group styling ── */
+.contact-action-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  text-decoration: none;
+  color: var(--slate);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.contact-action-item:last-child { border-bottom: none; }
+.contact-action-item:hover { background: var(--mint); }
+.contact-action-icon { font-size: 26px; flex-shrink: 0; width: 40px; text-align: center; }
+.contact-action-text { flex: 1; }
+.contact-action-text strong { display: block; font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 3px; }
+.contact-action-text span { font-size: 13px; color: var(--muted); }
+.contact-action-arrow { font-size: 22px; color: var(--muted); font-weight: 300; }
+
 /* ── Mobile redesign ── */
 @media (max-width: 640px) {
   /* Hero */
@@ -223,28 +242,13 @@ const contactSchema = {
   .contact-title { font-size: 24px; }
   .contact-sub { font-size: 13px; }
 
-  /* Show mobile action group, hide desktop cards */
-  .contact-action-group { display: block; background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
-  .contact-cards-desktop { display: none; }
-
-  /* Action items — iOS settings style */
-  .contact-action-item {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px;
-    text-decoration: none;
-    color: var(--slate);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
-  }
-  .contact-action-item:last-child { border-bottom: none; }
-  .contact-action-item:active { background: var(--mint); }
-  .contact-action-icon { font-size: 22px; flex-shrink: 0; width: 36px; text-align: center; }
-  .contact-action-text { flex: 1; }
-  .contact-action-text strong { display: block; font-size: 14px; font-weight: 700; color: var(--slate); margin-bottom: 2px; }
-  .contact-action-text span { font-size: 12px; color: var(--muted); }
-  .contact-action-arrow { font-size: 20px; color: var(--muted); font-weight: 300; }
+  /* Action items — mobile sizing overrides */
+  /* Mobile: slightly compact sizing */
+  .contact-action-item { padding: 14px 16px; gap: 12px; }
+  .contact-action-icon { font-size: 22px; width: 34px; }
+  .contact-action-text strong { font-size: 13px; }
+  .contact-action-text span { font-size: 11px; }
+  .contact-action-arrow { font-size: 18px; }
 
   /* Business details — 2-col grid */
   .contact-details { padding: 16px; }
