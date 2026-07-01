@@ -6,12 +6,14 @@ interface Props {
   description: string;
   canonicalUrl?: string;
   ogImage?: string;
+  ogType?: string;
 }
 const {
   title,
   description,
   canonicalUrl = 'https://shritaxi.com',
   ogImage = 'https://shritaxi.com/images/og.jpg',
+  ogType = 'website',
 } = Astro.props;
 ---
 <!DOCTYPE html>
@@ -28,7 +30,7 @@ const {
   <link rel="canonical" href={canonicalUrl} />
 
   <!-- Open Graph -->
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content={ogType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImage} />
