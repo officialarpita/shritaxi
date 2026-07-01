@@ -192,7 +192,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
           <input type="text" name="company" autocomplete="off" tabindex="-1" />
         </label>
         <!-- Cloudflare Turnstile -->
-        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible"></div>
+        <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible" data-callback="onTurnstileSuccess"></div>
+        <p class="field-error-msg" id="turnstile-error" style="display:none;">⚠️ Please verify you are human before booking.</p>
         <div class="vehicle-select-section">
           <div class="vehicle-select-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3m-3 9h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4zM9 17V9"/></svg> Select Vehicle</div>
           <div class="vehicle-grid">
@@ -230,6 +231,12 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
   const customSet = new Set(customQuote || []);
   const vehicleNames: Record<string, string> = {
     sedan: '🚗 Sedan', ertiga: '🚐 Ertiga', innova: '🚙 Innova', traveller: '🚌 Tempo',
+  };
+
+  // Hide Turnstile error when user completes verification
+  (window as any).onTurnstileSuccess = () => {
+    const el = document.getElementById('turnstile-error');
+    if (el) el.style.display = 'none';
   };
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -725,7 +732,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     (document.getElementById('airport-parking-note') as HTMLElement).style.display = 'none';
     airportJourneyType = '';
     ['date-error-msg','time-error-msg','pickup-error-msg','drop-error-msg','name-error-msg','phone-error-msg',
-     'local-pickup-error-msg','return-date-error-msg','return-date-required-msg','return-time-error-msg','return-time-required-msg'].forEach(id => {
+     'local-pickup-error-msg','return-date-error-msg','return-date-required-msg','return-time-error-msg','return-time-required-msg','turnstile-error'].forEach(id => {
       const el = document.getElementById(id); if (el) el.style.display = 'none';
     });
     ['date','time','pickup','drop','return_date','return_time'].forEach(id => { document.getElementById(id)?.classList.remove('input-error'); });
@@ -809,6 +816,15 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     else { if (nameErr) nameErr.style.display='none'; }
     if (!validatePhone(phoneVal)) { if (phoneErr) phoneErr.style.display='block'; (document.getElementById('phone_no') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
     else { if (phoneErr) phoneErr.style.display='none'; }
+    // Turnstile verification check
+    const turnstileToken = (fd.get('cf-turnstile-response') || '').toString().trim();
+    const turnstileErr = document.getElementById('turnstile-error');
+    if (!turnstileToken) {
+      if (turnstileErr) turnstileErr.style.display = 'block';
+      document.querySelector('.cf-turnstile')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      btn.disabled = false; btn.textContent = 'Book Now →'; return;
+    } else { if (turnstileErr) turnstileErr.style.display = 'none'; }
+
     const vehicleSelected = form.querySelector('input[name="vehicle"]:checked') as HTMLInputElement;
     const vehicleMsg = document.getElementById('vehicle-required-msg') as HTMLElement;
     if (!vehicleSelected) { if (vehicleMsg) vehicleMsg.style.display='block'; document.querySelector('.vehicle-select-section')?.scrollIntoView({ behavior:'smooth', block:'center' }); btn.disabled=false; btn.textContent='Book Now →'; return; }
