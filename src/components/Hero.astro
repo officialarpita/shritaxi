@@ -1,37 +1,23 @@
 ---
 import { routePrices, locationMap, surchargeMap, localRates, localPackages, localCities, estimatedRates, approxDistances, longRouteDestinations, customQuoteOnly, airportPerDayRoutes } from '../data/routePrices.ts';
-// Serialize at BUILD TIME — injected as plain JSON string, no serialization issues
-// Hardcoded local data — no import dependency issues
 const localCitiesData = [
-  { name: 'Dehradun',           icon: '🏙️' },
-  { name: 'Mussoorie',          icon: '🏔️' },
-  { name: 'Haridwar',           icon: '🛕' },
-  { name: 'Rishikesh',          icon: '🙏' },
-  { name: 'Dhanaulti / Kanatal', icon: '🌲' },
-  { name: 'Tehri',              icon: '💧' },
+  { name: 'Dehradun', icon: '🏙️' }, { name: 'Mussoorie', icon: '🏔️' },
+  { name: 'Haridwar', icon: '🛕' }, { name: 'Rishikesh', icon: '🙏' },
+  { name: 'Dhanaulti / Kanatal', icon: '🌲' }, { name: 'Tehri', icon: '💧' },
 ];
 const localPackagesData = [
-  { id: 'half-day',          label: 'Half Day',         hours: 4,  km: 40,  sedan: 1200, ertiga: 1500, innova: 1900 },
-  { id: 'full-day',          label: 'Full Day',         hours: 8,  km: 80,  sedan: 2400, ertiga: 3000, innova: 3800 },
+  { id: 'half-day', label: 'Half Day', hours: 4, km: 40, sedan: 1200, ertiga: 1500, innova: 1900 },
+  { id: 'full-day', label: 'Full Day', hours: 8, km: 80, sedan: 2400, ertiga: 3000, innova: 3800 },
   { id: 'full-day-extended', label: 'Full Day Extended', hours: 10, km: 150, sedan: 3599, ertiga: 4499, innova: 5670 },
 ];
 const priceDataJson = JSON.stringify({
-  routePrices,
-  locationMap,
-  surchargeMap,
-  localRates,
-  perKmRanges: estimatedRates,
-  approxDistances,
-  localPackages: localPackagesData,
-  localCities: localCitiesData,
+  routePrices, locationMap, surchargeMap, localRates,
+  perKmRanges: estimatedRates, approxDistances,
+  localPackages: localPackagesData, localCities: localCitiesData,
   longRouteDestinations: [...longRouteDestinations],
   cityGroups: [
     ['dehradun','dehradun_station','dehradun_isbt'],
-    ['haridwar'],
-    ['rishikesh'],
-    ['mussoorie'],
-    ['dhanaulti'],
-    ['tehri'],
+    ['haridwar'],['rishikesh'],['mussoorie'],['dhanaulti'],['tehri'],
   ],
   customQuoteOnly: [...customQuoteOnly],
   airportPerDayRoutes: [...airportPerDayRoutes],
@@ -43,9 +29,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
 <section class="hero" id="home" aria-label="Hero">
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="hero-overlay" aria-hidden="true"></div>
-
   <div class="container hero-inner">
-    <!-- Left: Headline + CTAs -->
     <div class="hero-content">
       <h1 class="hero-title">Pahadi Roots.<br/>Trusted Routes.</h1>
       <p class="hero-sub">Ride the Himalayan Roads of Devbhoomi with Experienced Local Pahadi Drivers.</p>
@@ -56,14 +40,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
         <span class="hero-dot">•</span>
         <span>Char Dham specialists</span>
       </p>
-
-      <!-- SEO: crawlable service area — visually hidden but indexed by Google -->
-      <p class="seo-context">
-         <!-- Shri Taxi provides reliable and affordable taxi service in Dehradun for local travel, airport transfers, outstation trips and Char Dham Yatra packages. Book cab from Dehradun to Mussoorie, Haridwar, Rishikesh, Nainital, Kedarnath, Badrinath, Jolly Grant Airport and all Uttarakhand destinations. Experienced local hill drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer and hill station tours.-->
-      Shri Taxi provides reliable and affordable taxi service across Uttarakhand — Dehradun, Haridwar, Rishikesh, Mussoorie, Nainital, Auli, Dhanaulti, Kanatal, Tehri and Char Dham Yatra. Book cab from Dehradun to Jolly Grant Airport, Delhi NCR, Chandigarh and all major Uttarakhand destinations. Also serving Delhi to Dehradun, Delhi to Haridwar, Delhi to Rishikesh and Delhi to Char Dham routes. Experienced local pahadi drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer, hill station tours and pilgrimages.
-      </p>
-
-      <!-- Primary CTAs -->
+      <p class="seo-context">Shri Taxi provides reliable and affordable taxi service across Uttarakhand — Dehradun, Haridwar, Rishikesh, Mussoorie, Nainital, Auli, Dhanaulti, Kanatal, Tehri and Char Dham Yatra. Book cab from Dehradun to Jolly Grant Airport, Delhi NCR, Chandigarh and all major Uttarakhand destinations. Also serving Delhi to Dehradun, Delhi to Haridwar, Delhi to Rishikesh and Delhi to Char Dham routes. Experienced local pahadi drivers, transparent pricing, no hidden charges. Available 24/7 for airport pickup, railway station transfer, hill station tours and pilgrimages.</p>
       <div class="hero-ctas">
         <a href={`tel:${phone}`} class="btn btn-call hero-btn">
           <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.49 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.4 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 9a16 16 0 006.29 6.29l1.79-1.79a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -73,101 +50,56 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.106.549 4.09 1.508 5.814L.057 23.25l5.561-1.46A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.49-5.191-1.352l-.371-.22-3.301.867.881-3.22-.241-.393A10 10 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           WhatsApp Booking
         </a>
-
       </div>
     </div>
-
-    <!-- Right: Booking Card -->
     <div class="booking-card" id="booking">
       <div class="booking-card-header">
         <h2 class="booking-title">Book Your Taxi</h2>
         <p class="booking-sub">Fast, Easy &amp; Secure Booking</p>
       </div>
-
-      <!-- Trip type tabs -->
       <div class="trip-tabs" role="tablist">
         <button class="trip-tab active" data-trip="one-way" role="tab" aria-selected="true">One Way</button>
         <button class="trip-tab" data-trip="round-trip" role="tab" aria-selected="false">Round Trip</button>
         <button class="trip-tab" data-trip="local" role="tab" aria-selected="false">Local Hire</button>
         <button class="trip-tab" data-trip="airport" role="tab" aria-selected="false">Airport</button>
       </div>
-
       <form class="booking-form" id="booking-form" data-wa={wa} novalidate>
         <input type="hidden" name="trip_type" id="trip_type_input" value="one-way" />
-
-        <!-- Local Hire Tab UI (shown only when Local Hire tab active) -->
         <div class="local-tab-ui" id="local-tab-ui">
-
-          <!-- Package selector -->
           <div class="form-group">
-            <label class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              Choose Package
-            </label>
+            <label class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Choose Package</label>
             <div class="local-packages" id="local-packages"></div>
             <input type="hidden" name="local_package" id="local_package_input" />
           </div>
-
-          <!-- Price result for local -->
           <div class="price-result" id="local-price-result" style="display:none;">
             <div class="price-result-inner">
-              <div class="price-result-header">
-                <span class="price-result-icon">🕐</span>
-                <span class="price-result-label" id="local-price-label">Local Hire Rate</span>
-              </div>
+              <div class="price-result-header"><span class="price-result-icon">🕐</span><span class="price-result-label" id="local-price-label">Local Hire Rate</span></div>
               <div class="price-result-vehicles" id="local-price-vehicles"></div>
               <p class="price-result-note" id="local-price-note">Driver + Fuel included · Extra km charged beyond package limit</p>
             </div>
           </div>
-
-          <!-- Pickup point — plain text, no autocomplete -->
           <div class="form-group">
-            <label for="local_pickup" class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-              Your Pickup Location
-            </label>
-            <input type="text" id="local_pickup" name="local_pickup"
-              placeholder="Enter your hotel name, full address or area"
-              class="form-input" autocomplete="on" />
+            <label for="local_pickup" class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg> Your Pickup Location</label>
+            <input type="text" id="local_pickup" name="local_pickup" placeholder="Enter your hotel name, full address or area" class="form-input" autocomplete="on" />
             <p class="local-pickup-hint">e.g. Hotel Maldohi Dehradun, 15 Rajpur Road, Clock Tower area</p>
             <p class="field-error-msg" id="local-pickup-error-msg" style="display:none;">⚠️ Please enter your pickup location.</p>
           </div>
-
-          <!-- Sightseeing spots (optional) -->
           <div class="form-group">
-            <label for="local_spots" class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Places to visit <span style="font-weight:400;color:var(--muted)">(optional)</span>
-            </label>
-            <input type="text" id="local_spots" name="local_spots"
-              placeholder="e.g. Robber's Cave, Sahastradhara, FRI"
-              class="form-input" autocomplete="off" />
+            <label for="local_spots" class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Places to visit <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+            <input type="text" id="local_spots" name="local_spots" placeholder="e.g. Robber's Cave, Sahastradhara, FRI" class="form-input" autocomplete="off" />
           </div>
-
         </div>
-
-        <!-- Airport Tab UI -->
         <div class="airport-tab-ui" id="airport-tab-ui">
-
-          <!-- Step 1: Journey type -->
           <div class="form-group">
-            <label class="form-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Journey Type
-            </label>
+            <label class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Journey Type</label>
             <select id="airport_journey" name="airport_journey" class="form-input">
               <option value="">Select Journey Type</option>
               <option value="pickup">📍 Pickup from Airport</option>
               <option value="drop">🚗 Drop to Airport</option>
             </select>
           </div>
-
-          <!-- Step 2: Airport (shown after journey type selected) -->
           <div class="form-group" id="airport-select-group" style="display:none;">
-            <label class="form-label" id="airport-select-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Airport
-            </label>
+            <label class="form-label" id="airport-select-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Airport</label>
             <select id="airport_select" name="airport_select" class="form-input">
               <option value="">Select Airport</option>
               <option value="Jolly Grant Airport (DED)">✈️ Jolly Grant Airport, Dehradun (DED)</option>
@@ -175,47 +107,25 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
               <option value="Chandigarh Airport">✈️ Chandigarh Airport (IXC)</option>
             </select>
           </div>
-
-          <!-- Step 3: Your location (shown after airport selected) -->
           <div class="form-group" id="airport-location-group" style="display:none;">
-            <label for="airport_location" class="form-label" id="airport-location-label">
-              <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Drop Location
-            </label>
+            <label for="airport_location" class="form-label" id="airport-location-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Drop Location</label>
             <div class="autocomplete-wrap" id="airport-location-wrap">
-              <input type="text" id="airport_location" name="airport_location"
-                placeholder="Type your hotel, area or landmark"
-                class="form-input autocomplete-input" autocomplete="off" />
+              <input type="text" id="airport_location" name="airport_location" placeholder="Type your hotel, area or landmark" class="form-input autocomplete-input" autocomplete="off" />
               <button type="button" class="ac-clear" id="airport-location-clear" aria-label="Clear">✕</button>
               <div class="ac-dropdown" id="airport-location-dropdown"></div>
             </div>
           </div>
-
-          <!-- Parking note (pickup only) -->
-          <p class="airport-info-note" id="airport-parking-note" style="display:none;">
-            (* Airport parking charges applicable on pickup)
-          </p>
-
-          <!-- Price result -->
+          <p class="airport-info-note" id="airport-parking-note" style="display:none;">(* Airport parking charges applicable on pickup)</p>
           <div class="price-result" id="airport-price-result" style="display:none;">
             <div class="price-result-inner">
-              <div class="price-result-header">
-                <span class="price-result-icon" id="airport-price-icon">✅</span>
-                <span class="price-result-label" id="airport-price-label">Fixed Price</span>
-              </div>
+              <div class="price-result-header"><span class="price-result-icon" id="airport-price-icon">✅</span><span class="price-result-label" id="airport-price-label">Fixed Price</span></div>
               <div class="price-result-vehicles" id="airport-price-vehicles"></div>
               <p class="price-result-note" id="airport-price-note"></p>
             </div>
           </div>
-
         </div>
-
-        <!-- Pickup -->
         <div class="form-group" id="pickup-group">
-          <label for="pickup" class="form-label">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
-            Pickup Location
-          </label>
+          <label for="pickup" class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg> Pickup Location</label>
           <div class="autocomplete-wrap" id="pickup-wrap">
             <input type="text" id="pickup" name="pickup" placeholder="Type or select location" class="form-input autocomplete-input" autocomplete="off" />
             <button type="button" class="ac-clear" id="pickup-clear" aria-label="Clear pickup">✕</button>
@@ -223,13 +133,8 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
           </div>
           <p class="field-error-msg" id="pickup-error-msg" style="display:none;">⚠️ Please enter a pickup location.</p>
         </div>
-
-        <!-- Drop -->
         <div class="form-group" id="drop-group">
-          <label for="drop" class="form-label">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Drop Location
-          </label>
+          <label for="drop" class="form-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Drop Location</label>
           <div class="autocomplete-wrap" id="drop-wrap">
             <input type="text" id="drop" name="drop" placeholder="Type or select destination" class="form-input autocomplete-input" autocomplete="off" />
             <button type="button" class="ac-clear" id="drop-clear" aria-label="Clear drop">✕</button>
@@ -237,8 +142,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
           </div>
           <p class="field-error-msg" id="drop-error-msg" style="display:none;">⚠️ Please enter a drop location.</p>
         </div>
-
-        <!-- Date + Time -->
         <div class="form-row">
           <div class="form-group">
             <label for="date" class="form-label">Date</label>
@@ -251,8 +154,6 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
             <p class="field-error-msg" id="time-error-msg" style="display:none;">⚠️ Please select a time at least 30 minutes from now.</p>
           </div>
         </div>
-
-        <!-- Return Date (Round Trip only) -->
         <div class="form-row" id="return-date-row" style="display:none;">
           <div class="form-group">
             <label for="return_date" class="form-label">Return Date</label>
@@ -267,20 +168,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
             <p class="field-error-msg" id="return-time-required-msg" style="display:none;">⚠️ Please select a return time for round trip.</p>
           </div>
         </div>
-
-        <!-- Price Result Box -->
         <div class="price-result" id="price-result" style="display:none;">
           <div class="price-result-inner">
-            <div class="price-result-header">
-              <span class="price-result-icon" id="price-result-icon">✅</span>
-              <span class="price-result-label" id="price-result-label">Fixed Price</span>
-            </div>
+            <div class="price-result-header"><span class="price-result-icon" id="price-result-icon">✅</span><span class="price-result-label" id="price-result-label">Fixed Price</span></div>
             <div class="price-result-vehicles" id="price-result-vehicles"></div>
             <p class="price-result-note" id="price-result-note">Driver + Fuel + Toll + Parking included · No hidden costs</p>
           </div>
         </div>
-
-        <!-- Name + Phone -->
         <div class="form-row">
           <div class="form-group">
             <label for="name" class="form-label">Your Name</label>
@@ -293,344 +187,197 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
             <p class="field-error-msg" id="phone-error-msg" style="display:none;">⚠️ Please enter a valid Indian mobile number (e.g. 9876543210 or +91 9876543210 or 09876543210).</p>
           </div>
         </div>
-
-        {/* Honeypot — hidden from humans, bots fill it */}
+        {/* Honeypot */}
         <label class="honeypot" aria-hidden="true" tabindex="-1">
           <input type="text" name="company" autocomplete="off" tabindex="-1" />
         </label>
-
         <!-- Cloudflare Turnstile -->
-        <!-- Turnstile — hidden, token still generated for API security -->
-        <!-- <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-size="flexible" data-appearance="interaction-only" style="display:none;"></div> -->
         <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" data-size="flexible"></div>
-
-        <!-- Human confirmation checkbox — consistent on all devices -->
-        <label class="human-confirm">
-          <input type="checkbox" id="human-confirm-check" class="human-confirm-input" />
-          <span class="human-confirm-box"></span>
-          <span class="human-confirm-label">I confirm I am human</span>
-        </label>
-        <p class="human-confirm-error" id="human-confirm-error" style="display:none;">⚠️ Please confirm you are human.</p>
-
-        <!-- Vehicle Selector -->
         <div class="vehicle-select-section">
-          <div class="vehicle-select-label">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3m-3 9h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4zM9 17V9"/></svg>
-            Select Vehicle
-          </div>
+          <div class="vehicle-select-label"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3m-3 9h8m-8 0a2 2 0 100 4 2 2 0 000-4zm8 0a2 2 0 100 4 2 2 0 000-4zM9 17V9"/></svg> Select Vehicle</div>
           <div class="vehicle-grid">
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="sedan" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚗</span>
-                <span class="vehicle-name">Sedan</span>
-                <span class="vehicle-seats">4+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="ertiga" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚐</span>
-                <span class="vehicle-name">Ertiga</span>
-                <span class="vehicle-seats">6+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="innova" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚙</span>
-                <span class="vehicle-name" data-short="Innova">Innova Crysta</span>
-                <span class="vehicle-seats">6+1</span>
-              </span>
-            </label>
-            <label class="vehicle-opt">
-              <input type="radio" name="vehicle" value="traveller" />
-              <span class="vehicle-card">
-                <span class="vehicle-icon">🚌</span>
-                <span class="vehicle-name">Tempo</span>
-                <span class="vehicle-seats">12+1</span>
-              </span>
-            </label>
+            <label class="vehicle-opt"><input type="radio" name="vehicle" value="sedan" /><span class="vehicle-card"><span class="vehicle-icon">🚗</span><span class="vehicle-name">Sedan</span><span class="vehicle-seats">4+1</span></span></label>
+            <label class="vehicle-opt"><input type="radio" name="vehicle" value="ertiga" /><span class="vehicle-card"><span class="vehicle-icon">🚐</span><span class="vehicle-name">Ertiga</span><span class="vehicle-seats">6+1</span></span></label>
+            <label class="vehicle-opt"><input type="radio" name="vehicle" value="innova" /><span class="vehicle-card"><span class="vehicle-icon">🚙</span><span class="vehicle-name" data-short="Innova">Innova Crysta</span><span class="vehicle-seats">6+1</span></span></label>
+            <label class="vehicle-opt"><input type="radio" name="vehicle" value="traveller" /><span class="vehicle-card"><span class="vehicle-icon">🚌</span><span class="vehicle-name">Tempo</span><span class="vehicle-seats">12+1</span></span></label>
           </div>
-          <p class="vehicle-required-msg" id="vehicle-required-msg" style="display:none;">
-            ⚠️ Please select a vehicle type to continue
-          </p>
+          <p class="vehicle-required-msg" id="vehicle-required-msg" style="display:none;">⚠️ Please select a vehicle type to continue</p>
         </div>
-
-        <button type="submit" class="btn btn-teal booking-submit">
-          Book Now →
-        </button>
-        <p class="booking-secure">
-          <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          100% Safe &amp; Secure Booking
-        </p>
+        <button type="submit" class="btn btn-teal booking-submit">Book Now →</button>
+        <p class="booking-secure"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> 100% Safe &amp; Secure Booking</p>
       </form>
     </div>
   </div>
 </section>
 
-<!-- Inject pricing data from routePrices.ts — serialized at build time, zero network cost -->
 <script is:inline set:html={`window.__SHRI_TAXI__ = ${priceDataJson};`}></script>
 
 <script>
-  // Pre-select vehicle if coming from fleet page
-  // Read pricing data injected at build time from routePrices.ts
   const {
     routePrices, locationMap, surchargeMap, localRates,
     estimatedRates: perKmRanges, approxDistances,
-    localPackages, localCities,
     longRouteDestinations: longRouteDests,
     cityGroups: cityGroupsData,
     customQuoteOnly: customQuote,
     airportPerDayRoutes: airportPerDay,
   } = (window as any).__SHRI_TAXI__ || {};
 
-  const longRouteSet    = new Set(longRouteDests   || []);
-  const cityGroupsArr   = cityGroupsData || [];
+  const longRouteSet  = new Set(longRouteDests || []);
+  const cityGroupsArr = cityGroupsData || [];
   function isSameCityGroup(fk: string, tk: string): boolean {
     return cityGroupsArr.some((g: string[]) => g.includes(fk) && g.includes(tk));
   }
-  const customSet       = new Set(customQuote      || []);
-  const airportPerDaySet = new Set(airportPerDay   || []);
-
-  // Vehicle display names — module level so all functions can access
+  const customSet = new Set(customQuote || []);
   const vehicleNames: Record<string, string> = {
-    sedan:     '🚗 Sedan',
-    ertiga:    '🚐 Ertiga',
-    innova:    '🚙 Innova',
-    traveller: '🚌 Tempo',
+    sedan: '🚗 Sedan', ertiga: '🚐 Ertiga', innova: '🚙 Innova', traveller: '🚌 Tempo',
   };
 
   document.addEventListener('DOMContentLoaded', () => {
     const selectedVehicle = sessionStorage.getItem('selectedVehicle');
     if (selectedVehicle) {
       const radio = document.querySelector(`input[name="vehicle"][value="${selectedVehicle}"]`) as HTMLInputElement;
-      if (radio) {
-        radio.checked = true;
-        // Scroll booking form into view smoothly
-        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if (radio) { radio.checked = true; document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
       sessionStorage.removeItem('selectedVehicle');
     }
-
-    // Pre-select tab from URL query param e.g. /#booking?tab=airport or ?tab=local
     const urlParams = new URLSearchParams(window.location.search);
     const tabParam = urlParams.get('tab');
     if (tabParam) {
       const tabBtn = document.querySelector(`.trip-tab[data-trip="${tabParam}"]`) as HTMLElement;
-      if (tabBtn) {
-        tabBtn.click();
-        setTimeout(() => {
-          document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
-      }
+      if (tabBtn) { tabBtn.click(); setTimeout(() => { document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150); }
     }
   });
 
-  // Close popup
   const popup = document.getElementById('booking-popup');
   const closeBtn = document.getElementById('popup-close');
-
   function closePopup() {
-    popup?.classList.remove('active');
-    popup?.setAttribute('aria-hidden', 'true');
-    // Cancel auto-reset timer if running — we reset immediately here
-    if ((window as any).__shriAutoResetTimer) {
-      clearTimeout((window as any).__shriAutoResetTimer);
-      (window as any).__shriAutoResetTimer = null;
-    }
+    popup?.classList.remove('active'); popup?.setAttribute('aria-hidden', 'true');
+    if ((window as any).__shriAutoResetTimer) { clearTimeout((window as any).__shriAutoResetTimer); (window as any).__shriAutoResetTimer = null; }
     partialResetForm();
   }
-
   closeBtn?.addEventListener('click', closePopup);
-  popup?.addEventListener('click', (e) => {
-    if (e.target === popup) closePopup();
-  });
+  popup?.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
 
-  // Trip tabs
   const tabs = document.querySelectorAll('.trip-tab');
   const tripInput = document.getElementById('trip_type_input') as HTMLInputElement;
   const returnDateRow = document.getElementById('return-date-row') as HTMLElement;
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-      tab.classList.add('active');
-      tab.setAttribute('aria-selected','true');
+      tab.classList.add('active'); tab.setAttribute('aria-selected','true');
       const tripType = tab.getAttribute('data-trip') || '';
       if (tripInput) tripInput.value = tripType;
-      // Show/hide return date for round trip
-      if (returnDateRow) {
-        returnDateRow.style.display = tripType === 'round-trip' ? 'grid' : 'none';
-      }
-      // Show/hide local/airport tab UI and clear price boxes
-      if (tripType === 'local') {
-        showLocalTab();
-        hideAirportTab();
-        hidePrice(); // hide One Way price box
-      } else if (tripType === 'airport') {
-        showAirportTab();
-        hideLocalTab();
-        hidePrice(); // hide One Way price box
-      } else {
-        hideLocalTab();
-        hideAirportTab();
-        // Hide Local and Airport price boxes
-        document.getElementById('local-price-result')!.style.display   = 'none';
-        document.getElementById('airport-price-result')!.style.display = 'none';
-        hidePrice();
-      }
+      if (returnDateRow) returnDateRow.style.display = tripType === 'round-trip' ? 'grid' : 'none';
+      if (tripType === 'local') { showLocalTab(); hideAirportTab(); hidePrice(); }
+      else if (tripType === 'airport') { showAirportTab(); hideLocalTab(); hidePrice(); }
+      else { hideLocalTab(); hideAirportTab(); document.getElementById('local-price-result')!.style.display='none'; document.getElementById('airport-price-result')!.style.display='none'; hidePrice(); }
     });
   });
 
-
-
-  // ── CUSTOM AUTOCOMPLETE ─────────────────────────────────
-
   const locations: Array<{ name: string; category: string; icon: string }> = [
-    // Dehradun
-    { name: 'Dehradun',                          category: 'Dehradun',     icon: '🏙️' },
-    { name: 'Clock Tower, Dehradun',             category: 'Dehradun',     icon: '🕐' },
-    { name: 'Rajpur Road, Dehradun',             category: 'Dehradun',     icon: '🏙️' },
-    { name: 'Sahastradhara, Dehradun',           category: 'Dehradun',     icon: '💧' },
-    { name: 'ISBT Dehradun',                     category: 'Dehradun',     icon: '🚌' },
-    { name: 'Dehradun Railway Station',          category: 'Dehradun',     icon: '🚂' },
-    { name: 'Jolly Grant Airport (DED)',         category: 'Airport',      icon: '✈️' },
-    { name: 'FRI (Forest Research Institute)',   category: 'Dehradun',     icon: '🌲' },
-    { name: 'Mindrolling Monastery, Dehradun',   category: 'Dehradun',     icon: '🛕' },
-    { name: "Robber's Cave, Dehradun",           category: 'Dehradun',     icon: '🗻' },
-    // Hill Stations
-    { name: 'Mussoorie',                         category: 'Hill Stations', icon: '🏔️' },
-    { name: 'Mall Road, Mussoorie',              category: 'Hill Stations', icon: '🛍️' },
-    { name: 'Kempty Falls',                      category: 'Hill Stations', icon: '💧' },
-    { name: 'Dhanaulti',                         category: 'Hill Stations', icon: '🌲' },
-    { name: 'Landour',                           category: 'Hill Stations', icon: '🏔️' },
-    { name: 'Kanatal',                           category: 'Hill Stations', icon: '🏕️' },
-    { name: 'Chamba',                            category: 'Hill Stations', icon: '🏔️' },
-    { name: 'Tehri',                             category: 'Hill Stations', icon: '💧' },
-    { name: 'New Tehri',                         category: 'Hill Stations', icon: '💧' },
-    { name: 'Lansdowne',                         category: 'Hill Stations', icon: '🏔️' },
-    // Spiritual
-    { name: 'Haridwar',                          category: 'Spiritual',    icon: '🛕' },
-    { name: 'Har Ki Pauri, Haridwar',            category: 'Spiritual',    icon: '🛕' },
-    { name: 'Haridwar Railway Station',          category: 'Spiritual',    icon: '🚂' },
-    { name: 'Chandi Devi Temple',                category: 'Spiritual',    icon: '🛕' },
-    { name: 'Mansa Devi Temple',                 category: 'Spiritual',    icon: '🛕' },
-    { name: 'Rishikesh',                         category: 'Spiritual',    icon: '🙏' },
-    { name: 'Laxman Jhula, Rishikesh',           category: 'Spiritual',    icon: '🌉' },
-    { name: 'Ram Jhula, Rishikesh',              category: 'Spiritual',    icon: '🌉' },
-    { name: 'Triveni Ghat, Rishikesh',           category: 'Spiritual',    icon: '🛕' },
-    { name: 'Tapovan, Rishikesh',                category: 'Spiritual',    icon: '🙏' },
-    { name: 'Shivpuri (rafting)',                category: 'Spiritual',    icon: '🌊' },
-    // Char Dham
-    { name: 'Yamunotri',                         category: 'Char Dham',   icon: '🙏' },
-    { name: 'Gangotri',                          category: 'Char Dham',   icon: '🙏' },
-    { name: 'Kedarnath',                         category: 'Char Dham',   icon: '🛕' },
-    { name: 'Sonprayag',                         category: 'Char Dham',   icon: '🛕' },
-    { name: 'Gaurikund',                         category: 'Char Dham',   icon: '🛕' },
-    { name: 'Guptkashi',                         category: 'Char Dham',   icon: '🛕' },
-    { name: 'Badrinath',                         category: 'Char Dham',   icon: '🛕' },
-    { name: 'Joshimath',                         category: 'Char Dham',   icon: '🏔️' },
-    { name: 'Uttarkashi',                        category: 'Char Dham',   icon: '🛕' },
-    // Adventure
-    { name: 'Auli',                              category: 'Adventure',   icon: '⛷️' },
-    { name: 'Chopta',                            category: 'Adventure',   icon: '🌲' },
-    { name: 'Tungnath',                          category: 'Adventure',   icon: '🛕' },
-    { name: 'Pauri',                             category: 'Adventure',   icon: '🏔️' },
-    // Kumaon
-    { name: 'Nainital',                          category: 'Kumaon',      icon: '🏔️' },
-    { name: 'Mall Road, Nainital',               category: 'Kumaon',      icon: '🛍️' },
-    { name: 'Bhimtal',                           category: 'Kumaon',      icon: '💧' },
-    { name: 'Sattal',                            category: 'Kumaon',      icon: '💧' },
-    { name: 'Naukuchiatal',                      category: 'Kumaon',      icon: '💧' },
-    { name: 'Kausani',                           category: 'Kumaon',      icon: '🏔️' },
-    { name: 'Ranikhet',                          category: 'Kumaon',      icon: '🏕️' },
-    { name: 'Almora',                            category: 'Kumaon',      icon: '🏔️' },
-    { name: 'Mukteshwar',                        category: 'Kumaon',      icon: '🌸' },
-    { name: 'Binsar',                            category: 'Kumaon',      icon: '🌲' },
-    { name: 'Jim Corbett National Park',         category: 'Kumaon',      icon: '🐯' },
-    { name: 'Ramnagar',                          category: 'Kumaon',      icon: '🌿' },
-    { name: 'Pithoragarh',                       category: 'Kumaon',      icon: '🏔️' },
-    { name: 'Munsiyari',                         category: 'Kumaon',      icon: '❄️' },
-    { name: 'Patal Bhuvaneshwar',                category: 'Kumaon',      icon: '🛕' },
-    { name: 'Haldwani',                          category: 'Kumaon',      icon: '🏙️' },
-    { name: 'Kainchi Dham',                      category: 'Kumaon',      icon: '🛕' },
-    // Other Cities
-    { name: 'Delhi Airport (IGI)',               category: 'Other Cities', icon: '✈️' },
-    { name: 'New Delhi Railway Station',         category: 'Other Cities', icon: '🚂' },
-    { name: 'Chandigarh',                        category: 'Other Cities', icon: '🏙️' },
-    { name: 'Chandigarh Airport',               category: 'Other Cities', icon: '✈️' },
-    { name: 'Shimla',                            category: 'Other Cities', icon: '🏔️' },
-    { name: 'Manali',                            category: 'Other Cities', icon: '❄️' },
-    { name: 'Agra',                              category: 'Other Cities', icon: '🕌' },
-    { name: 'Jaipur',                            category: 'Other Cities', icon: '🏯' },
-    { name: 'Lucknow',                           category: 'Other Cities', icon: '🏙️' },
+    { name: 'Dehradun', category: 'Dehradun', icon: '🏙️' },
+    { name: 'Clock Tower, Dehradun', category: 'Dehradun', icon: '🕐' },
+    { name: 'Rajpur Road, Dehradun', category: 'Dehradun', icon: '🏙️' },
+    { name: 'Sahastradhara, Dehradun', category: 'Dehradun', icon: '💧' },
+    { name: 'ISBT Dehradun', category: 'Dehradun', icon: '🚌' },
+    { name: 'Dehradun Railway Station', category: 'Dehradun', icon: '🚂' },
+    { name: 'Jolly Grant Airport (DED)', category: 'Airport', icon: '✈️' },
+    { name: 'FRI (Forest Research Institute)', category: 'Dehradun', icon: '🌲' },
+    { name: 'Mindrolling Monastery, Dehradun', category: 'Dehradun', icon: '🛕' },
+    { name: "Robber's Cave, Dehradun", category: 'Dehradun', icon: '🗻' },
+    { name: 'Mussoorie', category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Mall Road, Mussoorie', category: 'Hill Stations', icon: '🛍️' },
+    { name: 'Kempty Falls', category: 'Hill Stations', icon: '💧' },
+    { name: 'Dhanaulti', category: 'Hill Stations', icon: '🌲' },
+    { name: 'Landour', category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Kanatal', category: 'Hill Stations', icon: '🏕️' },
+    { name: 'Chamba', category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Tehri', category: 'Hill Stations', icon: '💧' },
+    { name: 'New Tehri', category: 'Hill Stations', icon: '💧' },
+    { name: 'Lansdowne', category: 'Hill Stations', icon: '🏔️' },
+    { name: 'Haridwar', category: 'Spiritual', icon: '🛕' },
+    { name: 'Har Ki Pauri, Haridwar', category: 'Spiritual', icon: '🛕' },
+    { name: 'Haridwar Railway Station', category: 'Spiritual', icon: '🚂' },
+    { name: 'Chandi Devi Temple', category: 'Spiritual', icon: '🛕' },
+    { name: 'Mansa Devi Temple', category: 'Spiritual', icon: '🛕' },
+    { name: 'Rishikesh', category: 'Spiritual', icon: '🙏' },
+    { name: 'Laxman Jhula, Rishikesh', category: 'Spiritual', icon: '🌉' },
+    { name: 'Ram Jhula, Rishikesh', category: 'Spiritual', icon: '🌉' },
+    { name: 'Triveni Ghat, Rishikesh', category: 'Spiritual', icon: '🛕' },
+    { name: 'Tapovan, Rishikesh', category: 'Spiritual', icon: '🙏' },
+    { name: 'Shivpuri (rafting)', category: 'Spiritual', icon: '🌊' },
+    { name: 'Yamunotri', category: 'Char Dham', icon: '🙏' },
+    { name: 'Gangotri', category: 'Char Dham', icon: '🙏' },
+    { name: 'Kedarnath', category: 'Char Dham', icon: '🛕' },
+    { name: 'Sonprayag', category: 'Char Dham', icon: '🛕' },
+    { name: 'Gaurikund', category: 'Char Dham', icon: '🛕' },
+    { name: 'Guptkashi', category: 'Char Dham', icon: '🛕' },
+    { name: 'Badrinath', category: 'Char Dham', icon: '🛕' },
+    { name: 'Joshimath', category: 'Char Dham', icon: '🏔️' },
+    { name: 'Uttarkashi', category: 'Char Dham', icon: '🛕' },
+    { name: 'Auli', category: 'Adventure', icon: '⛷️' },
+    { name: 'Chopta', category: 'Adventure', icon: '🌲' },
+    { name: 'Tungnath', category: 'Adventure', icon: '🛕' },
+    { name: 'Pauri', category: 'Adventure', icon: '🏔️' },
+    { name: 'Nainital', category: 'Kumaon', icon: '🏔️' },
+    { name: 'Mall Road, Nainital', category: 'Kumaon', icon: '🛍️' },
+    { name: 'Bhimtal', category: 'Kumaon', icon: '💧' },
+    { name: 'Sattal', category: 'Kumaon', icon: '💧' },
+    { name: 'Naukuchiatal', category: 'Kumaon', icon: '💧' },
+    { name: 'Kausani', category: 'Kumaon', icon: '🏔️' },
+    { name: 'Ranikhet', category: 'Kumaon', icon: '🏕️' },
+    { name: 'Almora', category: 'Kumaon', icon: '🏔️' },
+    { name: 'Mukteshwar', category: 'Kumaon', icon: '🌸' },
+    { name: 'Binsar', category: 'Kumaon', icon: '🌲' },
+    { name: 'Jim Corbett National Park', category: 'Kumaon', icon: '🐯' },
+    { name: 'Ramnagar', category: 'Kumaon', icon: '🌿' },
+    { name: 'Pithoragarh', category: 'Kumaon', icon: '🏔️' },
+    { name: 'Munsiyari', category: 'Kumaon', icon: '❄️' },
+    { name: 'Patal Bhuvaneshwar', category: 'Kumaon', icon: '🛕' },
+    { name: 'Haldwani', category: 'Kumaon', icon: '🏙️' },
+    { name: 'Kainchi Dham', category: 'Kumaon', icon: '🛕' },
+    { name: 'Delhi Airport (IGI)', category: 'Other Cities', icon: '✈️' },
+    { name: 'New Delhi Railway Station', category: 'Other Cities', icon: '🚂' },
+    { name: 'Chandigarh', category: 'Other Cities', icon: '🏙️' },
+    { name: 'Chandigarh Airport', category: 'Other Cities', icon: '✈️' },
+    { name: 'Shimla', category: 'Other Cities', icon: '🏔️' },
+    { name: 'Manali', category: 'Other Cities', icon: '❄️' },
+    { name: 'Agra', category: 'Other Cities', icon: '🕌' },
+    { name: 'Jaipur', category: 'Other Cities', icon: '🏯' },
+    { name: 'Lucknow', category: 'Other Cities', icon: '🏙️' },
   ];
 
   function fuzzyMatch(str: string, query: string): boolean {
     if (!query) return true;
-    const s = str.toLowerCase();
-    const q = query.toLowerCase().trim();
-    if (q.length < 2) return s.startsWith(q);  // single char — prefix only
-    return s.startsWith(q) || s.includes(q);    // starts-with first, then contains
+    const s = str.toLowerCase(); const q = query.toLowerCase().trim();
+    if (q.length < 2) return s.startsWith(q);
+    return s.startsWith(q) || s.includes(q);
   }
-
   function matchScore(str: string, query: string): number {
     if (!query) return 0;
-    const s = str.toLowerCase();
-    const q = query.toLowerCase().trim();
-    if (s.startsWith(q)) return 3;   // highest priority
-    if (s.includes(' ' + q)) return 2; // word boundary match
-    if (s.includes(q)) return 1;     // contains
+    const s = str.toLowerCase(); const q = query.toLowerCase().trim();
+    if (s.startsWith(q)) return 3;
+    if (s.includes(' ' + q)) return 2;
+    if (s.includes(q)) return 1;
     return 0;
   }
 
   function buildDropdown(dropdown: HTMLElement, query: string, onSelect: (val: string) => void) {
-    // Show all locations when empty, filter when typing
-    const filtered = !query.trim()
-      ? locations
-      : locations
-          .filter(l => fuzzyMatch(l.name, query))
-          .sort((a, b) => matchScore(b.name, query) - matchScore(a.name, query));
-
+    const filtered = !query.trim() ? locations : locations.filter(l => fuzzyMatch(l.name, query)).sort((a, b) => matchScore(b.name, query) - matchScore(a.name, query));
     dropdown.innerHTML = '';
-
-    if (filtered.length === 0) {
-      dropdown.innerHTML = '<div class="ac-no-results">No locations found — try a different spelling</div>';
-      return;
-    }
-
-    // Group by category
+    if (filtered.length === 0) { dropdown.innerHTML = '<div class="ac-no-results">No locations found — try a different spelling</div>'; return; }
     const grouped: Record<string, typeof locations> = {};
-    filtered.forEach(l => {
-      if (!grouped[l.category]) grouped[l.category] = [];
-      grouped[l.category].push(l);
-    });
-
-    let highlightIndex = -1;
+    filtered.forEach(l => { if (!grouped[l.category]) grouped[l.category] = []; grouped[l.category].push(l); });
     const allOptions: HTMLElement[] = [];
-
     Object.entries(grouped).forEach(([cat, items]) => {
-      const catEl = document.createElement('div');
-      catEl.className = 'ac-category';
-      catEl.textContent = cat;
-      dropdown.appendChild(catEl);
-
+      const catEl = document.createElement('div'); catEl.className = 'ac-category'; catEl.textContent = cat; dropdown.appendChild(catEl);
       items.forEach(item => {
-        const opt = document.createElement('div');
-        opt.className = 'ac-option';
+        const opt = document.createElement('div'); opt.className = 'ac-option';
         opt.innerHTML = `<span class="ac-option-icon">${item.icon}</span><span class="ac-option-text">${item.name}</span>`;
-        opt.addEventListener('mousedown', (e) => {
-          e.preventDefault();
-          onSelect(item.name);
-        });
-        dropdown.appendChild(opt);
-        allOptions.push(opt);
+        opt.addEventListener('mousedown', (e) => { e.preventDefault(); onSelect(item.name); });
+        dropdown.appendChild(opt); allOptions.push(opt);
       });
     });
-
-    // Store for keyboard nav
-    (dropdown as any)._options = allOptions;
-    (dropdown as any)._highlight = highlightIndex;
+    (dropdown as any)._options = allOptions; (dropdown as any)._highlight = -1;
   }
 
   function initAutocomplete(inputId: string, dropdownId: string, clearId: string) {
@@ -638,363 +385,58 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     const dropdown = document.getElementById(dropdownId) as HTMLElement;
     const clearBtn = document.getElementById(clearId) as HTMLButtonElement;
     const wrap = input?.parentElement as HTMLElement;
-
     if (!input || !dropdown || !clearBtn) return;
-
-    function openDropdown() {
-      buildDropdown(dropdown, input.value, selectValue);
-      dropdown.classList.add('open');
-    }
-
-    function closeDropdown() {
-      dropdown.classList.remove('open');
-    }
-
-    function selectValue(val: string) {
-      input.value = val;
-      wrap.classList.add('has-value');
-      closeDropdown();
-      // price calculated directly below
-      calculatePrice();
-    }
-
-    function updateClear() {
-      if (input.value.trim()) {
-        wrap.classList.add('has-value');
-      } else {
-        wrap.classList.remove('has-value');
-      }
-    }
-
-    // Open on focus — always
-    input.addEventListener('focus', () => {
-      openDropdown();
-    });
-
-    // Filter as typing — skip price calc during typing (wait for selection)
-    input.addEventListener('input', () => {
-      updateClear();
-      buildDropdown(dropdown, input.value, selectValue);
-      dropdown.classList.add('open');
-      // Only recalculate price for pickup/drop fields, not airport location
-      if (inputId !== 'airport_location') calculatePrice();
-    });
-
-    // Keyboard navigation
+    const openDropdown = () => { buildDropdown(dropdown, input.value, selectValue); dropdown.classList.add('open'); };
+    const closeDropdown = () => dropdown.classList.remove('open');
+    const selectValue = (val: string) => { input.value = val; wrap.classList.add('has-value'); closeDropdown(); calculatePrice(); };
+    const updateClear = () => { if (input.value.trim()) wrap.classList.add('has-value'); else wrap.classList.remove('has-value'); };
+    input.addEventListener('focus', openDropdown);
+    input.addEventListener('input', () => { updateClear(); buildDropdown(dropdown, input.value, selectValue); dropdown.classList.add('open'); if (inputId !== 'airport_location') calculatePrice(); });
     input.addEventListener('keydown', (e: KeyboardEvent) => {
-      const opts = (dropdown as any)._options as HTMLElement[] || [];
-      let idx = (dropdown as any)._highlight ?? -1;
-
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        idx = Math.min(idx + 1, opts.length - 1);
-        opts.forEach((o, i) => o.classList.toggle('highlighted', i === idx));
-        (dropdown as any)._highlight = idx;
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        idx = Math.max(idx - 1, 0);
-        opts.forEach((o, i) => o.classList.toggle('highlighted', i === idx));
-        (dropdown as any)._highlight = idx;
-      } else if (e.key === 'Enter' && idx >= 0) {
-        e.preventDefault();
-        opts[idx]?.click();
-      } else if (e.key === 'Escape') {
-        closeDropdown();
-      }
+      const opts = (dropdown as any)._options as HTMLElement[] || []; let idx = (dropdown as any)._highlight ?? -1;
+      if (e.key === 'ArrowDown') { e.preventDefault(); idx = Math.min(idx+1, opts.length-1); opts.forEach((o,i) => o.classList.toggle('highlighted', i===idx)); (dropdown as any)._highlight = idx; }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); idx = Math.max(idx-1, 0); opts.forEach((o,i) => o.classList.toggle('highlighted', i===idx)); (dropdown as any)._highlight = idx; }
+      else if (e.key === 'Enter' && idx >= 0) { e.preventDefault(); opts[idx]?.click(); }
+      else if (e.key === 'Escape') closeDropdown();
     });
-
-    // Clear button
-    clearBtn.addEventListener('click', () => {
-      input.value = '';
-      wrap.classList.remove('has-value');
-      input.focus();
-      openDropdown();
-      hidePrice();
-    });
-
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!wrap.contains(e.target as Node)) {
-        closeDropdown();
-      }
-    });
-
+    clearBtn.addEventListener('click', () => { input.value = ''; wrap.classList.remove('has-value'); input.focus(); openDropdown(); hidePrice(); });
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target as Node)) closeDropdown(); });
     updateClear();
   }
 
-
-  // ── AIRPORT TAB UI ────────────────────────────────────────────
-
-  // ── END AIRPORT TAB UI ─────────────────────────────────────────
-
-  // ── AIRPORT TAB UI ────────────────────────────────────────────
-
-  // Airport tab state
-  let airportJourneyType = ''; // 'pickup' or 'drop'
-
-  // Journey type dropdown — shows airport selector
+  let airportJourneyType = '';
   document.getElementById('airport_journey')?.addEventListener('change', (e) => {
     airportJourneyType = (e.target as HTMLSelectElement).value;
-    const selectGroup  = document.getElementById('airport-select-group')!;
-    const parkingNote  = document.getElementById('airport-parking-note')!;
-    const locationGrp  = document.getElementById('airport-location-group')!;
-    const locLabel     = document.getElementById('airport-location-label')!;
-    const priceResult  = document.getElementById('airport-price-result')!;
-
+    const selectGroup = document.getElementById('airport-select-group')!;
+    const parkingNote = document.getElementById('airport-parking-note')!;
+    const locationGrp = document.getElementById('airport-location-group')!;
+    const locLabel    = document.getElementById('airport-location-label')!;
+    const priceResult = document.getElementById('airport-price-result')!;
     if (airportJourneyType) {
-      selectGroup.style.display  = 'block';
-      // Update location label based on journey type
+      selectGroup.style.display = 'block';
       locLabel.innerHTML = airportJourneyType === 'pickup'
         ? '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--saffron)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Drop Location'
         : '<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg> Pickup Location';
-      // Show/hide parking note
       parkingNote.style.display = airportJourneyType === 'pickup' ? 'block' : 'none';
     } else {
-      selectGroup.style.display  = 'none';
-      locationGrp.style.display  = 'none';
-      parkingNote.style.display  = 'none';
-      priceResult.style.display  = 'none';
+      selectGroup.style.display = 'none'; locationGrp.style.display = 'none'; parkingNote.style.display = 'none'; priceResult.style.display = 'none';
     }
-    // Reset airport select and location
     (document.getElementById('airport_select') as HTMLSelectElement).value = '';
     (document.getElementById('airport_location') as HTMLInputElement).value = '';
     document.getElementById('airport-location-group')!.style.display = 'none';
     priceResult.style.display = 'none';
   });
-
-  // Airport selected — show location field
   document.getElementById('airport_select')?.addEventListener('change', () => {
-    const airportVal = (document.getElementById('airport_select') as HTMLSelectElement).value;
-    document.getElementById('airport-location-group')!.style.display = airportVal ? 'block' : 'none';
-    document.getElementById('airport-price-result')!.style.display   = 'none';
+    const v = (document.getElementById('airport_select') as HTMLSelectElement).value;
+    document.getElementById('airport-location-group')!.style.display = v ? 'block' : 'none';
+    document.getElementById('airport-price-result')!.style.display = 'none';
     (document.getElementById('airport_location') as HTMLInputElement).value = '';
   });
-
-  // Airport location — trigger price on change/blur
   document.getElementById('airport_location')?.addEventListener('change', calculateAirportPrice);
   document.getElementById('airport_location')?.addEventListener('blur', calculateAirportPrice);
 
-  function calculateAirportPrice() {
-    const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
-    const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value;
-    if (!airportVal || !locationVal.trim() || !airportJourneyType) return;
-
-    // Build from/to based on journey type
-    const fromRaw = airportJourneyType === 'pickup' ? airportVal : locationVal;
-    const toRaw   = airportJourneyType === 'pickup' ? locationVal : airportVal;
-    const frk     = normaliseForRoute(fromRaw);
-    const trk     = normaliseForRoute(toRaw);
-    const prices  = routePrices[`${frk}_${trk}`] || routePrices[`${trk}_${frk}`];
-
-    const resultEl   = document.getElementById('airport-price-result')!;
-    const innerEl    = resultEl.querySelector('.price-result-inner')!;
-    const iconEl     = document.getElementById('airport-price-icon')!;
-    const labelEl    = document.getElementById('airport-price-label')!;
-    const vehiclesEl = document.getElementById('airport-price-vehicles')!;
-    const noteEl     = document.getElementById('airport-price-note')!;
-
-    const airportKey = normalise(airportVal);
-    const isPerDay   = airportKey === 'delhi_airport' || airportKey === 'chandigarh_airport';
-
-    if (isPerDay) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✈️';
-      labelEl.textContent = 'Per Day Rate';
-      vehiclesEl.innerHTML = [
-        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
-        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
-        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
-        { v: vehicleNames['traveller'], p: 'best' },
-      ].map(({ v, p }) =>
-        `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${v}</span>
-          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
-        </div>`
-      ).join('');
-      noteEl.textContent = '📍 Up to ' + localRates.limitKm + 'km/day · Driver + Fuel included';
-
-    } else if (prices) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✅';
-      labelEl.textContent = 'Fixed Price — All Inclusive';
-      vehiclesEl.innerHTML = [
-        { label: vehicleNames['sedan'],     p: prices.sedan_ow  },
-        { label: vehicleNames['ertiga'],    p: prices.ertiga_ow },
-        { label: vehicleNames['innova'],    p: prices.innova_ow },
-        { label: vehicleNames['traveller'], p: 0, tempo: 'best' as const },
-      ].map(({ label, p, tempo }) => {
-        if (tempo === 'best') return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span></div>`;
-        if (!p) return '';
-        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(p)}</span></div>`;
-      }).join('');
-      noteEl.textContent = 'Driver + Fuel + Toll + Parking included · No hidden costs';
-
-    } else {
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '📞';
-      labelEl.textContent = 'Contact for Quote';
-      vehiclesEl.innerHTML = '';
-      const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
-      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20from%20${encodeURIComponent(fromRaw)}%20to%20${encodeURIComponent(toRaw)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
-    }
-    resultEl.style.display = 'block';
-  }
-
-  // Init autocomplete for airport location field
-  initAutocomplete('airport_location', 'airport-location-dropdown', 'airport-location-clear');
-
-  function showAirportTab() {
-    const form = document.getElementById('booking-form')!;
-    form.classList.remove('local-active');
-    form.classList.add('airport-active');
-    // Hide local price result
-    document.getElementById('local-price-result')!.style.display = 'none';
-  }
-
-  function hideAirportTab() {
-    const form = document.getElementById('booking-form')!;
-    form.classList.remove('airport-active');
-    // Reset airport fields
-    document.getElementById('airport-price-result')!.style.display  = 'none';
-    document.getElementById('airport-select-group')!.style.display  = 'none';
-    document.getElementById('airport-location-group')!.style.display = 'none';
-    document.getElementById('airport-parking-note')!.style.display  = 'none';
-    airportJourneyType = '';
-    (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
-    (document.getElementById('airport_select') as HTMLSelectElement).value  = '';
-    (document.getElementById('airport_location') as HTMLInputElement).value = '';
-  }
-
-  // ── END AIRPORT TAB UI ─────────────────────────────────────────
-
-  // ── LOCAL TAB UI ─────────────────────────────────────────────
-
-  // Hardcoded directly — no dependency on window.__SHRI_TAXI__
-  const localPkgs: any[] = [
-    { id:'half-day',          label:'Half Day',          hours:4,  km:40,  sedan:1200, ertiga:1500, innova:1900 },
-    { id:'full-day',          label:'Full Day',          hours:8,  km:80,  sedan:2400, ertiga:3000, innova:3800 },
-    { id:'full-day-extended', label:'Full Day Extended', hours:10, km:150, sedan:3599, ertiga:4499, innova:5670 },
-  ];
-  const localCitiesData: any[] = [
-    { name:'Dehradun',            icon:'🏙️' },
-    { name:'Mussoorie',           icon:'🏔️' },
-    { name:'Haridwar',            icon:'🛕' },
-    { name:'Rishikesh',           icon:'🙏' },
-    { name:'Dhanaulti / Kanatal', icon:'🌲' },
-    { name:'Tehri',               icon:'💧' },
-  ];
-  let selectedLocalPackage = '';
-
-  function renderLocalPackages() {
-    const container = document.getElementById('local-packages');
-    if (!container || !localPkgs.length) return;
-    container.innerHTML = localPkgs.map((p: any) =>
-      `<button type="button" class="local-pkg-btn" data-pkg="${p.id}">
-        <span class="local-pkg-label">${p.label}</span>
-        <span class="local-pkg-detail">${p.hours} hrs · ${p.km} km</span>
-        <span class="local-pkg-price">from ${formatPrice(p.sedan)}</span>
-      </button>`
-    ).join('');
-    container.querySelectorAll('.local-pkg-btn').forEach((btn: any) => {
-      btn.addEventListener('click', () => {
-        container.querySelectorAll('.local-pkg-btn').forEach((b: any) => b.classList.remove('active'));
-        btn.classList.add('active');
-        selectedLocalPackage = btn.dataset.pkg;
-        (document.getElementById('local_package_input') as HTMLInputElement).value = selectedLocalPackage;
-        renderLocalPrice();
-      });
-    });
-  }
-
-  function renderLocalPrice() {
-    if (!selectedLocalPackage) return;
-    const pkg = localPkgs.find((p: any) => p.id === selectedLocalPackage);
-    if (!pkg) return;
-    const vehiclesEl = document.getElementById('local-price-vehicles')!;
-    const labelEl    = document.getElementById('local-price-label')!;
-    const noteEl     = document.getElementById('local-price-note')!;
-    const resultEl   = document.getElementById('local-price-result')!;
-    labelEl.textContent = pkg.label + ' — ' + pkg.hours + ' hrs / ' + pkg.km + ' km';
-    vehiclesEl.innerHTML = [
-      { v: vehicleNames['sedan'],     p: pkg.sedan,  extra: 12 },
-      { v: vehicleNames['ertiga'],    p: pkg.ertiga, extra: 14 },
-      { v: vehicleNames['innova'],    p: pkg.innova, extra: 18 },
-      { v: vehicleNames['traveller'], p: 'best',     extra: 0  },
-    ].map(({ v, p, extra }) =>
-      `<div class="price-vehicle-item">
-        <span class="price-vehicle-name">${v}</span>
-        <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : formatPrice(Number(p))}</span>
-      </div>`
-    ).join('');
-    noteEl.innerHTML = '📍 Includes ' + pkg.km + 'km · Extra km at ₹12/km (Sedan) · Driver + Fuel included';
-    resultEl.style.display = 'block';
-  }
-
-  // Event delegation for city ride → Local Hire switch
-  // More reliable than inline onclick — works regardless of script load timing
-  document.getElementById('price-result')?.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target.classList.contains('city-ride-switch') || target.closest('.city-ride-switch')) {
-      e.preventDefault();
-      const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
-      if (localTab) {
-        // Small delay so click event completes before tab switches
-        setTimeout(() => {
-          localTab.click();
-          setTimeout(() => {
-            document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 150);
-        }, 50);
-      }
-    }
-  });
-
-  function showLocalTab() {
-    const form = document.getElementById('booking-form')!;
-    form.classList.remove('airport-active');
-    form.classList.add('local-active');
-    renderLocalPackages();
-  }
-
-  function hideLocalTab() {
-    const form = document.getElementById('booking-form')!;
-    form.classList.remove('local-active');
-    document.getElementById('local-price-result')!.style.display = 'none';
-    selectedLocalPackage = '';
-  }
-
-  // ── END LOCAL TAB UI ──────────────────────────────────────────
-
-  // Initialise both fields
-  initAutocomplete('pickup', 'pickup-dropdown', 'pickup-clear');
-  initAutocomplete('drop', 'drop-dropdown', 'drop-clear');
-
-  // ── END CUSTOM AUTOCOMPLETE ──────────────────────────────
-
-  // ── PRICE CALCULATOR ──────────────────────────────────────
-
-  // Surcharge locations
-  const surchargeLocations: Record<string, number> = {
-    'dehradun_station': 300,
-    'dehradun_isbt': 300,
-  };
-
-  // Pricing data — matches pricing.ts fixed routes
-  // Format: 'from_to': { sedan, ertiga, innova, traveller }
-  // Route prices — OW = one way, RT = round trip, tempo = 'best' means call for price
-
-
-  // Maps surcharge keys back to base city for route lookup
-  const routeKeyMap: Record<string, string> = {
-    'dehradun_station': 'dehradun',
-    'dehradun_isbt':    'dehradun',
-  };
-
   function normaliseLocation(input: string): string {
-    const cleaned = input
-      .toLowerCase()
-      .trim()
-      .replace(/\s+/g, ' ');
+    const cleaned = input.toLowerCase().trim().replace(/\s+/g, ' ');
     if (locationMap[cleaned]) return locationMap[cleaned];
     const withoutParens = cleaned.replace(/\s*\(.*?\)/g, '').trim();
     if (locationMap[withoutParens]) return locationMap[withoutParens];
@@ -1002,565 +444,352 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     if (locationMap[firstPart]) return locationMap[firstPart];
     return cleaned;
   }
+  const routeKeyMap: Record<string, string> = { 'dehradun_station': 'dehradun', 'dehradun_isbt': 'dehradun' };
+  function normaliseForRoute(input: string): string { const key = normaliseLocation(input); return routeKeyMap[key] || key; }
+  function normalise(input: string): string { return normaliseLocation(input); }
+  function getSurcharge(rawLocation: string): number { const key = rawLocation.toLowerCase().trim(); const mapped = locationMap[key]; return surchargeMap[mapped || ''] || 0; }
+  function formatPrice(n: number): string { return '₹' + n.toLocaleString('en-IN'); }
 
-  // For route key lookup — maps surcharge locations to base city
-  function normaliseForRoute(input: string): string {
-    const key = normaliseLocation(input);
-    return routeKeyMap[key] || key;
+  function calculateAirportPrice() {
+    const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value;
+    const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value;
+    if (!airportVal || !locationVal.trim() || !airportJourneyType) return;
+    const fromRaw = airportJourneyType === 'pickup' ? airportVal : locationVal;
+    const toRaw   = airportJourneyType === 'pickup' ? locationVal : airportVal;
+    const frk = normaliseForRoute(fromRaw); const trk = normaliseForRoute(toRaw);
+    const prices = routePrices[`${frk}_${trk}`] || routePrices[`${trk}_${frk}`];
+    const resultEl = document.getElementById('airport-price-result')!;
+    const innerEl  = resultEl.querySelector('.price-result-inner')!;
+    const iconEl   = document.getElementById('airport-price-icon')!;
+    const labelEl  = document.getElementById('airport-price-label')!;
+    const vehiclesEl = document.getElementById('airport-price-vehicles')!;
+    const noteEl   = document.getElementById('airport-price-note')!;
+    const airportKey = normalise(airportVal);
+    const isPerDay = airportKey === 'delhi_airport' || airportKey === 'chandigarh_airport';
+    if (isPerDay) {
+      innerEl.classList.remove('estimated'); iconEl.textContent = '✈️'; labelEl.textContent = 'Per Day Rate';
+      vehiclesEl.innerHTML = [
+        { v: vehicleNames['sedan'], p: localRates.sedan.perDay }, { v: vehicleNames['ertiga'], p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'], p: localRates.innova.perDay }, { v: vehicleNames['traveller'], p: 'best' },
+      ].map(({ v, p }) => `<div class="price-vehicle-item"><span class="price-vehicle-name">${v}</span><span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span></div>`).join('');
+      noteEl.textContent = '📍 Up to ' + localRates.limitKm + 'km/day · Driver + Fuel included';
+    } else if (prices) {
+      innerEl.classList.remove('estimated'); iconEl.textContent = '✅'; labelEl.textContent = 'Fixed Price — All Inclusive';
+      vehiclesEl.innerHTML = [
+        { label: vehicleNames['sedan'], p: prices.sedan_ow }, { label: vehicleNames['ertiga'], p: prices.ertiga_ow },
+        { label: vehicleNames['innova'], p: prices.innova_ow }, { label: vehicleNames['traveller'], p: 0, tempo: 'best' as const },
+      ].map(({ label, p, tempo }) => {
+        if (tempo === 'best') return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span></div>`;
+        if (!p) return '';
+        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(p)}</span></div>`;
+      }).join('');
+      noteEl.textContent = 'Driver + Fuel + Toll + Parking included · No hidden costs';
+    } else {
+      innerEl.classList.add('estimated'); iconEl.textContent = '📞'; labelEl.textContent = 'Contact for Quote'; vehiclesEl.innerHTML = '';
+      const waNum2 = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
+      noteEl.innerHTML = `Contact us for this route. <a href="https://wa.me/${waNum2}?text=Hi%20Shri%20Taxi%2C%20I%20need%20airport%20transfer%20from%20${encodeURIComponent(fromRaw)}%20to%20${encodeURIComponent(toRaw)}" target="_blank" style="color:var(--teal);font-weight:700;">💬 WhatsApp for quote →</a>`;
+    }
+    resultEl.style.display = 'block';
   }
 
-  function getSurcharge(rawLocation: string): number {
-    const key = rawLocation.toLowerCase().trim();
-    const mapped = locationMap[key];
-    return surchargeMap[mapped || ''] || 0;
+  initAutocomplete('airport_location', 'airport-location-dropdown', 'airport-location-clear');
+  function showAirportTab() { const f = document.getElementById('booking-form')!; f.classList.remove('local-active'); f.classList.add('airport-active'); document.getElementById('local-price-result')!.style.display = 'none'; }
+  function hideAirportTab() {
+    const f = document.getElementById('booking-form')!; f.classList.remove('airport-active');
+    ['airport-price-result','airport-select-group','airport-location-group','airport-parking-note'].forEach(id => { document.getElementById(id)!.style.display = 'none'; });
+    airportJourneyType = '';
+    (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_select') as HTMLSelectElement).value = '';
+    (document.getElementById('airport_location') as HTMLInputElement).value = '';
   }
 
-  function formatPrice(n: number): string {
-    return '₹' + n.toLocaleString('en-IN');
+  const localPkgs: any[] = [
+    { id:'half-day', label:'Half Day', hours:4, km:40, sedan:1200, ertiga:1500, innova:1900 },
+    { id:'full-day', label:'Full Day', hours:8, km:80, sedan:2400, ertiga:3000, innova:3800 },
+    { id:'full-day-extended', label:'Full Day Extended', hours:10, km:150, sedan:3599, ertiga:4499, innova:5670 },
+  ];
+  let selectedLocalPackage = '';
+
+  function renderLocalPackages() {
+    const container = document.getElementById('local-packages');
+    if (!container || !localPkgs.length) return;
+    container.innerHTML = localPkgs.map((p: any) =>
+      `<button type="button" class="local-pkg-btn" data-pkg="${p.id}"><span class="local-pkg-label">${p.label}</span><span class="local-pkg-detail">${p.hours} hrs · ${p.km} km</span><span class="local-pkg-price">from ${formatPrice(p.sedan)}</span></button>`
+    ).join('');
+    container.querySelectorAll('.local-pkg-btn').forEach((btn: any) => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.local-pkg-btn').forEach((b: any) => b.classList.remove('active'));
+        btn.classList.add('active'); selectedLocalPackage = btn.dataset.pkg;
+        (document.getElementById('local_package_input') as HTMLInputElement).value = selectedLocalPackage;
+        renderLocalPrice();
+      });
+    });
   }
+  function renderLocalPrice() {
+    if (!selectedLocalPackage) return;
+    const pkg = localPkgs.find((p: any) => p.id === selectedLocalPackage); if (!pkg) return;
+    const vehiclesEl = document.getElementById('local-price-vehicles')!;
+    const labelEl    = document.getElementById('local-price-label')!;
+    const noteEl     = document.getElementById('local-price-note')!;
+    const resultEl   = document.getElementById('local-price-result')!;
+    labelEl.textContent = pkg.label + ' — ' + pkg.hours + ' hrs / ' + pkg.km + ' km';
+    vehiclesEl.innerHTML = [
+      { v: vehicleNames['sedan'], p: pkg.sedan }, { v: vehicleNames['ertiga'], p: pkg.ertiga },
+      { v: vehicleNames['innova'], p: pkg.innova }, { v: vehicleNames['traveller'], p: 'best' },
+    ].map(({ v, p }) => `<div class="price-vehicle-item"><span class="price-vehicle-name">${v}</span><span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : formatPrice(Number(p))}</span></div>`).join('');
+    noteEl.innerHTML = '📍 Includes ' + pkg.km + 'km · Extra km at ₹12/km (Sedan) · Driver + Fuel included';
+    resultEl.style.display = 'block';
+  }
+  document.getElementById('price-result')?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains('city-ride-switch') || target.closest('.city-ride-switch')) {
+      e.preventDefault();
+      const localTab = document.querySelector('.trip-tab[data-trip="local"]') as HTMLElement;
+      if (localTab) { setTimeout(() => { localTab.click(); setTimeout(() => { document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 150); }, 50); }
+    }
+  });
+  function showLocalTab() { const f = document.getElementById('booking-form')!; f.classList.remove('airport-active'); f.classList.add('local-active'); renderLocalPackages(); }
+  function hideLocalTab() { const f = document.getElementById('booking-form')!; f.classList.remove('local-active'); document.getElementById('local-price-result')!.style.display = 'none'; selectedLocalPackage = ''; }
+
+  initAutocomplete('pickup', 'pickup-dropdown', 'pickup-clear');
+  initAutocomplete('drop', 'drop-dropdown', 'drop-clear');
 
   function calculatePrice() {
-    // Delegate to airport calculator when airport tab is active
     const form = document.getElementById('booking-form');
-    if (form?.classList.contains('airport-active')) {
-      calculateAirportPrice();
-      return;
-    }
-    const pickupRaw  = (document.getElementById('pickup') as HTMLInputElement)?.value || '';
-    const dropRaw    = (document.getElementById('drop') as HTMLInputElement)?.value || '';
-    const tripType   = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
-    const isRound    = tripType === 'round-trip';
-
-    // Element references — declared once at top, used throughout
-    const resultEl   = document.getElementById('price-result')!;
-    const innerEl    = resultEl?.querySelector('.price-result-inner')!;
-    const iconEl     = document.getElementById('price-result-icon')!;
-    const labelEl    = document.getElementById('price-result-label')!;
+    if (form?.classList.contains('airport-active')) { calculateAirportPrice(); return; }
+    const pickupRaw = (document.getElementById('pickup') as HTMLInputElement)?.value || '';
+    const dropRaw   = (document.getElementById('drop') as HTMLInputElement)?.value || '';
+    const tripType  = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || 'one-way';
+    const isRound   = tripType === 'round-trip';
+    const resultEl  = document.getElementById('price-result')!;
+    const innerEl   = resultEl?.querySelector('.price-result-inner')!;
+    const iconEl    = document.getElementById('price-result-icon')!;
+    const labelEl   = document.getElementById('price-result-label')!;
     const vehiclesEl = document.getElementById('price-result-vehicles')!;
-    const noteEl     = document.getElementById('price-result-note')!;
-    const waNum      = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
-
-    // Local tab — handled by separate local UI, skip main price calculator
+    const noteEl    = document.getElementById('price-result-note')!;
+    const waNum     = (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa || '';
     if (tripType === 'local') return;
-
-    if (!pickupRaw.trim() || !dropRaw.trim()) {
-      hidePrice();
-      return;
-    }
-
-    const fromKey     = normaliseLocation(pickupRaw);   // for city/long route checks
-    const toKey       = normaliseLocation(dropRaw);
-    const fromRouteKey = normaliseForRoute(pickupRaw);  // for fixed price lookup
+    if (!pickupRaw.trim() || !dropRaw.trim()) { hidePrice(); return; }
+    const fromKey      = normaliseLocation(pickupRaw);
+    const toKey        = normaliseLocation(dropRaw);
+    const fromRouteKey = normaliseForRoute(pickupRaw);
     const toRouteKey   = normaliseForRoute(dropRaw);
-
-    // ── WITHIN CITY CHECK ─────────────────────────────────────
-    // Uses raw input to detect different Dehradun locations even if they share the same key
     const isDifferentPlace = pickupRaw.trim().toLowerCase() !== dropRaw.trim().toLowerCase();
     if (isSameCityGroup(fromKey, toKey) && isDifferentPlace) {
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '🏙️';
+      innerEl.classList.add('estimated'); iconEl.textContent = '🏙️';
       labelEl.innerHTML = 'City Ride — <button type="button" class="city-ride-switch" style="background:none;border:none;padding:0;color:var(--teal);font-weight:700;text-decoration:underline;cursor:pointer;font-size:inherit;text-transform:inherit;letter-spacing:inherit;font-family:inherit;">Switch to Local Hire →</button>';
-      vehiclesEl.innerHTML = '';
-      noteEl.innerHTML    = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200.';
-      resultEl.style.display = 'block';
-      return;
+      vehiclesEl.innerHTML = ''; noteEl.innerHTML = 'For rides within Dehradun, our Local Hire tab has hourly packages from ₹1,200.';
+      resultEl.style.display = 'block'; return;
     }
-
-    // ── CUSTOM QUOTE ONLY (Agra/Jaipur/Lucknow) ──────────────
     if (customSet && (customSet.has(fromKey) || customSet.has(toKey))) {
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '📞';
-      labelEl.textContent = 'Custom Quote Required';
-      vehiclesEl.innerHTML = '';
-      noteEl.innerHTML    = 'This route requires a custom quote. <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20quote%20from%20' + encodeURIComponent(pickupRaw) + '%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">💬 Get WhatsApp Quote →</a>';
-      resultEl.style.display = 'block';
-      return;
+      innerEl.classList.add('estimated'); iconEl.textContent = '📞'; labelEl.textContent = 'Custom Quote Required'; vehiclesEl.innerHTML = '';
+      noteEl.innerHTML = 'This route requires a custom quote. <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20quote%20from%20' + encodeURIComponent(pickupRaw) + '%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">💬 Get WhatsApp Quote →</a>';
+      resultEl.style.display = 'block'; return;
     }
-
-    // ── DELHI/CHANDIGARH AIRPORT → DEHRADUN (per-day + parking) 
-    const isAirportPerDay = fromKey === 'delhi_airport' || fromKey === 'chandigarh_airport' ||
-                            toKey   === 'delhi_airport' || toKey   === 'chandigarh_airport';
+    const isAirportPerDay = fromKey === 'delhi_airport' || fromKey === 'chandigarh_airport' || toKey === 'delhi_airport' || toKey === 'chandigarh_airport';
     if (isAirportPerDay) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✈️';
-      labelEl.textContent = 'Per Day Rate + Airport Parking';
+      innerEl.classList.remove('estimated'); iconEl.textContent = '✈️'; labelEl.textContent = 'Per Day Rate + Airport Parking';
       vehiclesEl.innerHTML = [
-        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
-        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
-        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
-        { v: vehicleNames['traveller'], p: 'best' as const },
-      ].map(({ v, p }) =>
-        `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${v}</span>
-          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
-        </div>`
-      ).join('');
+        { v: vehicleNames['sedan'], p: localRates.sedan.perDay }, { v: vehicleNames['ertiga'], p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'], p: localRates.innova.perDay }, { v: vehicleNames['traveller'], p: 'best' as const },
+      ].map(({ v, p }) => `<div class="price-vehicle-item"><span class="price-vehicle-name">${v}</span><span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span></div>`).join('');
       noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km · (* Airport parking charges applicable on pickup)';
-      resultEl.style.display = 'block';
-      return;
+      resultEl.style.display = 'block'; return;
     }
-
-    // ── LONG ROUTE (per-day rate) ─────────────────────────────
     if (longRouteSet && (longRouteSet.has(toKey) || longRouteSet.has(fromKey))) {
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '📅';
-      labelEl.textContent = 'Per Day Package Rate';
+      innerEl.classList.remove('estimated'); iconEl.textContent = '📅'; labelEl.textContent = 'Per Day Package Rate';
       vehiclesEl.innerHTML = [
-        { v: vehicleNames['sedan'],     p: localRates.sedan.perDay },
-        { v: vehicleNames['ertiga'],    p: localRates.ertiga.perDay },
-        { v: vehicleNames['innova'],    p: localRates.innova.perDay },
-        { v: vehicleNames['traveller'], p: 'best' as const },
-      ].map(({ v, p }) =>
-        `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${v}</span>
-          <span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span>
-        </div>`
-      ).join('');
+        { v: vehicleNames['sedan'], p: localRates.sedan.perDay }, { v: vehicleNames['ertiga'], p: localRates.ertiga.perDay },
+        { v: vehicleNames['innova'], p: localRates.innova.perDay }, { v: vehicleNames['traveller'], p: 'best' as const },
+      ].map(({ v, p }) => `<div class="price-vehicle-item"><span class="price-vehicle-name">${v}</span><span class="price-vehicle-amt">${p === 'best' ? '📞 Call for best price' : '₹' + Number(p).toLocaleString('en-IN') + '/day'}</span></div>`).join('');
       noteEl.innerHTML = '📍 Up to ' + localRates.limitKm + 'km/day · Extra km at ₹' + localRates.sedan.extraKmRate + '/km (Sedan) · Need one-way drop? <a href="https://wa.me/' + waNum + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20one%20way%20drop%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">WhatsApp us →</a>';
-      resultEl.style.display = 'block';
-      return;
+      resultEl.style.display = 'block'; return;
     }
-
     const routeKey = `${fromRouteKey}_${toRouteKey}`;
     const prices   = routePrices[routeKey];
-
-
-    // Surcharges — skipped when route is an exact match (price already factors it in)
-    const hasExactMatch = !!prices;
+    const hasExactMatch   = !!prices;
     const pickupSurcharge = hasExactMatch ? 0 : getSurcharge(pickupRaw);
     const dropSurcharge   = hasExactMatch ? 0 : (isRound ? 0 : getSurcharge(dropRaw));
     const vehicles = ['sedan', 'ertiga', 'innova', 'traveller'];
-
-    // Same location check — compare raw input so Clock Tower→Rajpur Road is NOT flagged
     if (pickupRaw.trim().toLowerCase() === dropRaw.trim().toLowerCase()) {
-      hidePrice();
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '⚠️';
-      labelEl.textContent = 'Same pickup & drop location';
-      vehiclesEl.innerHTML = '';
-      noteEl.textContent  = 'Please select different pickup and drop locations.';
-      resultEl.style.display = 'block';
-      return;
+      hidePrice(); innerEl.classList.add('estimated'); iconEl.textContent = '⚠️'; labelEl.textContent = 'Same pickup & drop location'; vehiclesEl.innerHTML = '';
+      noteEl.textContent = 'Please select different pickup and drop locations.'; resultEl.style.display = 'block'; return;
     }
-
-    // AIRPORT TAB — show estimated if route not found, don't hide
-
     if (prices) {
-      // FIXED PRICE ROUTE — uses separate one-way and round-trip prices
-      innerEl.classList.remove('estimated');
-      iconEl.textContent  = '✅';
+      innerEl.classList.remove('estimated'); iconEl.textContent = '✅';
       labelEl.textContent = isRound ? 'Round Trip Price — All Inclusive' : 'Fixed Price — All Inclusive';
-
       const surchargeTotal = pickupSurcharge + dropSurcharge;
-
       vehiclesEl.innerHTML = [
-        { label: vehicleNames['sedan'],     ow: prices.sedan_ow,  rt: prices.sedan_rt,  tempo: undefined },
-        { label: vehicleNames['ertiga'],    ow: prices.ertiga_ow, rt: prices.ertiga_rt, tempo: undefined },
-        { label: vehicleNames['innova'],    ow: prices.innova_ow, rt: prices.innova_rt, tempo: undefined },
-        { label: vehicleNames['traveller'], ow: 0,                rt: 0,                tempo: prices.tempo },
+        { label: vehicleNames['sedan'], ow: prices.sedan_ow, rt: prices.sedan_rt, tempo: undefined },
+        { label: vehicleNames['ertiga'], ow: prices.ertiga_ow, rt: prices.ertiga_rt, tempo: undefined },
+        { label: vehicleNames['innova'], ow: prices.innova_ow, rt: prices.innova_rt, tempo: undefined },
+        { label: vehicleNames['traveller'], ow: 0, rt: 0, tempo: prices.tempo },
       ].map(({ label, ow, rt, tempo }) => {
-        if (tempo === 'best') {
-          return `<div class="price-vehicle-item">
-            <span class="price-vehicle-name">${label}</span>
-            <span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span>
-          </div>`;
-        }
+        if (tempo === 'best') return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt price-vehicle-best">📞 Call for best price</span></div>`;
         if (!ow || ow === 0) return '';
-        const base  = isRound ? rt : ow;
-        const total = base + surchargeTotal;
-        const surchargeNote = surchargeTotal > 0
-          ? `<span class="price-vehicle-surcharge">${formatPrice(base)} + ${formatPrice(surchargeTotal)} pickup surcharge${isRound ? ' (drop waived ✓)' : ''} = ${formatPrice(total)}</span>`
-          : '';
-        return `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${label}</span>
-          <span class="price-vehicle-amt">${formatPrice(total)}</span>
-          ${surchargeNote}
-        </div>`;
+        const base = isRound ? rt : ow; const total = base + surchargeTotal;
+        const surchargeNote = surchargeTotal > 0 ? `<span class="price-vehicle-surcharge">${formatPrice(base)} + ${formatPrice(surchargeTotal)} pickup surcharge${isRound ? ' (drop waived ✓)' : ''} = ${formatPrice(total)}</span>` : '';
+        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${label}</span><span class="price-vehicle-amt">${formatPrice(total)}</span>${surchargeNote}</div>`;
       }).join('');
-
       const isAirportPickupRoute = prices.airportPickup === true;
       noteEl.innerHTML = 'Driver + Fuel + Toll + Parking included · No hidden costs' + (isAirportPickupRoute ? ' · (* Airport parking charges applicable on pickup)' : '');
       resultEl.style.display = 'block';
-
     } else {
-      // ESTIMATED — unknown route
-      innerEl.classList.add('estimated');
-      iconEl.textContent  = '📍';
-      labelEl.textContent = 'Estimated Price';
-
-      // Try to get approximate distance
+      innerEl.classList.add('estimated'); iconEl.textContent = '📍'; labelEl.textContent = 'Estimated Price';
       const distKey = approxDistances[toKey] || approxDistances[fromKey];
-      const dist    = distKey || 150; // default 150km if unknown
-      const multiplier = isRound ? 2 : 1;
-
+      const dist = distKey || 150; const multiplier = isRound ? 2 : 1;
       vehiclesEl.innerHTML = vehicles.map(v => {
         const [low, high] = perKmRanges[v];
         const base_low  = Math.round(dist * low  * multiplier / 100) * 100;
         const base_high = Math.round(dist * high * multiplier / 100) * 100;
-        return `<div class="price-vehicle-item">
-          <span class="price-vehicle-name">${vehicleNames[v]}</span>
-          <span class="price-vehicle-amt">${formatPrice(base_low)}–${formatPrice(base_high)}</span>
-        </div>`;
+        return `<div class="price-vehicle-item"><span class="price-vehicle-name">${vehicleNames[v]}</span><span class="price-vehicle-amt">${formatPrice(base_low)}–${formatPrice(base_high)}</span></div>`;
       }).join('');
-
       noteEl.innerHTML = 'Estimated range · Exact fare confirmed on WhatsApp &nbsp;<a href="https://wa.me/' + (document.getElementById('booking-form') as HTMLFormElement)?.dataset.wa + '?text=Hi%20Shri%20Taxi%2C%20I%20need%20a%20quote%20from%20' + encodeURIComponent(pickupRaw) + '%20to%20' + encodeURIComponent(dropRaw) + '" target="_blank" style="color:var(--teal);font-weight:700;">Get WhatsApp Quote →</a>';
       resultEl.style.display = 'block';
     }
   }
+  function hidePrice() { const r = document.getElementById('price-result'); if (r) r.style.display = 'none'; }
+  document.getElementById('pickup')?.addEventListener('change', calculatePrice);
+  document.getElementById('drop')?.addEventListener('change', calculatePrice);
+  document.querySelectorAll('.trip-tab').forEach(tab => { tab.addEventListener('click', () => setTimeout(calculatePrice, 100)); });
 
-  function hidePrice() {
-    const resultEl = document.getElementById('price-result');
-    if (resultEl) resultEl.style.display = 'none';
-  }
-
-  // Watch pickup, drop inputs
-  const pickupInput = document.getElementById('pickup') as HTMLInputElement;
-  const dropInput   = document.getElementById('drop') as HTMLInputElement;
-
-  pickupInput?.addEventListener('change', calculatePrice);
-  dropInput?.addEventListener('change', calculatePrice);
-  // Note: blur listeners removed — they caused calculatePrice to re-render labelEl.innerHTML
-  // mid-click, destroying the Switch to Local Hire button before click event completed.
-
-  // Recalculate when trip type changes
-  document.querySelectorAll('.trip-tab').forEach(tab => {
-    tab.addEventListener('click', () => setTimeout(calculatePrice, 100));
+  document.getElementById('time')?.addEventListener('change', () => {
+    setTimeout(() => { (document.getElementById('time') as HTMLInputElement).blur(); const n = document.getElementById('name') as HTMLInputElement; n?.focus(); n?.blur(); }, 150);
   });
 
-  // ── END PRICE CALCULATOR ──────────────────────────────────
-
-  // Time picker — auto dismiss after selection on all devices
-  const timeInput = document.getElementById('time') as HTMLInputElement;
-  timeInput?.addEventListener('change', () => {
-    setTimeout(() => {
-      timeInput.blur();
-      // Move focus to next field (name) so picker fully dismisses
-      const nameInput = document.getElementById('name') as HTMLInputElement;
-      nameInput?.focus();
-      nameInput?.blur();
-    }, 150);
-  });
-
-  // Set min date to today — using LOCAL date to avoid timezone offset bug
   const dateInput = document.getElementById('date') as HTMLInputElement;
   const returnDateInput = document.getElementById('return_date') as HTMLInputElement;
   const timeInputEl = document.getElementById('time') as HTMLInputElement;
-
   function getLocalTime(): string {
-    const now = new Date();
-    // Add 30 min buffer — can't book for right now
-    now.setMinutes(now.getMinutes() + 30);
-    return String(now.getHours()).padStart(2, '0') + ':' +
-           String(now.getMinutes()).padStart(2, '0');
+    const now = new Date(); now.setMinutes(now.getMinutes() + 30);
+    return String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
   }
-
   function updateTimeMin() {
     if (!dateInput || !timeInputEl) return;
     const now = new Date();
-    const localDate = now.getFullYear() + '-' +
-      String(now.getMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getDate()).padStart(2, '0');
-    const timeMsg = document.getElementById('time-error-msg');
-    const dateMsg = document.getElementById('date-error-msg');
-
-    // Validate date — must not be in the past
-    if (dateInput.value && dateInput.value < localDate) {
-      if (dateMsg) dateMsg.style.display = 'block';
-      dateInput.classList.add('input-error');
-    } else {
-      if (dateMsg) dateMsg.style.display = 'none';
-      dateInput.classList.remove('input-error');
-    }
-
+    const localDate = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    const timeMsg = document.getElementById('time-error-msg'); const dateMsg = document.getElementById('date-error-msg');
+    if (dateInput.value && dateInput.value < localDate) { if (dateMsg) dateMsg.style.display='block'; dateInput.classList.add('input-error'); }
+    else { if (dateMsg) dateMsg.style.display='none'; dateInput.classList.remove('input-error'); }
     if (dateInput.value === localDate) {
-      // Same day — JS enforced (NOT relying on min attr — iOS Safari ignores it)
       const minTime = getLocalTime();
-      if (timeInputEl.value && timeInputEl.value < minTime) {
-        if (timeMsg) timeMsg.style.display = 'block';
-        timeInputEl.classList.add('input-error');
-      } else {
-        if (timeMsg) timeMsg.style.display = 'none';
-        timeInputEl.classList.remove('input-error');
-      }
-    } else {
-      // Future date — any time valid
-      if (timeMsg) timeMsg.style.display = 'none';
-      timeInputEl.classList.remove('input-error');
-    }
+      if (timeInputEl.value && timeInputEl.value < minTime) { if (timeMsg) timeMsg.style.display='block'; timeInputEl.classList.add('input-error'); }
+      else { if (timeMsg) timeMsg.style.display='none'; timeInputEl.classList.remove('input-error'); }
+    } else { if (timeMsg) timeMsg.style.display='none'; timeInputEl.classList.remove('input-error'); }
   }
-
   if (dateInput) {
     const now = new Date();
-    const localDate = now.getFullYear() + '-' +
-      String(now.getMonth() + 1).padStart(2, '0') + '-' +
-      String(now.getDate()).padStart(2, '0');
-    dateInput.min = localDate;
-    dateInput.value = localDate;
-    // Set return date min = pickup date
-    if (returnDateInput) {
-      returnDateInput.min = localDate;
-    }
-    // Set time min for today
+    const localDate = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+    dateInput.min = localDate; dateInput.value = localDate;
+    if (returnDateInput) returnDateInput.min = localDate;
     updateTimeMin();
   }
-
-  // Update return date min and time min whenever pickup date changes
   dateInput?.addEventListener('change', () => {
-    if (returnDateInput) {
-      returnDateInput.min = dateInput.value;
-      if (returnDateInput.value && returnDateInput.value < dateInput.value) {
-        returnDateInput.value = dateInput.value;
-      }
-    }
-    // Update time min — restrict to future times on same day
-    updateTimeMin();
-    // Re-validate return time if same day
-    validateReturnTime();
+    if (returnDateInput) { returnDateInput.min = dateInput.value; if (returnDateInput.value && returnDateInput.value < dateInput.value) returnDateInput.value = dateInput.value; }
+    updateTimeMin(); validateReturnTime();
   });
-
-  // Validate return time — must be after pickup time if same day
   function validateReturnTime() {
     const returnTimeInput = document.getElementById('return_time') as HTMLInputElement;
     if (!returnDateInput || !returnTimeInput) return;
-    const timeInput = document.getElementById('time') as HTMLInputElement;
-    if (!timeInput) return;
-    const returnDateMsg = document.getElementById('return-date-error-msg');
-    const returnTimeMsg = document.getElementById('return-time-error-msg');
-
-    // Validate return date vs pickup date — JS enforced (not just min attr)
-    if (returnDateInput.value && returnDateInput.value < dateInput.value) {
-      if (returnDateMsg) returnDateMsg.style.display = 'block';
-      returnDateInput.classList.add('input-error');
-    } else {
-      if (returnDateMsg) returnDateMsg.style.display = 'none';
-      returnDateInput.classList.remove('input-error');
-    }
-
+    const timeInput = document.getElementById('time') as HTMLInputElement; if (!timeInput) return;
+    const returnDateMsg = document.getElementById('return-date-error-msg'); const returnTimeMsg = document.getElementById('return-time-error-msg');
+    if (returnDateInput.value && returnDateInput.value < dateInput.value) { if (returnDateMsg) returnDateMsg.style.display='block'; returnDateInput.classList.add('input-error'); }
+    else { if (returnDateMsg) returnDateMsg.style.display='none'; returnDateInput.classList.remove('input-error'); }
     if (returnDateInput.value && returnDateInput.value === dateInput.value) {
-      // Same day — JS enforced comparison (NOT relying on min attr — iOS ignores it)
-      if (returnTimeInput.value && returnTimeInput.value <= timeInput.value) {
-        if (returnTimeMsg) returnTimeMsg.style.display = 'block';
-        returnTimeInput.classList.add('input-error');
-      } else {
-        if (returnTimeMsg) returnTimeMsg.style.display = 'none';
-        returnTimeInput.classList.remove('input-error');
-      }
-    } else {
-      // Different day — any time valid
-      if (returnTimeMsg) returnTimeMsg.style.display = 'none';
-      returnTimeInput.classList.remove('input-error');
-    }
+      if (returnTimeInput.value && returnTimeInput.value <= timeInput.value) { if (returnTimeMsg) returnTimeMsg.style.display='block'; returnTimeInput.classList.add('input-error'); }
+      else { if (returnTimeMsg) returnTimeMsg.style.display='none'; returnTimeInput.classList.remove('input-error'); }
+    } else { if (returnTimeMsg) returnTimeMsg.style.display='none'; returnTimeInput.classList.remove('input-error'); }
   }
-
-  // Trigger validation when return date or pickup time changes
   document.getElementById('return_date')?.addEventListener('change', validateReturnTime);
-  document.getElementById('time')?.addEventListener('change', () => {
-    validateReturnTime();
-    // Validate time is not in the past for same-day booking
-    updateTimeMin();
-  });
+  document.getElementById('time')?.addEventListener('change', () => { validateReturnTime(); updateTimeMin(); });
   document.getElementById('return_time')?.addEventListener('change', validateReturnTime);
 
-  // Form submit — matches original BookingForm logic with Turnstile
-  // ── Partial Reset After Booking ────────────────────────────────
-  // Keeps: date, time, vehicle, name, phone
-  // Clears: trip-specific fields, tab state, price results
   function partialResetForm() {
-    // 1. Reset button state
     const btn = document.querySelector('button[type="submit"]') as HTMLButtonElement;
-    if (btn) {
-      btn.textContent = 'Book Now →';
-      btn.style.background = '';
-      btn.disabled = false;
-    }
-
-    // 2. Trigger One Way tab click — this handles all CSS class changes correctly
+    if (btn) { btn.textContent = 'Book Now →'; btn.style.background = ''; btn.disabled = false; }
     const oneWayTab = document.querySelector('.trip-tab[data-trip="one-way"]') as HTMLElement;
     if (oneWayTab) oneWayTab.click();
-
-    // 2. Clear route fields
     (document.getElementById('pickup') as HTMLInputElement).value = '';
     (document.getElementById('drop') as HTMLInputElement).value = '';
     document.getElementById('pickup-wrap')?.classList.remove('has-value');
     document.getElementById('drop-wrap')?.classList.remove('has-value');
-
-    // 3. Clear local hire fields
     (document.getElementById('local_package_input') as HTMLInputElement).value = '';
     (document.getElementById('local_pickup') as HTMLInputElement).value = '';
     (document.getElementById('local_spots') as HTMLInputElement).value = '';
-    selectedLocalPackage = '';
-    renderLocalPackages();
-
-    // 4. Clear airport fields
+    selectedLocalPackage = ''; renderLocalPackages();
     (document.getElementById('airport_journey') as HTMLSelectElement).value = '';
     (document.getElementById('airport_select') as HTMLSelectElement).value = '';
     (document.getElementById('airport_location') as HTMLInputElement).value = '';
-    (document.getElementById('airport-select-group') as HTMLElement).style.display   = 'none';
+    (document.getElementById('airport-select-group') as HTMLElement).style.display = 'none';
     (document.getElementById('airport-location-group') as HTMLElement).style.display = 'none';
-    (document.getElementById('airport-parking-note') as HTMLElement).style.display   = 'none';
+    (document.getElementById('airport-parking-note') as HTMLElement).style.display = 'none';
     airportJourneyType = '';
-
-    // 4b. Reset human confirm checkbox
-    const hc = document.getElementById('human-confirm-check') as HTMLInputElement;
-    if (hc) hc.checked = false;
-    const he = document.getElementById('human-confirm-error');
-    if (he) he.style.display = 'none';
-
-    // 5. Clear all validation error messages
-    ['date-error-msg','time-error-msg','pickup-error-msg','drop-error-msg',
-     'name-error-msg','phone-error-msg','local-pickup-error-msg',
-     'return-date-error-msg','return-date-required-msg',
-     'return-time-error-msg','return-time-required-msg'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
+    ['date-error-msg','time-error-msg','pickup-error-msg','drop-error-msg','name-error-msg','phone-error-msg',
+     'local-pickup-error-msg','return-date-error-msg','return-date-required-msg','return-time-error-msg','return-time-required-msg'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.style.display = 'none';
     });
-    ['date','time','pickup','drop','return_date','return_time'].forEach(id => {
-      document.getElementById(id)?.classList.remove('input-error');
-    });
-
-    // 6. Hide all price result boxes
-    const pr = document.getElementById('price-result');
-    if (pr) pr.style.display = 'none';
-    const lp = document.getElementById('local-price-result');
-    if (lp) lp.style.display = 'none';
-    const ap = document.getElementById('airport-price-result');
-    if (ap) ap.style.display = 'none';
+    ['date','time','pickup','drop','return_date','return_time'].forEach(id => { document.getElementById(id)?.classList.remove('input-error'); });
+    ['price-result','local-price-result','airport-price-result'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
   }
 
-
-  // ── Phone & Name Validation ───────────────────────────────────
   function validatePhone(raw: string): boolean {
-    const cleaned = raw.trim()
-      .replace(/\s+/g, '')       // remove spaces
-      .replace(/^\+91/, '')      // strip +91
-      .replace(/^0/, '');         // strip leading 0
-    // Must be 10 digits starting with 6-9
+    const cleaned = raw.trim().replace(/\s+/g,'').replace(/^\+91/,'').replace(/^0/,'');
     return /^[6-9][0-9]{9}$/.test(cleaned);
   }
-
-  function validateName(raw: string): boolean {
-    return raw.trim().length >= 2;
-  }
-
-  function normalisePhone(raw: string): string {
-    return raw.trim().replace(/\s+/g, '');
-  }
+  function validateName(raw: string): boolean { return raw.trim().length >= 2; }
 
   const form = document.getElementById('booking-form') as HTMLFormElement;
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    // For One Way / Round Trip — validate pickup and drop
+    if (!form.checkValidity()) { form.reportValidity(); return; }
     const tripTypeVal = (document.getElementById('trip_type_input') as HTMLInputElement)?.value || '';
     if (tripTypeVal === 'one-way' || tripTypeVal === 'round-trip') {
       const pickupVal = (document.getElementById('pickup') as HTMLInputElement)?.value?.trim();
       const dropVal   = (document.getElementById('drop') as HTMLInputElement)?.value?.trim();
-      const pickupErr = document.getElementById('pickup-error-msg');
-      const dropErr   = document.getElementById('drop-error-msg');
-      if (!pickupVal) {
-        if (pickupErr) pickupErr.style.display = 'block';
-        (document.getElementById('pickup') as HTMLInputElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →'; return;
-      } else { if (pickupErr) pickupErr.style.display = 'none'; }
-      if (!dropVal) {
-        if (dropErr) dropErr.style.display = 'block';
-        (document.getElementById('drop') as HTMLInputElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →'; return;
-      } else { if (dropErr) dropErr.style.display = 'none'; }
-
-      // Round trip — return date and time required + JS enforced comparison (mobile safe)
+      const pickupErr = document.getElementById('pickup-error-msg'); const dropErr = document.getElementById('drop-error-msg');
+      if (!pickupVal) { if (pickupErr) pickupErr.style.display='block'; (document.getElementById('pickup') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+      else { if (pickupErr) pickupErr.style.display='none'; }
+      if (!dropVal) { if (dropErr) dropErr.style.display='block'; (document.getElementById('drop') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+      else { if (dropErr) dropErr.style.display='none'; }
       if (tripTypeVal === 'round-trip') {
-        const retDate    = (document.getElementById('return_date') as HTMLInputElement)?.value?.trim();
-        const retTime    = (document.getElementById('return_time') as HTMLInputElement)?.value?.trim();
-        const pickDate   = (document.getElementById('date') as HTMLInputElement)?.value?.trim();
-        const pickTime   = (document.getElementById('time') as HTMLInputElement)?.value?.trim();
-        const retDateReq = document.getElementById('return-date-required-msg');
-        const retTimeReq = document.getElementById('return-time-required-msg');
-        const retDateErr = document.getElementById('return-date-error-msg');
-        const retTimeErr = document.getElementById('return-time-error-msg');
-
-        if (!retDate) {
-          if (retDateReq) retDateReq.style.display = 'block';
-          (document.getElementById('return_date') as HTMLInputElement)?.focus();
-          btn.disabled = false; btn.textContent = 'Book Now →'; return;
-        } else { if (retDateReq) retDateReq.style.display = 'none'; }
-
-        if (retDate < pickDate) {
-          if (retDateErr) retDateErr.style.display = 'block';
-          (document.getElementById('return_date') as HTMLInputElement)?.focus();
-          btn.disabled = false; btn.textContent = 'Book Now →'; return;
-        } else { if (retDateErr) retDateErr.style.display = 'none'; }
-
-        if (!retTime) {
-          if (retTimeReq) retTimeReq.style.display = 'block';
-          (document.getElementById('return_time') as HTMLInputElement)?.focus();
-          btn.disabled = false; btn.textContent = 'Book Now →'; return;
-        } else { if (retTimeReq) retTimeReq.style.display = 'none'; }
-
-        // Same day — return time must be AFTER pickup time — JS enforced (iOS ignores min attr)
-        if (retDate === pickDate && retTime <= pickTime) {
-          if (retTimeErr) retTimeErr.style.display = 'block';
-          (document.getElementById('return_time') as HTMLInputElement)?.focus();
-          btn.disabled = false; btn.textContent = 'Book Now →'; return;
-        } else { if (retTimeErr) retTimeErr.style.display = 'none'; }
+        const retDate = (document.getElementById('return_date') as HTMLInputElement)?.value?.trim();
+        const retTime = (document.getElementById('return_time') as HTMLInputElement)?.value?.trim();
+        const pickDate = (document.getElementById('date') as HTMLInputElement)?.value?.trim();
+        const pickTime = (document.getElementById('time') as HTMLInputElement)?.value?.trim();
+        const retDateReq = document.getElementById('return-date-required-msg'); const retTimeReq = document.getElementById('return-time-required-msg');
+        const retDateErr = document.getElementById('return-date-error-msg'); const retTimeErr = document.getElementById('return-time-error-msg');
+        if (!retDate) { if (retDateReq) retDateReq.style.display='block'; (document.getElementById('return_date') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+        else { if (retDateReq) retDateReq.style.display='none'; }
+        if (retDate < pickDate) { if (retDateErr) retDateErr.style.display='block'; (document.getElementById('return_date') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+        else { if (retDateErr) retDateErr.style.display='none'; }
+        if (!retTime) { if (retTimeReq) retTimeReq.style.display='block'; (document.getElementById('return_time') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+        else { if (retTimeReq) retTimeReq.style.display='none'; }
+        if (retDate === pickDate && retTime <= pickTime) { if (retTimeErr) retTimeErr.style.display='block'; (document.getElementById('return_time') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+        else { if (retTimeErr) retTimeErr.style.display='none'; }
       }
     }
-
-    // For Airport — validate journey type, airport and location
     if (tripTypeVal === 'airport') {
       const journeyVal  = (document.getElementById('airport_journey') as HTMLSelectElement)?.value?.trim();
       const airportVal  = (document.getElementById('airport_select') as HTMLSelectElement)?.value?.trim();
       const locationVal = (document.getElementById('airport_location') as HTMLInputElement)?.value?.trim();
-      if (!journeyVal) {
-        (document.getElementById('airport_journey') as HTMLSelectElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →';
-        alert('Please select a journey type (Pickup or Drop).');
-        return;
-      }
-      if (!airportVal) {
-        (document.getElementById('airport_select') as HTMLSelectElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →';
-        alert('Please select an airport.');
-        return;
-      }
-      if (!locationVal) {
-        (document.getElementById('airport_location') as HTMLInputElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →';
-        alert('Please enter your pickup/drop location.');
-        return;
-      }
+      if (!journeyVal) { (document.getElementById('airport_journey') as HTMLSelectElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; alert('Please select a journey type (Pickup or Drop).'); return; }
+      if (!airportVal) { (document.getElementById('airport_select') as HTMLSelectElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; alert('Please select an airport.'); return; }
+      if (!locationVal) { (document.getElementById('airport_location') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; alert('Please enter your pickup/drop location.'); return; }
     }
-
-    // For Local Hire — validate pickup location and package
     if (tripTypeVal === 'local') {
       const localPkgVal    = (document.getElementById('local_package_input') as HTMLInputElement)?.value?.trim();
       const localPickupVal = (document.getElementById('local_pickup') as HTMLInputElement)?.value?.trim();
       const localPickupErr = document.getElementById('local-pickup-error-msg');
       if (!localPkgVal) {
         document.querySelector('.local-pkg-btn')?.parentElement?.scrollIntoView({ behavior:'smooth', block:'center' });
-        // Show visual error on package buttons
         const pkgContainer = document.getElementById('local-packages');
-        if (pkgContainer) {
-          pkgContainer.style.outline = '2px solid #dc2626';
-          pkgContainer.style.borderRadius = '6px';
-          setTimeout(() => { pkgContainer.style.outline = ''; }, 2000);
-        }
-        btn.disabled = false; btn.textContent = 'Book Now →'; return;
+        if (pkgContainer) { pkgContainer.style.outline='2px solid #dc2626'; pkgContainer.style.borderRadius='6px'; setTimeout(() => { pkgContainer.style.outline=''; }, 2000); }
+        btn.disabled=false; btn.textContent='Book Now →'; return;
       }
-      if (!localPickupVal) {
-        if (localPickupErr) localPickupErr.style.display = 'block';
-        (document.getElementById('local_pickup') as HTMLInputElement)?.focus();
-        btn.disabled = false; btn.textContent = 'Book Now →'; return;
-      } else { if (localPickupErr) localPickupErr.style.display = 'none'; }
+      if (!localPickupVal) { if (localPickupErr) localPickupErr.style.display='block'; (document.getElementById('local_pickup') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+      else { if (localPickupErr) localPickupErr.style.display='none'; }
     }
-
-    // Pickup time validation — JS enforced at submit for mobile (iOS ignores min attr)
     if (tripTypeVal !== 'local' && tripTypeVal !== 'airport') {
       const pickDateVal = (document.getElementById('date') as HTMLInputElement)?.value?.trim();
       const pickTimeVal = (document.getElementById('time') as HTMLInputElement)?.value?.trim();
@@ -1569,100 +798,39 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
       const localDate = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
       if (pickDateVal === localDate && pickTimeVal) {
         const minTime = getLocalTime();
-        if (pickTimeVal < minTime) {
-          if (timeErr) timeErr.style.display = 'block';
-          (document.getElementById('time') as HTMLInputElement)?.focus();
-          btn.disabled = false; btn.textContent = 'Book Now →'; return;
-        } else { if (timeErr) timeErr.style.display = 'none'; }
+        if (pickTimeVal < minTime) { if (timeErr) timeErr.style.display='block'; (document.getElementById('time') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+        else { if (timeErr) timeErr.style.display='none'; }
       }
     }
-
-    // Phone validation
     const phoneVal = (document.getElementById('phone_no') as HTMLInputElement)?.value || '';
     const nameVal  = (document.getElementById('name') as HTMLInputElement)?.value || '';
-    const phoneErr = document.getElementById('phone-error-msg');
-    const nameErr  = document.getElementById('name-error-msg');
-    if (!validateName(nameVal)) {
-      if (nameErr) nameErr.style.display = 'block';
-      (document.getElementById('name') as HTMLInputElement)?.focus();
-      btn.disabled = false; btn.textContent = 'Book Now →'; return;
-    } else { if (nameErr) nameErr.style.display = 'none'; }
-    if (!validatePhone(phoneVal)) {
-      if (phoneErr) phoneErr.style.display = 'block';
-      (document.getElementById('phone_no') as HTMLInputElement)?.focus();
-      btn.disabled = false; btn.textContent = 'Book Now →'; return;
-    } else { if (phoneErr) phoneErr.style.display = 'none'; }
-
-    // Human confirmation check
-    const humanCheck = document.getElementById('human-confirm-check') as HTMLInputElement;
-    const humanError = document.getElementById('human-confirm-error');
-    if (!humanCheck?.checked) {
-      if (humanError) humanError.style.display = 'block';
-      humanCheck?.focus();
-      btn.disabled = false; btn.textContent = 'Book Now →'; return;
-    } else { if (humanError) humanError.style.display = 'none'; }
-
-    // Vehicle required check
+    const phoneErr = document.getElementById('phone-error-msg'); const nameErr = document.getElementById('name-error-msg');
+    if (!validateName(nameVal)) { if (nameErr) nameErr.style.display='block'; (document.getElementById('name') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+    else { if (nameErr) nameErr.style.display='none'; }
+    if (!validatePhone(phoneVal)) { if (phoneErr) phoneErr.style.display='block'; (document.getElementById('phone_no') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
+    else { if (phoneErr) phoneErr.style.display='none'; }
     const vehicleSelected = form.querySelector('input[name="vehicle"]:checked') as HTMLInputElement;
     const vehicleMsg = document.getElementById('vehicle-required-msg') as HTMLElement;
-    if (!vehicleSelected) {
-      if (vehicleMsg) { vehicleMsg.style.display = 'block'; }
-      // Scroll to vehicle section
-      document.querySelector('.vehicle-select-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      btn.disabled = false;
-      btn.textContent = 'Book Now →';
-      return;
-    }
-    if (vehicleMsg) vehicleMsg.style.display = 'none';
-
+    if (!vehicleSelected) { if (vehicleMsg) vehicleMsg.style.display='block'; document.querySelector('.vehicle-select-section')?.scrollIntoView({ behavior:'smooth', block:'center' }); btn.disabled=false; btn.textContent='Book Now →'; return; }
+    if (vehicleMsg) vehicleMsg.style.display='none';
     const fd = new FormData(form);
-
     const payload: Record<string, string> = {};
     fd.forEach((v, k) => { payload[k] = v.toString(); });
-
-    btn.disabled = true;
-    btn.textContent = 'Processing…';
-
+    btn.disabled = true; btn.textContent = 'Processing…';
     try {
-      // Build WhatsApp message with all booking details
-      const pickup  = payload.pickup  || '';
-      const drop    = payload.drop    || '';
-      const date    = payload.date    || '';
-      const time    = payload.time    || '';
-      const vehicle = payload.vehicle || '';
-      const name    = payload.name    || '';
-      const phone   = payload.phone   || '';
-      const tripLabels: Record<string, string> = {
-        'one-way': 'One Way',
-        'round-trip': 'Round Trip',
-        'local': 'Local',
-        'airport': 'Airport',
-      };
+      const pickup  = payload.pickup  || ''; const drop    = payload.drop    || '';
+      const date    = payload.date    || ''; const time    = payload.time    || '';
+      const vehicle = payload.vehicle || ''; const name    = payload.name    || ''; const phone = payload.phone || '';
+      const tripLabels: Record<string, string> = { 'one-way':'One Way','round-trip':'Round Trip','local':'Local','airport':'Airport' };
       const trip = tripLabels[payload.trip_type] || payload.trip_type || 'One Way';
-
-      // Descriptive vehicle names for WhatsApp message
-      const vehicleFullNames: Record<string, string> = {
-        sedan: 'Sedan (Dzire/Baleno)',
-        ertiga: 'Maruti Ertiga',
-        innova: 'Toyota Innova Crysta',
-        traveller: 'Tempo Traveller',
-      };
-
-      // Booking ID: SHRI-YYMMDD-XXXX (4-char base36 random suffix)
+      const vehicleFullNames: Record<string, string> = { sedan:'Sedan (Dzire/Baleno)', ertiga:'Maruti Ertiga', innova:'Toyota Innova Crysta', traveller:'Tempo Traveller' };
       const d = new Date();
-      const yymmdd = d.toISOString().slice(2, 10).replace(/-/g, '');
-      const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+      const yymmdd = d.toISOString().slice(2,10).replace(/-/g,'');
+      const rand = Math.random().toString(36).slice(2,6).toUpperCase();
       const bookingId = `SHRI-${yymmdd}-${rand}`;
       payload.booking_id = bookingId;
-
-      // Build message — handle local hire separately
-      const localPackage = payload.local_package || '';
-      const localPickup  = payload.local_pickup  || '';
-      const localSpots   = payload.local_spots   || '';
-      const airportSel     = payload.airport_select  || '';
-      const airportJourney = payload.airport_journey || '';
-      const airportLocation = payload.airport_location || '';
-
+      const localPackage = payload.local_package || ''; const localPickup = payload.local_pickup || ''; const localSpots = payload.local_spots || '';
+      const airportSel = payload.airport_select || ''; const airportJourney = payload.airport_journey || ''; const airportLocation = payload.airport_location || '';
       let msg = '';
       if (payload.trip_type === 'local') {
         msg = `Hi Shri Taxi, I'd like to book a Local Hire cab.\n\n*Booking ID:* ${bookingId}\n\n*Package:* ${localPackage}\n*Pickup Location:* ${localPickup}\n${localSpots ? '*Places to visit:* ' + localSpots + '\n' : ''}*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
@@ -1672,680 +840,125 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
       } else {
         msg = `Hi Shri Taxi, I'd like to book a cab.\n\n*Booking ID:* ${bookingId}\n\n*Pickup:* ${pickup}\n*Drop:* ${drop}\n*Date:* ${date}\n*Time:* ${time}\n*Vehicle:* ${vehicleFullNames[vehicle] || vehicle}\n*Trip Type:* ${trip}\n*Name:* ${name}\n*Phone:* ${phone}\n\nPlease confirm. Thanks!`;
       }
-
-      const wa = form.dataset.wa || '';
-      const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
-
-      // Show success popup
-      const popup   = document.getElementById('booking-popup');
-      const details = document.getElementById('popup-details');
-      const waLink  = document.getElementById('popup-wa') as HTMLAnchorElement;
-
+      const wa = form.dataset.wa || ''; const waUrl = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+      const popup = document.getElementById('booking-popup'); const details = document.getElementById('popup-details'); const waLink = document.getElementById('popup-wa') as HTMLAnchorElement;
       if (popup && details) {
-        details.innerHTML = `
-          <div><strong>Booking ID:</strong> ${bookingId}</div>
-          <div><strong>${pickup}</strong> → <strong>${drop}</strong></div>
-          ${vehicleFullNames[vehicle] ? `<div>Vehicle: ${vehicleFullNames[vehicle]}</div>` : ''}
-          ${date ? `<div>${date}${time ? ' · ' + time : ''}</div>` : ''}
-          ${name ? `<div>${name}</div>` : ''}
-        `;
+        details.innerHTML = `<div><strong>Booking ID:</strong> ${bookingId}</div><div><strong>${pickup}</strong> → <strong>${drop}</strong></div>${vehicleFullNames[vehicle] ? `<div>Vehicle: ${vehicleFullNames[vehicle]}</div>` : ''}${date ? `<div>${date}${time ? ' · ' + time : ''}</div>` : ''}${name ? `<div>${name}</div>` : ''}`;
         if (waLink) waLink.href = waUrl;
-        popup.setAttribute('aria-hidden', 'false');
-        popup.classList.add('active');
+        popup.setAttribute('aria-hidden','false'); popup.classList.add('active');
       }
-
-      // Send to API for Telegram + Google Sheets logging
       const token = (fd.get('cf-turnstile-response') || '').toString();
       payload.turnstile_token = token;
-      console.log('Sending to API:', JSON.stringify(payload));
-      fetch('/api/book', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).then(r => r.json()).then(d => console.log('API response:', d)).catch(e => console.error('API error:', e));
-
-      btn.textContent = '✓ Booking Confirmed!';
-      btn.style.background = 'var(--whatsapp)';
-      btn.disabled = false;
-
-      // Auto-reset after 3 seconds — covers case where customer ignores popup
-      // Use a flag so if customer already closed popup + started new booking, don't wipe it
-      let autoResetFired = false;
-      const autoResetTimer = setTimeout(() => {
-        autoResetFired = true;
-        partialResetForm();
-      }, 3000);
-
-      // If popup closed before 3s, cancel auto-reset and reset immediately
-      const originalClose = (window as any).__shriCloseHandler;
+      fetch('/api/book', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) })
+        .then(r => r.json()).then(d => console.log('API response:', d)).catch(e => console.error('API error:', e));
+      btn.textContent = '✓ Booking Confirmed!'; btn.style.background = 'var(--whatsapp)'; btn.disabled = false;
+      const autoResetTimer = setTimeout(() => { partialResetForm(); }, 3000);
       (window as any).__shriAutoResetTimer = autoResetTimer;
-
     } catch (err) {
       console.error('Booking handler error:', err);
-      btn.textContent = '✓ Booking Confirmed!';
-      btn.style.background = 'var(--whatsapp)';
-    } finally {
-      btn.disabled = false;
-    }
-
-    // Reset only Turnstile after 4 seconds — NOT form.reset() which clears all fields
-    setTimeout(() => {
-      // @ts-ignore
-      if (window.turnstile) window.turnstile.reset();
-    }, 4000);
+      btn.textContent = '✓ Booking Confirmed!'; btn.style.background = 'var(--whatsapp)';
+    } finally { btn.disabled = false; }
+    setTimeout(() => { if ((window as any).turnstile) (window as any).turnstile.reset(); }, 4000);
   });
 </script>
 
 <style>
-/* ── Hero wrapper ── */
-.hero {
-  position: relative;
-  min-height: 600px;
-  display: flex;
-  align-items: flex-start;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  transform: none !important;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: url('/images/hero-mountains.jpg') center center / cover no-repeat;
-  background-attachment: scroll;
-  z-index: 0;
-  will-change: auto;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(0,0,0,0.55) 0%,
-    rgba(0,0,0,0.30) 55%,
-    rgba(0,0,0,0.05) 100%
-  );
-  z-index: 1;
-}
-
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 48px;
-  align-items: center;
-  padding-top: 48px;
-  padding-bottom: 48px;
-}
-
-/* ── Left content ── */
-.hero-title {
-  font-size: clamp(40px, 5vw, 68px);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-
-.hero-sub {
-  font-family: var(--font-body);
-  font-size: clamp(16px, 2vw, 19px);
-  font-weight: 400;
-  color: rgba(255,255,255,0.75);
-  line-height: 1.85;
-  margin-bottom: 20px;
-  max-width: 540px;
-  letter-spacing: 0.01em;
-}
-
-.hero-trust-line {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--teal-light);
-  margin-bottom: 32px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.hero-dot {
-  color: var(--teal);
-  font-size: 8px;
-  opacity: 0.8;
-}
-
-.hero-ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
+.hero { position: relative; min-height: 600px; display: flex; align-items: flex-start; overflow: hidden; }
+.hero-bg { position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important; transform: none !important; background: url('/images/hero-mountains.jpg') center center / cover no-repeat; background-attachment: scroll; z-index: 0; will-change: auto; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.30) 55%, rgba(0,0,0,0.05) 100%); z-index: 1; }
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 420px; gap: 48px; align-items: center; padding-top: 48px; padding-bottom: 48px; }
+.hero-title { font-size: clamp(40px, 5vw, 68px); font-weight: 700; color: #fff; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 16px; }
+.hero-sub { font-family: var(--font-body); font-size: clamp(16px, 2vw, 19px); font-weight: 400; color: rgba(255,255,255,0.75); line-height: 1.85; margin-bottom: 20px; max-width: 540px; letter-spacing: 0.01em; }
+.hero-trust-line { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 11px; font-weight: 600; color: var(--teal-light); margin-bottom: 32px; letter-spacing: 0.1em; text-transform: uppercase; }
+.hero-dot { color: var(--teal); font-size: 8px; opacity: 0.8; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; }
 .hero-btn { padding: 14px 24px; font-size: 15px; }
-
-.btn-outline-white {
-  background: transparent;
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.6);
-}
-.btn-outline-white:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: #fff;
-}
-
-/* ── Booking Card ── */
-.booking-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06);
-  overflow: hidden;
-}
-
-.booking-card-header {
-  background: var(--teal);
-  padding: 18px 24px;
-}
-
-/* ── Booking Success Popup ── */
-.booking-popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
-.booking-popup.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.popup-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 32px 28px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(20px);
-  transition: transform 0.3s;
-}
-
-.booking-popup.active .popup-card {
-  transform: translateY(0);
-}
-
+.booking-card { background: #fff; border-radius: var(--radius-lg); box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.06); overflow: hidden; }
+.booking-card-header { background: var(--teal); padding: 18px 24px; }
+.booking-popup { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.booking-popup.active { opacity: 1; pointer-events: all; }
+.popup-card { background: #fff; border-radius: var(--radius-lg); padding: 32px 28px; max-width: 400px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.3s; }
+.booking-popup.active .popup-card { transform: translateY(0); }
 .popup-icon { font-size: 48px; margin-bottom: 12px; }
-
-.popup-title {
-  font-size: 22px;
-  font-family: 'Playfair Display', serif;
-  color: var(--teal);
-  margin-bottom: 14px;
-}
-
-.popup-details {
-  background: var(--mint);
-  border-radius: var(--radius-md);
-  padding: 12px 16px;
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: var(--slate);
-  text-align: left;
-  line-height: 1.8;
-}
-
-.popup-msg {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.popup-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.popup-close {
-  cursor: pointer;
-  font-family: inherit;
-}
-
-/* SEO context */
-.seo-context {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Text shadow for readability on raw photo */
-.hero-region,
-.hero-title,
-.hero-sub {
-  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-}
-
-.booking-title {
-  font-size: 20px;
-  color: #fff;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 2px;
-}
-
-.booking-sub {
-  font-size: 12px;
-  color: rgba(255,255,255,0.75);
-}
-
-/* Trip tabs */
-.trip-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--border);
-}
-
-.trip-tab {
-  background: none;
-  border: none;
-  padding: 13px 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--muted);
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-  letter-spacing: 0.01em;
-}
-
-.trip-tab.active {
-  color: var(--teal);
-  border-bottom-color: var(--teal);
-}
-
+.popup-title { font-size: 22px; font-family: 'Playfair Display', serif; color: var(--teal); margin-bottom: 14px; }
+.popup-details { background: var(--mint); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 14px; font-size: 13px; color: var(--slate); text-align: left; line-height: 1.8; }
+.popup-msg { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+.popup-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.popup-close { cursor: pointer; font-family: inherit; }
+.seo-context { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.hero-region, .hero-title, .hero-sub { text-shadow: 0 1px 8px rgba(0,0,0,0.4); }
+.booking-title { font-size: 20px; color: #fff; font-family: 'Playfair Display', serif; margin-bottom: 2px; }
+.booking-sub { font-size: 12px; color: rgba(255,255,255,0.75); }
+.trip-tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+.trip-tab { background: none; border: none; padding: 13px 8px; font-size: 13px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; letter-spacing: 0.01em; }
+.trip-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
 .trip-tab:hover:not(.active) { color: var(--slate); }
-
-/* Form */
-.booking-form {
-  padding: 24px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
+.booking-form { padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.form-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  letter-spacing: 0.01em;
-}
-
-.form-input {
-  border: 1px solid #e8edf2;
-  border-radius: var(--radius-sm);
-  padding: 13px 14px;
-  font-size: 16px;
-  color: var(--slate);
-  font-family: 'DM Sans', sans-serif;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: #fff;
-  width: 100%;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: var(--teal);
-  box-shadow: 0 0 0 3px rgba(13,148,136,0.08);
-  background: #fff;
-}
-
-/* Vehicle picker */
-.vehicle-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-}
-
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-label { font-size: 14px; font-weight: 500; color: var(--muted); display: flex; align-items: center; gap: 5px; letter-spacing: 0.01em; }
+.form-input { border: 1px solid #e8edf2; border-radius: var(--radius-sm); padding: 13px 14px; font-size: 16px; color: var(--slate); font-family: 'DM Sans', sans-serif; transition: border-color 0.2s, box-shadow 0.2s; background: #fff; width: 100%; }
+.form-input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(13,148,136,0.08); background: #fff; }
+.vehicle-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .vehicle-opt { cursor: pointer; }
 .vehicle-opt input { position: absolute; opacity: 0; width: 0; height: 0; }
-
-.vehicle-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 10px 6px;
-  border: 1px solid #e8edf2;
-  border-radius: var(--radius-sm);
-  background: #fff;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-  height: 72px;
-}
-
-.vehicle-card:hover {
-  border-color: rgba(13,148,136,0.4);
-  box-shadow: 0 2px 8px rgba(13,148,136,0.08);
-}
-
-.vehicle-opt input:checked + .vehicle-card {
-  border-color: var(--teal);
-  background: rgba(13,148,136,0.06);
-}
-
+.vehicle-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 10px 6px; border: 1px solid #e8edf2; border-radius: var(--radius-sm); background: #fff; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s; cursor: pointer; height: 72px; }
+.vehicle-card:hover { border-color: rgba(13,148,136,0.4); box-shadow: 0 2px 8px rgba(13,148,136,0.08); }
+.vehicle-opt input:checked + .vehicle-card { border-color: var(--teal); background: rgba(13,148,136,0.06); }
 .vehicle-icon { font-size: 20px; }
 .vehicle-name { font-size: 11px; font-weight: 600; color: var(--slate); text-align: center; line-height: 1.2; min-height: 24px; display: flex; align-items: center; justify-content: center; }
 .vehicle-seats { font-size: 13px; color: var(--muted); font-weight: 500; }
-
-.honeypot {
-  position: absolute !important;
-  left: -9999px !important;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.cf-turnstile {
-  margin-top: 4px;
-}
-
-/* Submit */
-
-.booking-submit {
-  width: 100%;
-  justify-content: center;
-  padding: 14px;
-  font-size: 15px;
-  margin-top: 4px;
-}
-
-.booking-secure {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: -6px;
-}
-
-
-
-/* ── Custom Autocomplete ── */
-.autocomplete-wrap {
-  position: relative;
-  width: 100%;
-}
-
+.honeypot { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; overflow: hidden; }
+.cf-turnstile { margin-top: 4px; }
+.booking-submit { width: 100%; justify-content: center; padding: 14px; font-size: 15px; margin-top: 4px; }
+.booking-secure { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 11px; color: var(--muted); margin-top: -6px; }
+.autocomplete-wrap { position: relative; width: 100%; }
 .autocomplete-input { padding-right: 32px !important; }
-
-.ac-clear {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 14px;
-  cursor: pointer;
-  padding: 2px 4px;
-  line-height: 1;
-  display: none;
-  z-index: 2;
-}
+.ac-clear { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted); font-size: 14px; cursor: pointer; padding: 2px 4px; line-height: 1; display: none; z-index: 2; }
 .ac-clear:hover { color: var(--slate); }
 .autocomplete-wrap.has-value .ac-clear { display: block; }
-
-.ac-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0; right: 0;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  z-index: 100;
-  max-height: 280px;
-  overflow-y: auto;
-  display: none;
-  scrollbar-width: thin;
-}
+.ac-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md); box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 100; max-height: 280px; overflow-y: auto; display: none; scrollbar-width: thin; }
 .ac-dropdown.open { display: block; }
-
-.ac-category {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  padding: 8px 12px 4px;
-  background: var(--light);
-  border-bottom: 1px solid var(--border);
-}
+.ac-category { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 8px 12px 4px; background: var(--light); border-bottom: 1px solid var(--border); }
 .ac-category:not(:first-child) { border-top: 1px solid var(--border); }
-
-.ac-option {
-  padding: 10px 12px;
-  font-size: 13px;
-  color: var(--slate);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: background 0.1s;
-  border-bottom: 1px solid #f8fafc;
-}
+.ac-option { padding: 10px 12px; font-size: 13px; color: var(--slate); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.1s; border-bottom: 1px solid #f8fafc; }
 .ac-option:hover, .ac-option.highlighted { background: var(--mint); color: var(--teal); }
 .ac-option-icon { font-size: 14px; flex-shrink: 0; }
 .ac-option-text { flex: 1; }
-.ac-no-results {
-  padding: 16px 12px;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
-}
-
-/* ── Price Result Box ── */
-.price-result {
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  margin: 0;
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.price-result-inner {
-  padding: 12px 14px;
-  background: #f0fdf4;
-  border: 1.5px solid #86efac;
-  border-radius: var(--radius-sm);
-}
-
-.price-result-inner.estimated {
-  background: #fffbeb;
-  border-color: #fcd34d;
-}
-
-.price-result-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
+.ac-no-results { padding: 16px 12px; font-size: 13px; color: var(--muted); text-align: center; }
+.price-result { border-radius: var(--radius-sm); overflow: hidden; margin: 0; animation: slideDown 0.3s ease; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.price-result-inner { padding: 12px 14px; background: #f0fdf4; border: 1.5px solid #86efac; border-radius: var(--radius-sm); }
+.price-result-inner.estimated { background: #fffbeb; border-color: #fcd34d; }
+.price-result-header { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
 .price-result-icon { font-size: 14px; }
-
-.price-result-label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #16a34a;
-}
-
+.price-result-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #16a34a; }
 .price-result-inner.estimated .price-result-label { color: #d97706; }
-
-.price-result-vehicles {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.price-vehicle-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 12px;
-}
-
+.price-result-vehicles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-bottom: 8px; }
+.price-vehicle-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 6px; padding: 6px 10px; font-size: 12px; }
 .price-vehicle-name { color: var(--slate); font-weight: 600; font-size: 13px; }
-.price-vehicle-amt  { color: var(--teal); font-weight: 800; font-family: var(--font-display); font-size: 14px; }
+.price-vehicle-amt { color: var(--teal); font-weight: 800; font-family: var(--font-display); font-size: 14px; }
 .price-vehicle-surcharge { font-size: 10px; color: var(--muted); grid-column: 1/-1; }
-
 .price-result-inner.estimated .price-vehicle-amt { color: #d97706; }
 .price-vehicle-best { color: var(--teal) !important; font-size: 11px !important; font-weight: 600 !important; }
-
-.price-result-note {
-  font-size: 13px;
-  color: var(--muted);
-  margin: 0;
-  line-height: 1.4;
-}
-
-/* ── Tab State Classes ── */
-.booking-form.airport-active #pickup-group,
-.booking-form.airport-active #drop-group,
-.booking-form.airport-active #return-date-row,
-.booking-form.local-active #pickup-group,
-.booking-form.local-active #drop-group,
-.booking-form.local-active #return-date-row { display: none !important; }
-
+.price-result-note { font-size: 13px; color: var(--muted); margin: 0; line-height: 1.4; }
+.booking-form.airport-active #pickup-group, .booking-form.airport-active #drop-group, .booking-form.airport-active #return-date-row,
+.booking-form.local-active #pickup-group, .booking-form.local-active #drop-group, .booking-form.local-active #return-date-row { display: none !important; }
 .booking-form.airport-active .airport-tab-ui { display: block !important; }
 .airport-tab-ui, .local-tab-ui { display: none; }
-.booking-form.local-active .local-tab-ui     { display: block !important; }
-
-/* ── Airport Tab UI ── */
-.airport-info-note {
-  font-size: 11px;
-  color: var(--muted);
-  background: var(--mint);
-  border: 1px solid var(--teal-light);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  line-height: 1.5;
-  margin-top: -8px;
-}
-
-/* ── Local Tab UI ── */
-.local-cities {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 4px;
-}
-
-.local-city-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 10px 8px;
-  border: 1px solid #e8edf2;
-  border-radius: var(--radius-sm);
-  background: #fff;
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--slate);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-  line-height: 1.3;
-}
-.local-city-btn:hover { border-color: var(--teal); background: var(--mint); }
-.local-pickup-hint { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
-.local-city-btn.active { border-color: var(--teal); background: rgba(13,148,136,0.06); color: var(--teal); font-weight: 600; }
-.local-city-btn span:first-child { font-size: 18px; }
-
-.local-packages {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.local-pkg-btn {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 14px;
-  border: 1px solid #e8edf2;
-  border-radius: var(--radius-sm);
-  background: #fff;
-  font-family: var(--font-body);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: left;
-  width: 100%;
-  min-height: 52px;
-}
+.booking-form.local-active .local-tab-ui { display: block !important; }
+.airport-info-note { font-size: 11px; color: var(--muted); background: var(--mint); border: 1px solid var(--teal-light); border-radius: var(--radius-sm); padding: 8px 12px; line-height: 1.5; margin-top: -8px; }
+.local-packages { display: flex; flex-direction: column; gap: 8px; }
+.local-pkg-btn { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 8px; padding: 12px 14px; border: 1px solid #e8edf2; border-radius: var(--radius-sm); background: #fff; font-family: var(--font-body); cursor: pointer; transition: all 0.2s; text-align: left; width: 100%; min-height: 52px; }
 .local-pkg-btn:hover { border-color: var(--teal); background: var(--mint); }
 .local-pkg-btn.active { border-color: var(--teal); background: rgba(13,148,136,0.06); }
 .local-pkg-label { font-size: 14px; font-weight: 600; color: var(--slate); }
 .local-pkg-btn.active .local-pkg-label { color: var(--teal); }
 .local-pkg-detail { font-size: 12px; color: var(--muted); }
 .local-pkg-price { font-size: 14px; font-weight: 700; color: var(--teal); }
-
+.local-pickup-hint { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.4; }
 @media (max-width: 600px) {
-  .local-cities { grid-template-columns: repeat(2, 1fr); }
-  .local-pkg-btn {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
-  }
+  .local-pkg-btn { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
   .local-pkg-label { grid-column: 1; }
   .local-pkg-detail { grid-column: 1; font-size: 10px; }
   .local-pkg-price { grid-column: 2; grid-row: 1 / 3; font-size: 12px; }
@@ -2354,112 +967,13 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
   .price-vehicle-name { font-size: 11px; }
   .price-vehicle-amt { font-size: 11px; }
 }
-
-/* ── Vehicle Select Section ── */
-.vehicle-select-section {
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-  margin-top: -4px;
-}
-.vehicle-select-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--teal);
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.field-error-msg {
-  font-size: 11px;
-  color: #dc2626;
-  margin-top: 4px;
-  font-weight: 500;
-  line-height: 1.4;
-}
-.form-input.input-error {
-  border-color: #dc2626;
-  background: #fff5f5;
-}
-.form-input.input-error:focus {
-  box-shadow: 0 0 0 3px rgba(220,38,38,0.08);
-  border-color: #dc2626;
-}
-
-/* ── Human Confirm Checkbox ── */
-.human-confirm {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  padding: 10px 14px;
-  background: var(--mint);
-  border: 1px solid var(--teal-light);
-  border-radius: var(--radius-sm);
-  user-select: none;
-}
-.human-confirm-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.human-confirm-box {
-  width: 20px;
-  height: 20px;
-  border: 2px solid var(--teal);
-  border-radius: 4px;
-  background: #fff;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-}
-.human-confirm-input:checked + .human-confirm-box {
-  background: var(--teal);
-  border-color: var(--teal);
-}
-.human-confirm-input:checked + .human-confirm-box::after {
-  content: '';
-  width: 5px;
-  height: 9px;
-  border: 2px solid #fff;
-  border-top: none;
-  border-left: none;
-  transform: rotate(45deg) translateY(-1px);
-  display: block;
-}
-.human-confirm-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--slate);
-}
-.human-confirm-error {
-  font-size: 11px;
-  color: #dc2626;
-  margin-top: -8px;
-  font-weight: 500;
-}
-
-.vehicle-required-msg {
-  font-size: 12px;
-  color: #dc2626;
-  margin-top: 6px;
-  font-weight: 500;
-}
-
-/* ── Mobile ── */
-@media (max-width: 960px) {
-  .hero-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .booking-card { max-width: 100%; }
-}
-
+.vehicle-select-section { border-top: 1px solid var(--border); padding-top: 14px; margin-top: -4px; }
+.vehicle-select-label { font-size: 13px; font-weight: 600; color: var(--teal); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+.field-error-msg { font-size: 11px; color: #dc2626; margin-top: 4px; font-weight: 500; line-height: 1.4; }
+.form-input.input-error { border-color: #dc2626; background: #fff5f5; }
+.form-input.input-error:focus { box-shadow: 0 0 0 3px rgba(220,38,38,0.08); border-color: #dc2626; }
+.vehicle-required-msg { font-size: 12px; color: #dc2626; margin-top: 6px; font-weight: 500; }
+@media (max-width: 960px) { .hero-inner { grid-template-columns: 1fr; gap: 32px; } .booking-card { max-width: 100%; } }
 @media (max-width: 600px) {
   .hero { min-height: auto; }
   .hero-inner { padding-top: 28px; padding-bottom: 28px; }
@@ -2492,9 +1006,7 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     <div class="popup-details" id="popup-details"></div>
     <p class="popup-msg">Our team will contact you shortly to confirm your booking and share the details.</p>
     <div class="popup-actions">
-      <a id="popup-wa" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">
-        💬 WhatsApp Us
-      </a>
+      <a id="popup-wa" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp">💬 WhatsApp Us</a>
       <button class="btn btn-outline popup-close" id="popup-close">Close</button>
     </div>
   </div>
