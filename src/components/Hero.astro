@@ -816,8 +816,9 @@ const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || '0x4AAAAAA
     else { if (nameErr) nameErr.style.display='none'; }
     if (!validatePhone(phoneVal)) { if (phoneErr) phoneErr.style.display='block'; (document.getElementById('phone_no') as HTMLInputElement)?.focus(); btn.disabled=false; btn.textContent='Book Now →'; return; }
     else { if (phoneErr) phoneErr.style.display='none'; }
-    // Turnstile verification check
-    const turnstileToken = (fd.get('cf-turnstile-response') || '').toString().trim();
+    // Turnstile verification check — use DOM query (fd not declared yet)
+    const turnstileInput = document.querySelector('input[name="cf-turnstile-response"]') as HTMLInputElement;
+    const turnstileToken = turnstileInput?.value?.trim() || '';
     const turnstileErr = document.getElementById('turnstile-error');
     if (!turnstileToken) {
       if (turnstileErr) turnstileErr.style.display = 'block';
