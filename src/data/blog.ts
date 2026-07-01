@@ -3,10 +3,13 @@ export interface BlogPost {
   title: string;
   description: string;
   date: string;
+  dateModified?: string;
   author: string;
   category: string;
   readTime: string;
   heroImage?: string;
+  keywords?: string;
+  faqs?: Array<{ q: string; a: string }>;
   content: string;
 }
 
@@ -19,6 +22,29 @@ export const blogPosts: BlogPost[] = [
     author: 'Shri Taxi Team',
     category: 'Travel Guide',
     readTime: '8 min read',
+    keywords: 'Delhi to Dehradun taxi, Delhi Dehradun cab fare, Delhi to Dehradun by road, taxi from Delhi to Dehradun price',
+    faqs: [
+      {
+        q: 'How long does it take to travel from Delhi to Dehradun by taxi?',
+        a: 'The drive from Delhi to Dehradun takes approximately 5 to 6 hours covering around 250 km via NH 44 through Meerut and Roorkee. Starting early morning (5-7 AM) avoids Delhi traffic and ensures you reach Dehradun by noon.',
+      },
+      {
+        q: 'What is the taxi fare from Delhi to Dehradun?',
+        a: 'Shri Taxi charges ₹3,500 for a Sedan, ₹4,500 for an Ertiga and ₹5,670 for an Innova Crysta for a one-way Delhi to Dehradun trip. All fares are fixed and include driver, fuel, toll and parking — no hidden charges.',
+      },
+      {
+        q: 'Which is the best route from Delhi to Dehradun by road?',
+        a: 'The most popular route is NH 44 via Meerut, Muzaffarnagar and Roorkee — well maintained with good food stops. For pickups from Noida or Ghaziabad, the Eastern Peripheral Expressway connecting to NH 44 near Meerut is recommended.',
+      },
+      {
+        q: 'Is it safe to travel from Delhi to Dehradun by taxi at night?',
+        a: 'The Delhi to Dehradun route via NH 44 is safe at night — it is a national highway with regular traffic. However, we recommend daytime travel to enjoy the Shivalik hills section after Roorkee and the scenic descent into the Doon Valley.',
+      },
+      {
+        q: 'Can I book a one-way taxi from Delhi to Dehradun?',
+        a: 'Yes. Shri Taxi offers both one-way and round-trip taxis from Delhi to Dehradun. One-way starts at ₹3,500 for a Sedan. Book by calling +91 6397321825 or via WhatsApp.',
+      },
+    ],
     content: `
 ## Why Choose a Taxi from Delhi to Dehradun?
 
@@ -75,6 +101,7 @@ Shri Taxi provides reliable Delhi to Dehradun transfers with experienced local p
 Call us at +91 6397321825 or WhatsApp to book your cab today.
     `.trim(),
   },
+
   {
     slug: 'char-dham-yatra-road-trip-guide',
     title: 'Char Dham Yatra 2026 — Complete Road Trip Guide from Dehradun',
@@ -83,6 +110,33 @@ Call us at +91 6397321825 or WhatsApp to book your cab today.
     author: 'Shri Taxi Team',
     category: 'Pilgrimage Guide',
     readTime: '12 min read',
+    keywords: 'Char Dham Yatra 2026, Char Dham taxi fare, Char Dham by road Dehradun, Yamunotri Gangotri Kedarnath Badrinath',
+    faqs: [
+      {
+        q: 'How many days are required for Char Dham Yatra by taxi from Dehradun?',
+        a: 'A comfortable Char Dham Yatra from Dehradun requires 10 to 12 days. This covers Yamunotri, Gangotri, Kedarnath and Badrinath with adequate rest days. Rushing it in fewer days is not recommended given the challenging mountain terrain.',
+      },
+      {
+        q: 'What is the taxi fare for Char Dham Yatra from Dehradun in 2026?',
+        a: 'Shri Taxi offers Char Dham Yatra packages starting at ₹35,999 for a Sedan (10 days), ₹44,999 for an Ertiga and ₹56,699 for an Innova Crysta. All packages include driver, fuel, toll and parking. A 10% discount is currently applied.',
+      },
+      {
+        q: 'When does Char Dham Yatra 2026 open and close?',
+        a: 'Yamunotri and Gangotri open on Akshaya Tritiya (late April/early May 2026). Kedarnath and Badrinath open a few days later. All four dhams close in October-November before winter. The exact dates are announced by the Uttarakhand government.',
+      },
+      {
+        q: 'Is registration mandatory for Char Dham Yatra 2026?',
+        a: 'Yes. Yatra registration is mandatory for all pilgrims in 2026. Register free at registrationandtouristcare.uk.gov.in. Without valid registration and biometric verification at Sonprayag (for Kedarnath), entry to the temples may be denied.',
+      },
+      {
+        q: 'Which vehicle is best for Char Dham Yatra?',
+        a: 'The Innova Crysta is the most recommended vehicle for Char Dham Yatra due to its superior ground clearance, comfortable seating and reliability on mountain roads. It is ideal for families of 4-5. For larger groups, a Tempo Traveller is available.',
+      },
+      {
+        q: 'What is the order of visiting the four dhams?',
+        a: 'The traditional order is Yamunotri first, then Gangotri, Kedarnath and finally Badrinath — following the west-to-east geographical path. This sequence is considered the most auspicious and also makes logistical sense for the road journey.',
+      },
+    ],
     content: `
 ## What is Char Dham Yatra?
 
@@ -151,6 +205,7 @@ Shri Taxi drivers are local pahadi residents — born and raised in Uttarakhand.
 Book your Char Dham Yatra taxi at +91 6397321825 or WhatsApp us with your travel dates and group size.
     `.trim(),
   },
+
   {
     slug: 'weekend-getaways-from-dehradun-by-taxi',
     title: 'Top 10 Weekend Getaways from Dehradun by Taxi',
@@ -159,6 +214,25 @@ Book your Char Dham Yatra taxi at +91 6397321825 or WhatsApp us with your travel
     author: 'Shri Taxi Team',
     category: 'Destinations',
     readTime: '10 min read',
+    keywords: 'weekend getaways from Dehradun, places near Dehradun, Dehradun weekend trip, hill stations near Dehradun',
+    faqs: [
+      {
+        q: 'Which is the best weekend destination near Dehradun?',
+        a: 'Mussoorie (35 km) is the most popular weekend destination from Dehradun. For quieter alternatives, Dhanaulti (60 km) and Kanatal (78 km) offer scenic forests and fewer crowds. For adventure, Rishikesh (46 km) with river rafting is an excellent choice.',
+      },
+      {
+        q: 'What places can I visit near Dehradun within 100 km?',
+        a: 'Within 100 km of Dehradun you can reach Mussoorie, Dhanaulti, Kanatal, Rishikesh, Haridwar, Tehri Lake, Chakrata, Chamba and Landour. Most of these are reachable in 1-3 hours by taxi.',
+      },
+      {
+        q: 'How far is Mussoorie from Dehradun and what is the taxi fare?',
+        a: 'Mussoorie is 35 km from Dehradun — approximately a 1 to 1.5 hour drive. Shri Taxi charges ₹1,500 one way for a Sedan and ₹2,500 for an Innova Crysta. Round trip with 4 hours of sightseeing starts at ₹3,500.',
+      },
+      {
+        q: 'What is the best hill station near Dehradun for a weekend trip?',
+        a: 'Mussoorie is ideal for first-timers and families. Dhanaulti suits nature lovers seeking peace. Kanatal is best for adventure and camping. Landour is perfect for those wanting a quiet, atmospheric hill experience without the Mussoorie crowds.',
+      },
+    ],
     content: `
 ## Perfect Weekend Escapes from Dehradun
 
@@ -253,6 +327,7 @@ All fares are one way, fixed prices with no hidden charges. Driver, fuel, toll a
 Shri Taxi provides experienced local pahadi drivers who know every mountain road, the best viewpoints, and the safest routes — so you can relax and enjoy the journey.
     `.trim(),
   },
+
   {
     slug: 'dehradun-to-mussoorie-taxi-guide',
     title: 'Dehradun to Mussoorie by Taxi — Route, Fare & Travel Tips',
@@ -261,6 +336,25 @@ Shri Taxi provides experienced local pahadi drivers who know every mountain road
     author: 'Shri Taxi Team',
     category: 'Travel Guide',
     readTime: '6 min read',
+    keywords: 'Dehradun to Mussoorie taxi fare, Dehradun Mussoorie cab, Mussoorie taxi price, Dehradun to Mussoorie distance',
+    faqs: [
+      {
+        q: 'What is the taxi fare from Dehradun to Mussoorie?',
+        a: 'Shri Taxi charges ₹1,500 one way for a Sedan and ₹2,500 for an Innova Crysta from Dehradun to Mussoorie. Round trip fares with 4 hours sightseeing start at ₹3,500 for a Sedan. All fares include driver, fuel, toll and parking.',
+      },
+      {
+        q: 'How far is Mussoorie from Dehradun and how long does the drive take?',
+        a: 'Mussoorie is 35 km from Dehradun city centre. The drive takes 1 to 1.5 hours via Rajpur Road through Jharipani and Barlowganj. On peak season weekends, allow an extra 30 minutes for traffic near Mussoorie.',
+      },
+      {
+        q: 'What is the best time to visit Mussoorie from Dehradun?',
+        a: 'March to June offers the best weather with clear skies and pleasant temperatures. September to November is ideal for post-monsoon greenery and fewer crowds. January is best for snowfall. Avoid July-August unless you enjoy monsoon fog and rain.',
+      },
+      {
+        q: 'Is there a direct taxi from Dehradun to Mussoorie?',
+        a: 'Yes. Shri Taxi provides direct point-to-point transfers from any location in Dehradun to Mussoorie. Book by calling +91 6397321825 or WhatsApp. The taxi departs from your hotel or home address in Dehradun.',
+      },
+    ],
     content: `
 ## Dehradun to Mussoorie — The Most Popular Hill Station Drive
 
@@ -307,6 +401,7 @@ Start early (before 9 AM) on weekends to avoid the traffic jam near Mussoorie. T
 Book your taxi with Shri Taxi at +91 6397321825. Our pahadi drivers know every curve of this road.
     `.trim(),
   },
+
   {
     slug: 'jolly-grant-airport-taxi-complete-guide',
     title: 'Jolly Grant Airport Taxi — Fares, Pickup Tips & Route Guide',
@@ -315,6 +410,29 @@ Book your taxi with Shri Taxi at +91 6397321825. Our pahadi drivers know every c
     author: 'Shri Taxi Team',
     category: 'Airport Guide',
     readTime: '7 min read',
+    keywords: 'Jolly Grant Airport taxi, Jolly Grant to Dehradun cab fare, DED airport taxi, Dehradun airport transfer',
+    faqs: [
+      {
+        q: 'What is the taxi fare from Jolly Grant Airport to Dehradun city?',
+        a: 'Shri Taxi charges ₹1,000 for a Sedan, ₹1,400 for an Ertiga and ₹1,800 for an Innova Crysta from Jolly Grant Airport to Dehradun city. Fares are fixed and all-inclusive. Airport parking charges of ₹50-100 may apply on pickup.',
+      },
+      {
+        q: 'How far is Jolly Grant Airport from Dehradun?',
+        a: 'Jolly Grant Airport is 25 km from Dehradun city centre near Doiwala town. The drive takes approximately 35-45 minutes in normal traffic. During peak Char Dham season (May-October), allow up to 1 hour.',
+      },
+      {
+        q: 'How do I get from Jolly Grant Airport to Mussoorie?',
+        a: 'Shri Taxi charges ₹2,200 (Sedan), ₹2,800 (Ertiga) or ₹3,500 (Innova Crysta) from Jolly Grant Airport to Mussoorie. The drive takes approximately 1.5 to 2 hours. Pre-booking is recommended, especially during Char Dham season.',
+      },
+      {
+        q: 'Does the taxi wait if my flight is delayed at Jolly Grant Airport?',
+        a: 'Yes. Shri Taxi drivers track your flight status and adjust arrival accordingly. There is no extra waiting charge for flight delays. Your driver will stay in contact via WhatsApp throughout. Our service is fully available for early morning and late night flights at no extra charge.',
+      },
+      {
+        q: 'Should I pre-book a taxi from Jolly Grant Airport?',
+        a: 'Pre-booking is strongly recommended, especially during Char Dham season (May-October) and weekends when the airport is busy. Call or WhatsApp +91 6397321825 at least 2 hours before your flight lands. Your driver will be waiting at arrivals with a name placard.',
+      },
+    ],
     content: `
 ## Jolly Grant Airport — Dehradun's Gateway
 
@@ -367,6 +485,7 @@ If your flight is delayed, your driver will wait. There is no waiting charge for
 Pre-booking is recommended, especially during Char Dham season (May-October) when airport traffic is heavy. Call or WhatsApp Shri Taxi at +91 6397321825.
     `.trim(),
   },
+
   {
     slug: 'best-time-to-visit-uttarakhand',
     title: 'Best Time to Visit Uttarakhand — Month-by-Month Travel Guide',
@@ -375,6 +494,29 @@ Pre-booking is recommended, especially during Char Dham season (May-October) whe
     author: 'Shri Taxi Team',
     category: 'Travel Guide',
     readTime: '9 min read',
+    keywords: 'best time to visit Uttarakhand, Uttarakhand weather month by month, when to visit Uttarakhand, Uttarakhand travel season',
+    faqs: [
+      {
+        q: 'What is the best time to visit Uttarakhand?',
+        a: 'September to November is arguably the best time to visit Uttarakhand — post-monsoon freshness, clear Himalayan views, fewer crowds and pleasant temperatures. March to June is also excellent for most destinations. Both seasons offer great road conditions and comfortable weather.',
+      },
+      {
+        q: 'Which month is best for Char Dham Yatra in Uttarakhand?',
+        a: 'May and June are the most popular months for Char Dham Yatra when all four temples are open and the weather is manageable. September-October is equally good with fewer pilgrims. The portals close in October-November, so plan accordingly.',
+      },
+      {
+        q: 'Can I visit Uttarakhand in December and January?',
+        a: 'Yes. December and January are ideal for snow lovers — Auli for skiing, and Mussoorie or Dhanaulti for snowfall. Lower hill stations remain accessible. High-altitude routes to Kedarnath and Badrinath are closed. Carry heavy woolens and plan for cold temperatures.',
+      },
+      {
+        q: 'Is it safe to travel to Uttarakhand during monsoon (July-August)?',
+        a: 'Monsoon travel in Uttarakhand requires caution. Landslides and road washouts are common on high-altitude routes. Hill stations like Mussoorie get very crowded in July-August (summer holidays). If you must travel, go with an experienced pahadi driver who knows the roads.',
+      },
+      {
+        q: 'What is the weather like in Uttarakhand in October?',
+        a: 'October is one of the best months in Uttarakhand. The monsoon has ended, skies are clear, visibility is excellent for Himalayan views, and temperatures are comfortable (10-25°C in valleys, 5-15°C in hills). Crowds are significantly lower than peak summer season.',
+      },
+    ],
     content: `
 ## Uttarakhand — A Year-Round Destination
 
@@ -435,6 +577,7 @@ For first-time visitors, September-October is the best combination of weather, a
 Whatever the season, Shri Taxi's pahadi drivers know the roads and the weather patterns intimately. Book your taxi at +91 6397321825.
     `.trim(),
   },
+
   {
     slug: 'kedarnath-yatra-by-road-complete-guide',
     title: 'Kedarnath Yatra by Road 2026 — Trek, Helicopter & Taxi Guide',
@@ -443,6 +586,29 @@ Whatever the season, Shri Taxi's pahadi drivers know the roads and the weather p
     author: 'Shri Taxi Team',
     category: 'Pilgrimage Guide',
     readTime: '10 min read',
+    keywords: 'Kedarnath taxi fare, Dehradun to Kedarnath by road, Kedarnath yatra 2026, Kedarnath trek, Sonprayag taxi',
+    faqs: [
+      {
+        q: 'How do I reach Kedarnath from Dehradun by road?',
+        a: 'Drive from Dehradun to Sonprayag via Rishikesh, Devprayag, Srinagar, Rudraprayag and Guptkashi — approximately 230 km taking 8-9 hours. From Sonprayag, proceed to Gaurikund and then trek 16 km to Kedarnath temple. A helicopter option is available from Phata or Guptkashi helipads.',
+      },
+      {
+        q: 'What is the taxi fare from Dehradun to Sonprayag for Kedarnath?',
+        a: 'Shri Taxi charges ₹7,500 for a Sedan, ₹9,500 for an Ertiga and ₹12,000 for an Innova Crysta one way from Dehradun to Sonprayag. Round trip packages with 3 days waiting start at ₹15,000 for a Sedan — all inclusive.',
+      },
+      {
+        q: 'How long is the trek from Gaurikund to Kedarnath?',
+        a: 'The trek from Gaurikund to Kedarnath temple is 16 km one way. The ascent takes most pilgrims 6-8 hours. The descent takes 4-5 hours. Ponies (₹2,500-3,500 one way) and palkis (₹5,000-8,000 one way) are available for those who cannot trek.',
+      },
+      {
+        q: 'What is the helicopter cost for Kedarnath in 2026?',
+        a: 'Helicopter tickets for Kedarnath cost approximately ₹5,000-7,000 per person for a return flight from helipads at Phata, Guptkashi or Sirsi. The flight takes just 8-10 minutes. Tickets are booked through the official government portal or IRCTC — availability is limited during peak season.',
+      },
+      {
+        q: 'When does Kedarnath open in 2026?',
+        a: 'Kedarnath temple opens in late April or early May 2026 (exact date announced by the Uttarakhand government based on the Hindu calendar). It closes in November before winter sets in. Yatra registration is mandatory at registrationandtouristcare.uk.gov.in.',
+      },
+    ],
     content: `
 ## Reaching Kedarnath — The Sacred Journey
 
@@ -497,6 +663,7 @@ Shri Taxi provides dedicated Kedarnath Yatra transfers with experienced pahadi d
 Call +91 6397321825 or WhatsApp us with your travel dates.
     `.trim(),
   },
+
   {
     slug: 'family-trip-to-uttarakhand-planning-guide',
     title: 'Planning a Family Trip to Uttarakhand — Complete Guide',
@@ -505,6 +672,25 @@ Call +91 6397321825 or WhatsApp us with your travel dates.
     author: 'Shri Taxi Team',
     category: 'Travel Guide',
     readTime: '9 min read',
+    keywords: 'family trip Uttarakhand, Uttarakhand family vacation, best places Uttarakhand with family, Uttarakhand family itinerary',
+    faqs: [
+      {
+        q: 'Which is the best destination in Uttarakhand for a family trip?',
+        a: 'Mussoorie and Nainital are the top family destinations — well-developed infrastructure, cable cars, boating, parks and safe environments. Rishikesh suits adventurous families. Jim Corbett is excellent for wildlife-loving families. All are reachable by taxi from Dehradun.',
+      },
+      {
+        q: 'What vehicle should I book for a family trip to Uttarakhand?',
+        a: 'For 4-5 family members, an Innova Crysta is the best choice — comfortable seats, good ground clearance for mountain roads and ample luggage space. For larger families of 6-8, an Ertiga works well. Groups of 8-12 should book a Tempo Traveller.',
+      },
+      {
+        q: 'How many days are ideal for a family trip to Uttarakhand?',
+        a: 'A 5-7 day trip is ideal for first-time family visitors — covering Dehradun, Mussoorie, Dhanaulti and Rishikesh comfortably. For a more extensive trip including Nainital or Corbett, plan for 8-10 days. Avoid rushing; mountain travel with families needs relaxed pacing.',
+      },
+      {
+        q: 'Is Uttarakhand safe for families with children and elderly?',
+        a: 'Yes, Uttarakhand is very safe for families. Popular hill stations have good medical facilities, paved roads and tourist infrastructure. For elderly family members, avoid high-altitude destinations like Kedarnath. Stick to Mussoorie, Nainital and Haridwar which are accessible and comfortable.',
+      },
+    ],
     content: `
 ## Why Uttarakhand is Perfect for Families
 
@@ -555,6 +741,7 @@ Inform your driver about any medical conditions in the family. Our pahadi driver
 Share your family size, ages, preferred destinations and dates on WhatsApp. We will suggest the best vehicle, route and itinerary for your family. Call Shri Taxi at +91 6397321825.
     `.trim(),
   },
+
   {
     slug: 'dehradun-to-rishikesh-haridwar-day-trip',
     title: 'Dehradun to Rishikesh & Haridwar — Perfect Day Trip by Taxi',
@@ -563,6 +750,25 @@ Share your family size, ages, preferred destinations and dates on WhatsApp. We w
     author: 'Shri Taxi Team',
     category: 'Day Trip',
     readTime: '7 min read',
+    keywords: 'Dehradun to Rishikesh taxi, Dehradun to Haridwar cab, Rishikesh Haridwar day trip, Dehradun day trip taxi',
+    faqs: [
+      {
+        q: 'Can I visit both Rishikesh and Haridwar in one day from Dehradun?',
+        a: 'Yes. Rishikesh is 46 km from Dehradun (1.5 hours) and Haridwar is 54 km (1.5 hours), and they are just 20 km apart. Starting at 7 AM allows you to cover both cities comfortably and be back in Dehradun by 9 PM, including the evening Ganga Aarti at Haridwar.',
+      },
+      {
+        q: 'What is the taxi fare for a Dehradun to Rishikesh and Haridwar day trip?',
+        a: 'Shri Taxi charges ₹3,999 for a Sedan, ₹4,999 for an Ertiga and ₹5,999 for an Innova Crysta for a full-day combined Rishikesh and Haridwar trip from Dehradun. This covers pickup, both cities, sightseeing stops and drop back — all inclusive.',
+      },
+      {
+        q: 'What time is the Ganga Aarti at Haridwar?',
+        a: 'The Ganga Aarti at Har Ki Pauri, Haridwar begins around 6 PM in winter and 7 PM in summer. Arrive at least 30-45 minutes early to secure a good spot on the ghats. The aarti lasts approximately 45 minutes and is one of the most memorable experiences in North India.',
+      },
+      {
+        q: 'How far is Rishikesh from Dehradun?',
+        a: 'Rishikesh is 46 km from Dehradun city centre. The drive takes approximately 1 to 1.5 hours via NH 7. The road passes through the foothills with the Ganges coming into view as you approach Rishikesh. Traffic is usually light on this route.',
+      },
+    ],
     content: `
 ## Two Sacred Cities, One Day
 
@@ -615,6 +821,7 @@ Photography is allowed at most ghats but be respectful of devotees during the aa
 Book your combined day trip with Shri Taxi at +91 6397321825. Our pahadi drivers make excellent local guides too.
     `.trim(),
   },
+
   {
     slug: 'uttarakhand-road-trip-safety-tips',
     title: 'Mountain Driving Safety — Tips for Road Trips in Uttarakhand',
@@ -623,6 +830,29 @@ Book your combined day trip with Shri Taxi at +91 6397321825. Our pahadi drivers
     author: 'Shri Taxi Team',
     category: 'Safety',
     readTime: '8 min read',
+    keywords: 'Uttarakhand road trip safety, mountain driving tips India, hill road driving Uttarakhand, pahadi driver',
+    faqs: [
+      {
+        q: 'Is it safe to travel by road in Uttarakhand during monsoon?',
+        a: 'Monsoon travel (July-September) in Uttarakhand requires caution. Landslides and road closures are common on high-altitude routes. Always travel with an experienced local pahadi driver who knows which routes flood, when to stop and how to find alternates. Avoid night driving during monsoon.',
+      },
+      {
+        q: 'Why should I hire a local pahadi driver for Uttarakhand road trips?',
+        a: 'A local pahadi driver has instinctive knowledge that GPS cannot provide — which bends require honking, where rockfalls happen after rain, which sections flood during monsoon and where alternate routes exist. This expertise is a genuine safety necessity on Uttarakhand mountain roads, not a luxury.',
+      },
+      {
+        q: 'What should I carry for a mountain road trip in Uttarakhand?',
+        a: 'Carry warm clothes (even in summer — temperatures drop rapidly with altitude), a raincoat, motion sickness medicine, personal prescription medicines, water bottles, energy bars, a power bank, cash (ATMs are unreliable above 2,000 metres), government ID proof and your Yatra registration if visiting Char Dham.',
+      },
+      {
+        q: 'What is altitude sickness and how can I prevent it in Uttarakhand?',
+        a: 'Altitude sickness causes headache, nausea and breathlessness above 3,000 metres (Kedarnath, Badrinath). Prevent it by acclimatising gradually — do not rush to high altitude on day one. Stay hydrated, avoid alcohol and exertion on the first day. Carry Diamox tablets (consult your doctor). Descend immediately if symptoms worsen.',
+      },
+      {
+        q: 'What is the emergency number for Uttarakhand in case of road accidents?',
+        a: 'For emergencies on Uttarakhand roads, call 112 (Uttarakhand Police) or 1070 (SDRF — State Disaster Response Force). For real-time road condition updates, check himbuddhi.nic.in. Shri Taxi drivers carry emergency contacts and know the location of hospitals on all major routes.',
+      },
+    ],
     content: `
 ## Driving in the Himalayas — What You Should Know
 
